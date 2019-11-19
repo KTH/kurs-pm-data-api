@@ -1,0 +1,70 @@
+{
+  "//": "The production flag is added in the jenkins build script.",
+  "name": "node-api",
+  "version": "2.0.0",
+  "description": "Node.js based API template application.",
+  "main": "app.js",
+  "private": true,
+  "scripts": {
+    "codefix": "pretty-quick",
+    "test": "mocha --exit test/**/*.js",
+    "start": "NODE_ENV=production node app.js",
+    "start-dev": "cross-env NODE_ENV=development nodemon app.js"
+  },
+  "dependencies": {
+    "@kth/kth-node-cosmos-db": "^3.0.6",
+    "bluebird": "^3.7.1",
+    "body-parser": "^1.19.0",
+    "component-registry": "^1.0.2",
+    "cookie-parser": "^1.4.4",
+    "dotenv": "^8.2.0",
+    "eslint": "^5.16.0",
+    "eslint-config-airbnb": "^17.1.1",
+    "eslint-config-prettier": "^4.3.0",
+    "eslint-plugin-import": "^2.18.2",
+    "eslint-plugin-jsx-a11y": "^6.2.3",
+    "eslint-plugin-prettier": "^3.1.1",
+    "eslint-plugin-react": "^7.14.3",
+    "express": "^4.17.1",
+    "express-handlebars": "^3.1.0",
+    "kth-node-access-log": "^0.2.0",
+    "kth-node-api-common": "^1.0.1",
+    "kth-node-api-key-strategy": "^1.0.8",
+    "kth-node-configuration": "^2.0.1",
+    "kth-node-express-routing": "^2.0.3",
+    "kth-node-log": "^3.0.2",
+    "kth-node-mongo": "^3.1.2",
+    "kth-node-monitor": "^1.0.26",
+    "kth-node-server": "^3.1.2",
+    "mongoose": "^5.7.11",
+    "passport": "^0.4.0",
+    "safe-utils": "0.2.1",
+    "swagger-ui-dist": "^3.24.2"
+  },
+  "devDependencies": {
+    "chai": "^4.2.0",
+    "cross-env": "^6.0.3",
+    "husky": "^3.0.9",
+    "mocha": "^6.2.2",
+    "nodemon": "^1.19.4",
+    "proxyquire": "^2.1.3",
+    "prettier": "^1.19.1",
+    "pretty-quick": "^2.0.1"
+  },
+  "prettier": {
+    "trailingComma": "es5",
+    "tabWidth": 2,
+    "semi": false,
+    "singleQuote": true,
+    "printWidth": 120
+  },
+  "engines": {
+    "node": "8.16.1"
+  },
+  "husky": {
+    "hooks": {
+      "pre-push": "npm run test",
+      "pre-commit": "pretty-quick --staged"
+    }
+  }
+}

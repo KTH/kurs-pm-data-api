@@ -1,0 +1,36 @@
+{
+  "parserOptions": {
+    "sourceType": "module",
+    "ecmaVersion": 2018,
+    "ecmaFeatures": {
+      "classes": true,
+      "impliedStrict": true
+    }
+  },
+  "env": {
+    "node": true
+  },
+  "extends": ["airbnb", "prettier"],
+  "plugins": ["prettier"],
+  "rules": {
+    "import/newline-after-import": ["error", { "count": 1 }],
+    "prettier/prettier": ["error"],
+    "semi": ["error", "never"],
+    "global-require": "off",
+    "prefer-template": "off",
+    "import/order": "off",
+    "no-plusplus": "off",
+    "no-restricted-syntax": "off",
+    "no-await-in-loop": "off",
+    "sort-imports": [
+      "error",
+      {
+        "ignoreCase": true,
+        "ignoreDeclarationSort": true,
+        "ignoreMemberSort": true,
+        "memberSyntaxSortOrder": ["all", "single", "multiple", "none"]
+      }
+    ],
+    "strict": "off"
+  }
+}

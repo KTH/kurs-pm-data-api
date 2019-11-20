@@ -13,7 +13,7 @@ const mongoOptions = {
   useUnifiedTopology: true
 }
 
-module.exports.connect = function() {
+module.exports.connect = () => {
   nodeMongo
     .connect(mongoOptions)
     .then(data => {

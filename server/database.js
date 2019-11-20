@@ -10,6 +10,7 @@ const mongoOptions = {
   ssl: config.db.ssl,
   dbUri: config.db.authDatabase !== '' ? config.db.uri + `?authSource=${config.db.authDatabase}` : config.db.uri,
   logger: log,
+  useUnifiedTopology: true,
 }
 
 module.exports.connect = function() {

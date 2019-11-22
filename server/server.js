@@ -33,7 +33,7 @@ const logConfiguration = {
   level: config.logging.log.level,
   console: config.logging.console,
   stdout: config.logging.stdout,
-  src: config.logging.src,
+  src: config.logging.src
 }
 log.init(logConfiguration)
 
@@ -122,7 +122,7 @@ addPaths(
   'api',
   createApiPaths({
     swagger: swaggerData,
-    proxyPrefixPathUri: config.proxyPrefixPath.uri,
+    proxyPrefixPathUri: config.proxyPrefixPath.uri
   })
 )
 
@@ -130,7 +130,7 @@ addPaths(
 const authByApiKey = passport.authenticate('apikey', { session: false })
 
 // Application specific API enpoints
-const { Sample } = require('./controllers')
+const { Sample, CourseMemo } = require('./controllers')
 const { ApiRouter } = require('kth-node-express-routing')
 
 const apiRoute = ApiRouter(authByApiKey)
@@ -141,6 +141,8 @@ apiRoute.register(paths.api.checkAPIkey, System.checkAPIKey)
 
 apiRoute.register(paths.api.getDataById, Sample.getData)
 apiRoute.register(paths.api.postDataById, Sample.postData)
+apiRoute.register(paths.api.getCourseMemoDataById, CourseMemo.getMemoDataById)
+apiRoute.register(paths.api.postCourseMemoData, CourseMemo.postMemoData)
 server.use('/', apiRoute.getRouter())
 
 // Catch not found and errors
@@ -166,7 +168,7 @@ createClient({
   db: config.db.db,
   defaultThroughput: 400,
   maxThroughput: 2000,
-  collections: [{ name: 'samples' }],
+  collections: [{ name: 'samples' }]
 }).init()
 
 module.exports = server

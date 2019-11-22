@@ -1,11 +1,11 @@
 {
   "swagger": "2.0",
   "info": {
-    "title": "Node API",
-    "description": "Template API project for Node.js",
+    "title": "[NEW] Course Information – API for course memos",
+    "description": "API that supports the new administraion site that makes it possible to create and manage course memos.",
     "version": "1.0.0"
   },
-  "basePath": "/api/node",
+  "basePath": "/api/kurs-pm-data",
   "produces": ["application/json"],
   "paths": {
     "/_checkAPIkey": {

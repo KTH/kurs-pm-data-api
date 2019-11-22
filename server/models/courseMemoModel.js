@@ -21,6 +21,10 @@ const schema = mongoose.Schema({
     minlength: 0,
     default: ''
   },
+  lastChangeDate: {
+    type: String,
+    default: ''
+  },
   previousTextsList: {
     type: Array,
     default: []

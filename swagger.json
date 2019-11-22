@@ -221,6 +221,10 @@
           "type": "string",
           "description": "Text field for html with Kopps Lärandemål"
         },
+        "lastChangeDate": {
+          "type": "string",
+          "description": "Date and time for last change, set by API"
+        },
         "previousTextsList": {
           "type": "array",
           "items": "string",

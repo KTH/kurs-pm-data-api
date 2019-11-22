@@ -6,9 +6,7 @@
     "version": "1.0.0"
   },
   "basePath": "/api/node",
-  "produces": [
-    "application/json"
-  ],
+  "produces": ["application/json"],
   "paths": {
     "/_checkAPIkey": {
       "get": {
@@ -16,9 +14,7 @@
         "summary": "GET a test endpoint that is protected by api key to validate that consumer has a proper api key",
         "description": "",
         "parameters": [],
-        "tags": [
-          "system"
-        ],
+        "tags": ["system"],
         "responses": {
           "200": {
             "description": "An empty response"
@@ -32,9 +28,7 @@
         },
         "security": [
           {
-            "api_key": [
-              "read"
-            ]
+            "api_key": ["read"]
           }
         ]
       }
@@ -53,9 +47,7 @@
             "type": "string"
           }
         ],
-        "tags": [
-          "v1"
-        ],
+        "tags": ["v1"],
         "responses": {
           "200": {
             "description": "The requested data",
@@ -70,11 +62,11 @@
             }
           }
         },
-        "security": [{
-          "api_key": [
-            "read"
-          ]
-        }]
+        "security": [
+          {
+            "api_key": ["read"]
+          }
+        ]
       },
       "post": {
         "operationId": "postDataById",
@@ -98,9 +90,7 @@
             }
           }
         ],
-        "tags": [
-          "v1"
-        ],
+        "tags": ["v1"],
         "responses": {
           "200": {
             "description": "A successful save"
@@ -112,11 +102,80 @@
             }
           }
         },
-        "security": [{
-          "api_key": [
-            "write"
-          ]
-        }]
+        "security": [
+          {
+            "api_key": ["write"]
+          }
+        ]
+      }
+    },
+    "/v1/courseMemoData/{id}": {
+      "get": {
+        "operationId": "getCourseMemoDataById",
+        "summary": "Get course memo document descriptive data by document unique id ",
+        "description": "Gets some form of data that only requires read access",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "Id of the round.semester.year.x to course memo data",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "tags": ["v1"],
+        "responses": {
+          "200": {
+            "description": "The requested data",
+            "schema": {
+              "$ref": "#/definitions/MemoData"
+            }
+          },
+          "default": {
+            "description": "Unexpected error",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          }
+        },
+        "security": [
+          {
+            "api_key": ["read"]
+          }
+        ]
+      },
+      "post": {
+        "operationId": "postCourseMemoData",
+        "summary": "Saves an object of one course memo document descriptive data in the database per course and term",
+        "description": "Saves a course memo document descriptive data in the database per course and term",
+        "parameters": [
+          {
+            "name": "roundCourseMemoData",
+            "in": "body",
+            "description": "Array with memo data objects",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/MemoData"
+            }
+          }
+        ],
+        "tags": ["v1"],
+        "responses": {
+          "200": {
+            "description": "A successful save"
+          },
+          "default": {
+            "description": "Unexpected error",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          }
+        },
+        "security": [
+          {
+            "api_key": ["write"]
+          }
+        ]
       }
     }
   },
@@ -141,6 +200,31 @@
         "name": {
           "type": "string",
           "description": "Description of the data"
+        }
+      }
+    },
+    "MemoData": {
+      "properties": {
+        "_id": {
+          "type": "string",
+          "description": "Unique identifier representing some specific data"
+        },
+        "courseCode": {
+          "type": "string",
+          "description": "Course code for which it is valid"
+        },
+        "semester": {
+          "type": "string",
+          "description": "Course start term year (spring(VT)-1, autumn(HT)-2) , f.e. 20182 or 20181 (termin)"
+        },
+        "koppsGoals": {
+          "type": "string",
+          "description": "Text field for html with Kopps Lärandemål"
+        },
+        "previousTextsList": {
+          "type": "array",
+          "items": "string",
+          "description": "Array for object with previous memo texts and publish date "
         }
       }
     },

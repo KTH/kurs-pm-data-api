@@ -31,7 +31,7 @@ async function postData(req, res, next) {
     if (!doc) {
       doc = new Sample({
         _id: req.params.id,
-        name: req.body.name,
+        name: req.body.name
       })
     } else {
       doc.name = req.body.name
@@ -46,5 +46,5 @@ async function postData(req, res, next) {
 
 module.exports = {
   getData,
-  postData,
+  postData
 }

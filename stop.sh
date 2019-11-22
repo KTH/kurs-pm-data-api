@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-APPLICATION_NAME=node-api
+APPLICATION_NAME=kurs-pm-data-api
 
 # TODO Should LOG_DIR be handled like in the start.sh file depending on env?
 LOG_DIR=/var/log/$APPLICATION_NAME

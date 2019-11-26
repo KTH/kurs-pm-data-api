@@ -221,6 +221,10 @@
           "type": "string",
           "description": "Text field for html with Kopps Lärandemål"
         },
+        "betygskriterier": {
+          "type": "string",
+          "description": "Text field for html with Målrelaterade betygskriterier"
+        },
         "lastChangeDate": {
           "type": "string",
           "description": "Date and time for last change, set by API"

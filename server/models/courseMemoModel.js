@@ -21,6 +21,12 @@ const schema = mongoose.Schema({
     minlength: 0,
     default: ''
   },
+  betygskriterier: {
+    type: String,
+    trim: true,
+    minlength: 0,
+    default: ''
+  },
   lastChangeDate: {
     type: String,
     default: ''

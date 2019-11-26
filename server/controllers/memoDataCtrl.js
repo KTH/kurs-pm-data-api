@@ -22,32 +22,22 @@ async function getMemoDataById(req, res) {
 
 async function postMemoData(req, res) {
   try {
-    const listLength = req.body.length
-    const memoList = req.body
+    console.log('Affff ', req.body)
+    const memoObj = req.body
     const dbResponse = []
-    let oldObject = {
-      previousTextBetyg: '',
-      publishDate: ''
+
+    const exist = await dbOneDocument.fetchCourseMemoDataById(memoObj._id)
+
+    memoObj.lastChangeDate = new Date()
+
+    if (exist) {
+      log.info('roundCourseMemoData already exists, update' + memoObj._id)
+      dbResponse.push(await dbOneDocument.updateCourseMemoDataById(memoObj))
+    } else {
+      log.info('saving new memo data' + memoObj._id)
+      dbResponse.push(await dbOneDocument.storeNewCourseMemoData(memoObj))
     }
 
-    for (let memo = 0; memo < listLength; memo++) {
-      log.info('Posting new roundCourseMemoData', { memoList })
-      const exists = await dbOneDocument.fetchCourseMemoDataById(memoList[memo]._id)
-      memoList[memo].lastChangeDate = new Date()
-      if (exists) {
-        oldObject = {
-          previousTextBetyg: exists.previousTextBetyg,
-          publishDate: exists.lastChangeDate
-        }
-        exists.previousTextsList.push(oldObject)
-        memoList[memo].previousTextsList = exists.previousTextsList
-        log.info('roundCourseMemoData already exists, update' + memoList[memo]._id)
-        dbResponse.push(await dbOneDocument.updateCourseMemoDataById(memoList[memo]))
-      } else {
-        log.info('saving new memo data' + memoList[memo]._id)
-        dbResponse.push(await dbOneDocument.storeNewCourseMemoData(memoList[memo]))
-      }
-    }
     log.info('dbResponse', dbResponse)
     res.status(201).json(dbResponse)
   } catch (error) {

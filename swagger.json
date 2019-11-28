@@ -221,9 +221,13 @@
           "type": "string",
           "description": "Text field for html with Kopps Lärandemål"
         },
-        "betygskriterier": {
+        "gradingCriteria": {
           "type": "string",
-          "description": "Text field for html with Målrelaterade betygskriterier"
+          "description": "Text field for html with Grading Criteria / Målrelaterade betygskriterier / "
+        },
+        "planning": {
+          "type": "string",
+          "description": "Text field for html with  Detailed plannning / Detaljplanering /"
         },
         "lastChangeDate": {
           "type": "string",

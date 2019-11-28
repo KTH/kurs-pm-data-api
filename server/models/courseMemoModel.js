@@ -21,7 +21,13 @@ const schema = mongoose.Schema({
     minlength: 0,
     default: ''
   },
-  betygskriterier: {
+  gradingCriteria: {
+    type: String,
+    trim: true,
+    minlength: 0,
+    default: ''
+  },
+  planning: {
     type: String,
     trim: true,
     minlength: 0,

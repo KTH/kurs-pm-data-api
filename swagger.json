@@ -217,9 +217,85 @@
           "type": "string",
           "description": "Course start term year (spring(VT)-1, autumn(HT)-2) , f.e. 20182 or 20181 (termin)"
         },
-        "koppsGoals": {
+        "courseContent": {
           "type": "string",
-          "description": "Text field for html with Kopps Lärandemål"
+          "description": "Text field for html with course content/ Kursinnehåll (kopps kursplan)"
+        },
+        "learningOutcomes": {
+          "type": "string",
+          "description": "Text field for html with Intended learning outcomes / Lärandemål (kopps kursplan)"
+        },
+        "equipment": {
+          "type": "string",
+          "description": "Text field for html with Equipment / Utrustning (kopps kursinformation)"
+        },
+        "literature": {
+          "type": "string",
+          "description": "Text field for html with Literature / Kurslitteratur (kopps kursinformation)"
+        },
+        "additionalRegulations": {
+          "type": "string",
+          "description": "Text field for html with Additional regulations / Övriga föreskrifter (kopps kursplan)"
+        },
+        "gradingScale": {
+          "type": "string",
+          "description": "Text field for html with Grading scale / Betygsskala (kopps kursplan)"
+        },
+        "ethicalApproach": {
+          "type": "string",
+          "description": "Text field for html with Ethical approach / Etiskt förhållningssätt (kopps kursplan)"
+        },
+        "examination": {
+          "type": "string",
+          "description": "Text field for html with Ethical approach / Etiskt förhållningssätt (kopps kursplan)"
+        },
+        "examinationComment": {
+          "type": "string",
+          "description": "Text field for html with Examination / Examination (fast text) (kopps kursplan)"
+        },
+        "examinationCommentEditable": {
+          "type": "string",
+          "description": "Text field for html with Examination / Examination (free text) (kopps kursplan)"
+        },
+        "supplementaryExam": {
+          "type": "string",
+          "description": "Text field for html with Opportunity to complete the requirements via supplementary examination / Möjlighet till komplettering (kopps kursinformation)"
+        },
+        "raiseApprovedGrade": {
+          "type": "string",
+          "description": "Text field for html with Opportunity to raise an approved grade via renewed examination / Möjlighet till plussning (kopps kursinformation)"
+        },
+        "otherRequirementsForFinalGrade": {
+          "type": "string",
+          "description": "Text field for html with Other requirements for final grade / Övriga krav för slutbetyg (kopps kursplan)"
+        },
+        "examiner": {
+          "type": "string",
+          "description": "Text field for html with Examinator / Examinator (admin via kopps, fetched from redis-ug)"
+        },
+        "communicationWithTeachers": {
+          "type": "string",
+          "description": "Text field for html with Communication with teachers / Kommunikation med lärare (KIP - via kurs pm admin)"
+        },
+        "courseCoordinator": {
+          "type": "string",
+          "description": "Text field for html with Course coordinator  / Kursansvarig (admin via kopps, fetched from redis-ug)"
+        },
+        "labSupervisors": {
+          "type": "string",
+          "description": "Text field for html with Lab supervisors / Labbhandledare (KIP - via kurs pm admin)"
+        },
+        "teacherAssistants": {
+          "type": "string",
+          "description": "Text field for html with Teacher assistants / Lärarassistenter (admin via kopps, fetched from redis-ug)"
+        },
+        "teacher": {
+          "type": "string",
+          "description": "Text field for html with  Teacher / Lärare (admin via kopps, fetched from redis-ug)"
+        },
+        "languageOfInstructions": {
+          "type": "string",
+          "description": "Text field for html with Language of instruction / Undervisningsspråk (kopps course round related)"
         },
         "gradingCriteria": {
           "type": "string",

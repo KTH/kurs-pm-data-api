@@ -1,5 +1,11 @@
 'use strict'
 
+const courseSyllabus = require('./categories/courseSyllabusFields')
+const generalCourseInfo = require('./categories/generalCourseInfoFields')
+const teachersTypesUg = require('./categories/teachersFields')
+const courseRoundFields = require('./categories/courseRoundFields')
+const courseMemoSpec = require('./categories/courseMemoSpec')
+
 const mongoose = require('mongoose')
 
 const schema = mongoose.Schema({
@@ -15,24 +21,11 @@ const schema = mongoose.Schema({
     minlength: 0,
     default: ''
   },
-  koppsGoals: {
-    type: String,
-    trim: true,
-    minlength: 0,
-    default: ''
-  },
-  gradingCriteria: {
-    type: String,
-    trim: true,
-    minlength: 0,
-    default: ''
-  },
-  planning: {
-    type: String,
-    trim: true,
-    minlength: 0,
-    default: ''
-  },
+  ...courseSyllabus,
+  ...generalCourseInfo,
+  ...teachersTypesUg,
+  ...courseRoundFields,
+  ...courseMemoSpec,
   lastChangeDate: {
     type: String,
     default: ''

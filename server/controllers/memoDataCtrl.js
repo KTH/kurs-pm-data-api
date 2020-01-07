@@ -8,14 +8,13 @@ const dbOneDocument = require('../lib/dbDataById')
 
 async function getMemoDataById(req, res) {
   const { id } = req.params
-  log.info('Received request for memo with id: ', id)
+  log.info('getMemoDataById: Received request for memo with id:', id)
   try {
     const dbResponse = await dbOneDocument.fetchCourseMemoDataById(id)
-
-    res.json(dbResponse)
-    log.info('Responded to request for memo with id: ', id)
+    res.json(dbResponse || {})
+    log.info('getMemoDataById: Responded to request for memo with id:', id)
   } catch (err) {
-    log.error('Failed request for memo, error:', { err })
+    log.error('getMemoDataById: Failed request for memo, error:', { err })
     return err
   }
 }

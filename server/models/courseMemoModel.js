@@ -33,6 +33,10 @@ const schema = mongoose.Schema({
   previousTextsList: {
     type: Array,
     default: []
+  },
+  visibleInMemo: {
+    type: Object,
+    default: {}
   }
 })
 

@@ -38,19 +38,6 @@ const courseSyllabus = {
     minlength: 0,
     default: ''
   },
-  examinationComment: {
-    type: String,
-    trim: true,
-    minlength: 0,
-    default: ''
-  },
-  examinationCommentEditable: {
-    // /to do move it
-    type: String,
-    trim: true,
-    minlength: 0,
-    default: ''
-  },
   otherRequirementsForFinalGrade: {
     type: String,
     trim: true,

@@ -1,9 +1,15 @@
 // ****** Here goes fields about teachers types which administrates via kopps ******//
 // ****** but FETCHED from Ug-REDIS ******//
-// *** labSupervisors added by teacher *** ///
+// *** otherContacts added by teacher *** ///
 
 const teachersTypesUg = {
   examiner: {
+    type: String,
+    trim: true,
+    minlength: 0,
+    default: ''
+  },
+  infoContactName: {
     type: String,
     trim: true,
     minlength: 0,
@@ -15,7 +21,7 @@ const teachersTypesUg = {
     minlength: 0,
     default: ''
   },
-  labSupervisors: {
+  otherContacts: {
     type: String,
     trim: true,
     minlength: 0,

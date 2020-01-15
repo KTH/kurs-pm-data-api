@@ -249,13 +249,9 @@
           "type": "string",
           "description": "Text field for html with Ethical approach / Etiskt förhållningssätt (kopps kursplan)"
         },
-        "examinationComment": {
+        "examinationModules": {
           "type": "string",
-          "description": "Text field for html with Examination / Examination (fast text) (kopps kursplan)"
-        },
-        "examinationCommentEditable": {
-          "type": "string",
-          "description": "Text field for html with Examination / Examination (free text) (kopps kursplan)"
+          "description": "Text field for html with examination Modules / examinationModuler"
         },
         "supplementaryExam": {
           "type": "string",
@@ -273,6 +269,10 @@
           "type": "string",
           "description": "Text field for html with Examinator / Examinator (admin via kopps, fetched from redis-ug)"
         },
+        "infoContactName": {
+          "type": "string",
+          "description": "Text field for html with info Contact person / Kontaktperson (admin via kopps, fetched from kopps)"
+        },
         "communicationWithTeachers": {
           "type": "string",
           "description": "Text field for html with Communication with teachers / Kommunikation med lärare (KIP - via kurs pm admin)"
@@ -281,9 +281,9 @@
           "type": "string",
           "description": "Text field for html with Course coordinator  / Kursansvarig (admin via kopps, fetched from redis-ug)"
         },
-        "labSupervisors": {
+        "otherContacts": {
           "type": "string",
-          "description": "Text field for html with Lab supervisors / Labbhandledare (KIP - via kurs pm admin)"
+          "description": "Text field for html with other Contacts like Lab supervisors / Labbhandledare (KIP - via kurs pm admin)"
         },
         "teacherAssistants": {
           "type": "string",

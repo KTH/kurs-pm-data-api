@@ -160,13 +160,13 @@ server.use(errorHandler)
  */
 
 const { createClient } = require('@kth/kth-node-cosmos-db')
-
+console.log(' >>>>>==========>>>>> ', config.db)
 createClient({
   username: config.db.username,
   password: config.db.password,
   host: config.db.host,
-  db: 'kursinfo',
-  defaultThroughput: 300,
+  db: config.db.db,
+  defaultThroughput: 400,
   maxThroughput: 400,
   collections: [{ name: 'coursememos' }]
 }).init()

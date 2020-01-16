@@ -165,10 +165,10 @@ createClient({
   username: config.db.username,
   password: config.db.password,
   host: config.db.host,
-  db: config.db.db,
-  defaultThroughput: 400,
-  maxThroughput: 2000,
-  collections: [{ name: 'samples' }]
+  db: 'kursinfo',
+  defaultThroughput: 300,
+  maxThroughput: 400,
+  collections: [{ name: 'kurs-pm-data' }]
 }).init()
 
 module.exports = server

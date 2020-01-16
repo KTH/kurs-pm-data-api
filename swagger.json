@@ -253,11 +253,11 @@
           "type": "string",
           "description": "Text field for html with examination Modules / examinationModuler"
         },
-        "supplementaryExam": {
+        "possibilityToCompletion": {
           "type": "string",
           "description": "Text field for html with Opportunity to complete the requirements via supplementary examination / Möjlighet till komplettering (kopps kursinformation)"
         },
-        "raiseApprovedGrade": {
+        "possibilityToAddition": {
           "type": "string",
           "description": "Text field for html with Opportunity to raise an approved grade via renewed examination / Möjlighet till plussning (kopps kursinformation)"
         },

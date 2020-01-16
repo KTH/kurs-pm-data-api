@@ -168,7 +168,7 @@ createClient({
   db: 'kursinfo',
   defaultThroughput: 300,
   maxThroughput: 400,
-  collections: [{ name: 'kurs-pm-data' }]
+  collections: [{ name: 'coursememos' }]
 }).init()
 
 module.exports = server

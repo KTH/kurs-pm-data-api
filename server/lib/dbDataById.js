@@ -7,8 +7,8 @@ function fetchCourseMemoDataById(id) {
   if (!id) throw new Error('id must be set')
   log.debug('Fetching roundCourseMemoData by ID', { _id: id })
   return CourseMemo.findOne({ _id: id })
-    .populate('MemoData')
-    .lean()
+  // .populate('MemoData')
+  // .lean()
 }
 
 function storeNewCourseMemoData(data) {
@@ -23,7 +23,7 @@ function storeNewCourseMemoData(data) {
 function updateCourseMemoDataById(data) {
   if (data) {
     log.debug('Update of existing roundCourseMemoData: ', { data })
-    return CourseMemo.findOneAndUpdate({ _id: data._id }, { $set: data })
+    return CourseMemo.findOneAndUpdate({ _id: data._id, courseCode: data.courseCode }, { $set: data })
   }
   log.debug('No roundCourseMemoData found for updating it with new data', { data })
 }

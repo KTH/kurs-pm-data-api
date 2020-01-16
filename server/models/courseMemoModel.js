@@ -5,7 +5,7 @@ const generalCourseInfo = require('./categories/generalCourseInfoFields')
 const teachersTypesUg = require('./categories/teachersFields')
 const courseRoundFields = require('./categories/courseRoundFields')
 const courseMemoSpec = require('./categories/courseMemoSpec')
-
+const { wrap } = require('@kth/kth-node-cosmos-db')
 const mongoose = require('mongoose')
 
 const schema = mongoose.Schema({
@@ -40,7 +40,7 @@ const schema = mongoose.Schema({
   }
 })
 
-const CourseMemo = mongoose.model('CourseMemo', schema)
+const CourseMemo = wrap(mongoose.model('CourseMemo', schema))
 module.exports = {
   CourseMemo,
   schema

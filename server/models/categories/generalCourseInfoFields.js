@@ -13,13 +13,13 @@ const generalCourseInfo = {
     minlength: 0,
     default: ''
   },
-  supplementaryExam: {
+  possibilityToCompletion: {
     type: String,
     trim: true,
     minlength: 0,
     default: ''
   },
-  raiseApprovedGrade: {
+  possibilityToAddition: {
     type: String,
     trim: true,
     minlength: 0,

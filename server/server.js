@@ -159,16 +159,16 @@ server.use(errorHandler)
  * **********************************
  */
 
-const { createClient } = require('@kth/kth-node-cosmos-db')
-console.log(' >>>>>==========>>>>> ', config.db)
-createClient({
+const { getClient } = require('@kth/kth-node-cosmos-db')
+
+getClient({
   username: config.db.username,
   password: config.db.password,
   host: config.db.host,
-  db: config.db.db,
-  defaultThroughput: 400,
+  db: 'kursinfo',
+  defaultThroughput: 200,
   maxThroughput: 400,
   collections: [{ name: 'coursememos' }]
-}).init()
+})
 
 module.exports = server

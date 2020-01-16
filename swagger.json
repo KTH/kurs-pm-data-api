@@ -150,6 +150,13 @@
         "description": "Saves a course memo document descriptive data in the database per course and term",
         "parameters": [
           {
+            "name": "id",
+            "in": "path",
+            "description": "Id of the round.semester.year.x to course memo data",
+            "required": true,
+            "type": "string"
+          },
+          {
             "name": "roundCourseMemoData",
             "in": "body",
             "description": "Array with memo data objects",

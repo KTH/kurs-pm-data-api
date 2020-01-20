@@ -11,7 +11,7 @@ const courseMemoSpec = {
     minlength: 0,
     default: ''
   },
-  planning: {
+  scheduleDetails: {
     type: String,
     trim: true,
     minlength: 0,

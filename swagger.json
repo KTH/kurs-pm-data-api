@@ -312,9 +312,9 @@
           "type": "string",
           "description": "Text field for html with Grading Criteria / Målrelaterade betygskriterier / "
         },
-        "planning": {
+        "scheduleDetails": {
           "type": "string",
-          "description": "Text field for html with  Detailed plannning / Detaljplanering /"
+          "description": "Text field for html with Schedule details / Detaljschema /"
         },
         "lastChangeDate": {
           "type": "string",

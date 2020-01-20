@@ -236,6 +236,10 @@
           "type": "string",
           "description": "Text field for html with Learning activities / Läraktiviteter (KIP - via kurs pm admin)"
         },
+        "prerequisites": {
+          "type": "string",
+          "description": "Text field for html with Prerequisites / Rekommenderade förkunskaper (kopps kursinformation)"
+        },
         "equipment": {
           "type": "string",
           "description": "Text field for html with Equipment / Utrustning (kopps kursinformation)"

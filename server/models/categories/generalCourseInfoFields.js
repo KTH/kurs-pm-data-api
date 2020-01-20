@@ -24,6 +24,12 @@ const generalCourseInfo = {
     trim: true,
     minlength: 0,
     default: ''
+  },
+  prerequisites: {
+    type: String,
+    trim: true,
+    minlength: 0,
+    default: ''
   }
 }
 

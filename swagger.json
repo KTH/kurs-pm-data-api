@@ -232,6 +232,10 @@
           "type": "string",
           "description": "Text field for html with Intended learning outcomes / Lärandemål (kopps kursplan)"
         },
+        "learningActivities": {
+          "type": "string",
+          "description": "Text field for html with Learning activities / Läraktiviteter (KIP - via kurs pm admin)"
+        },
         "equipment": {
           "type": "string",
           "description": "Text field for html with Equipment / Utrustning (kopps kursinformation)"

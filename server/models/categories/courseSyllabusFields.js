@@ -8,6 +8,12 @@ const courseSyllabus = {
     minlength: 0,
     default: ''
   },
+  learningActivities: {
+    type: String,
+    trim: true,
+    minlength: 0,
+    default: ''
+  },
   learningOutcomes: {
     type: String,
     trim: true,

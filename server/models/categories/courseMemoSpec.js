@@ -16,6 +16,12 @@ const courseMemoSpec = {
     trim: true,
     minlength: 0,
     default: ''
+  },
+  software: {
+    type: String,
+    trim: true,
+    minlength: 0,
+    default: ''
   }
 }
 

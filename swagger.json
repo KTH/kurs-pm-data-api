@@ -240,6 +240,10 @@
           "type": "string",
           "description": "Text field for html with Prerequisites / Rekommenderade förkunskaper (kopps kursinformation)"
         },
+        "preparations": {
+          "type": "string",
+          "description": "Text field for html with Preparations / Förberedelser (KIP - via kurs pm admin)"
+        },
         "equipment": {
           "type": "string",
           "description": "Text field for html with Equipment / Utrustning (kopps kursinformation)"

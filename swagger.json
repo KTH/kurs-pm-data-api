@@ -216,57 +216,25 @@
           "type": "string",
           "description": "Unique identifier representing some specific data"
         },
+        "additionalRegulations": {
+          "type": "string",
+          "description": "Text field for html with Additional regulations / Övriga föreskrifter (kopps kursplan)"
+        },
+        "communicationWithTeachers": {
+          "type": "string",
+          "description": "Text field for html with Communication with teachers / Kommunikation med lärare (KIP - via kurs pm admin)"
+        },
         "courseCode": {
           "type": "string",
           "description": "Course code for which it is valid"
-        },
-        "semester": {
-          "type": "string",
-          "description": "Course start term year (spring(VT)-1, autumn(HT)-2) , f.e. 20182 or 20181 (termin)"
         },
         "courseContent": {
           "type": "string",
           "description": "Text field for html with course content/ Kursinnehåll (kopps kursplan)"
         },
-        "learningOutcomes": {
+        "courseCoordinator": {
           "type": "string",
-          "description": "Text field for html with Intended learning outcomes / Lärandemål (kopps kursplan)"
-        },
-        "learningActivities": {
-          "type": "string",
-          "description": "Text field for html with Learning activities / Läraktiviteter (KIP - via kurs pm admin)"
-        },
-        "prerequisites": {
-          "type": "string",
-          "description": "Text field for html with Prerequisites / Rekommenderade förkunskaper (kopps kursinformation)"
-        },
-        "preparations": {
-          "type": "string",
-          "description": "Text field for html with Preparations / Förbereda inför kursstart (KIP - via kurs pm admin)"
-        },
-        "software": {
-          "type": "string",
-          "description": "Text field for html with Software / Programvara (KIP - via kurs pm admin)"
-        },
-        "equipment": {
-          "type": "string",
-          "description": "Text field for html with Equipment / Utrustning (kopps kursinformation)"
-        },
-        "literature": {
-          "type": "string",
-          "description": "Text field for html with Literature / Kurslitteratur (kopps kursinformation)"
-        },
-        "permanentDisability": {
-          "type": "string",
-          "description": "Text field for html with Permanent Disability / Funktionsnedsättning (KIP - via kurs pm admin)"
-        },
-        "additionalRegulations": {
-          "type": "string",
-          "description": "Text field for html with Additional regulations / Övriga föreskrifter (kopps kursplan)"
-        },
-        "gradingScale": {
-          "type": "string",
-          "description": "Text field for html with Grading scale / Betygsskala (kopps kursplan)"
+          "description": "Text field for html with Course coordinator  / Kursansvarig (admin via kopps, fetched from redis-ug)"
         },
         "ethicalApproach": {
           "type": "string",
@@ -280,66 +248,98 @@
           "type": "string",
           "description": "Text field for html with examination Modules / examinationModuler"
         },
-        "possibilityToCompletion": {
-          "type": "string",
-          "description": "Text field for html with Opportunity to complete the requirements via supplementary examination / Möjlighet till komplettering (kopps kursinformation)"
-        },
-        "possibilityToAddition": {
-          "type": "string",
-          "description": "Text field for html with Opportunity to raise an approved grade via renewed examination / Möjlighet till plussning (kopps kursinformation)"
-        },
-        "otherRequirementsForFinalGrade": {
-          "type": "string",
-          "description": "Text field for html with Other requirements for final grade / Övriga krav för slutbetyg (kopps kursplan)"
-        },
         "examiner": {
           "type": "string",
           "description": "Text field for html with Examinator / Examinator (admin via kopps, fetched from redis-ug)"
         },
-        "infoContactName": {
+        "equipment": {
           "type": "string",
-          "description": "Text field for html with info Contact person / Kontaktperson (admin via kopps, fetched from kopps)"
-        },
-        "communicationWithTeachers": {
-          "type": "string",
-          "description": "Text field for html with Communication with teachers / Kommunikation med lärare (KIP - via kurs pm admin)"
-        },
-        "courseCoordinator": {
-          "type": "string",
-          "description": "Text field for html with Course coordinator  / Kursansvarig (admin via kopps, fetched from redis-ug)"
-        },
-        "otherContacts": {
-          "type": "string",
-          "description": "Text field for html with other Contacts like Lab supervisors / Labbhandledare (KIP - via kurs pm admin)"
-        },
-        "teacherAssistants": {
-          "type": "string",
-          "description": "Text field for html with Teacher assistants / Lärarassistenter (admin via kopps, fetched from redis-ug)"
-        },
-        "teacher": {
-          "type": "string",
-          "description": "Text field for html with  Teacher / Lärare (admin via kopps, fetched from redis-ug)"
-        },
-        "languageOfInstructions": {
-          "type": "string",
-          "description": "Text field for html with Language of instruction / Undervisningsspråk (kopps course round related)"
+          "description": "Text field for html with Equipment / Utrustning (kopps kursinformation)"
         },
         "gradingCriteria": {
           "type": "string",
           "description": "Text field for html with Grading Criteria / Målrelaterade betygskriterier / "
         },
-        "scheduleDetails": {
+        "gradingScale": {
           "type": "string",
-          "description": "Text field for html with Schedule details / Detaljschema /"
+          "description": "Text field for html with Grading scale / Betygsskala (kopps kursplan)"
+        },
+        "infoContactName": {
+          "type": "string",
+          "description": "Text field for html with info Contact person / Kontaktperson (admin via kopps, fetched from kopps)"
+        },
+        "languageOfInstructions": {
+          "type": "string",
+          "description": "Text field for html with Language of instruction / Undervisningsspråk (kopps course round related)"
         },
         "lastChangeDate": {
           "type": "string",
           "description": "Date and time for last change, set by API"
         },
+        "learningActivities": {
+          "type": "string",
+          "description": "Text field for html with Learning activities / Läraktiviteter (KIP - via kurs pm admin)"
+        },
+        "learningOutcomes": {
+          "type": "string",
+          "description": "Text field for html with Intended learning outcomes / Lärandemål (kopps kursplan)"
+        },
+        "literature": {
+          "type": "string",
+          "description": "Text field for html with Literature / Kurslitteratur (kopps kursinformation)"
+        },
+        "otherContacts": {
+          "type": "string",
+          "description": "Text field for html with other Contacts like Lab supervisors / Labbhandledare (KIP - via kurs pm admin)"
+        },
+        "otherRequirementsForFinalGrade": {
+          "type": "string",
+          "description": "Text field for html with Other requirements for final grade / Övriga krav för slutbetyg (kopps kursplan)"
+        },
+        "permanentDisability": {
+          "type": "string",
+          "description": "Text field for html with Permanent Disability / Funktionsnedsättning (KIP - via kurs pm admin)"
+        },
+        "possibilityToAddition": {
+          "type": "string",
+          "description": "Text field for html with Opportunity to raise an approved grade via renewed examination / Möjlighet till plussning (kopps kursinformation)"
+        },
+        "possibilityToCompletion": {
+          "type": "string",
+          "description": "Text field for html with Opportunity to complete the requirements via supplementary examination / Möjlighet till komplettering (kopps kursinformation)"
+        },
+        "preparations": {
+          "type": "string",
+          "description": "Text field for html with Preparations / Förbereda inför kursstart (KIP - via kurs pm admin)"
+        },
+        "prerequisites": {
+          "type": "string",
+          "description": "Text field for html with Prerequisites / Rekommenderade förkunskaper (kopps kursinformation)"
+        },
         "previousTextsList": {
           "type": "array",
           "items": "string",
           "description": "Array for object with previous memo texts and publish date "
+        },
+        "scheduleDetails": {
+          "type": "string",
+          "description": "Text field for html with Schedule details / Detaljschema /"
+        },
+        "semester": {
+          "type": "string",
+          "description": "Course start term year (spring(VT)-1, autumn(HT)-2) , f.e. 20182 or 20181 (termin)"
+        },
+        "software": {
+          "type": "string",
+          "description": "Text field for html with Software / Programvara (KIP - via kurs pm admin)"
+        },
+        "teacher": {
+          "type": "string",
+          "description": "Text field for html with  Teacher / Lärare (admin via kopps, fetched from redis-ug)"
+        },
+        "teacherAssistants": {
+          "type": "string",
+          "description": "Text field for html with Teacher assistants / Lärarassistenter (admin via kopps, fetched from redis-ug)"
         }
       }
     },

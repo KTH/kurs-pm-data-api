@@ -1,4 +1,16 @@
 const courseMemoSpec = {
+  bonusPoints: {
+    type: String,
+    trim: true,
+    minlength: 0,
+    default: ''
+  },
+  ethicalApproachThisCourse: {
+    type: String,
+    trim: true,
+    minlength: 0,
+    default: ''
+  },
   examinationModules: {
     type: String,
     trim: true,
@@ -6,6 +18,18 @@ const courseMemoSpec = {
     default: ''
   },
   gradingCriteria: {
+    type: String,
+    trim: true,
+    minlength: 0,
+    default: ''
+  },
+  infoForReregisteredStudents: {
+    type: String,
+    trim: true,
+    minlength: 0,
+    default: ''
+  },
+  learningActivities: {
     type: String,
     trim: true,
     minlength: 0,

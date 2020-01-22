@@ -220,6 +220,10 @@
           "type": "string",
           "description": "Text field for html with Additional regulations / Övriga föreskrifter (kopps kursplan)"
         },
+        "bonusPoints": {
+          "type": "string",
+          "description": "Text field for html with Bonus points / Bonuspoäng"
+        },
         "communicationWithTeachers": {
           "type": "string",
           "description": "Text field for html with Communication with teachers / Kommunikation med lärare (KIP - via kurs pm admin)"
@@ -239,6 +243,10 @@
         "ethicalApproach": {
           "type": "string",
           "description": "Text field for html with Ethical approach / Etiskt förhållningssätt (kopps kursplan)"
+        },
+        "ethicalApproachThisCourse": {
+          "type": "string",
+          "description": "Text field for html with Course specific regulations for ethical approach / Kursspecifika regler för etiskt förhållningssätt"
         },
         "examination": {
           "type": "string",
@@ -267,6 +275,10 @@
         "infoContactName": {
           "type": "string",
           "description": "Text field for html with info Contact person / Kontaktperson (admin via kopps, fetched from kopps)"
+        },
+        "infoForReregisteredStudents": {
+          "type": "string",
+          "description": "Text field for html with Information for re-registered students / Information till omregistrerade studenter"
         },
         "languageOfInstructions": {
           "type": "string",

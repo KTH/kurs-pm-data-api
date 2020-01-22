@@ -242,7 +242,7 @@
         },
         "preparations": {
           "type": "string",
-          "description": "Text field for html with Preparations / Förberedelser (KIP - via kurs pm admin)"
+          "description": "Text field for html with Preparations / Förbereda inför kursstart (KIP - via kurs pm admin)"
         },
         "software": {
           "type": "string",
@@ -255,6 +255,10 @@
         "literature": {
           "type": "string",
           "description": "Text field for html with Literature / Kurslitteratur (kopps kursinformation)"
+        },
+        "permanentDisability": {
+          "type": "string",
+          "description": "Text field for html with Permanent Disability / Funktionsnedsättning (KIP - via kurs pm admin)"
         },
         "additionalRegulations": {
           "type": "string",

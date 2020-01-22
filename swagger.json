@@ -222,11 +222,11 @@
         },
         "bonusPoints": {
           "type": "string",
-          "description": "Text field for html with Bonus points / Bonuspoäng"
+          "description": "Text field for html with Bonus points / Bonuspoäng (KIP - via kurs pm admin)"
         },
         "communicationWithTeachers": {
           "type": "string",
-          "description": "Text field for html with Communication with teachers / Kommunikation med lärare (KIP - via kurs pm admin)"
+          "description": "Text field for html with Communication during course / Kommunikation i kursen (KIP - via kurs pm admin)"
         },
         "courseCode": {
           "type": "string",
@@ -246,7 +246,7 @@
         },
         "ethicalApproachThisCourse": {
           "type": "string",
-          "description": "Text field for html with Course specific regulations for ethical approach / Kursspecifika regler för etiskt förhållningssätt"
+          "description": "Text field for html with Course specific regulations for ethical approach / Kursspecifika regler för etiskt förhållningssätt (KIP - via kurs pm admin)"
         },
         "examination": {
           "type": "string",
@@ -254,7 +254,7 @@
         },
         "examinationModules": {
           "type": "string",
-          "description": "Text field for html with examination Modules / examinationModuler"
+          "description": "Text field for html with examination Modules / examinationModuler (KIP - via kurs pm admin)"
         },
         "examiner": {
           "type": "string",
@@ -266,7 +266,7 @@
         },
         "gradingCriteria": {
           "type": "string",
-          "description": "Text field for html with Grading Criteria / Målrelaterade betygskriterier / "
+          "description": "Text field for html with Grading Criteria / Målrelaterade betygskriterier / (KIP - via kurs pm admin)"
         },
         "gradingScale": {
           "type": "string",
@@ -278,7 +278,7 @@
         },
         "infoForReregisteredStudents": {
           "type": "string",
-          "description": "Text field for html with Information for re-registered students / Information till omregistrerade studenter"
+          "description": "Text field for html with Information for re-registered students / Information till omregistrerade studenter (KIP - via kurs pm admin)"
         },
         "languageOfInstructions": {
           "type": "string",
@@ -335,7 +335,7 @@
         },
         "scheduleDetails": {
           "type": "string",
-          "description": "Text field for html with Schedule details / Detaljschema /"
+          "description": "Text field for html with Schedule details / Detaljschema / (KIP - via kurs pm admin)"
         },
         "semester": {
           "type": "string",

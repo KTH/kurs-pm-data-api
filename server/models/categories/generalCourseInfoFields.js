@@ -7,6 +7,12 @@ const generalCourseInfo = {
     minlength: 0,
     default: ''
   },
+  infoContactName: {
+    type: String,
+    trim: true,
+    minlength: 0,
+    default: ''
+  },
   literature: {
     type: String,
     trim: true,

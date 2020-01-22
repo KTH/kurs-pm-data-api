@@ -224,7 +224,7 @@
           "type": "string",
           "description": "Text field for html with Bonus points / Bonuspoäng (KIP - via kurs pm admin)"
         },
-        "communicationWithTeachers": {
+        "communicationDuringCourse": {
           "type": "string",
           "description": "Text field for html with Communication during course / Kommunikation i kursen (KIP - via kurs pm admin)"
         },

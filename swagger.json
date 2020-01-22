@@ -256,6 +256,10 @@
           "type": "string",
           "description": "Text field for html with Literature / Kurslitteratur (kopps kursinformation)"
         },
+        "permanentDisability": {
+          "type": "string",
+          "description": "Text field for html with Permanent Disability / Funktionsnedsättning (KIP - via kurs pm admin)"
+        },
         "additionalRegulations": {
           "type": "string",
           "description": "Text field for html with Additional regulations / Övriga föreskrifter (kopps kursplan)"

@@ -28,6 +28,12 @@ const courseMemoSpec = {
     trim: true,
     minlength: 0,
     default: ''
+  },
+  permanentDisability: {
+    type: String,
+    trim: true,
+    minlength: 0,
+    default: ''
   }
 }
 

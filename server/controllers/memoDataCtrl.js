@@ -21,7 +21,6 @@ async function getMemoDataById(req, res) {
 
 async function postMemoData(req, res) {
   try {
-    console.log('Affff ', req.body)
     const memoObj = req.body
     const dbResponse = []
 

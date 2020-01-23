@@ -5,6 +5,7 @@ const generalCourseInfo = require('./categories/generalCourseInfoFields')
 const teachersTypesUg = require('./categories/teachersFields')
 const courseRoundFields = require('./categories/courseRoundFields')
 const courseMemoSpec = require('./categories/courseMemoSpec')
+const extraHeaders = require('./categories/extraHeadersSpec')
 const { wrap } = require('@kth/kth-node-cosmos-db')
 const mongoose = require('mongoose')
 
@@ -21,11 +22,12 @@ const schema = mongoose.Schema({
     minlength: 0,
     default: ''
   },
+  ...courseMemoSpec,
+  ...courseRoundFields,
   ...courseSyllabus,
+  ...extraHeaders,
   ...generalCourseInfo,
   ...teachersTypesUg,
-  ...courseRoundFields,
-  ...courseMemoSpec,
   lastChangeDate: {
     type: String,
     default: ''

@@ -260,6 +260,26 @@
           "type": "string",
           "description": "Text field for html with Examinator / Examinator (admin via kopps, fetched from redis-ug)"
         },
+        "extraHeaders1": {
+          "type": "string",
+          "description": "Text field for html with extraHeaders / Egna Rubriker... "
+        },
+        "extraHeaders2": {
+          "type": "string",
+          "description": "Text field for html with extraHeaders / Egna Rubriker... "
+        },
+        "extraHeaders3": {
+          "type": "string",
+          "description": "Text field for html with extraHeaders / Egna Rubriker... "
+        },
+        "extraHeaders4": {
+          "type": "string",
+          "description": "Text field for html with extraHeaders / Egna Rubriker... "
+        },
+        "extraHeaders5": {
+          "type": "string",
+          "description": "Text field for html with extraHeaders / Egna Rubriker... "
+        },
         "equipment": {
           "type": "string",
           "description": "Text field for html with Equipment / Utrustning (kopps kursinformation)"

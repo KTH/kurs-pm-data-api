@@ -340,6 +340,10 @@
           "type": "string",
           "description": "Text field for html with Opportunity to complete the requirements via supplementary examination / Möjlighet till komplettering (kopps kursinformation)"
         },
+        "possibilityToCompensate": {
+          "type": "string",
+          "description": "Text field for html with Opportunity to compensate / Möjlighet till ersättningsuppgifter (KIP - via kurs pm admin)"
+        },
         "preparations": {
           "type": "string",
           "description": "Text field for html with Preparations / Förbereda inför kursstart (KIP - via kurs pm admin)"
@@ -352,6 +356,10 @@
           "type": "array",
           "items": "string",
           "description": "Array for object with previous memo texts and publish date "
+        },
+        "reportingResults": {
+          "type": "string",
+          "description": "Text field for html with Results reporting / Resultatrapportering (KIP - via kurs pm admin)"
         },
         "scheduleDetails": {
           "type": "string",

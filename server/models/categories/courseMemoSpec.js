@@ -41,13 +41,7 @@ const courseMemoSpec = {
     minlength: 0,
     default: ''
   },
-  scheduleDetails: {
-    type: String,
-    trim: true,
-    minlength: 0,
-    default: ''
-  },
-  software: {
+  possibilityToCompensate: {
     type: String,
     trim: true,
     minlength: 0,
@@ -60,6 +54,24 @@ const courseMemoSpec = {
     default: ''
   },
   permanentDisability: {
+    type: String,
+    trim: true,
+    minlength: 0,
+    default: ''
+  },
+  reportingResults: {
+    type: String,
+    trim: true,
+    minlength: 0,
+    default: ''
+  },
+  scheduleDetails: {
+    type: String,
+    trim: true,
+    minlength: 0,
+    default: ''
+  },
+  software: {
     type: String,
     trim: true,
     minlength: 0,

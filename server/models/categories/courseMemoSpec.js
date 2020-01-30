@@ -1,10 +1,4 @@
 const courseMemoSpec = {
-  bonusPoints: {
-    type: String,
-    trim: true,
-    minlength: 0,
-    default: ''
-  },
   communicationDuringCourse: {
     type: String,
     trim: true,

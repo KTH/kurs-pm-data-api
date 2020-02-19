@@ -101,7 +101,6 @@ async function copyAndPostDraftByEndPoint(req, res) {
       const publishedObj = await dbOneDocument.fetchMemoByEndPointAndStatus(memoObj.memoEndPoint, 'published')
       if (publishedObj) {
         publishedObj.version++
-        publishedObj.lastChangeDate = new Date()
         dbResponse.push(await dbOneDocument.storeNewCourseMemoData(publishedObj))
       }
     }

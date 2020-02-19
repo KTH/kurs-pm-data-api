@@ -21,6 +21,7 @@ function storeNewCourseMemoData(data) {
   // ***** USED TO POST NEW COURSE MEMO FIRST DRAFT
   if (!data) throw new Error('Trying to post empty/innacurate data in storeNewCourseMemoData')
   else {
+    data.lastChangeDate = new Date()
     log.debug('Create and store new FIRST draft in form of roundCourseMemoData', { data })
     const doc = new CourseMemo(data)
     return doc.save()

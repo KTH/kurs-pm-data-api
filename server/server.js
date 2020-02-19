@@ -141,8 +141,18 @@ apiRoute.register(paths.api.checkAPIkey, System.checkAPIKey)
 
 apiRoute.register(paths.api.getDataById, Sample.getData)
 apiRoute.register(paths.api.postDataById, Sample.postData)
-apiRoute.register(paths.api.getCourseMemoDataById, CourseMemo.getMemoDataById)
-apiRoute.register(paths.api.postCourseMemoData, CourseMemo.postMemoData)
+// post first version of draft from anything
+apiRoute.register(paths.api.postNewDrafttFromScratch, CourseMemo.postNewMemoFromScratch) // updated
+// Get one draft | update it
+apiRoute.register(paths.api.getDraftByEndPoint, CourseMemo.getDraftByEndPoint) // updated
+apiRoute.register(paths.api.updateCreatedDraft, CourseMemo.putDraftByEndPoint) // updated
+apiRoute.register(paths.api.createDraftCopyOfPublishedMemo, CourseMemo.copyAndPostDraftByEndPoint) // updated
+
+// // GET ARRAY OF MEMOS BY TYPE AND COURSE CODE
+apiRoute.register(paths.api.getAllMemosByCourseCodeAndType, CourseMemo.getMemosByCourseCodeAndType) // updated
+// // GET one PUBLISHED MEMO | PUBLISH MEMO
+apiRoute.register(paths.api.getPublishedMemoByEndPoint, CourseMemo.getMemoByEndPoint) // updated
+apiRoute.register(paths.api.publishMemoByEndPoint, CourseMemo.postNewVersionOfPublishedMemo)
 server.use('/', apiRoute.getRouter())
 
 // Catch not found and errors

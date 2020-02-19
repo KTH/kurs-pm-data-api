@@ -1,29 +1,38 @@
 /* eslint-disable consistent-return */
 /* eslint-disable no-underscore-dangle */
 const log = require('kth-node-log')
-const { CourseMemo } = require('../models/courseMemoModel')
+const { CourseMemo } = require('../models/mainMemoModel')
 
-function fetchCourseMemoDataById(id) {
-  if (!id) throw new Error('id must be set')
-  log.debug('Fetching roundCourseMemoData by ID', { _id: id })
-  return CourseMemo.findOne({ _id: id })
-  // .populate('MemoData')
-  // .lean()
+/* ****** */
+/* ANY BY STATUS AND MemoEndPoint */
+/* ****** */
+
+function fetchMemoByEndPointAndStatus(memoEndPoint) {
+  // UPDATED
+  if (!memoEndPoint) throw new Error('memoEndPoint must be set')
+  log.debug('Fetching roundCourseMemoData by ID', { memoEndPoint })
+  return CourseMemo.findOne({ memoEndPoint })
 }
 
+/* ****** */
+/* DRAFT */
+/* ****** */
 function storeNewCourseMemoData(data) {
-  if (!data) throw new Error('Trying to post empty/innacurate data in _storeNewCourseMemoData')
+  // ***** USED TO POST NEW COURSE MEMO FIRST DRAFT
+  if (!data) throw new Error('Trying to post empty/innacurate data in storeNewCourseMemoData')
   else {
-    log.debug('Create and store new roundCourseMemoData', { data })
+    log.debug('Create and store new FIRST draft in form of roundCourseMemoData', { data })
     const doc = new CourseMemo(data)
     return doc.save()
   }
 }
 
-function updateCourseMemoDataById(data) {
+function updateMemoByEndPointAndStatus(data, status) {
+  // UPPDATERA DRAFT GENOM memoEndPoint
+  const { memoEndPoint } = data
   if (data) {
     log.debug('Update of existing roundCourseMemoData: ', { data })
-    return CourseMemo.findOneAndUpdate({ _id: data._id, courseCode: data.courseCode }, { $set: data })
+    return CourseMemo.findOneAndUpdate({ memoEndPoint, status }, { $set: data })
   }
   log.debug('No roundCourseMemoData found for updating it with new data', { data })
 }
@@ -34,8 +43,8 @@ function removeCourseMemoDataById(id) {
 }
 
 module.exports = {
-  fetchCourseMemoDataById,
+  fetchMemoByEndPointAndStatus,
   storeNewCourseMemoData,
-  updateCourseMemoDataById,
+  updateMemoByEndPointAndStatus,
   removeCourseMemoDataById
 }

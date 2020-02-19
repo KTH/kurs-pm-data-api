@@ -109,16 +109,59 @@
         ]
       }
     },
-    "/v1/courseMemoData/{id}": {
+    "/v1/memos/{type}/{courseCode}/": {
       "get": {
-        "operationId": "getCourseMemoDataById",
+        "operationId": "getAllMemosByCourseCodeAndType",
         "summary": "Get course memo document descriptive data by document unique id ",
         "description": "Gets some form of data that only requires read access",
         "parameters": [
           {
-            "name": "id",
+            "name": "courseCode",
             "in": "path",
             "description": "Id of the round.semester.year.x to course memo data",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "type",
+            "in": "path",
+            "description": "all / published / draft / archived / old",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "tags": ["v1"],
+        "responses": {
+          "200": {
+            "description": "The requested data",
+            "schema": {
+              "$ref": "#/definitions/MemoDataListForCourseCode"
+            }
+          },
+          "default": {
+            "description": "Unexpected error",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          }
+        },
+        "security": [
+          {
+            "api_key": ["read"]
+          }
+        ]
+      }
+    },
+    "/v1/memo/{memoEndPoint}": {
+      "get": {
+        "operationId": "getPublishedMemoByEndPoint",
+        "summary": "Get published course memo document descriptive data by its endpoint ",
+        "description": "Gets some form of data that only requires read access",
+        "parameters": [
+          {
+            "name": "memoEndPoint",
+            "in": "path",
+            "description": "memoEndPoint used to be displayed in url...",
             "required": true,
             "type": "string"
           }
@@ -145,12 +188,177 @@
         ]
       },
       "post": {
-        "operationId": "postCourseMemoData",
+        "operationId": "publishMemoByEndPoint",
         "summary": "Saves an object of one course memo document descriptive data in the database per course and term",
         "description": "Saves a course memo document descriptive data in the database per course and term",
         "parameters": [
           {
-            "name": "id",
+            "name": "memoEndPoint",
+            "in": "path",
+            "description": "....",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "roundCourseMemoData",
+            "in": "body",
+            "description": "Array with memo data objects",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/MemoData"
+            }
+          }
+        ],
+        "tags": ["v1"],
+        "responses": {
+          "200": {
+            "description": "A successful save"
+          },
+          "default": {
+            "description": "Unexpected error",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          }
+        },
+        "security": [
+          {
+            "api_key": ["write"]
+          }
+        ]
+      }
+    },
+    "/v1/draft/{memoEndPoint}": {
+      "get": {
+        "operationId": "getDraftByEndPoint",
+        "summary": "Get published course memo document descriptive data by its endpoint ",
+        "description": "Gets some form of data that only requires read access",
+        "parameters": [
+          {
+            "name": "memoEndPoint",
+            "in": "path",
+            "description": "memoEndPoint used to be displayed in url...",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "tags": ["v1"],
+        "responses": {
+          "200": {
+            "description": "The requested data",
+            "schema": {
+              "$ref": "#/definitions/MemoData"
+            }
+          },
+          "default": {
+            "description": "Unexpected error",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          }
+        },
+        "security": [
+          {
+            "api_key": ["read"]
+          }
+        ]
+      },
+      "put": {
+        "operationId": "updateCreatedDraft",
+        "summary": ".....",
+        "description": "Saves a course memo document descriptive data in the database per course and term",
+        "parameters": [
+          {
+            "name": "memoEndPoint",
+            "in": "path",
+            "description": "...",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "roundCourseMemoData",
+            "in": "body",
+            "description": "Data with course code, semester and rounds to create first draft",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/MemoData"
+            }
+          }
+        ],
+        "tags": ["v1"],
+        "responses": {
+          "200": {
+            "description": "A successful save"
+          },
+          "default": {
+            "description": "Unexpected error",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          }
+        },
+        "security": [
+          {
+            "api_key": ["write"]
+          }
+        ]
+      },
+      "post": {
+        "operationId": "createDraftCopyOfPublishedMemo",
+        "summary": ".....",
+        "description": "Saves a course memo document descriptive data in the database per course and term",
+        "parameters": [
+          {
+            "name": "memoEndPoint",
+            "in": "path",
+            "description": "...",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "roundCourseMemoData",
+            "in": "body",
+            "description": "Data with course code, semester and rounds to create first draft",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/MemoData"
+            }
+          }
+        ],
+        "tags": ["v1"],
+        "responses": {
+          "200": {
+            "description": "A successful save"
+          },
+          "default": {
+            "description": "Unexpected error",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          }
+        },
+        "security": [
+          {
+            "api_key": ["write"]
+          }
+        ]
+      }
+    },
+    "/v1/new-memo/{courseCode}/{semester}": {
+      "post": {
+        "operationId": "postNewDrafttFromScratch",
+        "summary": "Post first version of draft from anything using courseCode and semester",
+        "description": "Saves a course memo document descriptive data in the database per course and term",
+        "parameters": [
+          {
+            "name": "courseCode",
+            "in": "path",
+            "description": "Id of the round.semester.year.x to course memo data",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "semester",
             "in": "path",
             "description": "Id of the round.semester.year.x to course memo data",
             "required": true,
@@ -159,7 +367,7 @@
           {
             "name": "roundCourseMemoData",
             "in": "body",
-            "description": "Array with memo data objects",
+            "description": "Data with course code, semester and rounds to create first draft",
             "required": true,
             "schema": {
               "$ref": "#/definitions/MemoData"
@@ -210,173 +418,207 @@
         }
       }
     },
+    "MemoDataListForCourseCode": {
+      "properties": {
+        "_id": {
+          "type": "string",
+          "description": "Unique identifier representing some specific data"
+        },
+        "courseCode": {
+          "type": "string",
+          "description": "Course code for which it is valid"
+        },
+        "memo": {
+          "type": "object",
+          "description": "...."
+        }
+      }
+    },
     "MemoData": {
       "properties": {
         "_id": {
           "type": "string",
           "description": "Unique identifier representing some specific data"
         },
-        "additionalRegulations": {
-          "type": "string",
-          "description": "Text field for html with Additional regulations / Övriga föreskrifter (kopps kursplan)"
-        },
-        "communicationDuringCourse": {
-          "type": "string",
-          "description": "Text field for html with Communication during course / Kommunikation i kursen (KIP - via kurs pm admin)"
-        },
         "courseCode": {
           "type": "string",
           "description": "Course code for which it is valid"
-        },
-        "courseContent": {
-          "type": "string",
-          "description": "Text field for html with course content/ Kursinnehåll (kopps kursplan)"
-        },
-        "courseCoordinator": {
-          "type": "string",
-          "description": "Text field for html with Course coordinator  / Kursansvarig (admin via kopps, fetched from redis-ug)"
-        },
-        "ethicalApproach": {
-          "type": "string",
-          "description": "Text field for html with Ethical approach / Etiskt förhållningssätt (kopps kursplan)"
-        },
-        "ethicalApproachThisCourse": {
-          "type": "string",
-          "description": "Text field for html with Course specific regulations for ethical approach / Kursspecifika regler för etiskt förhållningssätt (KIP - via kurs pm admin)"
-        },
-        "examination": {
-          "type": "string",
-          "description": "Text field for html with Ethical approach / Etiskt förhållningssätt (kopps kursplan)"
-        },
-        "examinationModules": {
-          "type": "string",
-          "description": "Text field for html with examination Modules / examinationModuler (KIP - via kurs pm admin)"
-        },
-        "examiner": {
-          "type": "string",
-          "description": "Text field for html with Examinator / Examinator (admin via kopps, fetched from redis-ug)"
-        },
-        "extraHeaders1": {
-          "type": "string",
-          "description": "Text field for html with extraHeaders / Egna Rubriker... "
-        },
-        "extraHeaders2": {
-          "type": "string",
-          "description": "Text field for html with extraHeaders / Egna Rubriker... "
-        },
-        "extraHeaders3": {
-          "type": "string",
-          "description": "Text field for html with extraHeaders / Egna Rubriker... "
-        },
-        "extraHeaders4": {
-          "type": "string",
-          "description": "Text field for html with extraHeaders / Egna Rubriker... "
-        },
-        "extraHeaders5": {
-          "type": "string",
-          "description": "Text field for html with extraHeaders / Egna Rubriker... "
-        },
-        "equipment": {
-          "type": "string",
-          "description": "Text field for html with Equipment / Utrustning (kopps kursinformation)"
-        },
-        "gradingCriteria": {
-          "type": "string",
-          "description": "Text field for html with Grading Criteria / Målrelaterade betygskriterier / (KIP - via kurs pm admin)"
-        },
-        "gradingScale": {
-          "type": "string",
-          "description": "Text field for html with Grading scale / Betygsskala (kopps kursplan)"
-        },
-        "infoContactName": {
-          "type": "string",
-          "description": "Text field for html with info Contact person / Kontaktperson (admin via kopps, fetched from kopps)"
-        },
-        "infoForReregisteredStudents": {
-          "type": "string",
-          "description": "Text field for html with Information for re-registered students / Information till omregistrerade studenter (KIP - via kurs pm admin)"
-        },
-        "languageOfInstructions": {
-          "type": "string",
-          "description": "Text field for html with Language of instruction / Undervisningsspråk (kopps course round related)"
         },
         "lastChangeDate": {
           "type": "string",
           "description": "Date and time for last change, set by API"
         },
-        "learningActivities": {
-          "type": "string",
-          "description": "Text field for html with Learning activities / Läraktiviteter (KIP - via kurs pm admin)"
+        "memo": {
+          "type": "object",
+          "description": "...."
         },
-        "learningOutcomes": {
+        "memoEndPoint": {
           "type": "string",
-          "description": "Text field for html with Intended learning outcomes / Lärandemål (kopps kursplan)"
-        },
-        "literature": {
-          "type": "string",
-          "description": "Text field for html with Literature / Kurslitteratur (kopps kursinformation)"
-        },
-        "otherContacts": {
-          "type": "string",
-          "description": "Text field for html with other Contacts like Lab supervisors / Labbhandledare (KIP - via kurs pm admin)"
-        },
-        "otherRequirementsForFinalGrade": {
-          "type": "string",
-          "description": "Text field for html with Other requirements for final grade / Övriga krav för slutbetyg (kopps kursplan)"
-        },
-        "permanentDisability": {
-          "type": "string",
-          "description": "Text field for html with Permanent Disability / Funktionsnedsättning (KIP - via kurs pm admin)"
-        },
-        "possibilityToAddition": {
-          "type": "string",
-          "description": "Text field for html with Opportunity to raise an approved grade via renewed examination / Möjlighet till plussning (kopps kursinformation)"
-        },
-        "possibilityToCompletion": {
-          "type": "string",
-          "description": "Text field for html with Opportunity to complete the requirements via supplementary examination / Möjlighet till komplettering (kopps kursinformation)"
-        },
-        "possibilityToCompensate": {
-          "type": "string",
-          "description": "Text field for html with Opportunity to compensate / Möjlighet till ersättningsuppgifter (KIP - via kurs pm admin)"
-        },
-        "preparations": {
-          "type": "string",
-          "description": "Text field for html with Preparations / Förbereda inför kursstart (KIP - via kurs pm admin)"
-        },
-        "prerequisites": {
-          "type": "string",
-          "description": "Text field for html with Prerequisites / Rekommenderade förkunskaper (kopps kursinformation)"
-        },
-        "previousTextsList": {
-          "type": "array",
-          "items": "string",
-          "description": "Array for object with previous memo texts and publish date "
-        },
-        "reportingResults": {
-          "type": "string",
-          "description": "Text field for html with Results reporting / Resultatrapportering (KIP - via kurs pm admin)"
-        },
-        "scheduleDetails": {
-          "type": "string",
-          "description": "Text field for html with Schedule details / Detaljschema / (KIP - via kurs pm admin)"
+          "description": "...."
         },
         "semester": {
           "type": "string",
           "description": "Course start term year (spring(VT)-1, autumn(HT)-2) , f.e. 20182 or 20181 (termin)"
         },
-        "software": {
+        "status": {
           "type": "string",
-          "description": "Text field for html with Software / Programvara (KIP - via kurs pm admin)"
+          "description": "...."
         },
-        "teacher": {
+        "version": {
           "type": "string",
-          "description": "Text field for html with  Teacher / Lärare (admin via kopps, fetched from redis-ug)"
-        },
-        "teacherAssistants": {
-          "type": "string",
-          "description": "Text field for html with Teacher assistants / Lärarassistenter (admin via kopps, fetched from redis-ug)"
+          "description": "...."
         }
+      }
+    },
+    "MemoContent": {
+      "additionalRegulations": {
+        "type": "string",
+        "description": "Text field for html with Additional regulations / Övriga föreskrifter (kopps kursplan)"
+      },
+      "communicationDuringCourse": {
+        "type": "string",
+        "description": "Text field for html with Communication during course / Kommunikation i kursen (KIP - via kurs pm admin)"
+      },
+      "courseContent": {
+        "type": "string",
+        "description": "Text field for html with course content/ Kursinnehåll (kopps kursplan)"
+      },
+      "courseCoordinator": {
+        "type": "string",
+        "description": "Text field for html with Course coordinator  / Kursansvarig (admin via kopps, fetched from redis-ug)"
+      },
+      "ethicalApproach": {
+        "type": "string",
+        "description": "Text field for html with Ethical approach / Etiskt förhållningssätt (kopps kursplan)"
+      },
+      "ethicalApproachThisCourse": {
+        "type": "string",
+        "description": "Text field for html with Course specific regulations for ethical approach / Kursspecifika regler för etiskt förhållningssätt (KIP - via kurs pm admin)"
+      },
+      "examination": {
+        "type": "string",
+        "description": "Text field for html with Ethical approach / Etiskt förhållningssätt (kopps kursplan)"
+      },
+      "examinationModules": {
+        "type": "string",
+        "description": "Text field for html with examination Modules / examinationModuler (KIP - via kurs pm admin)"
+      },
+      "examiner": {
+        "type": "string",
+        "description": "Text field for html with Examinator / Examinator (admin via kopps, fetched from redis-ug)"
+      },
+      "extraHeaders1": {
+        "type": "string",
+        "description": "Text field for html with extraHeaders / Egna Rubriker... "
+      },
+      "extraHeaders2": {
+        "type": "string",
+        "description": "Text field for html with extraHeaders / Egna Rubriker... "
+      },
+      "extraHeaders3": {
+        "type": "string",
+        "description": "Text field for html with extraHeaders / Egna Rubriker... "
+      },
+      "extraHeaders4": {
+        "type": "string",
+        "description": "Text field for html with extraHeaders / Egna Rubriker... "
+      },
+      "extraHeaders5": {
+        "type": "string",
+        "description": "Text field for html with extraHeaders / Egna Rubriker... "
+      },
+      "equipment": {
+        "type": "string",
+        "description": "Text field for html with Equipment / Utrustning (kopps kursinformation)"
+      },
+      "gradingCriteria": {
+        "type": "string",
+        "description": "Text field for html with Grading Criteria / Målrelaterade betygskriterier / (KIP - via kurs pm admin)"
+      },
+      "gradingScale": {
+        "type": "string",
+        "description": "Text field for html with Grading scale / Betygsskala (kopps kursplan)"
+      },
+      "infoContactName": {
+        "type": "string",
+        "description": "Text field for html with info Contact person / Kontaktperson (admin via kopps, fetched from kopps)"
+      },
+      "infoForReregisteredStudents": {
+        "type": "string",
+        "description": "Text field for html with Information for re-registered students / Information till omregistrerade studenter (KIP - via kurs pm admin)"
+      },
+      "languageOfInstructions": {
+        "type": "string",
+        "description": "Text field for html with Language of instruction / Undervisningsspråk (kopps course round related)"
+      },
+      "learningActivities": {
+        "type": "string",
+        "description": "Text field for html with Learning activities / Läraktiviteter (KIP - via kurs pm admin)"
+      },
+      "learningOutcomes": {
+        "type": "string",
+        "description": "Text field for html with Intended learning outcomes / Lärandemål (kopps kursplan)"
+      },
+      "literature": {
+        "type": "string",
+        "description": "Text field for html with Literature / Kurslitteratur (kopps kursinformation)"
+      },
+      "otherContacts": {
+        "type": "string",
+        "description": "Text field for html with other Contacts like Lab supervisors / Labbhandledare (KIP - via kurs pm admin)"
+      },
+      "otherRequirementsForFinalGrade": {
+        "type": "string",
+        "description": "Text field for html with Other requirements for final grade / Övriga krav för slutbetyg (kopps kursplan)"
+      },
+      "permanentDisability": {
+        "type": "string",
+        "description": "Text field for html with Permanent Disability / Funktionsnedsättning (KIP - via kurs pm admin)"
+      },
+      "possibilityToAddition": {
+        "type": "string",
+        "description": "Text field for html with Opportunity to raise an approved grade via renewed examination / Möjlighet till plussning (kopps kursinformation)"
+      },
+      "possibilityToCompletion": {
+        "type": "string",
+        "description": "Text field for html with Opportunity to complete the requirements via supplementary examination / Möjlighet till komplettering (kopps kursinformation)"
+      },
+      "possibilityToCompensate": {
+        "type": "string",
+        "description": "Text field for html with Opportunity to compensate / Möjlighet till ersättningsuppgifter (KIP - via kurs pm admin)"
+      },
+      "preparations": {
+        "type": "string",
+        "description": "Text field for html with Preparations / Förbereda inför kursstart (KIP - via kurs pm admin)"
+      },
+      "prerequisites": {
+        "type": "string",
+        "description": "Text field for html with Prerequisites / Rekommenderade förkunskaper (kopps kursinformation)"
+      },
+      "previousTextsList": {
+        "type": "array",
+        "items": "string",
+        "description": "Array for object with previous memo texts and publish date "
+      },
+      "reportingResults": {
+        "type": "string",
+        "description": "Text field for html with Results reporting / Resultatrapportering (KIP - via kurs pm admin)"
+      },
+      "scheduleDetails": {
+        "type": "string",
+        "description": "Text field for html with Schedule details / Detaljschema / (KIP - via kurs pm admin)"
+      },
+      "software": {
+        "type": "string",
+        "description": "Text field for html with Software / Programvara (KIP - via kurs pm admin)"
+      },
+      "teacher": {
+        "type": "string",
+        "description": "Text field for html with  Teacher / Lärare (admin via kopps, fetched from redis-ug)"
+      },
+      "teacherAssistants": {
+        "type": "string",
+        "description": "Text field for html with Teacher assistants / Lärarassistenter (admin via kopps, fetched from redis-ug)"
       }
     },
     "Error": {

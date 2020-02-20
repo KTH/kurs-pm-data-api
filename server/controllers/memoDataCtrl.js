@@ -114,18 +114,31 @@ async function copyAndPostDraftByEndPoint(req, res) {
 }
 
 async function getMemosByCourseCodeAndType(req, res) {
+  // TODO: ADD FETCHING USED COURSE ROUNDS (DRAFTS + PUBLISHED)
   const { courseCode, type } = req.params
   log.info('getMemosByCourseCodeAndType: Received request for memo for course:', courseCode)
   try {
-    const dbResponse =
-      type === 'all'
-        ? await dbArrayOfDocument.getAllMemosByCourseCode(courseCode)
-        : await dbArrayOfDocument.getAllMemosByStatus(courseCode, type)
+    const dbResponse = await dbArrayOfDocument.getAllMemosByStatus(courseCode, type)
 
     res.json(dbResponse || {})
-    log.info('getMemoDraftsByCourseCode: Responded to request for memo:', dbResponse)
+    log.info('getMemosByCourseCodeAndType: Responded to request for memo:', dbResponse)
   } catch (err) {
-    log.error('getMemoDraftsByCourseCode: Failed request for memo, error:', { err })
+    log.error('getMemosByCourseCodeAndType: Failed request for memo, error:', { err })
+    return err
+  }
+}
+
+async function getUsedRounds(req, res) {
+  // TODO: ADD FETCHING USED COURSE ROUNDS (DRAFTS + PUBLISHED)
+  const { courseCode, semester } = req.params
+  log.info('getUsedRounds: Received request for memo for course:', courseCode)
+  try {
+    const dbResponse = await dbArrayOfDocument.getLatestUsedRounds(courseCode, semester)
+
+    res.json(dbResponse || {})
+    log.info('getUsedRounds: Responded to request for memo:', dbResponse)
+  } catch (err) {
+    log.error('getUsedRounds: Failed request for memo, error:', { err })
     return err
   }
 }
@@ -150,6 +163,7 @@ async function postNewMemoFromScratch(req, res) {
 module.exports = {
   getMemoByEndPoint,
   getMemosByCourseCodeAndType,
+  getUsedRounds,
   postNewVersionOfPublishedMemo,
   postNewMemoFromScratch,
   getDraftByEndPoint,

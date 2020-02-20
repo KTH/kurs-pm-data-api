@@ -150,6 +150,8 @@ apiRoute.register(paths.api.createDraftCopyOfPublishedMemo, CourseMemo.copyAndPo
 
 // // GET ARRAY OF MEMOS BY TYPE AND COURSE CODE
 apiRoute.register(paths.api.getAllMemosByCourseCodeAndType, CourseMemo.getMemosByCourseCodeAndType) // updated
+apiRoute.register(paths.api.getUsedRounds, CourseMemo.getUsedRounds)
+
 // // GET one PUBLISHED MEMO | PUBLISH MEMO
 apiRoute.register(paths.api.getPublishedMemoByEndPoint, CourseMemo.getMemoByEndPoint) // updated
 apiRoute.register(paths.api.publishMemoByEndPoint, CourseMemo.postNewVersionOfPublishedMemo)

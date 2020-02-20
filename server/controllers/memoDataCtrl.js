@@ -61,6 +61,7 @@ async function getDraftByEndPoint(req, res) {
 }
 
 async function putDraftByEndPoint(req, res) {
+  // STEP 2 EDITING: USE IT IN A SECOND STEP
   try {
     const memoObj = req.body
     const dbResponse = []
@@ -86,22 +87,31 @@ async function putDraftByEndPoint(req, res) {
 }
 
 async function copyAndPostDraftByEndPoint(req, res) {
+  // STEP 1 CHOSING ACTION TO COPY, NEW MEMO, NEV VERSION: USE IT IN A SECOND STEP
   try {
-    const memoObj = req.body
+    // const memoObj = req.body
+    const { memoEndPoint } = req.params
     const dbResponse = []
 
-    const draftExist = await dbOneDocument.fetchMemoByEndPointAndStatus(memoObj.memoEndPoint, 'draft')
+    const draftExist = await dbOneDocument.fetchMemoByEndPointAndStatus(memoEndPoint, 'draft')
 
     if (draftExist) {
-      log.warning('memo draft already exists,' + memoObj.memoEndPoint + ' update with object id ' + memoObj._id)
-      // dbResponse.push(await dbOneDocument.updateMemoByEndPointAndStatus(memoObj, 'draft'))
-      // TODO: what should it show up
+      log.info(
+        'just continue to the next step because, memo draft already exists,' +
+          draftExist.memoEndPoint +
+          ' update with object id ' +
+          draftExist._id
+      )
+      // TODO: SHOULD IT TO BE USED WHEN UPDATES COURSE ROUNDS?
     } else {
-      log.info('creating new memo draft' + memoObj + ' copied from previous published version')
-      const publishedObj = await dbOneDocument.fetchMemoByEndPointAndStatus(memoObj.memoEndPoint, 'published')
+      log.info('creating new memo draft ' + memoEndPoint + ' copied from previous published version')
+      const publishedObj = await dbOneDocument.fetchMemoByEndPointAndStatus(memoEndPoint, 'published')
       if (publishedObj) {
+        publishedObj.status = 'draft'
         publishedObj.version++
         dbResponse.push(await dbOneDocument.storeNewCourseMemoData(publishedObj))
+      } else {
+        log.debug('no published version for this draft ' + memoEndPoint + ' so no draft was made')
       }
     }
 

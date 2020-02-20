@@ -118,14 +118,14 @@
           {
             "name": "courseCode",
             "in": "path",
-            "description": "Id of the round.semester.year.x to course memo data",
+            "description": "",
             "required": true,
             "type": "string"
           },
           {
             "name": "type",
             "in": "path",
-            "description": "all / published / draft / archived / old",
+            "description": "published / draft / archived / old",
             "required": true,
             "type": "string"
           }
@@ -392,6 +392,46 @@
           }
         ]
       }
+    },
+    "/v1/usedRoundsForCourse/{courseCode}/semester/{semester}": {
+      "get": {
+        "operationId": "getUsedRounds",
+        "summary": "Gets a list of used round ids for a semester in a course",
+        "parameters": [
+          {
+            "name": "courseCode",
+            "in": "path",
+            "description": "Course code, six or seven characters",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "semester",
+            "description": "Semester for rounds",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "tags": ["v1"],
+        "responses": {
+          "200": {
+            "description": "Round ids",
+            "schema": {
+              "$ref": "#/definitions/usedRoundsForCourseAndSemester"
+            }
+          },
+          "default": {
+            "description": "Unexpected error",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          }
+        },
+        "security": {
+          "api_key": ["read"]
+        }
+      }
     }
   },
   "securityDefinitions": {
@@ -418,6 +458,46 @@
         }
       }
     },
+    "usedRoundsForCourseAndSemester": {
+      "properties": {
+        "usedRounds": {
+          "type": "array",
+          "items": "string",
+          "description": "List of round ids that have been used for a course semester"
+        },
+        "publishedMemos": {
+          "type": "array",
+          "items": {
+            "schema": {
+              "$ref": "#/definitions/UsedMemos"
+            }
+          },
+          "description": "List of published memos, endpoint, id"
+        },
+        "draftMemos": {
+          "type": "array",
+          "items": {
+            "schema": {
+              "$ref": "#/definitions/UsedMemos"
+            }
+          },
+          "description": "List of draft memos, endpoint, id"
+        }
+      }
+    },
+    "UsedMemos": {
+      "properties": {
+        "status": {
+          "type": "string"
+        },
+        "memoId": {
+          "type": "string"
+        },
+        "memoEndPoint": {
+          "type": "string"
+        }
+      }
+    },
     "MemoDataListForCourseCode": {
       "properties": {
         "_id": {
@@ -430,7 +510,12 @@
         },
         "memo": {
           "type": "object",
-          "description": "...."
+          "description": "....",
+          "items": {
+            "schema": {
+              "$ref": "#/definitions/MemoData"
+            }
+          }
         }
       }
     },

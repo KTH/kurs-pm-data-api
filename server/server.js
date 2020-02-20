@@ -142,19 +142,19 @@ apiRoute.register(paths.api.checkAPIkey, System.checkAPIKey)
 apiRoute.register(paths.api.getDataById, Sample.getData)
 apiRoute.register(paths.api.postDataById, Sample.postData)
 // post first version of draft from anything
-apiRoute.register(paths.api.postNewDrafttFromScratch, CourseMemo.postNewMemoFromScratch) // updated
+apiRoute.register(paths.api.postNewDrafttFromScratch, CourseMemo.postNewMemoFromScratch) // step 1: create empty memo draft
 // Get one draft | update it
-apiRoute.register(paths.api.getDraftByEndPoint, CourseMemo.getDraftByEndPoint) // updated
-apiRoute.register(paths.api.updateCreatedDraft, CourseMemo.putDraftByEndPoint) // updated
-apiRoute.register(paths.api.createDraftCopyOfPublishedMemo, CourseMemo.copyAndPostDraftByEndPoint) // updated
+apiRoute.register(paths.api.getDraftByEndPoint, CourseMemo.getDraftByEndPoint) // step 2: editor, fetch data
+apiRoute.register(paths.api.updateCreatedDraft, CourseMemo.putDraftByEndPoint) // step 2: editor, fast update
+apiRoute.register(paths.api.createDraftCopyOfPublishedMemo, CourseMemo.copyAndPostDraftByEndPoint) // step 1: choose action
 
 // // GET ARRAY OF MEMOS BY TYPE AND COURSE CODE
 apiRoute.register(paths.api.getAllMemosByCourseCodeAndType, CourseMemo.getMemosByCourseCodeAndType) // updated
-apiRoute.register(paths.api.getUsedRounds, CourseMemo.getUsedRounds)
+apiRoute.register(paths.api.getUsedRounds, CourseMemo.getUsedRounds) // step 1: to show up which rounds already taken
 
 // // GET one PUBLISHED MEMO | PUBLISH MEMO
-apiRoute.register(paths.api.getPublishedMemoByEndPoint, CourseMemo.getMemoByEndPoint) // updated
-apiRoute.register(paths.api.publishMemoByEndPoint, CourseMemo.postNewVersionOfPublishedMemo)
+apiRoute.register(paths.api.getPublishedMemoByEndPoint, CourseMemo.getMemoByEndPoint) // public page: show only published one
+apiRoute.register(paths.api.publishMemoByEndPoint, CourseMemo.postNewVersionOfPublishedMemo) // step 4: publish new version and unpublish prev version if it exists
 server.use('/', apiRoute.getRouter())
 
 // Catch not found and errors

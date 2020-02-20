@@ -486,6 +486,10 @@
         },
         "memoEndPoint": {
           "type": "string"
+        },
+        "ladokRoundIds": {
+          "type": "array",
+          "items": "string"
         }
       }
     },

@@ -36,7 +36,8 @@ async function getLatestUsedRounds(courseCode, semester) {
         // user: dbResponse[index].changedBy,
         status: dbResponse[index].status,
         memoId: dbResponse[index]._id,
-        memoEndPoint: dbResponse[index].memoEndPoint
+        memoEndPoint: dbResponse[index].memoEndPoint,
+        ladokRoundIds: dbResponse[index].ladokRoundIds
         // ugKeys: dbResponse[index].ugKeys
       }
       if (tempObject.status === 'published') {
@@ -44,11 +45,10 @@ async function getLatestUsedRounds(courseCode, semester) {
       } else if (tempObject.status === 'draft') {
         returnObject.draftMemos.push(tempObject)
       }
-      returnObject.usedRounds.push(dbResponse[index].ladoksRoundsIds)
+      returnObject.usedRounds.push(...dbResponse[index].ladokRoundIds)
     }
     log.debug('Successfully got used round ids for', {
-      courseCode,
-      result: returnObject
+      courseCode
     })
     return returnObject
   } catch (error) {

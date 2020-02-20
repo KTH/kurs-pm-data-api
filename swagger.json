@@ -305,8 +305,8 @@
       },
       "post": {
         "operationId": "createDraftCopyOfPublishedMemo",
-        "summary": ".....",
-        "description": "Saves a course memo document descriptive data in the database per course and term",
+        "summary": "// step 1: choose action",
+        "description": "Creates copy of published memo and save it as a draft",
         "parameters": [
           {
             "name": "memoEndPoint",
@@ -314,15 +314,6 @@
             "description": "...",
             "required": true,
             "type": "string"
-          },
-          {
-            "name": "roundCourseMemoData",
-            "in": "body",
-            "description": "Data with course code, semester and rounds to create first draft",
-            "required": true,
-            "schema": {
-              "$ref": "#/definitions/MemoData"
-            }
           }
         ],
         "tags": ["v1"],

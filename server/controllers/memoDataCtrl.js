@@ -8,7 +8,6 @@ const dbOneDocument = require('../lib/dbDataById')
 const dbArrayOfDocument = require('../lib/dbSeveralDocument')
 
 async function getMemoByEndPoint(req, res) {
-  // updated
   const { memoEndPoint } = req.params
   log.info('getMemoByEndPoint: Received request for memo with memoEndPoint:', memoEndPoint)
   try {
@@ -86,10 +85,9 @@ async function putDraftByEndPoint(req, res) {
   }
 }
 
-async function copyAndPostDraftByEndPoint(req, res) {
+async function createDraftByMemoEndPoint(req, res) {
   // STEP 1 CHOSING ACTION TO COPY, NEW MEMO, NEV VERSION: USE IT IN A SECOND STEP
   try {
-    // const memoObj = req.body
     const { memoEndPoint } = req.params
     const dbResponse = []
 
@@ -99,7 +97,7 @@ async function copyAndPostDraftByEndPoint(req, res) {
       log.info(
         'just continue to the next step because, memo draft already exists,' +
           draftExist.memoEndPoint +
-          ' update with object id ' +
+          ' with object id ' +
           draftExist._id
       )
       // TODO: SHOULD IT TO BE USED WHEN UPDATES COURSE ROUNDS?
@@ -107,18 +105,26 @@ async function copyAndPostDraftByEndPoint(req, res) {
       log.info('creating new memo draft ' + memoEndPoint + ' copied from previous published version')
       const publishedObj = await dbOneDocument.fetchMemoByEndPointAndStatus(memoEndPoint, 'published')
       if (publishedObj) {
+        // copy published memo to new object with updated version and draft status
         publishedObj.status = 'draft'
         publishedObj.version++
         dbResponse.push(await dbOneDocument.storeNewCourseMemoData(publishedObj))
       } else {
-        log.debug('no published version for this draft ' + memoEndPoint + ' so no draft was made')
+        // create new draft from anything
+        const newMemoObj = req.body
+        log.info(
+          'no published or draft version for this memoEndPoint ' +
+            memoEndPoint +
+            ' was found so new draft from scratch will be made'
+        )
+        dbResponse.push(await dbOneDocument.storeNewCourseMemoData(newMemoObj))
       }
     }
 
     log.info('dbResponse', dbResponse)
     res.status(201).json(dbResponse)
   } catch (error) {
-    log.error('Error in while trying to postDraftByEndPoint ', { error })
+    log.error('Error in while trying to copyAndPostDraftWithSameEndPoint ', { error })
     return error
   }
 }
@@ -153,30 +159,12 @@ async function getUsedRounds(req, res) {
   }
 }
 
-async function postNewMemoFromScratch(req, res) {
-  // ***** NEW - First version of document *****
-  try {
-    const memoObj = req.body
-    const dbResponse = []
-    log.info('saving absolutely new memo data' + memoObj)
-
-    dbResponse.push(await dbOneDocument.storeNewCourseMemoData(memoObj))
-
-    log.info('dbResponse', dbResponse)
-    res.status(201).json(dbResponse)
-  } catch (error) {
-    log.error('Error in while trying to postNewMemo ', { error })
-    return error
-  }
-}
-
 module.exports = {
   getMemoByEndPoint,
   getMemosByCourseCodeAndType,
   getUsedRounds,
   postNewVersionOfPublishedMemo,
-  postNewMemoFromScratch,
   getDraftByEndPoint,
   putDraftByEndPoint,
-  copyAndPostDraftByEndPoint
+  createDraftByMemoEndPoint
 }

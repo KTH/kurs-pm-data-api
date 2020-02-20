@@ -141,12 +141,12 @@ apiRoute.register(paths.api.checkAPIkey, System.checkAPIKey)
 
 apiRoute.register(paths.api.getDataById, Sample.getData)
 apiRoute.register(paths.api.postDataById, Sample.postData)
-// post first version of draft from anything
-apiRoute.register(paths.api.postNewDrafttFromScratch, CourseMemo.postNewMemoFromScratch) // step 1: create empty memo draft
 // Get one draft | update it
 apiRoute.register(paths.api.getDraftByEndPoint, CourseMemo.getDraftByEndPoint) // step 2: editor, fetch data
 apiRoute.register(paths.api.updateCreatedDraft, CourseMemo.putDraftByEndPoint) // step 2: editor, fast update
-apiRoute.register(paths.api.createDraftCopyOfPublishedMemo, CourseMemo.copyAndPostDraftByEndPoint) // step 1: choose action
+
+// step 1: choose action, new draft, or copied draft from published memo (same memoEndPoint)
+apiRoute.register(paths.api.createDraftCopyOfPublishedMemo, CourseMemo.copyAndPostDraftWithSameEndPoint)
 
 // // GET ARRAY OF MEMOS BY TYPE AND COURSE CODE
 apiRoute.register(paths.api.getAllMemosByCourseCodeAndType, CourseMemo.getMemosByCourseCodeAndType) // updated

@@ -304,54 +304,14 @@
         ]
       },
       "post": {
-        "operationId": "createDraftCopyOfPublishedMemo",
-        "summary": "// step 1: choose action",
+        "operationId": "createDraftByMemoEndPoint",
+        "summary": "// step 1: choose action, CREATE IF no draft exists",
         "description": "Creates copy of published memo and save it as a draft",
         "parameters": [
           {
             "name": "memoEndPoint",
             "in": "path",
             "description": "...",
-            "required": true,
-            "type": "string"
-          }
-        ],
-        "tags": ["v1"],
-        "responses": {
-          "200": {
-            "description": "A successful save"
-          },
-          "default": {
-            "description": "Unexpected error",
-            "schema": {
-              "$ref": "#/definitions/Error"
-            }
-          }
-        },
-        "security": [
-          {
-            "api_key": ["write"]
-          }
-        ]
-      }
-    },
-    "/v1/new-memo/{courseCode}/{semester}": {
-      "post": {
-        "operationId": "postNewDrafttFromScratch",
-        "summary": "Post first version of draft from anything using courseCode and semester",
-        "description": "Saves a course memo document descriptive data in the database per course and term",
-        "parameters": [
-          {
-            "name": "courseCode",
-            "in": "path",
-            "description": "Id of the round.semester.year.x to course memo data",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "name": "semester",
-            "in": "path",
-            "description": "Id of the round.semester.year.x to course memo data",
             "required": true,
             "type": "string"
           },

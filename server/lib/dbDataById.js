@@ -11,7 +11,7 @@ function fetchMemoByEndPointAndStatus(memoEndPoint, status) {
   // UPDATED
   if (!memoEndPoint) throw new Error('memoEndPoint must be set')
   log.debug('Fetching memo based on ', { memoEndPoint, status })
-  return CourseMemo.findOne({ memoEndPoint, status })
+  return CourseMemo.findOne({ memoEndPoint, status }) // courseCode
 }
 
 /* ****** */
@@ -30,10 +30,10 @@ function storeNewCourseMemoData(data) {
 
 function updateMemoByEndPointAndStatus(data, status) {
   // UPPDATERA DRAFT GENOM memoEndPoint
-  const { memoEndPoint } = data
+  const { memoEndPoint, courseCode } = data
   if (data) {
     log.debug('Update of existing memo or draft: ', { data })
-    return CourseMemo.findOneAndUpdate({ memoEndPoint, status }, { $set: data })
+    return CourseMemo.findOneAndUpdate({ memoEndPoint, status, courseCode }, { $set: data })
   }
   log.debug('No roundCourseMemoData found for updating it with new data', { data })
 }

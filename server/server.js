@@ -146,7 +146,7 @@ apiRoute.register(paths.api.getDraftByEndPoint, CourseMemo.getDraftByEndPoint) /
 apiRoute.register(paths.api.updateCreatedDraft, CourseMemo.putDraftByEndPoint) // step 2: editor, fast update
 
 // step 1: choose action, new draft, or copied draft from published memo (same memoEndPoint)
-apiRoute.register(paths.api.createDraftCopyOfPublishedMemo, CourseMemo.copyAndPostDraftWithSameEndPoint)
+apiRoute.register(paths.api.createDraftByMemoEndPoint, CourseMemo.createDraftByMemoEndPoint)
 
 // // GET ARRAY OF MEMOS BY TYPE AND COURSE CODE
 apiRoute.register(paths.api.getAllMemosByCourseCodeAndType, CourseMemo.getMemosByCourseCodeAndType) // updated

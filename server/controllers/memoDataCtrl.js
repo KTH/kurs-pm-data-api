@@ -73,7 +73,7 @@ async function putDraftByEndPoint(req, res) {
       log.info('memo draft already exists,' + memoObj.memoEndPoint + ' update with object id ' + memoObj._id)
       dbResponse.push(await dbOneDocument.updateMemoByEndPointAndStatus(memoObj, 'draft'))
     } else {
-      log.warning('no memo draft found ... ')
+      log.debug('no memo draft was found ... ')
       // TODO: what should it show up
     }
 

@@ -7,11 +7,11 @@ const { CourseMemo } = require('../models/mainMemoModel')
 /* ANY BY STATUS AND MemoEndPoint */
 /* ****** */
 
-function fetchMemoByEndPointAndStatus(memoEndPoint) {
+function fetchMemoByEndPointAndStatus(memoEndPoint, status) {
   // UPDATED
   if (!memoEndPoint) throw new Error('memoEndPoint must be set')
-  log.debug('Fetching roundCourseMemoData by ID', { memoEndPoint })
-  return CourseMemo.findOne({ memoEndPoint })
+  log.debug('Fetching memo based on ', { memoEndPoint, status })
+  return CourseMemo.findOne({ memoEndPoint, status })
 }
 
 /* ****** */
@@ -32,7 +32,7 @@ function updateMemoByEndPointAndStatus(data, status) {
   // UPPDATERA DRAFT GENOM memoEndPoint
   const { memoEndPoint } = data
   if (data) {
-    log.debug('Update of existing roundCourseMemoData: ', { data })
+    log.debug('Update of existing memo or draft: ', { data })
     return CourseMemo.findOneAndUpdate({ memoEndPoint, status }, { $set: data })
   }
   log.debug('No roundCourseMemoData found for updating it with new data', { data })

@@ -48,11 +48,11 @@ async function postNewVersionOfPublishedMemo(req, res) {
 async function getDraftByEndPoint(req, res) {
   // updated
   const { memoEndPoint } = req.params
-  log.info('getDraftByEndPoint: Received request for memo with memoEndPoint:', memoEndPoint)
+  log.info('getDraftByEndPoint: Received request for draft with memoEndPoint:', memoEndPoint)
   try {
     const dbResponse = await dbOneDocument.fetchMemoByEndPointAndStatus(memoEndPoint, 'draft')
     res.json(dbResponse || {})
-    log.info('getDraftByEndPoint: Responded to request for memo with memoEndPoint:', memoEndPoint)
+    log.info('getDraftByEndPoint: Responded to request for memo draft with memoEndPoint:', memoEndPoint)
   } catch (err) {
     log.error('getDraftByEndPoint: Failed request for memo, error:', { err })
     return err

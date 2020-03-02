@@ -6,7 +6,6 @@ const { CourseMemo } = require('../models/mainMemoModel')
 /* ****** */
 /* ANY BY STATUS AND MemoEndPoint */
 /* ****** */
-
 function fetchMemoByEndPointAndStatus(memoEndPoint, status) {
   // UPDATED
   if (!memoEndPoint) throw new Error('memoEndPoint must be set')
@@ -22,8 +21,9 @@ function storeNewCourseMemoData(data) {
   if (!data) throw new Error('Trying to post empty/innacurate data in storeNewCourseMemoData')
   else {
     data.lastChangeDate = new Date()
-    log.debug('Create and store new FIRST draft in form of roundCourseMemoData', { data })
     const doc = new CourseMemo(data)
+    log.debug('Create and store new FIRST draft in form of roundCourseMemoData', { doc })
+
     return doc.save()
   }
 }

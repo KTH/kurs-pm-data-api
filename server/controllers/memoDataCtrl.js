@@ -108,10 +108,12 @@ async function createDraftByMemoEndPoint(req, res) {
         // copy published memo to new object with updated version and draft status
         publishedObj.status = 'draft'
         publishedObj.version++
-        dbResponse.push(await dbOneDocument.storeNewCourseMemoData(publishedObj))
+        publishedObj._id = undefined
+        dbResponse.push(await dbOneDocument.storeNewCourseMemoData(publishedObj.toObject()))
       } else {
         // create new draft from anything
         const newMemoObj = req.body
+
         log.info(
           'no published or draft version for this memoEndPoint ' +
             memoEndPoint +
@@ -124,7 +126,7 @@ async function createDraftByMemoEndPoint(req, res) {
     log.info('dbResponse', dbResponse)
     res.status(201).json(dbResponse)
   } catch (error) {
-    log.error('Error in while trying to copyAndPostDraftWithSameEndPoint ', { error })
+    log.error('Error in while trying to createDraftByMemoEndPoint ', { error })
     return error
   }
 }

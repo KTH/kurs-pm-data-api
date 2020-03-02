@@ -22,7 +22,10 @@ async function getLatestUsedRounds(courseCode, semester) {
   try {
     log.debug('Fetching all courseMemos for ' + courseCode)
     // const doc = CourseMemo.aggregate([{ $match: { courseCode, status: { $or: ['published', 'draft'] } } }])
-    const dbResponse = await CourseMemo.aggregate([{ $match: { courseCode, semester, status: 'draft' } }])
+    // const dbResponse = await CourseMemo.aggregate([{ $match: { courseCode, semester, status: 'draft' } }])
+    const dbResponse = await CourseMemo.aggregate([
+      { $match: { courseCode, semester, $or: [{ status: 'draft' }, { status: 'published' }] } }
+    ])
     // const dbResponse = await db.fetchAllRoundAnalysisByCourseCodeAndSemester(courseCode.toUpperCase(), semester)
     const returnObject = {
       usedRounds: [],

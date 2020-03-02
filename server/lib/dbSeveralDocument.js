@@ -23,37 +23,40 @@ async function getLatestUsedRounds(courseCode, semester) {
     log.debug('Fetching all courseMemos for ' + courseCode)
     // const doc = CourseMemo.aggregate([{ $match: { courseCode, status: { $or: ['published', 'draft'] } } }])
     // const dbResponse = await CourseMemo.aggregate([{ $match: { courseCode, semester, status: 'draft' } }])
-    const dbResponse = await CourseMemo.aggregate([
+    const _dbResponse = await CourseMemo.aggregate([
       { $match: { courseCode, semester, $or: [{ status: 'draft' }, { status: 'published' }] } }
     ])
-    // const dbResponse = await db.fetchAllRoundAnalysisByCourseCodeAndSemester(courseCode.toUpperCase(), semester)
-    const returnObject = {
+    const _draftsForFilter = []
+    const _unFilteredPublished = []
+    const finalObj = {
       usedRounds: [],
-      publishedMemos: [],
+      publishedMemos: [], // PUBLISHED MEMOS WHICH DO NOT HAVE ACTIVE DRAFT VERSION
       draftMemos: []
     }
 
-    let tempObject = {}
-    for (let index = 0; index < dbResponse.length; index++) {
-      tempObject = {
-        // user: dbResponse[index].changedBy,
-        status: dbResponse[index].status,
-        memoId: dbResponse[index]._id,
-        memoEndPoint: dbResponse[index].memoEndPoint,
-        ladokRoundIds: dbResponse[index].ladokRoundIds
-        // ugKeys: dbResponse[index].ugKeys
+    for (let index = 0; index < _dbResponse.length; index++) {
+      const { status, ladokRoundIds, memoEndPoint } = _dbResponse[index]
+      const miniObj = {
+        status,
+        memoId: _dbResponse[index]._id,
+        memoEndPoint,
+        ladokRoundIds
       }
-      if (tempObject.status === 'published') {
-        returnObject.publishedMemos.push(tempObject)
-      } else if (tempObject.status === 'draft') {
-        returnObject.draftMemos.push(tempObject)
+      if (status === 'published') {
+        _unFilteredPublished.push(miniObj)
+      } else if (status === 'draft') {
+        _draftsForFilter.push(memoEndPoint)
+        finalObj.draftMemos.push(miniObj)
       }
-      returnObject.usedRounds.push(...dbResponse[index].ladokRoundIds)
+      finalObj.usedRounds.push(...ladokRoundIds)
     }
+    finalObj.publishedMemos = _unFilteredPublished.filter(
+      ({ memoEndPoint }) => !_draftsForFilter.includes(memoEndPoint)
+    )
     log.debug('Successfully got used round ids for', {
       courseCode
     })
-    return returnObject
+    return finalObj
   } catch (error) {
     return error
   }

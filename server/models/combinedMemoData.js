@@ -1,6 +1,5 @@
 'use strict'
 
-const mongoose = require('mongoose')
 const courseSyllabus = require('./categories/courseSyllabusFields')
 const generalCourseInfo = require('./categories/generalCourseInfoFields')
 const teachersTypesUg = require('./categories/teachersFields')
@@ -8,7 +7,7 @@ const courseRoundFields = require('./categories/courseRoundFields')
 const courseMemoSpec = require('./categories/courseMemoSpec')
 const extraHeaders = require('./categories/extraHeadersSpec')
 
-const combinedMemoData = mongoose.Schema({
+const combinedMemoData = {
   // TODO: TO MAKE IT AS A SUBDOCUMENT SCHEMA
   // _id: String,
   ...courseMemoSpec,
@@ -21,6 +20,6 @@ const combinedMemoData = mongoose.Schema({
     type: Object,
     default: {}
   }
-})
+}
 
 module.exports = combinedMemoData

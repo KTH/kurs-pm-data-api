@@ -21,7 +21,6 @@ const schema = mongoose.Schema({
     type: String,
     default: new Date()
   },
-  memo: combinedMemoData,
   memoEndPoint: {
     type: String,
     trim: true,
@@ -40,7 +39,8 @@ const schema = mongoose.Schema({
   version: {
     type: String,
     default: 1
-  }
+  },
+  ...combinedMemoData
 })
 
 const CourseMemo = wrap(mongoose.model('CourseMemo', schema))

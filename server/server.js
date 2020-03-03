@@ -157,6 +157,9 @@ apiRoute.register(paths.api.getPublishedMemoByEndPoint, CourseMemo.getMemoByEndP
 apiRoute.register(paths.api.publishMemoByEndPoint, CourseMemo.postNewVersionOfPublishedMemo) // step 4: publish new version and unpublish prev version if it exists
 server.use('/', apiRoute.getRouter())
 
+// Delete a course memo draft
+apiRoute.register(paths.api.deleteCourseMemoDataById, CourseMemo.deleteMemoDraftById)
+
 // Catch not found and errors
 server.use(notFoundHandler)
 server.use(errorHandler)

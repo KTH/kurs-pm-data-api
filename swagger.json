@@ -344,6 +344,40 @@
         ]
       }
     },
+    "/v1/draft/{id}": {
+      "delete": {
+        "operationId": "deleteCourseMemoDataById",
+        "summary": "Delete a course memo",
+        "description": "Delete all information for course memo with sent id",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "Id of the memo draft to delete course memo data",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "tags": ["v1"],
+        "responses": {
+          "200": {
+            "description": "The memo was deleted",
+            "schema": {
+              "$ref": "#/definitions/MemoData"
+            }
+          },
+          "default": {
+            "description": "Unexpected error",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          }
+        },
+        "security": {
+          "api_key": ["read"]
+        }
+      }
+    },
     "/v1/usedRoundsForCourse/{courseCode}/semester/{semester}": {
       "get": {
         "operationId": "getUsedRounds",

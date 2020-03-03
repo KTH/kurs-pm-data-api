@@ -161,12 +161,28 @@ async function getUsedRounds(req, res) {
   }
 }
 
+async function deleteMemoDataById(req, res) {
+  try {
+    const { id } = req.params
+    log.info('Hard delete draft by id:', { id })
+
+    const dbResponse = await dbOneDocument.removeCourseMemoDataById(id)
+
+    log.info('Successfully removed draft by id: ', { id })
+    res.json(dbResponse)
+  } catch (error) {
+    log.error('Error in deleteMemoDataById', { error })
+    return error
+  }
+}
+
 module.exports = {
+  createDraftByMemoEndPoint,
+  getDraftByEndPoint,
   getMemoByEndPoint,
   getMemosByCourseCodeAndType,
   getUsedRounds,
+  deleteMemoDataById,
   postNewVersionOfPublishedMemo,
-  getDraftByEndPoint,
-  putDraftByEndPoint,
-  createDraftByMemoEndPoint
+  putDraftByEndPoint
 }

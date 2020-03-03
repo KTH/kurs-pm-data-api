@@ -161,7 +161,7 @@ async function getUsedRounds(req, res) {
   }
 }
 
-async function deleteMemoDataById(req, res) {
+async function deleteMemoDraftById(req, res) {
   try {
     const { id } = req.params
     log.info('Hard delete draft by id:', { id })
@@ -182,7 +182,7 @@ module.exports = {
   getMemoByEndPoint,
   getMemosByCourseCodeAndType,
   getUsedRounds,
-  deleteMemoDataById,
+  deleteMemoDraftById,
   postNewVersionOfPublishedMemo,
   putDraftByEndPoint
 }

@@ -8,8 +8,6 @@ const courseMemoSpec = require('./categories/courseMemoSpec')
 const extraHeaders = require('./categories/extraHeadersSpec')
 
 const combinedMemoData = {
-  // TODO: TO MAKE IT AS A SUBDOCUMENT SCHEMA
-  // _id: String,
   ...courseMemoSpec,
   ...courseRoundFields,
   ...courseSyllabus,

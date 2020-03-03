@@ -109,16 +109,59 @@
         ]
       }
     },
-    "/v1/courseMemoData/{id}": {
+    "/v1/memos/{type}/{courseCode}/": {
       "get": {
-        "operationId": "getCourseMemoDataById",
+        "operationId": "getAllMemosByCourseCodeAndType",
         "summary": "Get course memo document descriptive data by document unique id ",
         "description": "Gets some form of data that only requires read access",
         "parameters": [
           {
-            "name": "id",
+            "name": "courseCode",
             "in": "path",
-            "description": "Id of the round.semester.year.x to course memo data",
+            "description": "",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "type",
+            "in": "path",
+            "description": "published / draft / archived / old",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "tags": ["v1"],
+        "responses": {
+          "200": {
+            "description": "The requested data",
+            "schema": {
+              "$ref": "#/definitions/MemoDataListForCourseCode"
+            }
+          },
+          "default": {
+            "description": "Unexpected error",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          }
+        },
+        "security": [
+          {
+            "api_key": ["read"]
+          }
+        ]
+      }
+    },
+    "/v1/memo/{memoEndPoint}": {
+      "get": {
+        "operationId": "getPublishedMemoByEndPoint",
+        "summary": "Get published course memo document descriptive data by its endpoint ",
+        "description": "Gets some form of data that only requires read access",
+        "parameters": [
+          {
+            "name": "memoEndPoint",
+            "in": "path",
+            "description": "memoEndPoint used to be displayed in url...",
             "required": true,
             "type": "string"
           }
@@ -145,14 +188,14 @@
         ]
       },
       "post": {
-        "operationId": "postCourseMemoData",
+        "operationId": "publishMemoByEndPoint",
         "summary": "Saves an object of one course memo document descriptive data in the database per course and term",
         "description": "Saves a course memo document descriptive data in the database per course and term",
         "parameters": [
           {
-            "name": "id",
+            "name": "memoEndPoint",
             "in": "path",
-            "description": "Id of the round.semester.year.x to course memo data",
+            "description": "....",
             "required": true,
             "type": "string"
           },
@@ -184,6 +227,196 @@
           }
         ]
       }
+    },
+    "/v1/draft/{memoEndPoint}": {
+      "get": {
+        "operationId": "getDraftByEndPoint",
+        "summary": "Get published course memo document descriptive data by its endpoint ",
+        "description": "Gets some form of data that only requires read access",
+        "parameters": [
+          {
+            "name": "memoEndPoint",
+            "in": "path",
+            "description": "memoEndPoint used to be displayed in url...",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "tags": ["v1"],
+        "responses": {
+          "200": {
+            "description": "The requested data",
+            "schema": {
+              "$ref": "#/definitions/MemoData"
+            }
+          },
+          "default": {
+            "description": "Unexpected error",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          }
+        },
+        "security": [
+          {
+            "api_key": ["read"]
+          }
+        ]
+      },
+      "put": {
+        "operationId": "updateCreatedDraft",
+        "summary": ".....",
+        "description": "Saves a course memo document descriptive data in the database per course and term",
+        "parameters": [
+          {
+            "name": "memoEndPoint",
+            "in": "path",
+            "description": "...",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "roundCourseMemoData",
+            "in": "body",
+            "description": "Data with course code, semester and rounds to create first draft",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/MemoData"
+            }
+          }
+        ],
+        "tags": ["v1"],
+        "responses": {
+          "200": {
+            "description": "A successful save"
+          },
+          "default": {
+            "description": "Unexpected error",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          }
+        },
+        "security": [
+          {
+            "api_key": ["write"]
+          }
+        ]
+      },
+      "post": {
+        "operationId": "createDraftByMemoEndPoint",
+        "summary": "// step 1: choose action, CREATE IF no draft exists",
+        "description": "Creates copy of published memo and save it as a draft",
+        "parameters": [
+          {
+            "name": "memoEndPoint",
+            "in": "path",
+            "description": "...",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "roundCourseMemoData",
+            "in": "body",
+            "description": "Data with course code, semester and rounds to create first draft",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/MemoData"
+            }
+          }
+        ],
+        "tags": ["v1"],
+        "responses": {
+          "200": {
+            "description": "A successful save"
+          },
+          "default": {
+            "description": "Unexpected error",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          }
+        },
+        "security": [
+          {
+            "api_key": ["write"]
+          }
+        ]
+      }
+    },
+    "/v1/draft/{id}": {
+      "delete": {
+        "operationId": "deleteCourseMemoDataById",
+        "summary": "Delete a course memo",
+        "description": "Delete all information for course memo with sent id",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "Id of the memo draft to delete course memo data",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "tags": ["v1"],
+        "responses": {
+          "200": {
+            "description": "The memo was deleted",
+            "schema": {
+              "$ref": "#/definitions/MemoData"
+            }
+          },
+          "default": {
+            "description": "Unexpected error",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          }
+        },
+        "security": {
+          "api_key": ["read"]
+        }
+      }
+    },
+    "/v1/usedRoundsForCourse/{courseCode}/semester/{semester}": {
+      "get": {
+        "operationId": "getUsedRounds",
+        "summary": "Gets a list of used round ids for a semester in a course",
+        "parameters": [
+          {
+            "name": "courseCode",
+            "in": "path",
+            "description": "Course code, six or seven characters",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "semester",
+            "description": "Semester for rounds",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "tags": ["v1"],
+        "responses": {
+          "200": {
+            "description": "Round ids",
+            "schema": {
+              "$ref": "#/definitions/usedRoundsForCourseAndSemester"
+            }
+          },
+          "default": {
+            "description": "Unexpected error",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          }
+        },
+        "security": {
+          "api_key": ["read"]
+        }
+      }
     }
   },
   "securityDefinitions": {
@@ -210,11 +443,100 @@
         }
       }
     },
+    "usedRoundsForCourseAndSemester": {
+      "properties": {
+        "usedRounds": {
+          "type": "array",
+          "items": "string",
+          "description": "List of round ids that have been used for a course semester"
+        },
+        "publishedMemos": {
+          "type": "array",
+          "items": {
+            "schema": {
+              "$ref": "#/definitions/UsedMemos"
+            }
+          },
+          "description": "List of published memos, endpoint, id"
+        },
+        "draftMemos": {
+          "type": "array",
+          "items": {
+            "schema": {
+              "$ref": "#/definitions/UsedMemos"
+            }
+          },
+          "description": "List of draft memos, endpoint, id"
+        }
+      }
+    },
+    "UsedMemos": {
+      "properties": {
+        "status": {
+          "type": "string"
+        },
+        "memoId": {
+          "type": "string"
+        },
+        "memoEndPoint": {
+          "type": "string"
+        },
+        "ladokRoundIds": {
+          "type": "array",
+          "items": "string"
+        }
+      }
+    },
+    "MemoDataListForCourseCode": {
+      "properties": {
+        "_id": {
+          "type": "string",
+          "description": "Unique identifier representing some specific data"
+        },
+        "courseCode": {
+          "type": "string",
+          "description": "Course code for which it is valid"
+        },
+        "memo": {
+          "type": "object",
+          "description": "....",
+          "items": {
+            "schema": {
+              "$ref": "#/definitions/MemoData"
+            }
+          }
+        }
+      }
+    },
     "MemoData": {
       "properties": {
         "_id": {
           "type": "string",
           "description": "Unique identifier representing some specific data"
+        },
+        "courseCode": {
+          "type": "string",
+          "description": "Course code for which it is valid"
+        },
+        "lastChangeDate": {
+          "type": "string",
+          "description": "Date and time for last change, set by API"
+        },
+        "memoEndPoint": {
+          "type": "string",
+          "description": "...."
+        },
+        "semester": {
+          "type": "string",
+          "description": "Course start term year (spring(VT)-1, autumn(HT)-2) , f.e. 20182 or 20181 (termin)"
+        },
+        "status": {
+          "type": "string",
+          "description": "...."
+        },
+        "version": {
+          "type": "string",
+          "description": "...."
         },
         "additionalRegulations": {
           "type": "string",
@@ -223,10 +545,6 @@
         "communicationDuringCourse": {
           "type": "string",
           "description": "Text field for html with Communication during course / Kommunikation i kursen (KIP - via kurs pm admin)"
-        },
-        "courseCode": {
-          "type": "string",
-          "description": "Course code for which it is valid"
         },
         "courseContent": {
           "type": "string",
@@ -300,10 +618,6 @@
           "type": "string",
           "description": "Text field for html with Language of instruction / Undervisningsspråk (kopps course round related)"
         },
-        "lastChangeDate": {
-          "type": "string",
-          "description": "Date and time for last change, set by API"
-        },
         "learningActivities": {
           "type": "string",
           "description": "Text field for html with Learning activities / Läraktiviteter (KIP - via kurs pm admin)"
@@ -360,10 +674,6 @@
         "scheduleDetails": {
           "type": "string",
           "description": "Text field for html with Schedule details / Detaljschema / (KIP - via kurs pm admin)"
-        },
-        "semester": {
-          "type": "string",
-          "description": "Course start term year (spring(VT)-1, autumn(HT)-2) , f.e. 20182 or 20181 (termin)"
         },
         "software": {
           "type": "string",

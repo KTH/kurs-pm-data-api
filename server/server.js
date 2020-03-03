@@ -141,9 +141,24 @@ apiRoute.register(paths.api.checkAPIkey, System.checkAPIKey)
 
 apiRoute.register(paths.api.getDataById, Sample.getData)
 apiRoute.register(paths.api.postDataById, Sample.postData)
-apiRoute.register(paths.api.getCourseMemoDataById, CourseMemo.getMemoDataById)
-apiRoute.register(paths.api.postCourseMemoData, CourseMemo.postMemoData)
+// Get one draft | update it
+apiRoute.register(paths.api.getDraftByEndPoint, CourseMemo.getDraftByEndPoint) // step 2: editor, fetch data
+apiRoute.register(paths.api.updateCreatedDraft, CourseMemo.putDraftByEndPoint) // step 2: editor, fast update
+
+// step 1: choose action, new draft, or copied draft from published memo (same memoEndPoint)
+apiRoute.register(paths.api.createDraftByMemoEndPoint, CourseMemo.createDraftByMemoEndPoint)
+
+// // GET ARRAY OF MEMOS BY TYPE AND COURSE CODE
+apiRoute.register(paths.api.getAllMemosByCourseCodeAndType, CourseMemo.getMemosByCourseCodeAndType) // updated
+apiRoute.register(paths.api.getUsedRounds, CourseMemo.getUsedRounds) // step 1: to show up which rounds already taken
+
+// // GET one PUBLISHED MEMO | PUBLISH MEMO
+apiRoute.register(paths.api.getPublishedMemoByEndPoint, CourseMemo.getMemoByEndPoint) // public page: show only published one
+apiRoute.register(paths.api.publishMemoByEndPoint, CourseMemo.postNewVersionOfPublishedMemo) // step 4: publish new version and unpublish prev version if it exists
 server.use('/', apiRoute.getRouter())
+
+// Delete a course memo draft
+apiRoute.register(paths.api.deleteCourseMemoDataById, CourseMemo.deleteMemoDraftById)
 
 // Catch not found and errors
 server.use(notFoundHandler)

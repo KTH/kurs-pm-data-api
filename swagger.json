@@ -481,6 +481,9 @@
         "memoEndPoint": {
           "type": "string"
         },
+        "memoName": {
+          "type": "string"
+        },
         "ladokRoundIds": {
           "type": "array",
           "items": "string"
@@ -512,7 +515,7 @@
       "properties": {
         "_id": {
           "type": "string",
-          "description": "Unique identifier representing some specific data"
+          "description": "Unique identifier specific for this object so it can be used to delete a draft"
         },
         "courseCode": {
           "type": "string",
@@ -524,7 +527,11 @@
         },
         "memoEndPoint": {
           "type": "string",
-          "description": "...."
+          "description": "Unchangeable enpoint to display it in url (for bookmarks) and keep track on versions change"
+        },
+        "memoName": {
+          "type": "string",
+          "description": "Changeable name for course memo based on course offering name and semester"
         },
         "semester": {
           "type": "string",
@@ -532,11 +539,11 @@
         },
         "status": {
           "type": "string",
-          "description": "...."
+          "description": "By default will be set to 'draft'. Other values: published, old, archived, draft"
         },
         "version": {
           "type": "string",
-          "description": "...."
+          "description": "Will be set by api, it will be incremented for copied draft"
         },
         "additionalRegulations": {
           "type": "string",
@@ -613,6 +620,10 @@
         "infoForReregisteredStudents": {
           "type": "string",
           "description": "Text field for html with Information for re-registered students / Information till omregistrerade studenter (KIP - via kurs pm admin)"
+        },
+        "ladokRoundIds": {
+          "type": "array",
+          "items": "string"
         },
         "languageOfInstructions": {
           "type": "string",

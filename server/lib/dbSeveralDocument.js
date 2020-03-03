@@ -35,11 +35,12 @@ async function getLatestUsedRounds(courseCode, semester) {
     }
 
     for (let index = 0; index < _dbResponse.length; index++) {
-      const { status, ladokRoundIds, memoEndPoint } = _dbResponse[index]
+      const { status, ladokRoundIds, memoEndPoint, memoName } = _dbResponse[index]
       const miniObj = {
         status,
         memoId: _dbResponse[index]._id,
         memoEndPoint,
+        memoName,
         ladokRoundIds
       }
       if (status === 'published') {

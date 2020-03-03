@@ -26,6 +26,11 @@ const schema = mongoose.Schema({
     trim: true,
     required: [true, 'Enter course memo endpoint to use for bookmark']
   },
+  memoName: {
+    type: String,
+    trim: true,
+    required: [true, 'Enter well readable memo name to use to describe which course offering included in course memo.']
+  },
   semester: {
     type: String,
     trim: true,

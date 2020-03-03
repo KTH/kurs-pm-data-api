@@ -29,7 +29,7 @@ const schema = mongoose.Schema({
   memoName: {
     type: String,
     trim: true,
-    required: [true, 'Enter well readable memo name to use to describe which course offering included in course memo.']
+    required: [false, 'Enter well readable memo name to use to describe which course offering included in course memo.']
   },
   semester: {
     type: String,

@@ -146,17 +146,34 @@ async function getMemosByCourseCodeAndType(req, res) {
   }
 }
 
-async function getUsedRounds(req, res) {
+async function getCourseSemesterUsedRounds(req, res) {
   // TODO: ADD FETCHING USED COURSE ROUNDS (DRAFTS + PUBLISHED)
   const { courseCode, semester } = req.params
-  log.info('getUsedRounds: Received request for memo for course:', courseCode)
+  log.info('getCourseSemesterUsedRounds: Received request for used rounds of memo for :', { courseCode, semester })
   try {
-    const dbResponse = await dbArrayOfDocument.getLatestUsedRounds(courseCode, semester)
+    const dbResponse = await dbArrayOfDocument.getCourseSemesterUsedRounds(courseCode, semester)
 
     res.json(dbResponse || {})
-    log.info('getUsedRounds: Responded to request for memo:', dbResponse)
+    log.info('getCourseSemesterUsedRounds: Responded to request for memo:', dbResponse)
   } catch (err) {
-    log.error('getUsedRounds: Failed request for memo, error:', { err })
+    log.error('getCourseSemesterUsedRounds: Failed request for memo, error:', { err })
+    return err
+  }
+}
+async function getMemosStartingFromPrevSemester(req, res) {
+  // TODO: ADD FETCHING USED COURSE ROUNDS (DRAFTS + PUBLISHED)
+  const { courseCode, prevYearSemester } = req.params
+  log.info('getMemosStartingFromPrevSemester: Received request for existing memos for :', {
+    courseCode,
+    prevYearSemester
+  })
+  try {
+    const dbResponse = await dbArrayOfDocument.getMemosFromPrevSemester(courseCode, prevYearSemester)
+
+    res.json(dbResponse || {})
+    log.info('getMemosStartingFromPrevSemester: Responded to request for memo:', dbResponse)
+  } catch (err) {
+    log.error('getMemosStartingFromPrevSemester: Failed request for memo, error:', { err })
     return err
   }
 }
@@ -181,7 +198,8 @@ module.exports = {
   getDraftByEndPoint,
   getMemoByEndPoint,
   getMemosByCourseCodeAndType,
-  getUsedRounds,
+  getMemosStartingFromPrevSemester,
+  getCourseSemesterUsedRounds,
   deleteMemoDraftById,
   postNewVersionOfPublishedMemo,
   putDraftByEndPoint

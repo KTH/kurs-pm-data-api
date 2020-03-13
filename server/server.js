@@ -150,7 +150,8 @@ apiRoute.register(paths.api.createDraftByMemoEndPoint, CourseMemo.createDraftByM
 
 // // GET ARRAY OF MEMOS BY TYPE AND COURSE CODE
 apiRoute.register(paths.api.getAllMemosByCourseCodeAndType, CourseMemo.getMemosByCourseCodeAndType) // updated
-apiRoute.register(paths.api.getUsedRounds, CourseMemo.getUsedRounds) // step 1: to show up which rounds already taken
+apiRoute.register(paths.api.getCourseSemesterUsedRounds, CourseMemo.getCourseSemesterUsedRounds) // step 1: to show up which rounds already taken
+apiRoute.register(paths.api.getMemosStartingFromPrevYearSemester, CourseMemo.getMemosStartingFromPrevSemester) // step 1: to show up which rounds already taken
 
 // // GET one PUBLISHED MEMO | PUBLISH MEMO
 apiRoute.register(paths.api.getPublishedMemoByEndPoint, CourseMemo.getMemoByEndPoint) // public page: show only published one

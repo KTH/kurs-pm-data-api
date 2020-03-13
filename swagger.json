@@ -378,9 +378,9 @@
         }
       }
     },
-    "/v1/usedRoundsForCourse/{courseCode}/semester/{semester}": {
+    "/v1/usedRoundsForCourseSemester/{courseCode}/semester/{semester}": {
       "get": {
-        "operationId": "getUsedRounds",
+        "operationId": "getCourseSemesterUsedRounds",
         "summary": "Gets a list of used round ids for a semester in a course",
         "parameters": [
           {
@@ -404,6 +404,46 @@
             "description": "Round ids",
             "schema": {
               "$ref": "#/definitions/usedRoundsForCourseAndSemester"
+            }
+          },
+          "default": {
+            "description": "Unexpected error",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          }
+        },
+        "security": {
+          "api_key": ["read"]
+        }
+      }
+    },
+    "/v1/usedMemosStartingFromPrevYearSemester/{courseCode}/from/{prevYearSemester}": {
+      "get": {
+        "operationId": "getMemosStartingFromPrevYearSemester",
+        "summary": "Gets a list of used round ids for a semester in a course",
+        "parameters": [
+          {
+            "name": "courseCode",
+            "in": "path",
+            "description": "Course code, six or seven characters",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "prevYearSemester",
+            "description": "Previous year semester from which will be showed puublished memos",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "tags": ["v1"],
+        "responses": {
+          "200": {
+            "description": "Round ids",
+            "schema": {
+              "$ref": "#/definitions/latestPublishedAndDraftMemos"
             }
           },
           "default": {
@@ -445,11 +485,15 @@
     },
     "usedRoundsForCourseAndSemester": {
       "properties": {
-        "usedRounds": {
+        "usedRoundsThisSemester": {
           "type": "array",
           "items": "string",
           "description": "List of round ids that have been used for a course semester"
-        },
+        }
+      }
+    },
+    "latestPublishedAndDraftMemos": {
+      "properties": {
         "publishedMemos": {
           "type": "array",
           "items": {
@@ -457,7 +501,7 @@
               "$ref": "#/definitions/UsedMemos"
             }
           },
-          "description": "List of published memos, endpoint, id"
+          "description": "List of latest published memos which do not have an active draft which user can edit"
         },
         "draftMemos": {
           "type": "array",

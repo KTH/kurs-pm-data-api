@@ -38,9 +38,9 @@ function updateMemoByEndPointAndStatus(data, status) {
   log.debug('No roundCourseMemoData found for updating it with new data', { data })
 }
 
-function removeCourseMemoDataById(id) {
+function removeCourseMemoDataById(id, courseCode) {
   log.debug('deleted roundCourseMemoData by ID: ', { id })
-  return CourseMemo.deleteOne({ _id: id })
+  return CourseMemo.deleteOne({ _id: id, courseCode })
 }
 
 module.exports = {

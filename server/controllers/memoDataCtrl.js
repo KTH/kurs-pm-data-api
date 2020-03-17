@@ -185,9 +185,10 @@ async function deleteMemoDraftByMemoEndPoint(req, res) {
     let dbResponse = {}
     if (draftExist) {
       const id = draftExist._id
+      const { courseCode } = draftExist
       log.info('Hard delete draft by id:', { id })
 
-      dbResponse = await dbOneDocument.removeCourseMemoDataById(id)
+      dbResponse = await dbOneDocument.removeCourseMemoDataById(id, courseCode)
 
       log.info('Successfully removed draft by id: ', { id })
     } else {

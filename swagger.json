@@ -342,18 +342,16 @@
             "api_key": ["write"]
           }
         ]
-      }
-    },
-    "/v1/draft/{id}": {
+      },
       "delete": {
-        "operationId": "deleteCourseMemoDataById",
-        "summary": "Delete a course memo",
+        "operationId": "deleteDraftByMemoEndPoint",
+        "summary": "Delete a course memo draft",
         "description": "Delete all information for course memo with sent id",
         "parameters": [
           {
-            "name": "id",
+            "name": "memoEndPoint",
             "in": "path",
-            "description": "Id of the memo draft to delete course memo data",
+            "description": "memoEndPoint of the memo draft to delete course memo data",
             "required": true,
             "type": "string"
           }

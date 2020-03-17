@@ -159,7 +159,7 @@ apiRoute.register(paths.api.publishMemoByEndPoint, CourseMemo.postNewVersionOfPu
 server.use('/', apiRoute.getRouter())
 
 // Delete a course memo draft
-apiRoute.register(paths.api.deleteCourseMemoDataById, CourseMemo.deleteMemoDraftById)
+apiRoute.register(paths.api.deleteDraftByMemoEndPoint, CourseMemo.deleteMemoDraftByMemoEndPoint)
 
 // Catch not found and errors
 server.use(notFoundHandler)

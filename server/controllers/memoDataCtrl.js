@@ -178,14 +178,21 @@ async function getMemosStartingFromPrevSemester(req, res) {
   }
 }
 
-async function deleteMemoDraftById(req, res) {
+async function deleteMemoDraftByMemoEndPoint(req, res) {
   try {
-    const { id } = req.params
-    log.info('Hard delete draft by id:', { id })
+    const { memoEndPoint } = req.params
+    const draftExist = await dbOneDocument.fetchMemoByEndPointAndStatus(memoEndPoint, 'draft')
+    let dbResponse = {}
+    if (draftExist) {
+      const id = draftExist._id
+      log.info('Hard delete draft by id:', { id })
 
-    const dbResponse = await dbOneDocument.removeCourseMemoDataById(id)
+      dbResponse = await dbOneDocument.removeCourseMemoDataById(id)
 
-    log.info('Successfully removed draft by id: ', { id })
+      log.info('Successfully removed draft by id: ', { id })
+    } else {
+      log.info('Deleting of memo draft ', { memoEndPoint }, ' is not possible, because it is not exist in db')
+    }
     res.json(dbResponse)
   } catch (error) {
     log.error('Error in deleteMemoDataById', { error })
@@ -200,7 +207,7 @@ module.exports = {
   getMemosByCourseCodeAndType,
   getMemosStartingFromPrevSemester,
   getCourseSemesterUsedRounds,
-  deleteMemoDraftById,
+  deleteMemoDraftByMemoEndPoint,
   postNewVersionOfPublishedMemo,
   putDraftByEndPoint
 }

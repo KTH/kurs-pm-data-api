@@ -416,7 +416,7 @@
         }
       }
     },
-    "/v1/usedMemosStartingFromPrevYearSemester/{courseCode}/from/{prevYearSemester}": {
+    "/v1/usedMemosStartingFromPrevYearSemester/{courseCode}": {
       "get": {
         "operationId": "getMemosStartingFromPrevYearSemester",
         "summary": "Gets a list of used round ids for a semester in a course",
@@ -425,13 +425,6 @@
             "name": "courseCode",
             "in": "path",
             "description": "Course code, six or seven characters",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "name": "prevYearSemester",
-            "description": "Previous year semester from which will be showed puublished memos",
-            "in": "path",
             "required": true,
             "type": "string"
           }

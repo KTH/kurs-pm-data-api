@@ -160,9 +160,20 @@ async function getCourseSemesterUsedRounds(req, res) {
     return err
   }
 }
+
 async function getMemosStartingFromPrevSemester(req, res) {
   // TODO: ADD FETCHING USED COURSE ROUNDS (DRAFTS + PUBLISHED)
-  const { courseCode, prevYearSemester } = req.params
+  const { courseCode } = req.params
+  const prevYearSemester = () => {
+    const SPRING = 1
+    const FALL = 2
+    const today = new Date()
+    const prevYear = today.getFullYear() - 1
+    const currentMonth = today.getMonth()
+    const currentSemester = currentMonth < 7 ? SPRING : FALL
+    return Number(`${prevYear}${currentSemester}`)
+  }
+
   log.info('getMemosStartingFromPrevSemester: Received request for existing memos for :', {
     courseCode,
     prevYearSemester
@@ -190,7 +201,7 @@ async function deleteMemoDraftByMemoEndPoint(req, res) {
 
       dbResponse = await dbOneDocument.removeCourseMemoDataById(id, courseCode)
 
-      log.info('Successfully removed draft by id: ', { id })
+      log.info('Successfully removed draft by id and memoEndPoint: ', { id, memoEndPoint })
     } else {
       log.info('Deleting of memo draft ', { memoEndPoint }, ' is not possible, because it is not exist in db')
     }

@@ -160,19 +160,19 @@ async function getCourseSemesterUsedRounds(req, res) {
     return err
   }
 }
-
+const _prevTermNumber = () => {
+  const SPRING = 1
+  const FALL = 2
+  const today = new Date()
+  const prevYear = today.getFullYear() - 1
+  const currentMonth = today.getMonth()
+  const currentSemester = currentMonth < 7 ? SPRING : FALL
+  return `${prevYear}${currentSemester}`
+}
 async function getMemosStartingFromPrevSemester(req, res) {
   // TODO: ADD FETCHING USED COURSE ROUNDS (DRAFTS + PUBLISHED)
   const { courseCode } = req.params
-  const prevYearSemester = () => {
-    const SPRING = 1
-    const FALL = 2
-    const today = new Date()
-    const prevYear = today.getFullYear() - 1
-    const currentMonth = today.getMonth()
-    const currentSemester = currentMonth < 7 ? SPRING : FALL
-    return Number(`${prevYear}${currentSemester}`)
-  }
+  const prevYearSemester = _prevTermNumber()
 
   log.info('getMemosStartingFromPrevSemester: Received request for existing memos for :', {
     courseCode,

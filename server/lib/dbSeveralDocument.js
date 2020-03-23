@@ -51,7 +51,7 @@ async function getMemosFromPrevSemester(courseCode, fromSemester) {
     const _dbResponse = await CourseMemo.aggregate([
       { $match: { courseCode, semester: { $gte: fromSemester }, $or: [{ status: 'draft' }, { status: 'published' }] } }
     ])
-    log.info('nuuuuuuuuu', _dbResponse)
+    log.info('dbResponse after looking for drafts and published memos starting from prevYear', _dbResponse)
     const _draftsForFilter = []
     const _unFilteredPublished = []
     const finalObj = {
@@ -74,7 +74,6 @@ async function getMemosFromPrevSemester(courseCode, fromSemester) {
         _draftsForFilter.push(memoEndPoint)
         finalObj.draftMemos.push(miniObj)
       }
-      // finalObj.usedRoundsThisSemester.push(...ladokRoundIds)
     }
     finalObj.publishedMemos = _unFilteredPublished.filter(
       ({ memoEndPoint }) => !_draftsForFilter.includes(memoEndPoint)

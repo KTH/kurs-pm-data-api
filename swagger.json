@@ -507,6 +507,9 @@
     },
     "UsedMemos": {
       "properties": {
+        "semester": {
+          "type": "string"
+        },
         "status": {
           "type": "string"
         },

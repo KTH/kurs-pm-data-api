@@ -60,8 +60,9 @@ async function getMemosFromPrevSemester(courseCode, fromSemester) {
     }
 
     for (let index = 0; index < _dbResponse.length; index++) {
-      const { status, ladokRoundIds, memoEndPoint, memoName } = _dbResponse[index]
+      const { semester, status, ladokRoundIds, memoEndPoint, memoName } = _dbResponse[index]
       const miniObj = {
+        semester,
         status,
         memoId: _dbResponse[index]._id,
         memoEndPoint,

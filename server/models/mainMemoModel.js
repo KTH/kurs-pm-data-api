@@ -21,6 +21,12 @@ const schema = mongoose.Schema({
     type: String,
     default: new Date()
   },
+  memoCommonLangAbbr: {
+    type: String,
+    trim: true,
+    minlength: 0,
+    default: ''
+  },
   memoEndPoint: {
     type: String,
     trim: true,

@@ -563,6 +563,10 @@
           "type": "string",
           "description": "Date and time for last change, set by API"
         },
+        "memoCommonLangAbbr": {
+          "type": "string",
+          "description": "Memo language based on common languageOfInstructions for all rounds, 'sv' or 'en'"
+        },
         "memoEndPoint": {
           "type": "string",
           "description": "Unchangeable enpoint to display it in url (for bookmarks) and keep track on versions change"

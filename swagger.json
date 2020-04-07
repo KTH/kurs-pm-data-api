@@ -655,10 +655,6 @@
           "type": "string",
           "description": "Text field for html with Grading scale / Betygsskala (kopps kursplan)"
         },
-        "infoContactName": {
-          "type": "string",
-          "description": "Text field for html with info Contact person / Kontaktperson (admin via kopps, fetched from kopps)"
-        },
         "infoForReregisteredStudents": {
           "type": "string",
           "description": "Text field for html with Information for re-registered students / Information till omregistrerade studenter (KIP - via kurs pm admin)"

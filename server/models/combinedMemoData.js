@@ -17,10 +17,11 @@ const combinedMemoData = {
   visibleInMemo: {
     type: Object,
     default: {
-      scheduleDetails: true,
       equipment: true,
+      examinationModules: true,
+      possibilityToAddition: true,
       possibilityToCompletion: true,
-      possibilityToAddition: true
+      scheduleDetails: true
     }
   }
 }

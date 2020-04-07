@@ -16,7 +16,12 @@ const combinedMemoData = {
   ...teachersTypesUg,
   visibleInMemo: {
     type: Object,
-    default: {}
+    default: {
+      scheduleDetails: true,
+      equipment: true,
+      possibilityToCompletion: true,
+      possibilityToAddition: true
+    }
   }
 }
 

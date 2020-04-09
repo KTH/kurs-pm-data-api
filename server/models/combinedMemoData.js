@@ -17,14 +17,14 @@ const combinedMemoData = {
   visibleInMemo: {
     type: Object,
     default: {
-      additionalRegulations: true,
-      equipment: true,
-      examinationModules: true,
-      possibilityToAddition: true,
-      possibilityToCompletion: true,
-      prerequisites: true,
-      scheduleDetails: true,
-      teacherAssistants: true
+      additionalRegulations: 'defaultTrue',
+      equipment: 'defaultTrue',
+      examinationModules: 'defaultTrue',
+      possibilityToAddition: 'defaultTrue',
+      possibilityToCompletion: 'defaultTrue',
+      prerequisites: 'defaultTrue',
+      scheduleDetails: 'defaultTrue',
+      teacherAssistants: 'defaultTrue'
     }
   }
 }

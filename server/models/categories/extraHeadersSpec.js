@@ -1,35 +1,52 @@
 // ****** Here goes fields added by teacher ******//
+const newSection = {
+  uKey: {
+    type: String,
+    trim: true,
+    minlength: 0
+  },
+  title: {
+    type: String,
+    trim: true,
+    minlength: 0
+  },
+  htmlContent: {
+    type: String,
+    trim: true,
+    minlength: 0
+  },
+  visibleInMemo: {
+    // remove
+    type: Boolean,
+    trim: true,
+    minlength: 0
+  }
+}
 
 const extraHeaders = {
   extraHeaders1: {
-    type: String,
+    type: Array,
+    items: newSection,
     trim: true,
-    minlength: 0,
-    default: ''
+    required: false
   },
   extraHeaders2: {
-    type: String,
+    type: Array,
+    items: newSection,
     trim: true,
-    minlength: 0,
-    default: ''
+    required: false
   },
   extraHeaders3: {
-    type: String,
+    type: Array,
+    items: newSection,
     trim: true,
-    minlength: 0,
-    default: ''
+    required: false
   },
   extraHeaders4: {
-    type: String,
+    type: Array,
+    items: newSection,
     trim: true,
-    minlength: 0,
-    default: ''
-  },
-  extraHeaders5: {
-    type: String,
-    trim: true,
-    minlength: 0,
-    default: ''
+    required: false
   }
 }
 

@@ -505,6 +505,22 @@
         }
       }
     },
+    "newSection": {
+      "properties": {
+        "uKey": {
+          "type": "string"
+        },
+        "title": {
+          "type": "string"
+        },
+        "htmlContent": {
+          "type": "string"
+        },
+        "visibleInMemo": {
+          "type": "boolean"
+        }
+      }
+    },
     "UsedMemos": {
       "properties": {
         "semester": {
@@ -624,24 +640,40 @@
           "description": "Text field for html with Examinator / Examinator (admin via kopps, fetched from redis-ug)"
         },
         "extraHeaders1": {
-          "type": "string",
-          "description": "Text field for html with extraHeaders / Egna Rubriker... "
+          "type": "array",
+          "items": {
+            "schema": {
+              "$ref": "#/definitions/newSection"
+            }
+          },
+          "description": "Text field for html with extraHeaders / Egna Rubriker för Innehål och lärandemål "
         },
         "extraHeaders2": {
-          "type": "string",
-          "description": "Text field for html with extraHeaders / Egna Rubriker... "
+          "type": "array",
+          "items": {
+            "schema": {
+              "$ref": "#/definitions/newSection"
+            }
+          },
+          "description": "Text field for html with extraHeaders / Egna Rubriker för Förbereda inför kursstart "
         },
         "extraHeaders3": {
-          "type": "string",
-          "description": "Text field for html with extraHeaders / Egna Rubriker... "
+          "type": "array",
+          "items": {
+            "schema": {
+              "$ref": "#/definitions/newSection"
+            }
+          },
+          "description": "Text field for html with extraHeaders / Egna Rubriker för Examination "
         },
         "extraHeaders4": {
-          "type": "string",
-          "description": "Text field for html with extraHeaders / Egna Rubriker... "
-        },
-        "extraHeaders5": {
-          "type": "string",
-          "description": "Text field for html with extraHeaders / Egna Rubriker... "
+          "type": "array",
+          "items": {
+            "schema": {
+              "$ref": "#/definitions/newSection"
+            }
+          },
+          "description": "Text field for html with extraHeaders / Egna Rubriker för Ytterligare Information "
         },
         "equipment": {
           "type": "string",

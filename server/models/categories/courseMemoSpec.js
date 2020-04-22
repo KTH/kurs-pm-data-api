@@ -5,13 +5,13 @@ const courseMemoSpec = {
     minlength: 0,
     default: ''
   },
-  ethicalApproachThisCourse: {
+  ethicalApproachSubSection: {
     type: String,
     trim: true,
     minlength: 0,
     default: ''
   },
-  examinationModules: {
+  examinationSubSection: {
     type: String,
     trim: true,
     minlength: 0,
@@ -48,6 +48,12 @@ const courseMemoSpec = {
     default: ''
   },
   permanentDisability: {
+    type: String,
+    trim: true,
+    minlength: 0,
+    default: ''
+  },
+  permanentDisabilitySubSection: {
     type: String,
     trim: true,
     minlength: 0,

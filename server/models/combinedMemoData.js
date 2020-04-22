@@ -18,8 +18,10 @@ const combinedMemoData = {
     type: Object,
     default: {
       additionalRegulations: 'defaultTrue',
+      ethicalApproachSubSection: 'defaultTrue',
       equipment: 'defaultTrue',
-      examinationModules: 'defaultTrue',
+      examinationSubSection: 'defaultTrue',
+      permanentDisabilitySubSection: 'defaultTrue',
       possibilityToAddition: 'defaultTrue',
       possibilityToCompletion: 'defaultTrue',
       prerequisites: 'defaultTrue',

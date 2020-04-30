@@ -56,6 +56,7 @@ async function getMemosFromPrevSemester(courseCode, fromSemester) {
     const _unFilteredPublished = []
     const finalObj = {
       publishedMemos: [], // PUBLISHED MEMOS WHICH DO NOT HAVE ACTIVE DRAFT VERSION
+      publishedMemosWithActiveDraft: [], // PUBLISHED MEMOS WHICH DO HAVE ACTIVE DRAFT VERSION
       draftMemos: [] // From previous year
     }
 
@@ -76,9 +77,14 @@ async function getMemosFromPrevSemester(courseCode, fromSemester) {
         finalObj.draftMemos.push(miniObj)
       }
     }
-    finalObj.publishedMemos = _unFilteredPublished.filter(
-      ({ memoEndPoint }) => !_draftsForFilter.includes(memoEndPoint)
-    )
+    _unFilteredPublished.map(miniMemo => {
+      const { memoEndPoint } = miniMemo
+      if (!_draftsForFilter.includes(memoEndPoint)) finalObj.publishedMemos.push(miniMemo)
+      else finalObj.publishedMemosWithActiveDraft.push(miniMemo)
+    })
+    // finalObj.publishedMemos = _unFilteredPublished.filter(
+    //   ({ memoEndPoint }) => !_draftsForFilter.includes(memoEndPoint)
+    // )
     log.debug('Successfully got all memos starting from previous year semester ', {
       courseCode,
       fromSemester

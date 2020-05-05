@@ -494,7 +494,7 @@
           },
           "description": "List of latest published memos which do not have an active draft which user can edit"
         },
-        "publishedMemosWithActiveDraft": {
+        "draftsOfPublishedMemos": {
           "type": "array",
           "items": {
             "schema": {
@@ -503,7 +503,7 @@
           },
           "description": "List of latest published memos which have an active draft which user can edit"
         },
-        "draftMemos": {
+        "draftsWithNoActivePublishedVer": {
           "type": "array",
           "items": {
             "schema": {

@@ -52,39 +52,34 @@ async function getMemosFromPrevSemester(courseCode, fromSemester) {
       { $match: { courseCode, semester: { $gte: fromSemester }, $or: [{ status: 'draft' }, { status: 'published' }] } }
     ])
     log.info('dbResponse after looking for drafts and published memos starting from prevYear', _dbResponse)
-    const _draftsForFilter = []
-    const _unFilteredPublished = []
+    const _allDrafts = []
+    const _allPublished = []
     const finalObj = {
       publishedMemos: [], // PUBLISHED MEMOS WHICH DO NOT HAVE ACTIVE DRAFT VERSION
-      publishedMemosWithActiveDraft: [], // PUBLISHED MEMOS WHICH DO HAVE ACTIVE DRAFT VERSION
-      draftMemos: [] // From previous year
+      draftsOfPublishedMemos: [], // PUBLISHED MEMOS WHICH DO HAVE ACTIVE DRAFT VERSION
+      draftsWithNoActivePublishedVer: [] // From previous year
     }
+
+    _dbResponse.map(({ status, memoEndPoint }) => {
+      if (status === 'draft') _allDrafts.push(memoEndPoint)
+      else if (status === 'published') _allPublished.push(memoEndPoint)
+    })
 
     for (let index = 0; index < _dbResponse.length; index++) {
       const { semester, status, ladokRoundIds, memoEndPoint, memoName } = _dbResponse[index]
-      const miniObj = {
+      const miniMemo = {
         semester,
         status,
         memoId: _dbResponse[index]._id,
         memoEndPoint,
         memoName,
         ladokRoundIds
-      }
-      if (status === 'published') {
-        _unFilteredPublished.push(miniObj)
-      } else if (status === 'draft') {
-        _draftsForFilter.push(memoEndPoint)
-        finalObj.draftMemos.push(miniObj)
-      }
+      } // 1 published
+      if (status === 'published' && !_allDrafts.includes(memoEndPoint)) finalObj.publishedMemos.push(miniMemo)
+      else if (status === 'draft' && !_allPublished.includes(memoEndPoint))
+        finalObj.draftsWithNoActivePublishedVer.push(miniMemo)
+      else if (status === 'draft') finalObj.draftsOfPublishedMemos.push(miniMemo)
     }
-    _unFilteredPublished.map(miniMemo => {
-      const { memoEndPoint } = miniMemo
-      if (!_draftsForFilter.includes(memoEndPoint)) finalObj.publishedMemos.push(miniMemo)
-      else finalObj.publishedMemosWithActiveDraft.push(miniMemo)
-    })
-    // finalObj.publishedMemos = _unFilteredPublished.filter(
-    //   ({ memoEndPoint }) => !_draftsForFilter.includes(memoEndPoint)
-    // )
     log.debug('Successfully got all memos starting from previous year semester ', {
       courseCode,
       fromSemester

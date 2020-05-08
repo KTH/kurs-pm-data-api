@@ -616,6 +616,10 @@
           "type": "string",
           "description": "Text field for html with Additional regulations / Övriga föreskrifter (kopps kursplan)"
         },
+        "commentAboutMadeChanges": {
+          "type": "string",
+          "description": "Text field to describe what changes have been made to new version of published memo"
+        },
         "communicationDuringCourse": {
           "type": "string",
           "description": "Text field for html with Communication during course / Kommunikation i kursen (KIP - via kurs pm admin)"

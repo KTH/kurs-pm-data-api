@@ -21,6 +21,9 @@ const schema = mongoose.Schema({
     type: String,
     default: new Date()
   },
+  lastPublishedVersionPublishDate: {
+    type: String
+  },
   memoCommonLangAbbr: {
     type: String,
     trim: true,

@@ -107,6 +107,7 @@ async function createDraftByMemoEndPoint(req, res) {
       if (publishedObj) {
         // copy published memo to new object with updated version and draft status
         publishedObj.status = 'draft'
+        publishedObj.lastPublishedVersionPublishDate = publishedObj.lastChangeDate
         publishedObj.version++
         publishedObj._id = undefined
         dbResponse.push(await dbOneDocument.storeNewCourseMemoData(publishedObj.toObject()))

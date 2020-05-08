@@ -588,6 +588,10 @@
           "type": "string",
           "description": "Date and time for last change, set by API"
         },
+        "lastPublishedVersionPublishDate": {
+          "type": "string",
+          "description": "Date and time for last published version, set by API"
+        },
         "memoCommonLangAbbr": {
           "type": "string",
           "description": "Memo language based on common languageOfInstructions for all rounds, 'sv' or 'en'"

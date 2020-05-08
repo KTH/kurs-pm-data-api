@@ -109,6 +109,7 @@ async function createDraftByMemoEndPoint(req, res) {
         publishedObj.status = 'draft'
         publishedObj.lastPublishedVersionPublishDate = publishedObj.lastChangeDate
         publishedObj.version++
+        publishedObj.commentAboutMadeChanges = ''
         publishedObj._id = undefined
         dbResponse.push(await dbOneDocument.storeNewCourseMemoData(publishedObj.toObject()))
       } else {

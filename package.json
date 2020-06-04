@@ -13,6 +13,7 @@
   },
   "dependencies": {
     "@kth/kth-node-cosmos-db": "^3.0.6",
+    "applicationinsights": "^1.7.6",
     "bluebird": "^3.7.1",
     "body-parser": "^1.19.0",
     "component-registry": "^1.0.2",

@@ -15,7 +15,9 @@ Kurs-pm-api is a microservice to save course memos data to database. It accepts 
 
 ## Overview
 
-
+Kurs-pm-api is used to save data in Azure Cosmos db by using kth-node-cosmos-db to establish a connection to Azure. Before using it, the database and collection must be prepared in Azure because it is establish a connection to an existing database and not trying to create it from a code. Meanwhile for creating models and saving data it uses a Mongoose. To present a documentation `Swagger` is used.
+Admin and public pages uses different rights and keys to separate their behaviour.
+Only admin pages may change api data while public pages can only read. Therefore while useing a 'Swagger' developer should choose a correct api key, because some function will not be shown in details.
 
 
 ### Related projects
@@ -97,7 +99,9 @@ docker-compose up
 Status: 
 
 To monitor status: http://localhost:3001/api/kurs-pm-data/_monitor
+
 To see branch information: http://localhost:3001/api/kurs-pm-data/_about
+
 To see more detailed behaviour in project used application insights: f.e., kursinfo-web-stage-application-insights-kthse
 
 

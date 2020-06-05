@@ -36,8 +36,8 @@
     "/v1/data/{id}": {
       "get": {
         "operationId": "getDataById",
-        "summary": "Get data",
-        "description": "Gets some form of data that only requires read access",
+        "summary": "Get data for simple test",
+        "description": "Gets some form of data that only requires read access for testing",
         "parameters": [
           {
             "name": "id",
@@ -70,8 +70,8 @@
       },
       "post": {
         "operationId": "postDataById",
-        "summary": "Saves an object in the database",
-        "description": "Saves changes to an object in the database",
+        "summary": "Saves an object in the database for test",
+        "description": "Saves changes to an object in the database for test",
         "parameters": [
           {
             "name": "id",
@@ -112,13 +112,13 @@
     "/v1/memos/{type}/{courseCode}/": {
       "get": {
         "operationId": "getAllMemosByCourseCodeAndType",
-        "summary": "Get course memo document descriptive data by document unique id ",
+        "summary": "Get all course memos documents fetched by this course code and type of status, only published, or draft, or archived, or old ",
         "description": "Gets some form of data that only requires read access",
         "parameters": [
           {
             "name": "courseCode",
             "in": "path",
-            "description": "",
+            "description": "Course code, ex, SF1624",
             "required": true,
             "type": "string"
           },
@@ -155,13 +155,13 @@
     "/v1/memo/{memoEndPoint}": {
       "get": {
         "operationId": "getPublishedMemoByEndPoint",
-        "summary": "Get published course memo document descriptive data by its endpoint ",
-        "description": "Gets some form of data that only requires read access",
+        "summary": "Get published course memo document descriptive data by its endpoint memoEndPoint ",
+        "description": "Get a memo which exists in database and has memoEndPoint which identify unique memo",
         "parameters": [
           {
             "name": "memoEndPoint",
             "in": "path",
-            "description": "memoEndPoint used to be displayed in url...",
+            "description": "memoEndPoint is used to keep all versions under the same endpoint, unique for memo for one kursomgång. Unchangeable enpoint to display it in url (for bookmarks) and keep track on versions change",
             "required": true,
             "type": "string"
           }
@@ -189,13 +189,13 @@
       },
       "post": {
         "operationId": "publishMemoByEndPoint",
-        "summary": "Saves an object of one course memo document descriptive data in the database per course and term",
+        "summary": "Saves an object of one course memo document descriptive data in the database per course and term, f.e, SF1624 and 20191",
         "description": "Saves a course memo document descriptive data in the database per course and term",
         "parameters": [
           {
             "name": "memoEndPoint",
             "in": "path",
-            "description": "....",
+            "description": "memoEndPoint is used to keep all versions under the same endpoint, unique for memo for one kursomgång. Unchangeable enpoint to display it in url (for bookmarks) and keep track on versions change",
             "required": true,
             "type": "string"
           },
@@ -231,13 +231,13 @@
     "/v1/draft/{memoEndPoint}": {
       "get": {
         "operationId": "getDraftByEndPoint",
-        "summary": "Get published course memo document descriptive data by its endpoint ",
-        "description": "Gets some form of data that only requires read access",
+        "summary": "Get published course memo document descriptive data by its endpoint memoEndPoint",
+        "description": "For admin pages often need to access draft version of memo to edit it before publishing",
         "parameters": [
           {
             "name": "memoEndPoint",
             "in": "path",
-            "description": "memoEndPoint used to be displayed in url...",
+            "description": "memoEndPoint is used to keep all versions under the same endpoint, unique for memo for one kursomgång. Unchangeable enpoint to display it in url (for bookmarks) and keep track on versions change",
             "required": true,
             "type": "string"
           }
@@ -265,13 +265,13 @@
       },
       "put": {
         "operationId": "updateCreatedDraft",
-        "summary": ".....",
-        "description": "Saves a course memo document descriptive data in the database per course and term",
+        "summary": "The draft is already in database. Update some of its properties, f.e., only text for examinations, for fast and often update",
+        "description": "Saves a course memo document descriptive data in the database per course and term, and per chosen {key: value}",
         "parameters": [
           {
             "name": "memoEndPoint",
             "in": "path",
-            "description": "...",
+            "description": "memoEndPoint is used to keep all versions under the same endpoint, unique for memo for one kursomgång. Unchangeable enpoint to display it in url (for bookmarks) and keep track on versions change",
             "required": true,
             "type": "string"
           },
@@ -305,13 +305,13 @@
       },
       "post": {
         "operationId": "createDraftByMemoEndPoint",
-        "summary": "// step 1: choose action, CREATE IF no draft exists",
-        "description": "Creates copy of published memo and save it as a draft",
+        "summary": "Admin page: create new (empty with default values /  or copied from published version) draft and assign memoEndPoint to it",
+        "description": "Creates a copy of published memo and save it as a draft or creates a new empty draft with default values",
         "parameters": [
           {
             "name": "memoEndPoint",
             "in": "path",
-            "description": "...",
+            "description": "memoEndPoint is used to keep all versions under the same endpoint, unique for memo for one kursomgång. Unchangeable enpoint to display it in url (for bookmarks) and keep track on versions change",
             "required": true,
             "type": "string"
           },
@@ -345,8 +345,8 @@
       },
       "delete": {
         "operationId": "deleteDraftByMemoEndPoint",
-        "summary": "Delete a course memo draft",
-        "description": "Delete all information for course memo with sent id",
+        "summary": "Delete a course memo draft by memoEndPoint",
+        "description": "Delete draft for course memo with sent memoEndPoint",
         "parameters": [
           {
             "name": "memoEndPoint",
@@ -390,7 +390,7 @@
           },
           {
             "name": "semester",
-            "description": "Semester for rounds",
+            "description": "Semester for rounds, f.e., 20201",
             "in": "path",
             "required": true,
             "type": "string"
@@ -598,7 +598,7 @@
         },
         "memoEndPoint": {
           "type": "string",
-          "description": "Unchangeable enpoint to display it in url (for bookmarks) and keep track on versions change"
+          "description": "memoEndPoint is used to keep all versions under the same endpoint, unique for memo for one kursomgång. Unchangeable enpoint to display it in url (for bookmarks) and keep track on versions change"
         },
         "memoName": {
           "type": "string",
@@ -710,11 +710,12 @@
         },
         "ladokRoundIds": {
           "type": "array",
-          "items": "string"
+          "items": "string",
+          "memoEndPoint": "Course round offerings included in one kursomgång(round) for which memo is created"
         },
         "languageOfInstructions": {
           "type": "string",
-          "description": "Text field for html with Language of instruction / Undervisningsspråk (kopps course round related)"
+          "description": "Memo language: Svenska, Swedish, Engelska, English ..."
         },
         "learningActivities": {
           "type": "string",
@@ -763,11 +764,6 @@
         "prerequisites": {
           "type": "string",
           "description": "Text field for html with Prerequisites / Rekommenderade förkunskaper (kopps kursinformation)"
-        },
-        "previousTextsList": {
-          "type": "array",
-          "items": "string",
-          "description": "Array for object with previous memo texts and publish date "
         },
         "reportingResults": {
           "type": "string",

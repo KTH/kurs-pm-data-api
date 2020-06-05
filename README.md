@@ -37,8 +37,8 @@ Secrets during local development are ALWAYS stored in a `.env`-file in the root 
 
 ```
 MONGODB_URI=mongodb://kurs-pm-data-api-stage-mongodb-kthse:[password, specified in Azure]==@kurs-pm-data-api-stage-mongodb-kthse.documents.azure.com:[port, specified in Azure]/kursinfo?ssl=true&authSource=kursinfo
-API_KEYS_0=?name=kursinfo-web&apiKey=1234&scope=read
-API_KEYS_1=?name=kurs-pm-data&apiKey=5678&scope=write&scope=read
+API_KEYS_0=?name=kursinfo-web&apiKey=[generate a password for public pages]&scope=read
+API_KEYS_1=?name=kurs-pm-data&apiKey=[generate a password for admin page]&scope=write&scope=read
 APPINSIGHTS_INSTRUMENTATIONKEY=[Azure, Application insights, Instrumentation Key, can be found in Overview]
 SERVER_PORT=3001 [if you want to change port]
 ```
@@ -120,8 +120,8 @@ Password find in gsv-key vault
 
 ```
 MONGODB_URI=mongodb://kurs-pm-data-api-mongodb-kthse:[password, specified in Azure]==@kurs-pm-data-api-mongodb-kthse.documents.azure.com:[port, specified in Azure]/kursinfo?ssl=true&authSource=kursinfo
-API_KEYS_0=?name=kursinfo-web&apiKey=1234&scope=read
-API_KEYS_1=?name=kurs-pm-data-admin-web&apiKey=5678&scope=write&scope=read
+API_KEYS_0=?name=kursinfo-web&apiKey=[generate a password for public pages]&scope=read
+API_KEYS_1=?name=kurs-pm-data-admin-web&apiKey=[generate a password for admin page]&scope=write&scope=read
 APPINSIGHTS_INSTRUMENTATIONKEY=[Azure, Application insights, Instrumentation Key, can be found in Overview]
 ```
 

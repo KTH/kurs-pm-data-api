@@ -253,7 +253,7 @@
         "tags": ["v1"],
         "responses": {
           "200": {
-            "description": "The requested data",
+            "description": "The requested PDF file",
             "schema": {
               "type": "file"
             }

@@ -5,14 +5,55 @@ const PDFDocument = require('pdfkit')
 
 const dbOneDocument = require('../lib/dbDataById')
 
+const messages = [
+  {
+    season: {
+      1: 'Spring ',
+      2: 'Autumn '
+    },
+    memoLabel: 'Course memo'
+  },
+  {
+    season: {
+      1: 'VT ',
+      2: 'HT '
+    },
+    memoLabel: 'Kurs-PM'
+  }
+]
+
+function inPx(mm) {
+  const mmInInch = 25.4
+  const dpi = 72
+  return (mm / mmInInch) * dpi
+}
+
+function seasonStr(season, semesterCode = '') {
+  return `${season[semesterCode.toString()[4]]}${semesterCode.toString().slice(0, 4)}`
+}
+
+function concatMemoName(semester, ladokRoundIds, langAbbr = 'sv') {
+  const langIndex = langAbbr === 'en' ? 0 : 1
+  const { memoLabel, season } = messages[langIndex]
+  return `${memoLabel} ${seasonStr(season, semester)}-${ladokRoundIds.join('-')}`
+}
+
+function addTitle(doc, data) {
+  doc.fontSize(16)
+  doc.font('Helvetica')
+
+  const text = concatMemoName(data.semester, data.ladokRoundIds, data.memoLanguage)
+  doc.text(text)
+}
+
 async function generatePDF(writeStream, data) {
   log.info('generatePDF: Generate PDF with data', data)
   const pageSize = 'A4'
   const pageMargins = {
-    top: 25,
-    bottom: 25,
-    left: 25,
-    right: 25
+    top: inPx(20),
+    bottom: inPx(20),
+    left: inPx(20),
+    right: inPx(20)
   }
   const doc = new PDFDocument({
     size: pageSize,
@@ -21,9 +62,7 @@ async function generatePDF(writeStream, data) {
     bufferPages: true
   })
   doc.pipe(writeStream)
-  doc.fontSize(16)
-  doc.font('Helvetica')
-  doc.text(data.memoEndPoint)
+  addTitle(doc, data)
   doc.end()
 }
 

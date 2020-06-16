@@ -2,9 +2,10 @@
 
 const log = require('kth-node-log')
 const PDFDocument = require('pdfkit')
-
+const Entities = require('html-entities').AllHtmlEntities
 const dbOneDocument = require('../lib/dbDataById')
 
+const entities = new Entities()
 const messages = [
   {
     season: {
@@ -81,7 +82,7 @@ function addSections(doc, data) {
       doc.text(subSectionHeader, { paragraphGap: 6 })
       doc.fontSize(12)
       doc.font('server/fonts/Georgia.ttf')
-      const text = data[subSection] ? data[subSection] : ' '
+      const text = data[subSection] ? entities.decode(data[subSection]) : ' '
       doc.text(text, { paragraphGap: 18 })
     })
   })

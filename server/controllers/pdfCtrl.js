@@ -11,14 +11,28 @@ const messages = [
       1: 'Spring ',
       2: 'Autumn '
     },
-    memoLabel: 'Course memo'
+    memoLabel: 'Course memo',
+    headers: {
+      contentAndOutcomes: 'Content and learning outcomes',
+      courseContent: 'Course contents',
+      learningOutcomes: 'Intended learning outcomes',
+      learningActivities: 'Learning activities',
+      scheduleDetails: 'Schedule details'
+    }
   },
   {
     season: {
       1: 'VT ',
       2: 'HT '
     },
-    memoLabel: 'Kurs-PM'
+    memoLabel: 'Kurs-PM',
+    headers: {
+      contentAndOutcomes: 'Innehåll och lärandemål',
+      courseContent: 'Kursinnehåll',
+      learningOutcomes: 'Lärandemål',
+      learningActivities: 'Läraktiviteter',
+      scheduleDetails: 'Detaljschema'
+    }
   }
 ]
 
@@ -32,18 +46,45 @@ function seasonStr(season, semesterCode = '') {
   return `${season[semesterCode.toString()[4]]}${semesterCode.toString().slice(0, 4)}`
 }
 
-function concatMemoName(semester, ladokRoundIds, langAbbr = 'sv') {
+function concatMemoName(semester, ladokRoundIds, langAbbr) {
   const langIndex = langAbbr === 'en' ? 0 : 1
   const { memoLabel, season } = messages[langIndex]
   return `${memoLabel} ${seasonStr(season, semester)}-${ladokRoundIds.join('-')}`
 }
 
 function addTitle(doc, data) {
-  doc.fontSize(16)
-  doc.font('Helvetica')
+  doc.fontSize(36)
+  doc.font('server/fonts/OpenSans-Regular.ttf')
 
-  const text = concatMemoName(data.semester, data.ladokRoundIds, data.memoLanguage)
-  doc.text(text)
+  const text = concatMemoName(data.semester, data.ladokRoundIds, data.memoCommonLangAbbr)
+  doc.text(text, { paragraphGap: 12 })
+}
+
+function addSections(doc, data) {
+  const { headers } = messages[data.memoCommonLangAbbr === 'en' ? 0 : 1]
+  const sections = [
+    {
+      id: 'contentAndOutcomes',
+      content: ['courseContent', 'learningOutcomes', 'learningActivities', 'scheduleDetails']
+    }
+  ]
+
+  sections.forEach(section => {
+    doc.fontSize(24)
+    doc.font('server/fonts/OpenSans-Regular.ttf')
+    const sectionHeader = headers[section.id]
+    doc.text(sectionHeader, { paragraphGap: 12 })
+    section.content.forEach(subSection => {
+      doc.fontSize(18)
+      doc.font('server/fonts/OpenSans-Regular.ttf')
+      const subSectionHeader = headers[subSection]
+      doc.text(subSectionHeader, { paragraphGap: 6 })
+      doc.fontSize(12)
+      doc.font('server/fonts/Georgia.ttf')
+      const text = data[subSection] ? data[subSection] : ' '
+      doc.text(text, { paragraphGap: 18 })
+    })
+  })
 }
 
 async function generatePDF(writeStream, data) {
@@ -63,6 +104,7 @@ async function generatePDF(writeStream, data) {
   })
   doc.pipe(writeStream)
   addTitle(doc, data)
+  addSections(doc, data)
   doc.end()
 }
 

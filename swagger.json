@@ -6,7 +6,7 @@
     "version": "1.0.0"
   },
   "basePath": "/api/kurs-pm-data",
-  "produces": ["application/json"],
+  "produces": ["application/json", "application/pdf"],
   "paths": {
     "/_checkAPIkey": {
       "get": {
@@ -203,6 +203,99 @@
             "name": "roundCourseMemoData",
             "in": "body",
             "description": "Array with memo data objects",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/MemoData"
+            }
+          }
+        ],
+        "tags": ["v1"],
+        "responses": {
+          "200": {
+            "description": "A successful save"
+          },
+          "default": {
+            "description": "Unexpected error",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          }
+        },
+        "security": [
+          {
+            "api_key": ["write"]
+          }
+        ]
+      }
+    },
+    "/v1/pdf/{memoEndPoint}": {
+      "get": {
+        "operationId": "getPdfMemoByEndPoint",
+        "summary": "Get published course memo as PDF by its endpoint memoEndPoint",
+        "description": "Get a memo which exists in database and has memoEndPoint which identify unique memo",
+        "produces": "application/pdf",
+        "parameters": [
+          {
+            "name": "memoEndPoint",
+            "in": "path",
+            "description": "memoEndPoint is used to keep all versions under the same endpoint, unique for memo for one course offering. Unchangeable endpoint to display it in url (for bookmarks) and keep track on versions change",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "download",
+            "in": "query",
+            "description": "Should PDF document be download? If download parameter is true, the response will have a 'Content-Disposition' header set.",
+            "required": false,
+            "type": "string"
+          }
+        ],
+        "tags": ["v1"],
+        "responses": {
+          "200": {
+            "description": "The requested PDF file",
+            "schema": {
+              "type": "file"
+            }
+          },
+          "default": {
+            "description": "Unexpected error",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          }
+        },
+        "security": [
+          {
+            "api_key": ["read"]
+          }
+        ]
+      }
+    },
+    "/v1/draft/{memoEndPoint}/copyFrom/{anotherMemoEndPoint}": {
+      "post": {
+        "operationId": "copyFromAPublishedMemo",
+        "summary": "Admin page: create new (empty with default values /  or copied from published version) draft and assign memoEndPoint to it",
+        "description": "Creates a copy of published memo and save it as a draft or creates a new empty draft with default values",
+        "parameters": [
+          {
+            "name": "memoEndPoint",
+            "in": "path",
+            "description": "memoEndPoint is used to keep all versions under the same endpoint, unique for memo for one kursomgång. Unchangeable enpoint to display it in url (for bookmarks) and keep track on versions change",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "anotherMemoEndPoint",
+            "in": "path",
+            "description": "anotherMemoEndPoint is memoEndPoint for published which will be copied into this new memo",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "roundCourseMemoData",
+            "in": "body",
+            "description": "Data with course code, semester and rounds to create first draft",
             "required": true,
             "schema": {
               "$ref": "#/definitions/MemoData"

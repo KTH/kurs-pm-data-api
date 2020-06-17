@@ -88,9 +88,11 @@ async function putDraftByEndPoint(req, res) {
 async function createDraftByMemoEndPoint(req, res) {
   // STEP 1 CHOSING ACTION TO COPY, NEW MEMO, NEV VERSION: USE IT IN A SECOND STEP
   try {
-    const { memoEndPoint } = req.params
-    const dbResponse = []
+    const { memoEndPoint, anotherMemoEndPoint } = req.params
+    const newMemoObj = req.body
 
+    const dbResponse = []
+    // Check if memo draft is already created
     const draftExist = await dbOneDocument.fetchMemoByEndPointAndStatus(memoEndPoint, 'draft')
 
     if (draftExist) {
@@ -102,19 +104,39 @@ async function createDraftByMemoEndPoint(req, res) {
       )
       // TODO: SHOULD IT TO BE USED WHEN UPDATES COURSE ROUNDS?
     } else {
-      log.info('creating new memo draft ' + memoEndPoint + ' copied from previous published version')
-      const publishedObj = await dbOneDocument.fetchMemoByEndPointAndStatus(memoEndPoint, 'published')
+      log.warn('creating new memo draft ' + memoEndPoint)
+      const isToCopyFrom = (anotherMemoEndPoint && anotherMemoEndPoint !== memoEndPoint) || false
+      let publishedObj = await dbOneDocument.fetchMemoByEndPointAndStatus(
+        isToCopyFrom ? anotherMemoEndPoint : memoEndPoint,
+        'published'
+      )
+
       if (publishedObj) {
+        log.info(
+          `${
+            isToCopyFrom
+              ? 'copy previosly published memo by creating a draft for another memo with memoEndPoint ' +
+                anotherMemoEndPoint +
+                'for '
+              : 'create a new version of the previously published version with the same memoEndPoint into a new memo draft '
+          }` + memoEndPoint
+        )
         // copy published memo to new object with updated version and draft status
-        publishedObj.status = 'draft'
-        publishedObj.lastPublishedVersionPublishDate = publishedObj.lastChangeDate
-        publishedObj.version++
-        publishedObj.commentAboutMadeChanges = ''
-        publishedObj._id = undefined
-        dbResponse.push(await dbOneDocument.storeNewCourseMemoData(publishedObj.toObject()))
+        publishedObj = {
+          ...publishedObj.toObject(),
+          ...{
+            _id: undefined,
+            status: 'draft',
+            commentAboutMadeChanges: '',
+            lastPublishedVersionPublishDate: isToCopyFrom ? '' : publishedObj.lastChangeDate,
+            version: isToCopyFrom ? 0 : publishedObj.version++
+          },
+          ...newMemoObj
+        }
+
+        dbResponse.push(await dbOneDocument.storeNewCourseMemoData(publishedObj))
       } else {
-        // create new draft from anything
-        const newMemoObj = req.body
+        // create new draft from scratch
 
         log.info(
           'no published or draft version for this memoEndPoint ' +

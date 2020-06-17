@@ -275,8 +275,8 @@
     "/v1/draft/{memoEndPoint}/copyFrom/{anotherMemoEndPoint}": {
       "post": {
         "operationId": "copyFromAPublishedMemo",
-        "summary": "Admin page: create new (empty with default values /  or copied from published version) draft and assign memoEndPoint to it",
-        "description": "Creates a copy of published memo and save it as a draft or creates a new empty draft with default values",
+        "summary": "Admin page: create new (empty with default values /  or copied from any published version(anotherMemoEndPoint)) draft and assign memoEndPoint to it",
+        "description": "Creates a copy of published memo and save it as a draft with memoEndPoint in parameter anotherMemoEndPoint, if anotherMemoEndPoint==memoEndPoint, it will create empty standard draft or or copy from prev published version with the same memoEndPoint",
         "parameters": [
           {
             "name": "memoEndPoint",
@@ -288,7 +288,7 @@
           {
             "name": "anotherMemoEndPoint",
             "in": "path",
-            "description": "anotherMemoEndPoint is memoEndPoint for published which will be copied into this new memo",
+            "description": "anotherMemoEndPoint is memoEndPoint for previously published memo which will be copied into this new memo",
             "required": true,
             "type": "string"
           },

@@ -51,7 +51,7 @@ const schema = mongoose.Schema({
     default: 'draft'
   },
   version: {
-    type: String,
+    type: Number,
     default: 1
   },
   ...combinedMemoData

@@ -7,7 +7,7 @@ const { MyDocument } = require('../components-dist/MyDocument')
 
 async function createPdf(writeStream, data) {
   log.info('createPdf: Create PDF with data', data)
-  const doc = await ReactPDF.renderToStream(MyDocument())
+  const doc = await ReactPDF.renderToStream(MyDocument({ title: data.memoEndPoint }))
   doc.pipe(writeStream)
 }
 

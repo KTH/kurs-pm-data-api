@@ -1,3 +1,4 @@
+/* eslint-disable react/prop-types */
 /* eslint-disable import/prefer-default-export */
 import React from 'react'
 import { Page, Text, View, Document, StyleSheet } from '@react-pdf/renderer'
@@ -16,14 +17,11 @@ const styles = StyleSheet.create({
 })
 
 // Create Document Component
-export const MyDocument = () => (
+export const MyDocument = ({ title }) => (
   <Document>
     <Page size="A4" style={styles.page}>
       <View style={styles.section}>
-        <Text>Section #1</Text>
-      </View>
-      <View style={styles.section}>
-        <Text>Section #2</Text>
+        <Text>{title}</Text>
       </View>
     </Page>
   </Document>

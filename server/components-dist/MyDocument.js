@@ -13,6 +13,8 @@ function _interopRequireDefault(obj) {
   return obj && obj.__esModule ? obj : { default: obj }
 }
 
+/* eslint-disable react/prop-types */
+
 /* eslint-disable import/prefer-default-export */
 // Create styles
 var styles = _renderer.StyleSheet.create({
@@ -27,7 +29,8 @@ var styles = _renderer.StyleSheet.create({
   }
 }) // Create Document Component
 
-var MyDocument = function MyDocument() {
+var MyDocument = function MyDocument(_ref) {
+  var title = _ref.title
   return /*#__PURE__*/ _react['default'].createElement(
     _renderer.Document,
     null,
@@ -42,14 +45,7 @@ var MyDocument = function MyDocument() {
         {
           style: styles.section
         },
-        /*#__PURE__*/ _react['default'].createElement(_renderer.Text, null, 'Section #1')
-      ),
-      /*#__PURE__*/ _react['default'].createElement(
-        _renderer.View,
-        {
-          style: styles.section
-        },
-        /*#__PURE__*/ _react['default'].createElement(_renderer.Text, null, 'Section #2')
+        /*#__PURE__*/ _react['default'].createElement(_renderer.Text, null, title)
       )
     )
   )

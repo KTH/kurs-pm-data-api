@@ -34,6 +34,3 @@ node_modules/*
 
 # test coverage
 coverage
-
-# during document rendering tests
-server/documents/*.pdf

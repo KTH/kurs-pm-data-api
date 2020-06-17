@@ -3,7 +3,6 @@
 const log = require('kth-node-log')
 
 const { fetchMemoByEndPointAndStatus } = require('../lib/dbDataById')
-const { generatePDF } = require('../lib/pdfGenerator')
 const { createPdf } = require('../lib/pdfRenderer.js')
 
 /* eslint-disable consistent-return */
@@ -16,8 +15,7 @@ async function getMemoByEndPoint(req, res) {
     if (req.query.download === 'true') {
       res.set('Content-Disposition', 'attachment; filename=' + memoEndPoint + '.pdf')
     }
-    generatePDF(res, dbResponse)
-    createPdf(memoEndPoint)
+    createPdf(res, dbResponse)
     log.info('getMemoByEndPoint: Responded to request for PDF with memoEndPoint:', memoEndPoint)
   } catch (err) {
     log.error('getMemoByEndPoint: Failed request for PDF, error:', { err })

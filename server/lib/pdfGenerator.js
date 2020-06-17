@@ -1,5 +1,7 @@
 'use strict'
 
+// TODO: Remove. Only used during evaluation of PDF generation and rendering methods
+
 const log = require('kth-node-log')
 const PDFDocument = require('pdfkit')
 

@@ -42,7 +42,26 @@ async function getCourseSemesterUsedRounds(courseCode, semester) {
   }
 }
 
+async function getSortedMiniMemosForAllYears(courseCode, memoStatus = 'published') {
+  const _dbResponse = await CourseMemo.aggregate([{ $match: { courseCode, status: memoStatus } }])
+  const publishedForAllYears = []
+  for (let index = 0; index < _dbResponse.length; index++) {
+    const { semester, status, ladokRoundIds, memoEndPoint, memoName } = _dbResponse[index]
+    const miniMemo = {
+      semester,
+      status,
+      memoId: _dbResponse[index]._id,
+      memoEndPoint,
+      memoName,
+      ladokRoundIds
+    }
+    publishedForAllYears.push(miniMemo)
+  }
+  return publishedForAllYears.sort((a, b) => Number(b.semester) - Number(a.semester))
+}
+
 async function getMemosFromPrevSemester(courseCode, fromSemester) {
+  // getFromPrevSemesterAndAllPubl
   // From prev year semester
   // TODO: PREPARE FOR PAGE 'EDIT PUBLISHED'
   if (!courseCode) throw new Error('courseCode must be set')
@@ -51,10 +70,14 @@ async function getMemosFromPrevSemester(courseCode, fromSemester) {
     const _dbResponse = await CourseMemo.aggregate([
       { $match: { courseCode, semester: { $gte: fromSemester }, $or: [{ status: 'draft' }, { status: 'published' }] } }
     ])
-    log.info('dbResponse after looking for drafts and published memos starting from prevYear', _dbResponse)
+    log.debug(
+      'dbResponse after looking for drafts and published memos starting from prevYear and all published, number of items:',
+      _dbResponse.length
+    )
     const _allDrafts = []
     const _allPublished = []
     const finalObj = {
+      sortedPublishedForAllYears: await getSortedMiniMemosForAllYears(courseCode),
       publishedMemos: [], // PUBLISHED MEMOS WHICH DO NOT HAVE ACTIVE DRAFT VERSION
       draftsOfPublishedMemos: [], // PUBLISHED MEMOS WHICH DO HAVE ACTIVE DRAFT VERSION
       draftsWithNoActivePublishedVer: [] // From previous year

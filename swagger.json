@@ -321,6 +321,55 @@
         ]
       }
     },
+    "/v1/draft/{memoEndPoint}/copyFrom/{anotherMemoEndPoint}": {
+      "post": {
+        "operationId": "copyFromAPublishedMemo",
+        "summary": "Admin page: create new (empty with default values /  or copied from published version) draft and assign memoEndPoint to it",
+        "description": "Creates a copy of published memo and save it as a draft or creates a new empty draft with default values",
+        "parameters": [
+          {
+            "name": "memoEndPoint",
+            "in": "path",
+            "description": "memoEndPoint is used to keep all versions under the same endpoint, unique for memo for one kursomgång. Unchangeable enpoint to display it in url (for bookmarks) and keep track on versions change",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "anotherMemoEndPoint",
+            "in": "path",
+            "description": "anotherMemoEndPoint is memoEndPoint for published which will be copied into this new memo",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "roundCourseMemoData",
+            "in": "body",
+            "description": "Data with course code, semester and rounds to create first draft",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/MemoData"
+            }
+          }
+        ],
+        "tags": ["v1"],
+        "responses": {
+          "200": {
+            "description": "A successful save"
+          },
+          "default": {
+            "description": "Unexpected error",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          }
+        },
+        "security": [
+          {
+            "api_key": ["write"]
+          }
+        ]
+      }
+    },
     "/v1/draft/{memoEndPoint}": {
       "get": {
         "operationId": "getDraftByEndPoint",

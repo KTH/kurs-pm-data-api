@@ -1,0 +1,11 @@
+{
+  "verbose": false,
+  "ignore": ["server/components-dist/*"],
+  "ext": "js,jsx,json",
+  "execMap": {
+    "jsx": "npm run build"
+  },
+  "events": {
+    "start": "npm run build"
+  }
+}

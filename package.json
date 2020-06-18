@@ -10,7 +10,7 @@
     "test": "mocha --exit test/**/*.js",
     "build": "babel server/components --out-dir server/components-dist",
     "start": "NODE_ENV=production node app.js",
-    "start-dev": "npm run build && cross-env NODE_ENV=development nodemon app.js"
+    "start-dev": "cross-env NODE_ENV=development nodemon app.js"
   },
   "dependencies": {
     "@kth/kth-node-cosmos-db": "^3.0.6",

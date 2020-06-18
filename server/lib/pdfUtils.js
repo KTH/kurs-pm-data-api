@@ -22,6 +22,12 @@ function concatMemoName(semester, ladokRoundIds, langAbbr) {
   return `${memoLabel} ${seasonStr(season, semester)}-${ladokRoundIds.join('-')}`
 }
 
+function formatCredits(credits, creditUnitAbbr, language) {
+  const localeCredits = language === 'sv' ? credits.toLocaleString('sv-SE') : credits.toLocaleString('en-US')
+  const creditUnit = language === 'sv' ? creditUnitAbbr : 'credits'
+  return `${localeCredits} ${creditUnit}`
+}
+
 function decodeHtml(html) {
   return entities.decode(html)
 }
@@ -29,5 +35,6 @@ function decodeHtml(html) {
 module.exports = {
   inPx,
   concatMemoName,
+  formatCredits,
   decodeHtml
 }

@@ -47,6 +47,13 @@ var options = {
       return /*#__PURE__*/_react["default"].createElement(_renderer.View, null, (0, _htmlReactParser.domToReact)(domNode.children, options));
     }
 
+    if (domNode.type === 'tag' && domNode.name === 'a') {
+      // eslint-disable-next-line jsx-a11y/anchor-is-valid
+      return /*#__PURE__*/_react["default"].createElement(_renderer.Link, {
+        src: domNode.attribs.href
+      }, (0, _htmlReactParser.domToReact)(domNode.children, options));
+    }
+
     if (domNode.type === 'text') {
       return /*#__PURE__*/_react["default"].createElement(_renderer.Text, null, domNode.data);
     }
@@ -59,13 +66,16 @@ var CourseMemoContent = function CourseMemoContent(_ref) {
   var data = _ref.data;
   var courseContent = (0, _htmlReactParser["default"])(data.courseContent);
   var learningOutcomes = (0, _htmlReactParser["default"])(data.learningOutcomes, options);
+  var permanentDisability = (0, _htmlReactParser["default"])(data.permanentDisability, options);
   return /*#__PURE__*/_react["default"].createElement(_renderer.View, {
     style: styles.contentContainer
   }, /*#__PURE__*/_react["default"].createElement(_renderer.Text, {
     style: styles.h2
   }, "Course Content"), /*#__PURE__*/_react["default"].createElement(_renderer.Text, null, courseContent), /*#__PURE__*/_react["default"].createElement(_renderer.Text, {
     style: styles.h2
-  }, "Learning Outcomes"), /*#__PURE__*/_react["default"].createElement(_renderer.Text, null, learningOutcomes));
+  }, "Learning Outcomes"), /*#__PURE__*/_react["default"].createElement(_renderer.Text, null, learningOutcomes), /*#__PURE__*/_react["default"].createElement(_renderer.Text, {
+    style: styles.h2
+  }, "Permanent Disability"), /*#__PURE__*/_react["default"].createElement(_renderer.Text, null, permanentDisability));
 };
 
 var _default = CourseMemoContent;

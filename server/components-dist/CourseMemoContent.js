@@ -40,14 +40,37 @@ var options = {
     }
 
     if (domNode.type === 'tag' && domNode.name === 'li') {
-      return /*#__PURE__*/_react["default"].createElement(_renderer.View, null, (0, _htmlReactParser.domToReact)(domNode.children, options));
+      return /*#__PURE__*/_react["default"].createElement(_renderer.View, null, /*#__PURE__*/_react["default"].createElement(_renderer.Text, null, "\n\u2022"), (0, _htmlReactParser.domToReact)(domNode.children, options));
     }
 
     if (domNode.type === 'tag' && domNode.name === 'p') {
+      // Handle contacts
+      if (domNode.attribs["class"] === 'person') {
+        return /*#__PURE__*/_react["default"].createElement(_renderer.View, null, (0, _htmlReactParser.domToReact)(domNode.children.filter(function (c) {
+          return c.type === 'tag' && c.name === 'a';
+        }), options));
+      }
+
       return /*#__PURE__*/_react["default"].createElement(_renderer.View, null, (0, _htmlReactParser.domToReact)(domNode.children, options));
     }
 
+    if (domNode.type === 'tag' && domNode.name === 'a') {
+      // eslint-disable-next-line jsx-a11y/anchor-is-valid
+      return /*#__PURE__*/_react["default"].createElement(_renderer.Link, {
+        src: domNode.attribs.href
+      }, (0, _htmlReactParser.domToReact)(domNode.children, options));
+    }
+
+    if (domNode.type === 'tag' && domNode.name === 'img') {
+      // console.log('PDF Content: img with src', domNode.attribs.src)
+      return /*#__PURE__*/_react["default"].createElement(_react["default"].Fragment, null, (0, _htmlReactParser.domToReact)(domNode.children, options));
+    }
+
     if (domNode.type === 'text') {
+      if (domNode.parent && domNode.parent.type === 'tag' && domNode.parent.name === 'a') {
+        return /*#__PURE__*/_react["default"].createElement(_renderer.Text, null, domNode.data.trim());
+      }
+
       return /*#__PURE__*/_react["default"].createElement(_renderer.Text, null, domNode.data);
     }
 
@@ -59,13 +82,19 @@ var CourseMemoContent = function CourseMemoContent(_ref) {
   var data = _ref.data;
   var courseContent = (0, _htmlReactParser["default"])(data.courseContent);
   var learningOutcomes = (0, _htmlReactParser["default"])(data.learningOutcomes, options);
+  var permanentDisability = (0, _htmlReactParser["default"])(data.permanentDisability, options);
+  var examiner = (0, _htmlReactParser["default"])(data.examiner, options);
   return /*#__PURE__*/_react["default"].createElement(_renderer.View, {
     style: styles.contentContainer
   }, /*#__PURE__*/_react["default"].createElement(_renderer.Text, {
     style: styles.h2
   }, "Course Content"), /*#__PURE__*/_react["default"].createElement(_renderer.Text, null, courseContent), /*#__PURE__*/_react["default"].createElement(_renderer.Text, {
     style: styles.h2
-  }, "Learning Outcomes"), /*#__PURE__*/_react["default"].createElement(_renderer.Text, null, learningOutcomes));
+  }, "Learning Outcomes"), /*#__PURE__*/_react["default"].createElement(_renderer.Text, null, learningOutcomes), /*#__PURE__*/_react["default"].createElement(_renderer.Text, {
+    style: styles.h2
+  }, "Permanent Disability"), /*#__PURE__*/_react["default"].createElement(_renderer.Text, null, permanentDisability), /*#__PURE__*/_react["default"].createElement(_renderer.Text, {
+    style: styles.h2
+  }, "Examiner"), /*#__PURE__*/_react["default"].createElement(_renderer.Text, null, examiner));
 };
 
 var _default = CourseMemoContent;

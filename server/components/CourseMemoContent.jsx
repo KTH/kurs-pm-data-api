@@ -1,6 +1,6 @@
 /* eslint-disable react/prop-types */
 import React from 'react'
-import { View, Text, StyleSheet } from '@react-pdf/renderer'
+import { View, Text, StyleSheet, Link } from '@react-pdf/renderer'
 import parse, { domToReact } from 'html-react-parser'
 
 const styles = StyleSheet.create({
@@ -14,12 +14,39 @@ const options = {
       return <View>{domToReact(domNode.children, options)}</View>
     }
     if (domNode.type === 'tag' && domNode.name === 'li') {
-      return <View>{domToReact(domNode.children, options)}</View>
+      return (
+        <View>
+          <Text>{`\n•`}</Text>
+          {domToReact(domNode.children, options)}
+        </View>
+      )
     }
     if (domNode.type === 'tag' && domNode.name === 'p') {
+      // Handle contacts
+      if (domNode.attribs.class === 'person') {
+        return (
+          <View>
+            {domToReact(
+              domNode.children.filter(c => c.type === 'tag' && c.name === 'a'),
+              options
+            )}
+          </View>
+        )
+      }
       return <View>{domToReact(domNode.children, options)}</View>
     }
+    if (domNode.type === 'tag' && domNode.name === 'a') {
+      // eslint-disable-next-line jsx-a11y/anchor-is-valid
+      return <Link src={domNode.attribs.href}>{domToReact(domNode.children, options)}</Link>
+    }
+    if (domNode.type === 'tag' && domNode.name === 'img') {
+      // console.log('PDF Content: img with src', domNode.attribs.src)
+      return <React.Fragment>{domToReact(domNode.children, options)}</React.Fragment>
+    }
     if (domNode.type === 'text') {
+      if (domNode.parent && domNode.parent.type === 'tag' && domNode.parent.name === 'a') {
+        return <Text>{domNode.data.trim()}</Text>
+      }
       return <Text>{domNode.data}</Text>
     }
     return <React.Fragment />
@@ -29,12 +56,18 @@ const options = {
 const CourseMemoContent = ({ data }) => {
   const courseContent = parse(data.courseContent)
   const learningOutcomes = parse(data.learningOutcomes, options)
+  const permanentDisability = parse(data.permanentDisability, options)
+  const examiner = parse(data.examiner, options)
   return (
     <View style={styles.contentContainer}>
       <Text style={styles.h2}>Course Content</Text>
       <Text>{courseContent}</Text>
       <Text style={styles.h2}>Learning Outcomes</Text>
       <Text>{learningOutcomes}</Text>
+      <Text style={styles.h2}>Permanent Disability</Text>
+      <Text>{permanentDisability}</Text>
+      <Text style={styles.h2}>Examiner</Text>
+      <Text>{examiner}</Text>
     </View>
   )
 }

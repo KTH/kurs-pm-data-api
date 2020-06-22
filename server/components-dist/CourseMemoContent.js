@@ -44,6 +44,13 @@ var options = {
     }
 
     if (domNode.type === 'tag' && domNode.name === 'p') {
+      // Handle contacts
+      if (domNode.attribs["class"] === 'person') {
+        return /*#__PURE__*/_react["default"].createElement(_renderer.View, null, (0, _htmlReactParser.domToReact)(domNode.children.filter(function (c) {
+          return c.type === 'tag' && c.name === 'a';
+        }), options));
+      }
+
       return /*#__PURE__*/_react["default"].createElement(_renderer.View, null, (0, _htmlReactParser.domToReact)(domNode.children, options));
     }
 
@@ -55,12 +62,16 @@ var options = {
     }
 
     if (domNode.type === 'tag' && domNode.name === 'img') {
-      console.log('PDF Content: img with src', domNode.attribs.src);
+      // console.log('PDF Content: img with src', domNode.attribs.src)
       return /*#__PURE__*/_react["default"].createElement(_react["default"].Fragment, null, (0, _htmlReactParser.domToReact)(domNode.children, options));
     }
 
     if (domNode.type === 'text') {
-      return /*#__PURE__*/_react["default"].createElement(_renderer.Text, null, domNode.data === '\n      ' ? '' : domNode.data);
+      if (domNode.parent && domNode.parent.type === 'tag' && domNode.parent.name === 'a') {
+        return /*#__PURE__*/_react["default"].createElement(_renderer.Text, null, domNode.data.trim());
+      }
+
+      return /*#__PURE__*/_react["default"].createElement(_renderer.Text, null, domNode.data);
     }
 
     return /*#__PURE__*/_react["default"].createElement(_react["default"].Fragment, null);

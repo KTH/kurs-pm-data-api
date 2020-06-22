@@ -22,6 +22,17 @@ const options = {
       )
     }
     if (domNode.type === 'tag' && domNode.name === 'p') {
+      // Handle contacts
+      if (domNode.attribs.class === 'person') {
+        return (
+          <View>
+            {domToReact(
+              domNode.children.filter(c => c.type === 'tag' && c.name === 'a'),
+              options
+            )}
+          </View>
+        )
+      }
       return <View>{domToReact(domNode.children, options)}</View>
     }
     if (domNode.type === 'tag' && domNode.name === 'a') {
@@ -29,11 +40,14 @@ const options = {
       return <Link src={domNode.attribs.href}>{domToReact(domNode.children, options)}</Link>
     }
     if (domNode.type === 'tag' && domNode.name === 'img') {
-      console.log('PDF Content: img with src', domNode.attribs.src)
+      // console.log('PDF Content: img with src', domNode.attribs.src)
       return <React.Fragment>{domToReact(domNode.children, options)}</React.Fragment>
     }
     if (domNode.type === 'text') {
-      return <Text>{domNode.data === '\n      ' ? '' : domNode.data}</Text>
+      if (domNode.parent && domNode.parent.type === 'tag' && domNode.parent.name === 'a') {
+        return <Text>{domNode.data.trim()}</Text>
+      }
+      return <Text>{domNode.data}</Text>
     }
     return <React.Fragment />
   }

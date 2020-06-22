@@ -129,7 +129,7 @@ async function createDraftByMemoEndPoint(req, res) {
             status: 'draft',
             commentAboutMadeChanges: '',
             lastPublishedVersionPublishDate: isToCopyFrom ? '' : publishedObj.lastChangeDate,
-            version: isToCopyFrom ? 0 : publishedObj.version++
+            version: isToCopyFrom ? 1 : Number(publishedObj.version) + 1
           },
           ...newMemoObj
         }

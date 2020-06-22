@@ -15,7 +15,7 @@ async function getMemoByEndPoint(req, res) {
     if (req.query.download === 'true') {
       res.set('Content-Disposition', 'attachment; filename=' + memoEndPoint + '.pdf')
     }
-    createPdf(res, dbResponse)
+    await createPdf(res, dbResponse)
     log.info('getMemoByEndPoint: Responded to request for PDF with memoEndPoint:', memoEndPoint)
   } catch (err) {
     log.error('getMemoByEndPoint: Failed request for PDF, error:', { err })

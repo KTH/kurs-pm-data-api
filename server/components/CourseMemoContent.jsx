@@ -14,7 +14,12 @@ const options = {
       return <View>{domToReact(domNode.children, options)}</View>
     }
     if (domNode.type === 'tag' && domNode.name === 'li') {
-      return <View>{domToReact(domNode.children, options)}</View>
+      return (
+        <View>
+          <Text>{`\n•`}</Text>
+          {domToReact(domNode.children, options)}
+        </View>
+      )
     }
     if (domNode.type === 'tag' && domNode.name === 'p') {
       return <View>{domToReact(domNode.children, options)}</View>

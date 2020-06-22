@@ -40,7 +40,7 @@ var options = {
     }
 
     if (domNode.type === 'tag' && domNode.name === 'li') {
-      return /*#__PURE__*/_react["default"].createElement(_renderer.View, null, (0, _htmlReactParser.domToReact)(domNode.children, options));
+      return /*#__PURE__*/_react["default"].createElement(_renderer.View, null, /*#__PURE__*/_react["default"].createElement(_renderer.Text, null, "\n\u2022"), (0, _htmlReactParser.domToReact)(domNode.children, options));
     }
 
     if (domNode.type === 'tag' && domNode.name === 'p') {

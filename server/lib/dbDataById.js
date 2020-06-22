@@ -21,9 +21,11 @@ async function storeNewCourseMemoData(data) {
   // ***** USED TO POST NEW COURSE MEMO FIRST DRAFT
   if (!data) throw new Error('Trying to post empty/innacurate data in storeNewCourseMemoData')
   else {
+    if (!data.courseCode || !data.semester || !data.ladokRoundIds)
+      throw new Error('Trying to post data without courseCode or semester or ladokRoundsIds in storeNewCourseMemoData')
     data.lastChangeDate = new Date()
     const doc = new CourseMemo(data)
-    log.debug('Create and store new FIRST draft in form of roundCourseMemoData', { doc })
+    log.debug('Create and store a new draft in form of roundCourseMemoData', { doc })
     const result = await doc.save()
     return result
   }

@@ -37,6 +37,8 @@ async function updateMemoByEndPointAndStatus(data, status) {
   if (data) {
     log.debug('Update of existing memo or draft: ', { data })
     const resultAfterUpdate = CourseMemo.findOneAndUpdate({ memoEndPoint, status, courseCode }, { $set: data })
+    if (resultAfterUpdate && resultAfterUpdate.version)
+      log.debug('Updated draft with version: ', resultAfterUpdate.version)
     return resultAfterUpdate
   }
   log.debug('No roundCourseMemoData found for updating it with new data', { data })

@@ -28,8 +28,12 @@ const options = {
       // eslint-disable-next-line jsx-a11y/anchor-is-valid
       return <Link src={domNode.attribs.href}>{domToReact(domNode.children, options)}</Link>
     }
+    if (domNode.type === 'tag' && domNode.name === 'img') {
+      console.log('PDF Content: img with src', domNode.attribs.src)
+      return <React.Fragment>{domToReact(domNode.children, options)}</React.Fragment>
+    }
     if (domNode.type === 'text') {
-      return <Text>{domNode.data}</Text>
+      return <Text>{domNode.data === '\n      ' ? '' : domNode.data}</Text>
     }
     return <React.Fragment />
   }
@@ -39,6 +43,7 @@ const CourseMemoContent = ({ data }) => {
   const courseContent = parse(data.courseContent)
   const learningOutcomes = parse(data.learningOutcomes, options)
   const permanentDisability = parse(data.permanentDisability, options)
+  const examiner = parse(data.examiner, options)
   return (
     <View style={styles.contentContainer}>
       <Text style={styles.h2}>Course Content</Text>
@@ -47,6 +52,8 @@ const CourseMemoContent = ({ data }) => {
       <Text>{learningOutcomes}</Text>
       <Text style={styles.h2}>Permanent Disability</Text>
       <Text>{permanentDisability}</Text>
+      <Text style={styles.h2}>Examiner</Text>
+      <Text>{examiner}</Text>
     </View>
   )
 }

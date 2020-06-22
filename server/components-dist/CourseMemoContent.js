@@ -54,8 +54,13 @@ var options = {
       }, (0, _htmlReactParser.domToReact)(domNode.children, options));
     }
 
+    if (domNode.type === 'tag' && domNode.name === 'img') {
+      console.log('PDF Content: img with src', domNode.attribs.src);
+      return /*#__PURE__*/_react["default"].createElement(_react["default"].Fragment, null, (0, _htmlReactParser.domToReact)(domNode.children, options));
+    }
+
     if (domNode.type === 'text') {
-      return /*#__PURE__*/_react["default"].createElement(_renderer.Text, null, domNode.data);
+      return /*#__PURE__*/_react["default"].createElement(_renderer.Text, null, domNode.data === '\n      ' ? '' : domNode.data);
     }
 
     return /*#__PURE__*/_react["default"].createElement(_react["default"].Fragment, null);
@@ -67,6 +72,7 @@ var CourseMemoContent = function CourseMemoContent(_ref) {
   var courseContent = (0, _htmlReactParser["default"])(data.courseContent);
   var learningOutcomes = (0, _htmlReactParser["default"])(data.learningOutcomes, options);
   var permanentDisability = (0, _htmlReactParser["default"])(data.permanentDisability, options);
+  var examiner = (0, _htmlReactParser["default"])(data.examiner, options);
   return /*#__PURE__*/_react["default"].createElement(_renderer.View, {
     style: styles.contentContainer
   }, /*#__PURE__*/_react["default"].createElement(_renderer.Text, {
@@ -75,7 +81,9 @@ var CourseMemoContent = function CourseMemoContent(_ref) {
     style: styles.h2
   }, "Learning Outcomes"), /*#__PURE__*/_react["default"].createElement(_renderer.Text, null, learningOutcomes), /*#__PURE__*/_react["default"].createElement(_renderer.Text, {
     style: styles.h2
-  }, "Permanent Disability"), /*#__PURE__*/_react["default"].createElement(_renderer.Text, null, permanentDisability));
+  }, "Permanent Disability"), /*#__PURE__*/_react["default"].createElement(_renderer.Text, null, permanentDisability), /*#__PURE__*/_react["default"].createElement(_renderer.Text, {
+    style: styles.h2
+  }, "Examiner"), /*#__PURE__*/_react["default"].createElement(_renderer.Text, null, examiner));
 };
 
 var _default = CourseMemoContent;

@@ -54,10 +54,64 @@ const messages = [
   }
 ]
 
+// TODO: How do we sync these fields up between all kurs-pm apps
 const sections = [
   {
     id: 'contentAndOutcomes',
-    content: ['courseContent', 'learningOutcomes', 'learningActivities', 'scheduleDetails']
+    title: 'Innehåll och lärandemål', // TODO: Later, to use i18n messages.sections for en/Sv somehow
+    content: ['courseContent', 'learningOutcomes', 'learningActivities', 'scheduleDetails'],
+    extraHeaderTitle: 'extraHeaders1'
+  },
+  {
+    id: 'prep',
+    title: 'Förbereda inför kursstart',
+    content: [
+      'prerequisites',
+      'preparations',
+      'literature',
+      'equipment',
+      'software',
+      'permanentDisability',
+      'permanentDisabilitySubSection'
+    ],
+    extraHeaderTitle: 'extraHeaders2'
+  },
+  {
+    id: 'reqToFinal',
+    title: 'Examination',
+    content: [
+      'gradingScale',
+      'examination',
+      'examinationSubSection',
+      'otherRequirementsForFinalGrade',
+      'gradingCriteria',
+      'possibilityToCompletion',
+      'possibilityToAddition',
+      'possibilityToCompensate',
+      'reportingResults',
+      'ethicalApproach',
+      'ethicalApproachSubSection'
+    ],
+    extraHeaderTitle: 'extraHeaders3'
+  },
+  {
+    id: 'extra',
+    title: 'Ytterligare Information',
+    content: ['additionalRegulations', 'infoForReregisteredStudents'],
+    extraHeaderTitle: 'extraHeaders4'
+  },
+  {
+    id: 'contacts',
+    title: 'Kontakter',
+    content: [
+      'communicationDuringCourse',
+      'courseCoordinator',
+      'teacher',
+      'teacherAssistants',
+      'examiner',
+      'otherContacts'
+    ],
+    extraHeaderTitle: null
   }
 ]
 

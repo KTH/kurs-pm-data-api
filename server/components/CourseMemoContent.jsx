@@ -5,26 +5,36 @@ import { View, Text } from '@react-pdf/renderer'
 import parse from './CourseMemoHtmlParser'
 import styles from './CourseMemoStyles'
 
-// TODO: Cleanup and only iterate over content here
-const CourseMemoContent = ({ data }) => {
-  const courseContent = parse(data.courseContent)
-  const learningOutcomes = parse(data.learningOutcomes)
-  const permanentDisability = parse(data.permanentDisability)
-  const examiner = parse(data.examiner)
-  const scheduleDetails = parse(data.scheduleDetails)
+const { sections } = require('../lib/pdfConstants')
 
+const Section = ({ section, data }) => {
+  const sectionHeader = section.id
+  return (
+    <View key={sectionHeader}>
+      <Text style={styles.h2}>{sectionHeader}</Text>
+      {section.content.map(subSection => (
+        <SubSection key={subSection} subSection={subSection} data={data} />
+      ))}
+    </View>
+  )
+}
+
+const SubSection = ({ subSection, data }) => {
+  const subSectionHeader = subSection
+  return (
+    <View key={subSectionHeader}>
+      <Text style={styles.h3}>{subSectionHeader}</Text>
+      <View>{parse(data[subSection])}</View>
+    </View>
+  )
+}
+
+const CourseMemoContent = ({ data }) => {
   return (
     <View style={styles.contentContainer}>
-      <Text style={styles.h2}>Course Content</Text>
-      <View>{courseContent}</View>
-      <Text style={styles.h2}>Learning Outcomes</Text>
-      <View>{learningOutcomes}</View>
-      <Text style={styles.h2}>Permanent Disability</Text>
-      <View>{permanentDisability}</View>
-      <Text style={styles.h2}>Examiner</Text>
-      <View>{examiner}</View>
-      <Text style={styles.h2}>Schedule Details</Text>
-      <View>{scheduleDetails}</View>
+      {sections.map(section => (
+        <Section key={section.id} section={section} data={data} />
+      ))}
     </View>
   )
 }

@@ -4,6 +4,8 @@ const Entities = require('html-entities').AllHtmlEntities
 
 const { messages } = require('./pdfConstants')
 
+const i18n = require('../../i18n')
+
 const entities = new Entities()
 
 function inPx(mm) {
@@ -32,9 +34,15 @@ function decodeHtml(html) {
   return entities.decode(html)
 }
 
+function getMessages(language) {
+  const languageIndex = language === 'en' ? 0 : 1
+  return i18n.messages[languageIndex]
+}
+
 module.exports = {
   inPx,
   concatMemoName,
   formatCredits,
-  decodeHtml
+  decodeHtml,
+  getMessages
 }

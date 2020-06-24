@@ -1,167 +1,76 @@
 "use strict";
 
-function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
-
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports["default"] = void 0;
 
-var _react = _interopRequireWildcard(require("react"));
+var _react = _interopRequireDefault(require("react"));
 
 var _renderer = require("@react-pdf/renderer");
 
-var _htmlReactParser = _interopRequireWildcard(require("html-react-parser"));
+var _CourseMemoHtmlParser = _interopRequireDefault(require("./CourseMemoHtmlParser"));
 
-function _getRequireWildcardCache() { if (typeof WeakMap !== "function") return null; var cache = new WeakMap(); _getRequireWildcardCache = function _getRequireWildcardCache() { return cache; }; return cache; }
+var _CourseMemoStyles = _interopRequireDefault(require("./CourseMemoStyles"));
 
-function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } if (obj === null || _typeof(obj) !== "object" && typeof obj !== "function") { return { "default": obj }; } var cache = _getRequireWildcardCache(); if (cache && cache.has(obj)) { return cache.get(obj); } var newObj = {}; var hasPropertyDescriptor = Object.defineProperty && Object.getOwnPropertyDescriptor; for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = hasPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : null; if (desc && (desc.get || desc.set)) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } newObj["default"] = obj; if (cache) { cache.set(obj, newObj); } return newObj; }
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
 /* eslint-disable react/prop-types */
-var styles = _renderer.StyleSheet.create({
-  contentContainer: {
-    fontFamily: 'Georgia',
-    fontSize: '12pt'
-  },
-  h2: {
-    fontFamily: 'Open Sans SemiBold',
-    fontSize: '18pt',
-    marginTop: '18pt',
-    marginBottom: '9pt'
-  },
-  table: {
-    fontFamily: 'Open Sans',
-    margin: 0,
-    padding: 0,
-    borderColor: '#65656c',
-    borderTop: '1pt',
-    borderBottom: '1pt',
-    borderLeft: '1pt'
-  },
-  thead: {
-    color: 'white',
-    margin: 0,
-    padding: 0,
-    backgroundColor: '#65656c'
-  },
-  tr: {
-    margin: 0,
-    padding: 0,
-    flexDirection: 'row',
-    justifyContent: 'space-between'
-  },
-  th: {
-    margin: 0,
-    padding: '3pt',
-    borderRight: '1pt',
-    borderRightColor: '#65656c',
-    flexBasis: 0,
-    flexGrow: 1
-  },
-  td: {
-    margin: 0,
-    padding: '3pt',
-    borderRight: '1pt',
-    borderRightColor: 'black',
-    flexBasis: 0,
-    flexGrow: 1
-  }
-});
+var _require = require('../lib/pdfUtils'),
+    getMessages = _require.getMessages;
 
-var options = {
-  replace: function replace(domNode) {
-    if (domNode.name === 'ul') {
-      return /*#__PURE__*/_react["default"].createElement(_renderer.View, null, (0, _htmlReactParser.domToReact)(domNode.children, options));
-    }
+var _require2 = require('../lib/pdfConstants'),
+    sections = _require2.sections;
 
-    if (domNode.name === 'li') {
-      return /*#__PURE__*/_react["default"].createElement(_renderer.Text, null, "\n\u2022 ", (0, _htmlReactParser.domToReact)(domNode.children, options));
-    }
+var Section = function Section(_ref) {
+  var section = _ref.section,
+      data = _ref.data;
+  var sectionHeader = section.id;
 
-    if (domNode.name === 'p') {
-      // Handle contacts
-      if (domNode.attribs["class"] === 'person') {
-        return /*#__PURE__*/_react["default"].createElement(_renderer.View, null, (0, _htmlReactParser.domToReact)(domNode.children.filter(function (c) {
-          return c.type === 'tag' && c.name === 'a';
-        }), options));
-      }
+  var _getMessages = getMessages(data.memoCommonLangAbbr),
+      sectionsLabels = _getMessages.sectionsLabels;
 
-      return /*#__PURE__*/_react["default"].createElement(_renderer.Text, null, (0, _htmlReactParser.domToReact)(domNode.children, options));
-    }
-
-    if (domNode.name === 'a') {
-      // eslint-disable-next-line jsx-a11y/anchor-is-valid
-      return /*#__PURE__*/_react["default"].createElement(_renderer.Link, {
-        src: domNode.attribs.href
-      }, (0, _htmlReactParser.domToReact)(domNode.children, options));
-    }
-
-    if (domNode.name === 'img') {
-      return /*#__PURE__*/_react["default"].createElement(_react["default"].Fragment, null, (0, _htmlReactParser.domToReact)(domNode.children, options));
-    }
-
-    if (domNode.name === 'table') {
-      return /*#__PURE__*/_react["default"].createElement(_renderer.View, {
-        style: styles.table
-      }, (0, _htmlReactParser.domToReact)(domNode.children, options));
-    }
-
-    if (domNode.name === 'thead') {
-      return /*#__PURE__*/_react["default"].createElement(_renderer.View, {
-        style: styles.thead
-      }, (0, _htmlReactParser.domToReact)(domNode.children, options));
-    }
-
-    if (domNode.name === 'tbody') {
-      return /*#__PURE__*/_react["default"].createElement(_renderer.View, null, (0, _htmlReactParser.domToReact)(domNode.children, options));
-    }
-
-    if (domNode.name === 'tr') {
-      return /*#__PURE__*/_react["default"].createElement(_renderer.View, {
-        style: styles.tr
-      }, (0, _htmlReactParser.domToReact)(domNode.children, options));
-    }
-
-    if (domNode.name === 'th') {
-      return /*#__PURE__*/_react["default"].createElement(_renderer.Text, {
-        style: styles.th
-      }, (0, _htmlReactParser.domToReact)(domNode.children, options));
-    }
-
-    if (domNode.name === 'td') {
-      return /*#__PURE__*/_react["default"].createElement(_renderer.View, {
-        style: styles.td
-      }, (0, _htmlReactParser.domToReact)(domNode.children, options));
-    }
-
-    if (domNode.type === 'text') {
-      return /*#__PURE__*/_react["default"].createElement(_renderer.Text, null, domNode.data);
-    }
-
-    return /*#__PURE__*/_react["default"].createElement(_react.Fragment, null);
-  }
+  var translatedSectionHeader = sectionsLabels[sectionHeader];
+  return /*#__PURE__*/_react["default"].createElement(_renderer.View, {
+    key: sectionHeader
+  }, /*#__PURE__*/_react["default"].createElement(_renderer.Text, {
+    style: _CourseMemoStyles["default"].h2
+  }, translatedSectionHeader), section.content.map(function (subSection) {
+    return /*#__PURE__*/_react["default"].createElement(SubSection, {
+      key: subSection,
+      subSection: subSection,
+      data: data
+    });
+  }));
 };
 
-var CourseMemoContent = function CourseMemoContent(_ref) {
-  var data = _ref.data;
-  var courseContent = (0, _htmlReactParser["default"])(data.courseContent.replace(/\n/g, ''), options);
-  var learningOutcomes = (0, _htmlReactParser["default"])(data.learningOutcomes.replace(/\n/g, ''), options);
-  var permanentDisability = (0, _htmlReactParser["default"])(data.permanentDisability.replace(/\n/g, ''), options);
-  var examiner = (0, _htmlReactParser["default"])(data.examiner.replace(/\n/g, ''), options);
-  var scheduleDetails = (0, _htmlReactParser["default"])(data.scheduleDetails.replace(/\n/g, ''), options);
+var SubSection = function SubSection(_ref2) {
+  var subSection = _ref2.subSection,
+      data = _ref2.data;
+  var subSectionHeader = subSection;
+
+  var _getMessages2 = getMessages(data.memoCommonLangAbbr),
+      memoTitlesByMemoLang = _getMessages2.memoTitlesByMemoLang;
+
+  var translatedSubSectionHeader = memoTitlesByMemoLang[subSectionHeader];
   return /*#__PURE__*/_react["default"].createElement(_renderer.View, {
-    style: styles.contentContainer
+    key: subSectionHeader
   }, /*#__PURE__*/_react["default"].createElement(_renderer.Text, {
-    style: styles.h2
-  }, "Course Content"), /*#__PURE__*/_react["default"].createElement(_renderer.View, null, courseContent), /*#__PURE__*/_react["default"].createElement(_renderer.Text, {
-    style: styles.h2
-  }, "Learning Outcomes"), /*#__PURE__*/_react["default"].createElement(_renderer.View, null, learningOutcomes), /*#__PURE__*/_react["default"].createElement(_renderer.Text, {
-    style: styles.h2
-  }, "Permanent Disability"), /*#__PURE__*/_react["default"].createElement(_renderer.View, null, permanentDisability), /*#__PURE__*/_react["default"].createElement(_renderer.Text, {
-    style: styles.h2
-  }, "Examiner"), /*#__PURE__*/_react["default"].createElement(_renderer.View, null, examiner), /*#__PURE__*/_react["default"].createElement(_renderer.Text, {
-    style: styles.h2
-  }, "Schedule Details"), /*#__PURE__*/_react["default"].createElement(_renderer.View, null, scheduleDetails));
+    style: _CourseMemoStyles["default"].h3
+  }, translatedSubSectionHeader), /*#__PURE__*/_react["default"].createElement(_renderer.View, null, (0, _CourseMemoHtmlParser["default"])(data[subSection])));
+};
+
+var CourseMemoContent = function CourseMemoContent(_ref3) {
+  var data = _ref3.data;
+  return /*#__PURE__*/_react["default"].createElement(_renderer.View, {
+    style: _CourseMemoStyles["default"].contentContainer
+  }, sections.map(function (section) {
+    return /*#__PURE__*/_react["default"].createElement(Section, {
+      key: section.id,
+      section: section,
+      data: data
+    });
+  }));
 };
 
 var _default = CourseMemoContent;

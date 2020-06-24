@@ -1,5 +1,4 @@
 /* eslint-disable react/prop-types */
-/* eslint-disable import/prefer-default-export */
 import React from 'react'
 
 import CourseMemoDocument from './CourseMemoDocument'
@@ -14,4 +13,6 @@ import CourseMemoDocument from './CourseMemoDocument'
         - CourseMemoContent
         - CourseMemoPageFooter
 */
-export const CourseMemo = ({ data }) => <CourseMemoDocument data={data} />
+const CourseMemo = ({ data }) => <CourseMemoDocument data={data} />
+
+export default CourseMemo

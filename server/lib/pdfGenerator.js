@@ -38,7 +38,7 @@ function addSections(doc, data) {
 }
 
 async function generatePDF(writeStream, data) {
-  log.info('generatePDF: Generate PDF with data', data)
+  log.debug('generatePDF: Generate PDF with data', data)
   const size = pageSize
   const margins = {
     top: inPx(pageMargins),

@@ -8,7 +8,7 @@ const { createPdf } = require('../lib/pdfRenderer.js')
 /* eslint-disable consistent-return */
 async function getMemoByEndPoint(req, res) {
   const { memoEndPoint } = req.params
-  log.info('getMemoByEndPoint: Received request for PDF with memoEndPoint:', memoEndPoint)
+  log.debug('getMemoByEndPoint: Received request for PDF with memoEndPoint:', memoEndPoint)
   try {
     const dbResponse = await fetchMemoByEndPointAndStatus(memoEndPoint, 'published')
     res.type('application/pdf')
@@ -16,7 +16,7 @@ async function getMemoByEndPoint(req, res) {
       res.set('Content-Disposition', 'attachment; filename=' + memoEndPoint + '.pdf')
     }
     await createPdf(res, dbResponse)
-    log.info('getMemoByEndPoint: Responded to request for PDF with memoEndPoint:', memoEndPoint)
+    log.debug('getMemoByEndPoint: Responded to request for PDF with memoEndPoint:', memoEndPoint)
   } catch (err) {
     log.error('getMemoByEndPoint: Failed request for PDF, error:', { err })
     return err

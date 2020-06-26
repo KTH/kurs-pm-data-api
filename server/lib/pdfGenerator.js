@@ -6,7 +6,8 @@ const log = require('kth-node-log')
 const PDFDocument = require('pdfkit')
 
 const { inPx, concatMemoName, decodeHtml } = require('./pdfUtils')
-const { fontPaths, fontSizes, paragraphGaps, pageMargins, pageSize, messages, sections } = require('./pdfConstants')
+const { fontPaths, fontSizes, paragraphGaps, pageMargins, pageSize, messages } = require('./pdfConstants')
+const { sections } = require('./fieldsByType')
 
 function addTitle(doc, data) {
   doc.fontSize(fontSizes.h1)

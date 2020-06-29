@@ -4,7 +4,10 @@ const Entities = require('html-entities').AllHtmlEntities
 
 const i18n = require('../../i18n')
 
+const log = require('kth-node-log')
+
 const { context } = require('./fieldsByType')
+const { end } = require('pdfkit')
 
 const entities = new Entities()
 
@@ -66,11 +69,36 @@ function filterVisibible(section, courseMemoData) {
   return visibleSubSections
 }
 
+function profilerToLog(id, phase, actualTime, baseTime, startTime, commitTime, interactions) {
+  log.debug(
+    'Profiler',
+    id,
+    'actualTime:',
+    actualTime,
+    'baseTime:',
+    baseTime,
+    'startTime:',
+    startTime,
+    'commitTime:',
+    commitTime,
+    'interactions:',
+    interactions
+  )
+}
+
+function timer(id, startTime) {
+  return function endTimer() {
+    log.debug('Timer:', id, Date.now() - startTime, 'ms')
+  }
+}
+
 module.exports = {
   inPx,
   concatMemoName,
   formatCredits,
   decodeHtml,
   getMessages,
-  filterVisibible
+  filterVisibible,
+  profilerToLog,
+  timer
 }

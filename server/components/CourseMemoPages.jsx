@@ -1,6 +1,8 @@
 /* eslint-disable react/prop-types */
-import React from 'react'
+import React, { Profiler } from 'react'
 import { Page, View, StyleSheet } from '@react-pdf/renderer'
+
+import { profilerToLog } from '../lib/pdfUtils'
 
 import CourseMemoContent from './CourseMemoContent'
 import CourseMemoPageHeader from './CourseMemoPageHeader'
@@ -16,15 +18,21 @@ const styles = StyleSheet.create({
 /* A4 is default page size value, explicitly set for clarity */
 const CourseMemoPages = ({ data }) => (
   <Page size="A4" style={styles.pages}>
-    <View fixed style={styles.header}>
-      <CourseMemoPageHeader data={data} />
-    </View>
-    <View style={styles.content}>
-      <CourseMemoContent data={data} />
-    </View>
-    <View fixed style={styles.footer}>
-      <CourseMemoPageFooter data={data} />
-    </View>
+    <Profiler id="CourseMemoPageHeader" onRender={profilerToLog}>
+      <View fixed style={styles.header}>
+        <CourseMemoPageHeader data={data} />
+      </View>
+    </Profiler>
+    <Profiler id="CourseMemoContent" onRender={profilerToLog}>
+      <View style={styles.content}>
+        <CourseMemoContent data={data} />
+      </View>
+    </Profiler>
+    <Profiler id="CourseMemoPageFooter" onRender={profilerToLog}>
+      <View fixed style={styles.footer}>
+        <CourseMemoPageFooter data={data} />
+      </View>
+    </Profiler>
   </Page>
 )
 

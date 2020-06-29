@@ -1,11 +1,11 @@
 /* eslint-disable react/prop-types */
-import React from 'react'
+import React, { Profiler } from 'react'
 import { View, Text } from '@react-pdf/renderer'
 
 import parse from './CourseMemoHtmlParser'
 import styles from './CourseMemoStyles'
 
-const { getMessages, filterVisibible } = require('../lib/pdfUtils')
+const { getMessages, filterVisibible, profilerToLog } = require('../lib/pdfUtils')
 const { EMPTY } = require('../lib/pdfConstants')
 const { sections, context } = require('../lib/fieldsByType')
 
@@ -66,7 +66,9 @@ const CourseMemoContent = ({ data }) => {
   return (
     <View style={styles.contentContainer}>
       {sections.map(section => (
-        <Section key={section.id} section={section} data={data} />
+        <Profiler id={section.id} onRender={profilerToLog}>
+          <Section key={section.id} section={section} data={data} />
+        </Profiler>
       ))}
     </View>
   )

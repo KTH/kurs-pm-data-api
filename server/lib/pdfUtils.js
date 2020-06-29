@@ -28,7 +28,7 @@ function concatMemoName(semester, ladokRoundIds, langAbbr) {
   return `${memoLabel} ${seasonStr(season, semester)}-${ladokRoundIds.join('-')}`
 }
 
-function formatCredits(credits, creditUnitAbbr, language) {
+function formatCredits(credits = 0, creditUnitAbbr, language) {
   const localeCredits = language === 'sv' ? credits.toLocaleString('sv-SE') : credits.toLocaleString('en-US')
   const creditUnit = language === 'sv' ? creditUnitAbbr : 'credits'
   return `${localeCredits} ${creditUnit}`
@@ -92,6 +92,15 @@ function timer(id, startTime) {
   }
 }
 
+function formatVersionDate(language = 'sv', version) {
+  const unixTime = Date.parse(version)
+  if (unixTime) {
+    const locale = language === 'sv' ? 'sv-SE' : 'en-US'
+    return new Date(unixTime).toLocaleString(locale)
+  }
+  return null
+}
+
 module.exports = {
   inPx,
   concatMemoName,
@@ -100,5 +109,6 @@ module.exports = {
   getMessages,
   filterVisibible,
   profilerToLog,
-  timer
+  timer,
+  formatVersionDate
 }

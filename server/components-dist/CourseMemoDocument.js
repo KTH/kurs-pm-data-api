@@ -35,6 +35,16 @@ _renderer.Font.register({
 });
 
 _renderer.Font.register({
+  family: 'Open Sans Bold',
+  src: 'server/fonts/OpenSans-Bold.ttf'
+});
+
+_renderer.Font.register({
+  family: 'Open Sans Light',
+  src: 'server/fonts/OpenSans-Light.ttf'
+});
+
+_renderer.Font.register({
   family: 'Georgia',
   src: 'server/fonts/Georgia.ttf'
 });

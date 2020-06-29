@@ -11,8 +11,6 @@ var _react = _interopRequireWildcard(require("react"));
 
 var _renderer = require("@react-pdf/renderer");
 
-var _kthNodeLog = _interopRequireDefault(require("kth-node-log"));
-
 var _CourseMemoCoverSheet = _interopRequireDefault(require("./CourseMemoCoverSheet"));
 
 var _CourseMemoPages = _interopRequireDefault(require("./CourseMemoPages"));
@@ -37,31 +35,38 @@ _renderer.Font.register({
 });
 
 _renderer.Font.register({
+  family: 'Open Sans Bold',
+  src: 'server/fonts/OpenSans-Bold.ttf'
+});
+
+_renderer.Font.register({
+  family: 'Open Sans Light',
+  src: 'server/fonts/OpenSans-Light.ttf'
+});
+
+_renderer.Font.register({
   family: 'Georgia',
   src: 'server/fonts/Georgia.ttf'
 });
-
-var profilerToLog = function profilerToLog(id, phase, actualTime, baseTime, startTime, commitTime, interactions) {
-  _kthNodeLog["default"].debug('Profiler', id, 'phase:', phase, 'actualTime:', actualTime, 'baseTime:', baseTime, 'startTime:', startTime, 'commitTime:', commitTime, 'interactions:', interactions);
-};
 
 var CourseMemoDocument = function CourseMemoDocument(_ref) {
   var data = _ref.data;
   var title = (0, _pdfUtils.concatMemoName)(data.semester, data.ladokRoundIds, data.memoCommonLangAbbr);
   return /*#__PURE__*/_react["default"].createElement(_react.Profiler, {
     id: "CourseMemoDocument",
-    onRender: profilerToLog
+    onRender: _pdfUtils.profilerToLog
   }, /*#__PURE__*/_react["default"].createElement(_renderer.Document, {
     title: title,
-    author: "KTH"
+    author: "KTH",
+    onRender: (0, _pdfUtils.timer)('CourseMemoDocument', Date.now())
   }, /*#__PURE__*/_react["default"].createElement(_react.Profiler, {
     id: "CourseMemoCoverSheet",
-    onRender: profilerToLog
+    onRender: _pdfUtils.profilerToLog
   }, /*#__PURE__*/_react["default"].createElement(_CourseMemoCoverSheet["default"], {
     data: data
   })), /*#__PURE__*/_react["default"].createElement(_react.Profiler, {
     id: "CourseMemoPages",
-    onRender: profilerToLog
+    onRender: _pdfUtils.profilerToLog
   }, /*#__PURE__*/_react["default"].createElement(_CourseMemoPages["default"], {
     data: data
   }))));

@@ -97,8 +97,13 @@ var htmlParseOptions = {
 };
 
 var htmlParser = function htmlParser(html) {
+  console.time('htmlParser: cleanHtml');
   var cleanHtml = html.replace(/\n/g, '');
-  return (0, _htmlReactParser["default"])(cleanHtml, htmlParseOptions);
+  console.timeEnd('htmlParser: cleanHtml');
+  console.time('htmlParser: parse');
+  var parsedHtml = (0, _htmlReactParser["default"])(cleanHtml, htmlParseOptions);
+  console.timeEnd('htmlParser: parse');
+  return parsedHtml;
 };
 
 var _default = htmlParser;

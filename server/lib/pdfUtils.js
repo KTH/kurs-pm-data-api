@@ -4,7 +4,10 @@ const Entities = require('html-entities').AllHtmlEntities
 
 const i18n = require('../../i18n')
 
+const log = require('kth-node-log')
+
 const { context } = require('./fieldsByType')
+const { end } = require('pdfkit')
 
 const entities = new Entities()
 
@@ -25,7 +28,7 @@ function concatMemoName(semester, ladokRoundIds, langAbbr) {
   return `${memoLabel} ${seasonStr(season, semester)}-${ladokRoundIds.join('-')}`
 }
 
-function formatCredits(credits, creditUnitAbbr, language) {
+function formatCredits(credits = 0, creditUnitAbbr, language) {
   const localeCredits = language === 'sv' ? credits.toLocaleString('sv-SE') : credits.toLocaleString('en-US')
   const creditUnit = language === 'sv' ? creditUnitAbbr : 'credits'
   return `${localeCredits} ${creditUnit}`
@@ -66,11 +69,46 @@ function filterVisibible(section, courseMemoData) {
   return visibleSubSections
 }
 
+function profilerToLog(id, phase, actualTime, baseTime, startTime, commitTime, interactions) {
+  log.debug(
+    'Profiler',
+    id,
+    'actualTime:',
+    actualTime,
+    'baseTime:',
+    baseTime,
+    'startTime:',
+    startTime,
+    'commitTime:',
+    commitTime,
+    'interactions:',
+    interactions
+  )
+}
+
+function timer(id, startTime) {
+  return function endTimer() {
+    log.debug('Timer:', id, Date.now() - startTime, 'ms')
+  }
+}
+
+function formatVersionDate(language = 'sv', version) {
+  const unixTime = Date.parse(version)
+  if (unixTime) {
+    const locale = language === 'sv' ? 'sv-SE' : 'en-US'
+    return new Date(unixTime).toLocaleString(locale)
+  }
+  return null
+}
+
 module.exports = {
   inPx,
   concatMemoName,
   formatCredits,
   decodeHtml,
   getMessages,
-  filterVisibible
+  filterVisibible,
+  profilerToLog,
+  timer,
+  formatVersionDate
 }

@@ -66,8 +66,13 @@ const htmlParseOptions = {
 }
 
 const htmlParser = html => {
+  console.time('htmlParser: cleanHtml')
   const cleanHtml = html.replace(/\n/g, '')
-  return parse(cleanHtml, htmlParseOptions)
+  console.timeEnd('htmlParser: cleanHtml')
+  console.time('htmlParser: parse')
+  const parsedHtml = parse(cleanHtml, htmlParseOptions)
+  console.timeEnd('htmlParser: parse')
+  return parsedHtml
 }
 
 export default htmlParser

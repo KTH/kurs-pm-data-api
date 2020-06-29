@@ -11,63 +11,97 @@ var _renderer = require("@react-pdf/renderer");
 
 var _pdfUtils = require("../lib/pdfUtils");
 
+var _pdfConstants = require("../lib/pdfConstants");
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
 /* eslint-disable react/prop-types */
+var A4 = _pdfConstants.pageMeasurements.A4;
+
 var styles = _renderer.StyleSheet.create({
   coverSheet: {
-    padding: '15mm'
+    padding: A4.pageMargin
   },
-  logo: {
-    height: '30mm',
-    width: '30mm'
+  logotype: {
+    height: A4.logotype,
+    width: A4.logotype
   },
   titleContainer: {
-    top: '30mm',
-    marginLeft: '15mm'
+    marginTop: A4.crownDoubleAdjusted,
+    marginLeft: A4.logotypeHalf
   },
   title: {
-    fontSize: '36pt'
+    fontFamily: _pdfConstants.typography.bold,
+    fontSize: _pdfConstants.typography.h1
   },
   subTitle: {
-    fontSize: '18pt'
+    fontFamily: _pdfConstants.typography.bold,
+    fontSize: _pdfConstants.typography.h2
+  },
+  version: {
+    fontFamily: _pdfConstants.typography.regular,
+    fontSize: _pdfConstants.typography.p,
+    marginTop: 6
   },
   infoContainer: {
-    marginTop: '18pt',
-    fontSize: '12pt'
+    marginTop: '13mm'
   },
   infoHeader: {
-    marginTop: '6pt',
-    fontFamily: 'Open Sans SemiBold'
+    fontFamily: _pdfConstants.typography.bold,
+    fontSize: _pdfConstants.typography.h4
+  },
+  infoText: {
+    marginTop: 6,
+    marginBottom: 12,
+    fontFamily: _pdfConstants.typography.regular,
+    fontSize: _pdfConstants.typography.p
   }
 });
-/* A4 is default page size value, explicitly set for clarity */
-
 
 var CourseMemoCoverSheet = function CourseMemoCoverSheet(_ref) {
   var data = _ref.data;
-  var title = (0, _pdfUtils.concatMemoName)(data.semester, data.ladokRoundIds, data.memoCommonLangAbbr);
-  return /*#__PURE__*/_react["default"].createElement(_renderer.Page, {
-    size: "A4",
-    style: styles.coverSheet
-  }, /*#__PURE__*/_react["default"].createElement(_renderer.Image, {
-    style: styles.logo,
-    src: "server/img/KTH_Logotyp_RGB_2013.png"
-  }), /*#__PURE__*/_react["default"].createElement(_renderer.View, {
-    style: styles.titleContainer
-  }, /*#__PURE__*/_react["default"].createElement(_renderer.Text, {
-    style: styles.title
-  }, title), /*#__PURE__*/_react["default"].createElement(_renderer.Text, {
-    style: styles.subTitle
-  }, data.courseCode), /*#__PURE__*/_react["default"].createElement(_renderer.View, {
-    style: styles.infoContainer
-  }, /*#__PURE__*/_react["default"].createElement(_renderer.Text, {
-    style: styles.infoHeader
-  }, "Kursen ges av"), /*#__PURE__*/_react["default"].createElement(_renderer.Text, null, "N/A"), /*#__PURE__*/_react["default"].createElement(_renderer.Text, {
-    style: styles.infoHeader
-  }, "Undervisningsspr\xE5k"), /*#__PURE__*/_react["default"].createElement(_renderer.Text, null, data.memoCommonLangAbbr === 'en' ? 'English' : 'Svenska'), /*#__PURE__*/_react["default"].createElement(_renderer.Text, {
-    style: styles.infoHeader
-  }, "Kursomg\xE5ng"), /*#__PURE__*/_react["default"].createElement(_renderer.Text, null, data.memoName))));
+  // TODO: Remove and use data from API when it is availabe
+  // MJ2462 Achieving Energy Efficiency in Existing Buildings 6 credits
+  var courseName = "".concat(data.courseCode, "\n").concat(data.title ? data.title : '', " ").concat((0, _pdfUtils.formatCredits)(data.credits, data.creditUnitAbbr, data.memoCommonLangAbbr)); // TODO: Remove and use name from API data when it is available
+  // I.e. ”Course memo Autumn 2020-1”
+
+  var courseMemoName = (0, _pdfUtils.concatMemoName)(data.semester, data.ladokRoundIds, data.memoCommonLangAbbr); // ”Ver” string seems to be language agnostic
+
+  var version = "Ver ".concat(data.version, " ").concat((0, _pdfUtils.formatVersionDate)(data.memoCommonLangAbbr, data.lastChangeDate));
+  return (
+    /*#__PURE__*/
+
+    /* A4 is default page size value, explicitly set for clarity */
+    _react["default"].createElement(_renderer.Page, {
+      size: "A4",
+      style: styles.coverSheet
+    }, /*#__PURE__*/_react["default"].createElement(_renderer.Image, {
+      style: styles.logotype,
+      src: _pdfConstants.logotypePath
+    }), /*#__PURE__*/_react["default"].createElement(_renderer.View, {
+      style: styles.titleContainer
+    }, /*#__PURE__*/_react["default"].createElement(_renderer.Text, {
+      style: styles.title
+    }, courseName), /*#__PURE__*/_react["default"].createElement(_renderer.Text, {
+      style: styles.subTitle
+    }, courseMemoName), /*#__PURE__*/_react["default"].createElement(_renderer.Text, {
+      style: styles.version
+    }, version), /*#__PURE__*/_react["default"].createElement(_renderer.View, {
+      style: styles.infoContainer
+    }, /*#__PURE__*/_react["default"].createElement(_renderer.Text, {
+      style: styles.infoHeader
+    }, "Kursomg\xE5ng"), /*#__PURE__*/_react["default"].createElement(_renderer.Text, {
+      style: styles.infoText
+    }, data.memoName), /*#__PURE__*/_react["default"].createElement(_renderer.Text, {
+      style: styles.infoHeader
+    }, "Undervisningsspr\xE5k"), /*#__PURE__*/_react["default"].createElement(_renderer.Text, {
+      style: styles.infoText
+    }, data.memoCommonLangAbbr === 'en' ? 'English' : 'Svenska'), /*#__PURE__*/_react["default"].createElement(_renderer.Text, {
+      style: styles.infoHeader
+    }, "Kursen ges av"), /*#__PURE__*/_react["default"].createElement(_renderer.Text, {
+      style: styles.infoText
+    }, data.departmentName ? data.departmentName : ''))))
+  );
 };
 
 var _default = CourseMemoCoverSheet;

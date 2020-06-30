@@ -46,14 +46,16 @@ async function getSortedMiniMemosForAllYears(courseCode, memoStatus = 'published
   const _dbResponse = await CourseMemo.aggregate([{ $match: { courseCode, status: memoStatus } }])
   const publishedForAllYears = []
   for (let index = 0; index < _dbResponse.length; index++) {
-    const { semester, status, ladokRoundIds, memoEndPoint, memoName } = _dbResponse[index]
+    const { semester, status, ladokRoundIds, memoEndPoint, memoName, memoCommonLangAbbr, version } = _dbResponse[index]
     const miniMemo = {
-      semester,
-      status,
+      ladokRoundIds,
+      memoCommonLangAbbr,
       memoId: _dbResponse[index]._id,
       memoEndPoint,
       memoName,
-      ladokRoundIds
+      semester,
+      status,
+      version
     }
     publishedForAllYears.push(miniMemo)
   }
@@ -74,32 +76,37 @@ async function getMemosFromPrevSemester(courseCode, fromSemester) {
       'dbResponse after looking for drafts and published memos starting from prevYear and all published, number of items:',
       _dbResponse.length
     )
-    const _allDrafts = []
-    const _allPublished = []
+    const _draftsAll = []
+    const _publishedAll = []
     const finalObj = {
       sortedPublishedForAllYears: await getSortedMiniMemosForAllYears(courseCode),
-      publishedMemos: [], // PUBLISHED MEMOS WHICH DO NOT HAVE ACTIVE DRAFT VERSION
+      publishedWithNoActiveDraft: [], // PUBLISHED MEMOS WHICH DO NOT HAVE ACTIVE DRAFT VERSION
       draftsOfPublishedMemos: [], // PUBLISHED MEMOS WHICH DO HAVE ACTIVE DRAFT VERSION
       draftsWithNoActivePublishedVer: [] // From previous year
     }
 
     _dbResponse.map(({ status, memoEndPoint }) => {
-      if (status === 'draft') _allDrafts.push(memoEndPoint)
-      else if (status === 'published') _allPublished.push(memoEndPoint)
+      if (status === 'draft') _draftsAll.push(memoEndPoint)
+      else if (status === 'published') _publishedAll.push(memoEndPoint)
     })
 
     for (let index = 0; index < _dbResponse.length; index++) {
-      const { semester, status, ladokRoundIds, memoEndPoint, memoName } = _dbResponse[index]
+      const { semester, status, ladokRoundIds, memoEndPoint, memoName, memoCommonLangAbbr, version } = _dbResponse[
+        index
+      ]
       const miniMemo = {
-        semester,
-        status,
+        ladokRoundIds,
+        memoCommonLangAbbr,
         memoId: _dbResponse[index]._id,
         memoEndPoint,
         memoName,
-        ladokRoundIds
+        semester,
+        status,
+        version
       } // 1 published
-      if (status === 'published' && !_allDrafts.includes(memoEndPoint)) finalObj.publishedMemos.push(miniMemo)
-      else if (status === 'draft' && !_allPublished.includes(memoEndPoint))
+      if (status === 'published' && !_draftsAll.includes(memoEndPoint))
+        finalObj.publishedWithNoActiveDraft.push(miniMemo)
+      else if (status === 'draft' && !_publishedAll.includes(memoEndPoint))
         finalObj.draftsWithNoActivePublishedVer.push(miniMemo)
       else if (status === 'draft') finalObj.draftsOfPublishedMemos.push(miniMemo)
     }

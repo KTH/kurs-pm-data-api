@@ -31,11 +31,11 @@ async function postNewVersionOfPublishedMemo(req, res) {
     const publishedObj = await dbOneDocument.fetchMemoByEndPointAndStatus(memoEndPoint, 'published')
     if (publishedObj) {
       publishedObj.status = 'old'
-      dbResponse.push(await dbOneDocument.updateMemoByEndPointAndStatus(publishedObj, 'published'))
+      dbResponse.push(await dbOneDocument.updateMemoByEndPointAndStatus(memoEndPoint, publishedObj, 'published'))
     }
     memoObj.lastChangeDate = new Date()
     memoObj.status = 'published'
-    dbResponse.push(await dbOneDocument.updateMemoByEndPointAndStatus(memoObj, 'draft'))
+    dbResponse.push(await dbOneDocument.updateMemoByEndPointAndStatus(memoEndPoint, memoObj, 'draft'))
 
     log.info('dbResponse', dbResponse)
     res.status(201).json(dbResponse)
@@ -63,18 +63,21 @@ async function putDraftByEndPoint(req, res) {
   // STEP 2 EDITING: USE IT IN A SECOND STEP
   try {
     const memoObj = req.body
+    const { memoEndPoint } = req.params
+
     const dbResponse = []
 
-    const draftExist = await dbOneDocument.fetchMemoByEndPointAndStatus(memoObj.memoEndPoint, 'draft')
+    const draftExist = await dbOneDocument.fetchMemoByEndPointAndStatus(memoEndPoint, 'draft')
 
     memoObj.lastChangeDate = new Date()
 
     if (draftExist) {
-      log.info('memo draft already exists,' + memoObj.memoEndPoint + ' update with object id ' + memoObj._id)
-      dbResponse.push(await dbOneDocument.updateMemoByEndPointAndStatus(memoObj, 'draft'))
+      log.info(
+        'memo draft already exists,' + memoEndPoint + ' so it will be updated (object id ' + draftExist._id + ')'
+      )
+      dbResponse.push(await dbOneDocument.updateMemoByEndPointAndStatus(memoEndPoint, memoObj, 'draft'))
     } else {
-      log.debug('no memo draft was found ... ')
-      // TODO: what should it show up
+      log.debug('no memo draft was found to update with memoEndPoint: ', memoEndPoint)
     }
 
     log.info('dbResponse', dbResponse)

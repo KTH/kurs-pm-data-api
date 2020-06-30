@@ -14,7 +14,7 @@ const htmlParseOptions = {
       return (
         <Text>
           {/* TODO: Bullet and spacing should maybe be CSS instead */}
-          {`\n• `}
+          {domNode.prev ? `\n• ` : `• `}
           {domToReact(domNode.children, htmlParseOptions)}
         </Text>
       )

@@ -29,7 +29,7 @@ var htmlParseOptions = {
     }
 
     if (domNode.name === 'li') {
-      return /*#__PURE__*/_react["default"].createElement(_renderer.Text, null, "\n\u2022 ", (0, _htmlReactParser.domToReact)(domNode.children, htmlParseOptions));
+      return /*#__PURE__*/_react["default"].createElement(_renderer.Text, null, domNode.prev ? "\n\u2022 " : "\u2022 ", (0, _htmlReactParser.domToReact)(domNode.children, htmlParseOptions));
     }
 
     if (domNode.name === 'p') {

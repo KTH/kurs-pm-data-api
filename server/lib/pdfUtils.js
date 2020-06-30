@@ -28,7 +28,14 @@ function concatMemoName(semester, ladokRoundIds, langAbbr) {
   return `${memoLabel} ${seasonStr(season, semester)}-${ladokRoundIds.join('-')}`
 }
 
-function formatCredits(credits = 0, creditUnitAbbr, language) {
+// TODO: Remove when syllabus name is available from API
+function concatSyllabusName(langAbbr) {
+  const langIndex = langAbbr === 'en' ? 0 : 1
+  const { syllabusInformation, syllabusLinkStart, syllabusLinkEnd } = i18n.messages[langIndex].courseMemoLinksLabels
+  return `* ${syllabusInformation} ${syllabusLinkStart}${syllabusLinkEnd}`
+}
+
+function formatCredits(credits = 0, creditUnitAbbr = 'hp', language) {
   const localeCredits = language === 'sv' ? credits.toLocaleString('sv-SE') : credits.toLocaleString('en-US')
   const creditUnit = language === 'sv' ? creditUnitAbbr : 'credits'
   return `${localeCredits} ${creditUnit}`
@@ -104,6 +111,7 @@ function formatVersionDate(language = 'sv', version) {
 module.exports = {
   inPx,
   concatMemoName,
+  concatSyllabusName,
   formatCredits,
   decodeHtml,
   getMessages,

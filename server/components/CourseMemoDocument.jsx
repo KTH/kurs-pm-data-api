@@ -8,6 +8,7 @@ import CourseMemoPages from './CourseMemoPages'
 import { concatMemoName, profilerToLog, timer } from '../lib/pdfUtils'
 
 Font.register({ family: 'Open Sans', src: 'server/fonts/OpenSans-Regular.ttf' })
+Font.register({ family: 'Open Sans Italic', src: 'server/fonts/OpenSans-Italic.ttf' })
 Font.register({ family: 'Open Sans SemiBold', src: 'server/fonts/OpenSans-SemiBold.ttf' })
 Font.register({ family: 'Open Sans Bold', src: 'server/fonts/OpenSans-Bold.ttf' })
 Font.register({ family: 'Open Sans Light', src: 'server/fonts/OpenSans-Light.ttf' })

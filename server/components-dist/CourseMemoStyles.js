@@ -13,13 +13,13 @@ var styles = _renderer.StyleSheet.create({
     fontSize: '12pt'
   },
   h2: {
-    fontFamily: 'Open Sans Bold',
+    fontFamily: 'Open Sans SemiBold',
     fontSize: 24,
-    marginTop: 18,
-    marginBottom: 9
+    marginTop: 24,
+    marginBottom: 0
   },
   h3: {
-    fontFamily: 'Open Sans Bold',
+    fontFamily: 'Open Sans SemiBold',
     fontSize: 18,
     marginTop: 18,
     marginBottom: 6

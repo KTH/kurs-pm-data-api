@@ -578,7 +578,7 @@
     },
     "latestPublishedAndDraftMemos": {
       "properties": {
-        "publishedMemos": {
+        "publishedWithNoActiveDraft": {
           "type": "array",
           "items": {
             "schema": {
@@ -637,12 +637,18 @@
         "memoEndPoint": {
           "type": "string"
         },
+        "memoCommonLangAbbr": {
+          "type": "string"
+        },
         "memoName": {
           "type": "string"
         },
         "ladokRoundIds": {
           "type": "array",
           "items": "string"
+        },
+        "version": {
+          "type": "integer"
         }
       }
     },
@@ -706,7 +712,7 @@
           "description": "By default will be set to 'draft'. Other values: published, old, archived, draft"
         },
         "version": {
-          "type": "string",
+          "type": "integer",
           "description": "Will be set by api, it will be incremented for copied draft"
         },
         "additionalRegulations": {

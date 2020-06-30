@@ -2,8 +2,8 @@ import { StyleSheet } from '@react-pdf/renderer'
 
 const styles = StyleSheet.create({
   contentContainer: { fontFamily: 'Georgia', fontSize: '12pt' },
-  h2: { fontFamily: 'Open Sans SemiBold', fontSize: '24pt', marginTop: '18pt', marginBottom: '9pt' },
-  h3: { fontFamily: 'Open Sans SemiBold', fontSize: '18pt', marginTop: '18pt', marginBottom: '9pt' },
+  h2: { fontFamily: 'Open Sans SemiBold', fontSize: 24, marginTop: 24, marginBottom: 0 },
+  h3: { fontFamily: 'Open Sans SemiBold', fontSize: 18, marginTop: 18, marginBottom: 6 },
   table: {
     fontFamily: 'Open Sans',
     margin: 0,

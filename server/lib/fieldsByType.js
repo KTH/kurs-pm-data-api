@@ -146,7 +146,7 @@ const context = {
 const sections = [
   {
     id: 'contentAndOutcomes',
-    title: 'Innehåll och lärandemål', // TODO: Later, to use i18n messages.sections for en/Sv somehow
+    title: 'Innehåll och lärandemål', // TODO: Later, to use i18n messages.sections for en/Sv somehow
     content: ['courseContent', 'learningOutcomes', 'learningActivities', 'scheduleDetails'],
     extraHeaderTitle: 'extraHeaders1'
   },

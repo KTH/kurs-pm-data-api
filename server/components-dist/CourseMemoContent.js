@@ -45,6 +45,21 @@ var Section = function Section(_ref) {
   var translatedSectionHeader = sectionsLabels[sectionHeader];
   var visibleSubSections = filterVisibible(section, data);
   var extraSubSections = section.extraHeaderTitle && Array.isArray(data[section.extraHeaderTitle]) ? data[section.extraHeaderTitle] : [];
+
+  if (visibleSubSections.length === 0 && extraSubSections.length === 0) {
+    var langIndex = data.memoCommonLangAbbr === 'en' ? 0 : 1;
+    var contentHtml = EMPTY[langIndex];
+    return /*#__PURE__*/_react["default"].createElement(_renderer.View, {
+      key: sectionHeader
+    }, /*#__PURE__*/_react["default"].createElement(_renderer.Text, {
+      style: _CourseMemoStyles["default"].h2
+    }, translatedSectionHeader), /*#__PURE__*/_react["default"].createElement(_renderer.Text, {
+      style: {
+        marginTop: 18
+      }
+    }, contentHtml));
+  }
+
   return /*#__PURE__*/_react["default"].createElement(_renderer.View, {
     key: sectionHeader
   }, /*#__PURE__*/_react["default"].createElement(_renderer.Text, {
@@ -109,6 +124,7 @@ var CourseMemoContent = function CourseMemoContent(_ref4) {
     style: _CourseMemoStyles["default"].contentContainer
   }, sections.map(function (section) {
     return /*#__PURE__*/_react["default"].createElement(_react.Profiler, {
+      key: "profiler-".concat(section.id),
       id: section.id,
       onRender: profilerToLog
     }, /*#__PURE__*/_react["default"].createElement(Section, {

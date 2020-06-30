@@ -30,6 +30,11 @@ _renderer.Font.register({
 });
 
 _renderer.Font.register({
+  family: 'Open Sans Italic',
+  src: 'server/fonts/OpenSans-Italic.ttf'
+});
+
+_renderer.Font.register({
   family: 'Open Sans SemiBold',
   src: 'server/fonts/OpenSans-SemiBold.ttf'
 });

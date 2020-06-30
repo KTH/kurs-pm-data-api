@@ -17,6 +17,17 @@ const Section = ({ section, data }) => {
   const extraSubSections =
     section.extraHeaderTitle && Array.isArray(data[section.extraHeaderTitle]) ? data[section.extraHeaderTitle] : []
 
+  if (visibleSubSections.length === 0 && extraSubSections.length === 0) {
+    const langIndex = data.memoCommonLangAbbr === 'en' ? 0 : 1
+    const contentHtml = EMPTY[langIndex]
+    return (
+      <View key={sectionHeader}>
+        <Text style={styles.h2}>{translatedSectionHeader}</Text>
+        <Text style={{ marginTop: 18 }}>{contentHtml}</Text>
+      </View>
+    )
+  }
+
   return (
     <View key={sectionHeader}>
       <Text style={styles.h2}>{translatedSectionHeader}</Text>
@@ -66,7 +77,7 @@ const CourseMemoContent = ({ data }) => {
   return (
     <View style={styles.contentContainer}>
       {sections.map(section => (
-        <Profiler id={section.id} onRender={profilerToLog}>
+        <Profiler key={`profiler-${section.id}`} id={section.id} onRender={profilerToLog}>
           <Section key={section.id} section={section} data={data} />
         </Profiler>
       ))}

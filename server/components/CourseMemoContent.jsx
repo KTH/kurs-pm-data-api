@@ -66,7 +66,7 @@ const CourseMemoContent = ({ data }) => {
   return (
     <View style={styles.contentContainer}>
       {sections.map(section => (
-        <Profiler id={section.id} onRender={profilerToLog}>
+        <Profiler key={`profiler-${section.id}`} id={section.id} onRender={profilerToLog}>
           <Section key={section.id} section={section} data={data} />
         </Profiler>
       ))}

@@ -109,6 +109,7 @@ var CourseMemoContent = function CourseMemoContent(_ref4) {
     style: _CourseMemoStyles["default"].contentContainer
   }, sections.map(function (section) {
     return /*#__PURE__*/_react["default"].createElement(_react.Profiler, {
+      key: "profiler-".concat(section.id),
       id: section.id,
       onRender: profilerToLog
     }, /*#__PURE__*/_react["default"].createElement(Section, {

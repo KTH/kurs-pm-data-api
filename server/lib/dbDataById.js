@@ -31,14 +31,20 @@ async function storeNewCourseMemoData(data) {
   }
 }
 
-async function updateMemoByEndPointAndStatus(data, status) {
+async function updateMemoByEndPointAndStatus(memoEndPoint, data, status) {
   // UPPDATERA DRAFT GENOM memoEndPoint
-  const { memoEndPoint, courseCode } = data
+  const { courseCode } = data
   if (data) {
     log.debug('Update of existing memo or draft: ', { data })
-    const resultAfterUpdate = CourseMemo.findOneAndUpdate({ memoEndPoint, status, courseCode }, { $set: data })
-    if (resultAfterUpdate && resultAfterUpdate.version)
-      log.debug('Updated draft with version: ', resultAfterUpdate.version)
+
+    const resultAfterUpdate = await CourseMemo.findOneAndUpdate(
+      { memoEndPoint, status, courseCode },
+      { $set: data },
+      { maxTimeMS: 100, new: true, useFindAndModify: false }
+    )
+    if (resultAfterUpdate && resultAfterUpdate.version) {
+      log.debug('Updated draft: ', { version: resultAfterUpdate.version, memoEndPoint: resultAfterUpdate.memoEndPoint })
+    }
     return resultAfterUpdate
   }
   log.debug('No roundCourseMemoData found for updating it with new data', { data })

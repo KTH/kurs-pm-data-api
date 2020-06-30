@@ -17,6 +17,17 @@ const Section = ({ section, data }) => {
   const extraSubSections =
     section.extraHeaderTitle && Array.isArray(data[section.extraHeaderTitle]) ? data[section.extraHeaderTitle] : []
 
+  if (visibleSubSections.length === 0 && extraSubSections.length === 0) {
+    const langIndex = data.memoCommonLangAbbr === 'en' ? 0 : 1
+    const contentHtml = EMPTY[langIndex]
+    return (
+      <View key={sectionHeader}>
+        <Text style={styles.h2}>{translatedSectionHeader}</Text>
+        <Text style={{ marginTop: 18 }}>{contentHtml}</Text>
+      </View>
+    )
+  }
+
   return (
     <View key={sectionHeader}>
       <Text style={styles.h2}>{translatedSectionHeader}</Text>

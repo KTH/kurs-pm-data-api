@@ -22,6 +22,10 @@ var styles = _renderer.StyleSheet.create({
   coverSheet: {
     padding: A4.pageMargin
   },
+  coverSheetContainer: {
+    height: '100%',
+    borderBottom: '1 solid #1954A6'
+  },
   logotype: {
     height: A4.logotype,
     width: A4.logotype
@@ -75,6 +79,8 @@ var CourseMemoCoverSheet = function CourseMemoCoverSheet(_ref) {
     _react["default"].createElement(_renderer.Page, {
       size: "A4",
       style: styles.coverSheet
+    }, /*#__PURE__*/_react["default"].createElement(_renderer.View, {
+      style: styles.coverSheetContainer
     }, /*#__PURE__*/_react["default"].createElement(_renderer.Image, {
       style: styles.logotype,
       src: _pdfConstants.logotypePath
@@ -100,7 +106,7 @@ var CourseMemoCoverSheet = function CourseMemoCoverSheet(_ref) {
       style: styles.infoHeader
     }, "Kursen ges av"), /*#__PURE__*/_react["default"].createElement(_renderer.Text, {
       style: styles.infoText
-    }, data.departmentName ? data.departmentName : ''))))
+    }, data.departmentName ? data.departmentName : '')))))
   );
 };
 

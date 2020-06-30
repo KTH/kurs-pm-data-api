@@ -24,6 +24,11 @@ var styles = _renderer.StyleSheet.create({
     marginTop: 18,
     marginBottom: 6
   },
+  h4: {
+    fontFamily: 'Open Sans SemiBold',
+    fontSize: 14,
+    marginBottom: 3
+  },
   table: {
     fontFamily: 'Open Sans',
     margin: 0,

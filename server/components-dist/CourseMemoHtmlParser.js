@@ -88,6 +88,12 @@ var htmlParseOptions = {
       }, (0, _htmlReactParser.domToReact)(domNode.children, htmlParseOptions));
     }
 
+    if (domNode.name === 'h4') {
+      return /*#__PURE__*/_react["default"].createElement(_renderer.View, {
+        style: _CourseMemoStyles["default"].h4
+      }, (0, _htmlReactParser.domToReact)(domNode.children, htmlParseOptions));
+    }
+
     if (domNode.type === 'text') {
       return /*#__PURE__*/_react["default"].createElement(_renderer.Text, null, domNode.data);
     }

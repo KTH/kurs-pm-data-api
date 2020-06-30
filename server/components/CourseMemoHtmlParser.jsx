@@ -58,6 +58,9 @@ const htmlParseOptions = {
     if (domNode.name === 'td') {
       return <View style={styles.td}>{domToReact(domNode.children, htmlParseOptions)}</View>
     }
+    if (domNode.name === 'h4') {
+      return <View style={styles.h4}>{domToReact(domNode.children, htmlParseOptions)}</View>
+    }
     if (domNode.type === 'text') {
       return <Text>{domNode.data}</Text>
     }

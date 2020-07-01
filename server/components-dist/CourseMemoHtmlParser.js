@@ -5,7 +5,7 @@ function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "functi
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports["default"] = void 0;
+exports["default"] = exports.isSrcId = void 0;
 
 var _react = _interopRequireWildcard(require("react"));
 
@@ -22,6 +22,28 @@ function _getRequireWildcardCache() { if (typeof WeakMap !== "function") return 
 function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } if (obj === null || _typeof(obj) !== "object" && typeof obj !== "function") { return { "default": obj }; } var cache = _getRequireWildcardCache(); if (cache && cache.has(obj)) { return cache.get(obj); } var newObj = {}; var hasPropertyDescriptor = Object.defineProperty && Object.getOwnPropertyDescriptor; for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = hasPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : null; if (desc && (desc.get || desc.set)) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } newObj["default"] = obj; if (cache) { cache.set(obj, newObj); } return newObj; }
 
 /* eslint-disable react/prop-types */
+// Borrowed from https://github.com/diegomura/react-pdf/
+var PROTOCOL_REGEXP = /^([a-z]+\:(\/\/)?)/i;
+var DEST_REGEXP = /^#.+/;
+
+var isSrcId = function isSrcId(src) {
+  return src.match(DEST_REGEXP);
+};
+
+exports.isSrcId = isSrcId;
+
+var getURL = function getURL(value) {
+  if (!value) return '';
+  if (isSrcId(value)) return value; // don't modify it if it is an id
+
+  if (typeof value === 'string' && !value.match(PROTOCOL_REGEXP)) {
+    return "https://kth.se".concat(value); // Fix internal links, like profiles
+  }
+
+  return value;
+}; // End borrowed from https://github.com/diegomura/react-pdf/
+
+
 var htmlParseOptions = {
   replace: function replace(domNode) {
     if (domNode.name === 'ul') {
@@ -46,8 +68,8 @@ var htmlParseOptions = {
     if (domNode.name === 'a') {
       // eslint-disable-next-line jsx-a11y/anchor-is-valid
       return /*#__PURE__*/_react["default"].createElement(_renderer.Link, {
-        src: domNode.attribs.href
-      }, domNode.attribs.href);
+        src: getURL(domNode.attribs.href)
+      }, getURL(domNode.attribs.href));
     }
 
     if (domNode.name === 'img') {

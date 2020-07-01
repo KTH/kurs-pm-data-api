@@ -5,6 +5,27 @@ import parse, { domToReact } from 'html-react-parser'
 
 import styles from './CourseMemoStyles'
 
+// Borrowed from https://github.com/diegomura/react-pdf/
+const PROTOCOL_REGEXP = /^([a-z]+\:(\/\/)?)/i
+
+const DEST_REGEXP = /^#.+/
+
+export const isSrcId = src => src.match(DEST_REGEXP)
+
+const getURL = value => {
+  if (!value) return ''
+
+  if (isSrcId(value)) return value // don't modify it if it is an id
+
+  if (typeof value === 'string' && !value.match(PROTOCOL_REGEXP)) {
+    return `https://kth.se${value}` // Fix internal links, like profiles
+  }
+
+  return value
+}
+
+// End borrowed from https://github.com/diegomura/react-pdf/
+
 const htmlParseOptions = {
   replace: domNode => {
     if (domNode.name === 'ul') {
@@ -35,7 +56,7 @@ const htmlParseOptions = {
     }
     if (domNode.name === 'a') {
       // eslint-disable-next-line jsx-a11y/anchor-is-valid
-      return <Link src={domNode.attribs.href}>{domNode.attribs.href}</Link>
+      return <Link src={getURL(domNode.attribs.href)}>{getURL(domNode.attribs.href)}</Link>
     }
     if (domNode.name === 'img') {
       return <React.Fragment>{domToReact(domNode.children, htmlParseOptions)}</React.Fragment>

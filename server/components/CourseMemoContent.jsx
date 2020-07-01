@@ -43,19 +43,31 @@ const Section = ({ section, data }) => {
 
 const SubSection = ({ subSection, data }) => {
   const subSectionHeader = subSection
-  const { memoTitlesByMemoLang } = getMessages(data.memoCommonLangAbbr)
+  const { memoTitlesByMemoLang, sourceInfo } = getMessages(data.memoCommonLangAbbr)
   const translatedSubSectionHeader = memoTitlesByMemoLang[subSectionHeader]
-  let contentHtml = data[subSection]
+  const translatedInsertedSubSectionText = sourceInfo.insertedSubSection
+  let contentHtml = data[subSectionHeader]
   if (!contentHtml) {
-    const { isRequired, type } = context[subSection]
+    const { isRequired, type } = context[subSectionHeader]
     if (isRequired && (type === 'mandatory' || type === 'mandatoryAndEditable')) {
       const langIndex = data.memoCommonLangAbbr === 'en' ? 0 : 1
       contentHtml = EMPTY[langIndex]
     }
   }
+  const isAddedSubSection =
+    // eslint-disable-next-line react/destructuring-assignment
+    context[subSectionHeader].hasParentTitle && subSectionHeader !== 'permanentDisabilitySubSection'
+  const fromSyllabus = {
+    // eslint-disable-next-line react/destructuring-assignment
+    is: context[subSectionHeader].source === '(s)',
+    subHeader: subSectionHeader === 'examination' || subSectionHeader === 'ethicalApproach'
+  }
   return (
     <View key={subSectionHeader}>
-      <Text style={styles.h3}>{translatedSubSectionHeader}</Text>
+      {isAddedSubSection && <Text style={styles.addedSubSection}>{translatedInsertedSubSectionText}</Text>}
+      {translatedSubSectionHeader && (
+        <Text style={styles.h3}>{`${translatedSubSectionHeader} ${fromSyllabus ? '*' : ''}`}</Text>
+      )}
       <View>{parse(contentHtml)}</View>
     </View>
   )

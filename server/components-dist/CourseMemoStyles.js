@@ -29,6 +29,12 @@ var styles = _renderer.StyleSheet.create({
     fontSize: 14,
     marginBottom: 3
   },
+  addedSubSection: {
+    fontFamily: 'Open Sans',
+    fontSize: 12,
+    marginTop: 18,
+    marginBottom: 6
+  },
   table: {
     fontFamily: 'Open Sans',
     margin: 0,

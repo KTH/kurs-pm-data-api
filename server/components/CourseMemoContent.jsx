@@ -57,10 +57,17 @@ const SubSection = ({ subSection, data }) => {
   const isAddedSubSection =
     // eslint-disable-next-line react/destructuring-assignment
     context[subSectionHeader].hasParentTitle && subSectionHeader !== 'permanentDisabilitySubSection'
+  const fromSyllabus = {
+    // eslint-disable-next-line react/destructuring-assignment
+    is: context[subSectionHeader].source === '(s)',
+    subHeader: subSectionHeader === 'examination' || subSectionHeader === 'ethicalApproach'
+  }
   return (
     <View key={subSectionHeader}>
       {isAddedSubSection && <Text style={styles.addedSubSection}>{translatedInsertedSubSectionText}</Text>}
-      <Text style={styles.h3}>{translatedSubSectionHeader}</Text>
+      {translatedSubSectionHeader && (
+        <Text style={styles.h3}>{`${translatedSubSectionHeader} ${fromSyllabus ? '*' : ''}`}</Text>
+      )}
       <View>{parse(contentHtml)}</View>
     </View>
   )

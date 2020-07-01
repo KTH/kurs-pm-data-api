@@ -104,13 +104,18 @@ var SubSection = function SubSection(_ref2) {
 
   var isAddedSubSection = // eslint-disable-next-line react/destructuring-assignment
   context[subSectionHeader].hasParentTitle && subSectionHeader !== 'permanentDisabilitySubSection';
+  var fromSyllabus = {
+    // eslint-disable-next-line react/destructuring-assignment
+    is: context[subSectionHeader].source === '(s)',
+    subHeader: subSectionHeader === 'examination' || subSectionHeader === 'ethicalApproach'
+  };
   return /*#__PURE__*/_react["default"].createElement(_renderer.View, {
     key: subSectionHeader
   }, isAddedSubSection && /*#__PURE__*/_react["default"].createElement(_renderer.Text, {
     style: _CourseMemoStyles["default"].addedSubSection
-  }, translatedInsertedSubSectionText), /*#__PURE__*/_react["default"].createElement(_renderer.Text, {
+  }, translatedInsertedSubSectionText), translatedSubSectionHeader && /*#__PURE__*/_react["default"].createElement(_renderer.Text, {
     style: _CourseMemoStyles["default"].h3
-  }, translatedSubSectionHeader), /*#__PURE__*/_react["default"].createElement(_renderer.View, null, (0, _CourseMemoHtmlParser["default"])(contentHtml)));
+  }, "".concat(translatedSubSectionHeader, " ").concat(fromSyllabus ? '*' : '')), /*#__PURE__*/_react["default"].createElement(_renderer.View, null, (0, _CourseMemoHtmlParser["default"])(contentHtml)));
 };
 
 var ExtraSubSection = function ExtraSubSection(_ref3) {

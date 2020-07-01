@@ -47,7 +47,7 @@ var htmlParseOptions = {
       // eslint-disable-next-line jsx-a11y/anchor-is-valid
       return /*#__PURE__*/_react["default"].createElement(_renderer.Link, {
         src: domNode.attribs.href
-      }, (0, _htmlReactParser.domToReact)(domNode.children, htmlParseOptions));
+      }, domNode.attribs.href);
     }
 
     if (domNode.name === 'img') {

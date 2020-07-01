@@ -103,11 +103,11 @@ var htmlParseOptions = {
 };
 
 var htmlParser = function htmlParser(html) {
-  console.time('htmlParser: cleanHtml');
-  var cleanHtml = html.replace(/\n/g, '');
-  console.timeEnd('htmlParser: cleanHtml');
+  console.time('htmlParser: newLineFixHtml');
+  var newLineFixHtml = html.replace(/\n/g, '').replace(/<br>|<br.*\/>/, '\n');
+  console.timeEnd('htmlParser: newLineFixHtml');
   console.time('htmlParser: parse');
-  var parsedHtml = (0, _htmlReactParser["default"])(cleanHtml, htmlParseOptions);
+  var parsedHtml = (0, _htmlReactParser["default"])(newLineFixHtml, htmlParseOptions);
   console.timeEnd('htmlParser: parse');
   return parsedHtml;
 };

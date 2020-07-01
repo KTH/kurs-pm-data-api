@@ -69,11 +69,11 @@ const htmlParseOptions = {
 }
 
 const htmlParser = html => {
-  console.time('htmlParser: cleanHtml')
-  const cleanHtml = html.replace(/\n/g, '')
-  console.timeEnd('htmlParser: cleanHtml')
+  console.time('htmlParser: newLineFixHtml')
+  const newLineFixHtml = html.replace(/\n/g, '').replace(/<br>|<br.*\/>/, '\n')
+  console.timeEnd('htmlParser: newLineFixHtml')
   console.time('htmlParser: parse')
-  const parsedHtml = parse(cleanHtml, htmlParseOptions)
+  const parsedHtml = parse(newLineFixHtml, htmlParseOptions)
   console.timeEnd('htmlParser: parse')
   return parsedHtml
 }

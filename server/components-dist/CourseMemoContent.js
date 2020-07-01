@@ -84,15 +84,17 @@ var SubSection = function SubSection(_ref2) {
   var subSectionHeader = subSection;
 
   var _getMessages2 = getMessages(data.memoCommonLangAbbr),
-      memoTitlesByMemoLang = _getMessages2.memoTitlesByMemoLang;
+      memoTitlesByMemoLang = _getMessages2.memoTitlesByMemoLang,
+      sourceInfo = _getMessages2.sourceInfo;
 
   var translatedSubSectionHeader = memoTitlesByMemoLang[subSectionHeader];
-  var contentHtml = data[subSection];
+  var translatedInsertedSubSectionText = sourceInfo.insertedSubSection;
+  var contentHtml = data[subSectionHeader];
 
   if (!contentHtml) {
-    var _context$subSection = context[subSection],
-        isRequired = _context$subSection.isRequired,
-        type = _context$subSection.type;
+    var _context$subSectionHe = context[subSectionHeader],
+        isRequired = _context$subSectionHe.isRequired,
+        type = _context$subSectionHe.type;
 
     if (isRequired && (type === 'mandatory' || type === 'mandatoryAndEditable')) {
       var langIndex = data.memoCommonLangAbbr === 'en' ? 0 : 1;
@@ -100,9 +102,13 @@ var SubSection = function SubSection(_ref2) {
     }
   }
 
+  var isAddedSubSection = // eslint-disable-next-line react/destructuring-assignment
+  context[subSectionHeader].hasParentTitle && subSectionHeader !== 'permanentDisabilitySubSection';
   return /*#__PURE__*/_react["default"].createElement(_renderer.View, {
     key: subSectionHeader
-  }, /*#__PURE__*/_react["default"].createElement(_renderer.Text, {
+  }, isAddedSubSection && /*#__PURE__*/_react["default"].createElement(_renderer.Text, {
+    style: _CourseMemoStyles["default"].addedSubSection
+  }, translatedInsertedSubSectionText), /*#__PURE__*/_react["default"].createElement(_renderer.Text, {
     style: _CourseMemoStyles["default"].h3
   }, translatedSubSectionHeader), /*#__PURE__*/_react["default"].createElement(_renderer.View, null, (0, _CourseMemoHtmlParser["default"])(contentHtml)));
 };

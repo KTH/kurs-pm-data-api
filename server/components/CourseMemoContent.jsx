@@ -43,18 +43,23 @@ const Section = ({ section, data }) => {
 
 const SubSection = ({ subSection, data }) => {
   const subSectionHeader = subSection
-  const { memoTitlesByMemoLang } = getMessages(data.memoCommonLangAbbr)
+  const { memoTitlesByMemoLang, sourceInfo } = getMessages(data.memoCommonLangAbbr)
   const translatedSubSectionHeader = memoTitlesByMemoLang[subSectionHeader]
-  let contentHtml = data[subSection]
+  const translatedInsertedSubSectionText = sourceInfo.insertedSubSection
+  let contentHtml = data[subSectionHeader]
   if (!contentHtml) {
-    const { isRequired, type } = context[subSection]
+    const { isRequired, type } = context[subSectionHeader]
     if (isRequired && (type === 'mandatory' || type === 'mandatoryAndEditable')) {
       const langIndex = data.memoCommonLangAbbr === 'en' ? 0 : 1
       contentHtml = EMPTY[langIndex]
     }
   }
+  const isAddedSubSection =
+    // eslint-disable-next-line react/destructuring-assignment
+    context[subSectionHeader].hasParentTitle && subSectionHeader !== 'permanentDisabilitySubSection'
   return (
     <View key={subSectionHeader}>
+      {isAddedSubSection && <Text style={styles.addedSubSection}>{translatedInsertedSubSectionText}</Text>}
       <Text style={styles.h3}>{translatedSubSectionHeader}</Text>
       <View>{parse(contentHtml)}</View>
     </View>

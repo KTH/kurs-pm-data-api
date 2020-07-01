@@ -35,7 +35,7 @@ const htmlParseOptions = {
     }
     if (domNode.name === 'a') {
       // eslint-disable-next-line jsx-a11y/anchor-is-valid
-      return <Link src={domNode.attribs.href}>{domToReact(domNode.children, htmlParseOptions)}</Link>
+      return <Link src={domNode.attribs.href}>{domNode.attribs.href}</Link>
     }
     if (domNode.name === 'img') {
       return <React.Fragment>{domToReact(domNode.children, htmlParseOptions)}</React.Fragment>

@@ -623,6 +623,14 @@
         }
       }
     },
+    "SyllabusData": {
+      "validFrom": {
+        "type": "integer"
+      },
+      "textFromTo": {
+        "type": "string"
+      }
+    },
     "UsedMemos": {
       "properties": {
         "semester": {
@@ -682,6 +690,14 @@
         "courseCode": {
           "type": "string",
           "description": "Course code for which it is valid"
+        },
+        "courseTitle": {
+          "type": "string",
+          "description": "Course name with credits and credit units for which it is valid"
+        },
+        "departmentName": {
+          "type": "string",
+          "description": "Department for course"
         },
         "lastChangeDate": {
           "type": "string",
@@ -875,6 +891,15 @@
         "software": {
           "type": "string",
           "description": "Text field for html with Software / Programvara (KIP - via kurs pm admin)"
+        },
+        "syllabusValid": {
+          "type": "object",
+          "description": "Syllabus valit from term in digital and text form",
+          "items": {
+            "schema": {
+              "$ref": "#/definitions/SyllabusData"
+            }
+          }
         },
         "teacher": {
           "type": "string",

@@ -11,6 +11,15 @@ const schema = mongoose.Schema({
     trim: true,
     required: [true, 'Enter course code']
   },
+  courseTitle: {
+    type: String,
+    trim: true
+    // required: [true, 'Enter course name']
+  },
+  departmentName: {
+    type: String,
+    trim: true
+  },
   ladokRoundIds: {
     type: Array,
     items: String,
@@ -49,6 +58,13 @@ const schema = mongoose.Schema({
   status: {
     type: String,
     default: 'draft'
+  },
+  syllabusValid: {
+    type: Object,
+    default: {
+      validFromTerm: '',
+      textFromTo: ''
+    }
   },
   version: {
     type: Number,

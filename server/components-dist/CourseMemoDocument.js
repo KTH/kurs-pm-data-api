@@ -15,6 +15,8 @@ var _CourseMemoCoverSheet = _interopRequireDefault(require("./CourseMemoCoverShe
 
 var _CourseMemoPages = _interopRequireDefault(require("./CourseMemoPages"));
 
+var _CourseMemoPropTypes = require("./CourseMemoPropTypes");
+
 var _pdfUtils = require("../lib/pdfUtils");
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
@@ -23,7 +25,6 @@ function _getRequireWildcardCache() { if (typeof WeakMap !== "function") return 
 
 function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } if (obj === null || _typeof(obj) !== "object" && typeof obj !== "function") { return { "default": obj }; } var cache = _getRequireWildcardCache(); if (cache && cache.has(obj)) { return cache.get(obj); } var newObj = {}; var hasPropertyDescriptor = Object.defineProperty && Object.getOwnPropertyDescriptor; for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = hasPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : null; if (desc && (desc.get || desc.set)) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } newObj["default"] = obj; if (cache) { cache.set(obj, newObj); } return newObj; }
 
-/* eslint-disable react/prop-types */
 _renderer.Font.register({
   family: 'Open Sans',
   src: 'server/fonts/OpenSans-Regular.ttf'
@@ -42,11 +43,6 @@ _renderer.Font.register({
 _renderer.Font.register({
   family: 'Open Sans Bold',
   src: 'server/fonts/OpenSans-Bold.ttf'
-});
-
-_renderer.Font.register({
-  family: 'Open Sans Light',
-  src: 'server/fonts/OpenSans-Light.ttf'
 });
 
 _renderer.Font.register({
@@ -77,5 +73,8 @@ var CourseMemoDocument = function CourseMemoDocument(_ref) {
   }))));
 };
 
+CourseMemoDocument.propTypes = {
+  data: _CourseMemoPropTypes.data.isRequired
+};
 var _default = CourseMemoDocument;
 exports["default"] = _default;

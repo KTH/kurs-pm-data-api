@@ -15,13 +15,14 @@ var _CourseMemoHtmlParser = _interopRequireDefault(require("./CourseMemoHtmlPars
 
 var _CourseMemoStyles = _interopRequireDefault(require("./CourseMemoStyles"));
 
+var _CourseMemoPropTypes = require("./CourseMemoPropTypes");
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
 function _getRequireWildcardCache() { if (typeof WeakMap !== "function") return null; var cache = new WeakMap(); _getRequireWildcardCache = function _getRequireWildcardCache() { return cache; }; return cache; }
 
 function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } if (obj === null || _typeof(obj) !== "object" && typeof obj !== "function") { return { "default": obj }; } var cache = _getRequireWildcardCache(); if (cache && cache.has(obj)) { return cache.get(obj); } var newObj = {}; var hasPropertyDescriptor = Object.defineProperty && Object.getOwnPropertyDescriptor; for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = hasPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : null; if (desc && (desc.get || desc.set)) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } newObj["default"] = obj; if (cache) { cache.set(obj, newObj); } return newObj; }
 
-/* eslint-disable react/prop-types */
 var _require = require('../lib/pdfUtils'),
     getMessages = _require.getMessages,
     filterVisibible = _require.filterVisibible,
@@ -54,9 +55,7 @@ var Section = function Section(_ref) {
     }, /*#__PURE__*/_react["default"].createElement(_renderer.Text, {
       style: _CourseMemoStyles["default"].h2
     }, translatedSectionHeader), /*#__PURE__*/_react["default"].createElement(_renderer.Text, {
-      style: {
-        marginTop: 18
-      }
+      style: _CourseMemoStyles["default"].emptySectionText
     }, contentHtml));
   }
 
@@ -146,5 +145,19 @@ var CourseMemoContent = function CourseMemoContent(_ref4) {
   }));
 };
 
+CourseMemoContent.propTypes = {
+  data: _CourseMemoPropTypes.data.isRequired
+};
+Section.propTypes = {
+  section: _CourseMemoPropTypes.section.isRequired,
+  data: _CourseMemoPropTypes.data.isRequired
+};
+SubSection.propTypes = {
+  subSection: _CourseMemoPropTypes.subSection.isRequired,
+  data: _CourseMemoPropTypes.data.isRequired
+};
+ExtraSubSection.propTypes = {
+  subSection: _CourseMemoPropTypes.subSection.isRequired
+};
 var _default = CourseMemoContent;
 exports["default"] = _default;

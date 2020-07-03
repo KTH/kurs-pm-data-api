@@ -21,9 +21,13 @@ function _getRequireWildcardCache() { if (typeof WeakMap !== "function") return 
 
 function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } if (obj === null || _typeof(obj) !== "object" && typeof obj !== "function") { return { "default": obj }; } var cache = _getRequireWildcardCache(); if (cache && cache.has(obj)) { return cache.get(obj); } var newObj = {}; var hasPropertyDescriptor = Object.defineProperty && Object.getOwnPropertyDescriptor; for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = hasPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : null; if (desc && (desc.get || desc.set)) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } newObj["default"] = obj; if (cache) { cache.set(obj, newObj); } return newObj; }
 
-/* eslint-disable react/prop-types */
+/* eslint-disable no-console */
+
+/* eslint-disable jsx-a11y/anchor-is-valid */
+
+/* eslint-disable no-use-before-define */
 // Borrowed from https://github.com/diegomura/react-pdf/
-var PROTOCOL_REGEXP = /^([a-z]+\:(\/\/)?)/i;
+var PROTOCOL_REGEXP = /^([a-z]+:(\/\/)?)/i;
 var DEST_REGEXP = /^#.+/;
 
 var isSrcId = function isSrcId(src) {
@@ -44,95 +48,87 @@ var getURL = function getURL(value) {
 }; // End borrowed from https://github.com/diegomura/react-pdf/
 
 
+var components = {
+  p: function p(domNode) {
+    return domNode.attribs["class"] === 'person' ? /*#__PURE__*/_react["default"].createElement(_renderer.View, null, (0, _htmlReactParser.domToReact)(domNode.children.filter(function (c) {
+      return c.type === 'tag' && c.name === 'a';
+    }), htmlParseOptions)) : /*#__PURE__*/_react["default"].createElement(_renderer.Text, null, (0, _htmlReactParser.domToReact)(domNode.children, htmlParseOptions));
+  },
+  ul: function ul(domNode) {
+    return /*#__PURE__*/_react["default"].createElement(_renderer.View, null, (0, _htmlReactParser.domToReact)(domNode.children, htmlParseOptions));
+  },
+  li: function li(domNode) {
+    return /*#__PURE__*/_react["default"].createElement(_renderer.Text, null, domNode.prev ? "\n\u2022 " : "\u2022 ", (0, _htmlReactParser.domToReact)(domNode.children, htmlParseOptions));
+  },
+  a: function a(domNode) {
+    return /*#__PURE__*/_react["default"].createElement(_renderer.Link, {
+      src: getURL(domNode.attribs.href)
+    }, getURL(domNode.attribs.href));
+  },
+  img: function img(domNode) {
+    return /*#__PURE__*/_react["default"].createElement(_react.Fragment, null, (0, _htmlReactParser.domToReact)(domNode.children, htmlParseOptions));
+  },
+  table: function table(domNode) {
+    return /*#__PURE__*/_react["default"].createElement(_renderer.View, {
+      style: _CourseMemoStyles["default"].table
+    }, (0, _htmlReactParser.domToReact)(domNode.children, htmlParseOptions));
+  },
+  thead: function thead(domNode) {
+    return /*#__PURE__*/_react["default"].createElement(_renderer.View, {
+      style: _CourseMemoStyles["default"].thead
+    }, (0, _htmlReactParser.domToReact)(domNode.children, htmlParseOptions));
+  },
+  tbody: function tbody(domNode) {
+    return /*#__PURE__*/_react["default"].createElement(_renderer.View, null, (0, _htmlReactParser.domToReact)(domNode.children, htmlParseOptions));
+  },
+  tr: function tr(domNode) {
+    return /*#__PURE__*/_react["default"].createElement(_renderer.View, {
+      style: _CourseMemoStyles["default"].tr
+    }, (0, _htmlReactParser.domToReact)(domNode.children, htmlParseOptions));
+  },
+  th: function th(domNode) {
+    return /*#__PURE__*/_react["default"].createElement(_renderer.Text, {
+      style: _CourseMemoStyles["default"].th
+    }, (0, _htmlReactParser.domToReact)(domNode.children, htmlParseOptions));
+  },
+  td: function td(domNode) {
+    return /*#__PURE__*/_react["default"].createElement(_renderer.View, {
+      style: _CourseMemoStyles["default"].td
+    }, (0, _htmlReactParser.domToReact)(domNode.children, htmlParseOptions));
+  },
+  h4: function h4(domNode) {
+    return /*#__PURE__*/_react["default"].createElement(_renderer.View, {
+      style: _CourseMemoStyles["default"].h4
+    }, (0, _htmlReactParser.domToReact)(domNode.children, htmlParseOptions));
+  },
+  "default": function _default() {
+    return /*#__PURE__*/_react["default"].createElement(_react.Fragment, null);
+  }
+};
 var htmlParseOptions = {
   replace: function replace(domNode) {
-    if (domNode.name === 'ul') {
-      return /*#__PURE__*/_react["default"].createElement(_renderer.View, null, (0, _htmlReactParser.domToReact)(domNode.children, htmlParseOptions));
-    }
-
-    if (domNode.name === 'li') {
-      return /*#__PURE__*/_react["default"].createElement(_renderer.Text, null, domNode.prev ? "\n\u2022 " : "\u2022 ", (0, _htmlReactParser.domToReact)(domNode.children, htmlParseOptions));
-    }
-
-    if (domNode.name === 'p') {
-      // Handle contacts
-      if (domNode.attribs["class"] === 'person') {
-        return /*#__PURE__*/_react["default"].createElement(_renderer.View, null, (0, _htmlReactParser.domToReact)(domNode.children.filter(function (c) {
-          return c.type === 'tag' && c.name === 'a';
-        }), htmlParseOptions));
-      }
-
-      return /*#__PURE__*/_react["default"].createElement(_renderer.Text, null, (0, _htmlReactParser.domToReact)(domNode.children, htmlParseOptions));
-    }
-
-    if (domNode.name === 'a') {
-      // eslint-disable-next-line jsx-a11y/anchor-is-valid
-      return /*#__PURE__*/_react["default"].createElement(_renderer.Link, {
-        src: getURL(domNode.attribs.href)
-      }, getURL(domNode.attribs.href));
-    }
-
-    if (domNode.name === 'img') {
-      return /*#__PURE__*/_react["default"].createElement(_react["default"].Fragment, null, (0, _htmlReactParser.domToReact)(domNode.children, htmlParseOptions));
-    }
-
-    if (domNode.name === 'table') {
-      return /*#__PURE__*/_react["default"].createElement(_renderer.View, {
-        style: _CourseMemoStyles["default"].table
-      }, (0, _htmlReactParser.domToReact)(domNode.children, htmlParseOptions));
-    }
-
-    if (domNode.name === 'thead') {
-      return /*#__PURE__*/_react["default"].createElement(_renderer.View, {
-        style: _CourseMemoStyles["default"].thead
-      }, (0, _htmlReactParser.domToReact)(domNode.children, htmlParseOptions));
-    }
-
-    if (domNode.name === 'tbody') {
-      return /*#__PURE__*/_react["default"].createElement(_renderer.View, null, (0, _htmlReactParser.domToReact)(domNode.children, htmlParseOptions));
-    }
-
-    if (domNode.name === 'tr') {
-      return /*#__PURE__*/_react["default"].createElement(_renderer.View, {
-        style: _CourseMemoStyles["default"].tr
-      }, (0, _htmlReactParser.domToReact)(domNode.children, htmlParseOptions));
-    }
-
-    if (domNode.name === 'th') {
-      return /*#__PURE__*/_react["default"].createElement(_renderer.Text, {
-        style: _CourseMemoStyles["default"].th
-      }, (0, _htmlReactParser.domToReact)(domNode.children, htmlParseOptions));
-    }
-
-    if (domNode.name === 'td') {
-      return /*#__PURE__*/_react["default"].createElement(_renderer.View, {
-        style: _CourseMemoStyles["default"].td
-      }, (0, _htmlReactParser.domToReact)(domNode.children, htmlParseOptions));
-    }
-
-    if (domNode.name === 'h4') {
-      return /*#__PURE__*/_react["default"].createElement(_renderer.View, {
-        style: _CourseMemoStyles["default"].h4
-      }, (0, _htmlReactParser.domToReact)(domNode.children, htmlParseOptions));
-    }
-
     if (domNode.type === 'text') {
       return /*#__PURE__*/_react["default"].createElement(_renderer.Text, null, domNode.data);
     }
 
-    return /*#__PURE__*/_react["default"].createElement(_react.Fragment, null);
+    var component = components[domNode.name] || components["default"];
+    return component(domNode);
   }
 };
 
-var htmlParser = function htmlParser(html) {
-  console.time('htmlParser: newLineFixHtml');
-  var newLineFixHtml = html.replace(/\n/g, '').replace(/<br>|<br.*\/>/, '\n');
-  console.timeEnd('htmlParser: newLineFixHtml');
+var replaceLineBreaks = function replaceLineBreaks(html) {
+  return html.replace(/\n/g, '').replace(/<br>|<br.*\/>/, '\n');
+};
+
+var htmlParser = function htmlParser(rawHtml) {
+  console.time('htmlParser: replaceLineBreaks');
+  var html = replaceLineBreaks(rawHtml);
+  console.timeEnd('htmlParser: replaceLineBreaks');
   console.time('htmlParser: parse');
-  var parsedHtml = (0, _htmlReactParser["default"])(newLineFixHtml, htmlParseOptions);
+  var parsedHtml = (0, _htmlReactParser["default"])(html, htmlParseOptions);
   console.timeEnd('htmlParser: parse');
   return parsedHtml;
 };
 
-var _default = htmlParser;
-exports["default"] = _default;
+var _default2 = htmlParser;
+exports["default"] = _default2;

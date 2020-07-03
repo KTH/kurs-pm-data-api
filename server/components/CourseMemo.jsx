@@ -12,6 +12,8 @@ import CourseMemoDocument from './CourseMemoDocument'
         - CourseMemoPageHeader
         - CourseMemoContent
         - CourseMemoPageFooter
+  - CourseMemoStyles
+  - CourseMemoHtmlParser
 */
 const CourseMemo = ({ data }) => <CourseMemoDocument data={data} />
 

@@ -22,6 +22,8 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "d
         - CourseMemoPageHeader
         - CourseMemoContent
         - CourseMemoPageFooter
+  - CourseMemoStyles
+  - CourseMemoHtmlParser
 */
 var CourseMemo = function CourseMemo(_ref) {
   var data = _ref.data;

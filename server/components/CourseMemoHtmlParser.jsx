@@ -1,3 +1,6 @@
+/* eslint-disable no-console */
+/* eslint-disable jsx-a11y/anchor-is-valid */
+/* eslint-disable no-use-before-define */
 /* eslint-disable react/prop-types */
 import React, { Fragment } from 'react'
 import { View, Text, Link } from '@react-pdf/renderer'
@@ -6,7 +9,7 @@ import parse, { domToReact } from 'html-react-parser'
 import styles from './CourseMemoStyles'
 
 // Borrowed from https://github.com/diegomura/react-pdf/
-const PROTOCOL_REGEXP = /^([a-z]+\:(\/\/)?)/i
+const PROTOCOL_REGEXP = /^([a-z]+:(\/\/)?)/i
 
 const DEST_REGEXP = /^#.+/
 
@@ -23,78 +26,58 @@ const getURL = value => {
 
   return value
 }
-
 // End borrowed from https://github.com/diegomura/react-pdf/
+
+const components = {
+  p: domNode =>
+    domNode.attribs.class === 'person' ? (
+      <View>
+        {domToReact(
+          domNode.children.filter(c => c.type === 'tag' && c.name === 'a'),
+          htmlParseOptions
+        )}
+      </View>
+    ) : (
+      <Text>{domToReact(domNode.children, htmlParseOptions)}</Text>
+    ),
+  ul: domNode => <View>{domToReact(domNode.children, htmlParseOptions)}</View>,
+  li: domNode => (
+    <Text>
+      {/* TODO: Bullet and spacing should maybe be CSS instead */}
+      {domNode.prev ? `\n• ` : `• `}
+      {domToReact(domNode.children, htmlParseOptions)}
+    </Text>
+  ),
+  a: domNode => <Link src={getURL(domNode.attribs.href)}>{getURL(domNode.attribs.href)}</Link>,
+  img: domNode => <Fragment>{domToReact(domNode.children, htmlParseOptions)}</Fragment>,
+  table: domNode => <View style={styles.table}>{domToReact(domNode.children, htmlParseOptions)}</View>,
+  thead: domNode => <View style={styles.thead}>{domToReact(domNode.children, htmlParseOptions)}</View>,
+  tbody: domNode => <View>{domToReact(domNode.children, htmlParseOptions)}</View>,
+  tr: domNode => <View style={styles.tr}>{domToReact(domNode.children, htmlParseOptions)}</View>,
+  th: domNode => <Text style={styles.th}>{domToReact(domNode.children, htmlParseOptions)}</Text>,
+  td: domNode => <View style={styles.td}>{domToReact(domNode.children, htmlParseOptions)}</View>,
+  h4: domNode => <View style={styles.h4}>{domToReact(domNode.children, htmlParseOptions)}</View>,
+  default: () => <Fragment />
+}
 
 const htmlParseOptions = {
   replace: domNode => {
-    if (domNode.name === 'ul') {
-      return <View>{domToReact(domNode.children, htmlParseOptions)}</View>
-    }
-    if (domNode.name === 'li') {
-      return (
-        <Text>
-          {/* TODO: Bullet and spacing should maybe be CSS instead */}
-          {domNode.prev ? `\n• ` : `• `}
-          {domToReact(domNode.children, htmlParseOptions)}
-        </Text>
-      )
-    }
-    if (domNode.name === 'p') {
-      // Handle contacts
-      if (domNode.attribs.class === 'person') {
-        return (
-          <View>
-            {domToReact(
-              domNode.children.filter(c => c.type === 'tag' && c.name === 'a'),
-              htmlParseOptions
-            )}
-          </View>
-        )
-      }
-      return <Text>{domToReact(domNode.children, htmlParseOptions)}</Text>
-    }
-    if (domNode.name === 'a') {
-      // eslint-disable-next-line jsx-a11y/anchor-is-valid
-      return <Link src={getURL(domNode.attribs.href)}>{getURL(domNode.attribs.href)}</Link>
-    }
-    if (domNode.name === 'img') {
-      return <React.Fragment>{domToReact(domNode.children, htmlParseOptions)}</React.Fragment>
-    }
-    if (domNode.name === 'table') {
-      return <View style={styles.table}>{domToReact(domNode.children, htmlParseOptions)}</View>
-    }
-    if (domNode.name === 'thead') {
-      return <View style={styles.thead}>{domToReact(domNode.children, htmlParseOptions)}</View>
-    }
-    if (domNode.name === 'tbody') {
-      return <View>{domToReact(domNode.children, htmlParseOptions)}</View>
-    }
-    if (domNode.name === 'tr') {
-      return <View style={styles.tr}>{domToReact(domNode.children, htmlParseOptions)}</View>
-    }
-    if (domNode.name === 'th') {
-      return <Text style={styles.th}>{domToReact(domNode.children, htmlParseOptions)}</Text>
-    }
-    if (domNode.name === 'td') {
-      return <View style={styles.td}>{domToReact(domNode.children, htmlParseOptions)}</View>
-    }
-    if (domNode.name === 'h4') {
-      return <View style={styles.h4}>{domToReact(domNode.children, htmlParseOptions)}</View>
-    }
     if (domNode.type === 'text') {
       return <Text>{domNode.data}</Text>
     }
-    return <Fragment />
+    const component = components[domNode.name] || components.default
+    return component(domNode)
   }
 }
 
-const htmlParser = html => {
-  console.time('htmlParser: newLineFixHtml')
-  const newLineFixHtml = html.replace(/\n/g, '').replace(/<br>|<br.*\/>/, '\n')
-  console.timeEnd('htmlParser: newLineFixHtml')
+const replaceLineBreaks = html => html.replace(/\n/g, '').replace(/<br>|<br.*\/>/, '\n')
+
+const htmlParser = rawHtml => {
+  console.time('htmlParser: replaceLineBreaks')
+  const html = replaceLineBreaks(rawHtml)
+  console.timeEnd('htmlParser: replaceLineBreaks')
   console.time('htmlParser: parse')
-  const parsedHtml = parse(newLineFixHtml, htmlParseOptions)
+  const parsedHtml = parse(html, htmlParseOptions)
   console.timeEnd('htmlParser: parse')
   return parsedHtml
 }

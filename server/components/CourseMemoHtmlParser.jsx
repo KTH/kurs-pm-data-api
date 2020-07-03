@@ -1,7 +1,6 @@
 /* eslint-disable no-console */
 /* eslint-disable jsx-a11y/anchor-is-valid */
 /* eslint-disable no-use-before-define */
-/* eslint-disable react/prop-types */
 import React, { Fragment } from 'react'
 import { View, Text, Link } from '@react-pdf/renderer'
 import parse, { domToReact } from 'html-react-parser'

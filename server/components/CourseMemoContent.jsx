@@ -1,9 +1,13 @@
-/* eslint-disable react/prop-types */
 import React, { Profiler } from 'react'
 import { View, Text } from '@react-pdf/renderer'
 
 import parse from './CourseMemoHtmlParser'
 import styles from './CourseMemoStyles'
+import {
+  data as propTypeData,
+  section as propTypeSection,
+  subSection as propTypeSubSection
+} from './CourseMemoPropTypes'
 
 const { getMessages, filterVisibible, profilerToLog } = require('../lib/pdfUtils')
 const { EMPTY } = require('../lib/pdfConstants')
@@ -23,7 +27,7 @@ const Section = ({ section, data }) => {
     return (
       <View key={sectionHeader}>
         <Text style={styles.h2}>{translatedSectionHeader}</Text>
-        <Text style={{ marginTop: 18 }}>{contentHtml}</Text>
+        <Text style={styles.emptySectionText}>{contentHtml}</Text>
       </View>
     )
   }
@@ -95,6 +99,24 @@ const CourseMemoContent = ({ data }) => {
       ))}
     </View>
   )
+}
+
+CourseMemoContent.propTypes = {
+  data: propTypeData.isRequired
+}
+
+Section.propTypes = {
+  section: propTypeSection.isRequired,
+  data: propTypeData.isRequired
+}
+
+SubSection.propTypes = {
+  subSection: propTypeSubSection.isRequired,
+  data: propTypeData.isRequired
+}
+
+ExtraSubSection.propTypes = {
+  subSection: propTypeSubSection.isRequired
 }
 
 export default CourseMemoContent

@@ -1,24 +1,10 @@
-/* eslint-disable react/prop-types */
 import React from 'react'
-import { Page, View, Text, StyleSheet, Image } from '@react-pdf/renderer'
+import { Page, View, Text, Image } from '@react-pdf/renderer'
 
+import styles from './CourseMemoStyles'
+import { data as propTypeData } from './CourseMemoPropTypes'
 import { concatMemoName, formatCredits, formatVersionDate } from '../lib/pdfUtils'
-import { logotypePath, pageMeasurements, typography } from '../lib/pdfConstants'
-
-const { A4 } = pageMeasurements
-
-const styles = StyleSheet.create({
-  coverSheet: { padding: A4.pageMargin },
-  coverSheetContainer: { height: '100%', borderBottom: '1 solid #1954A6' },
-  logotype: { height: A4.logotype, width: A4.logotype },
-  titleContainer: { marginTop: A4.crownDoubleAdjusted, marginLeft: A4.logotypeHalf },
-  title: { fontFamily: typography.bold, fontSize: typography.h1 },
-  subTitle: { fontFamily: typography.bold, fontSize: typography.h2 },
-  version: { fontFamily: typography.regular, fontSize: typography.p, marginTop: 6 },
-  infoContainer: { marginTop: '13mm' },
-  infoHeader: { fontFamily: typography.bold, fontSize: typography.h4 },
-  infoText: { marginTop: 6, marginBottom: 12, fontFamily: typography.regular, fontSize: typography.p }
-})
+import { logotypePath } from '../lib/pdfConstants'
 
 const CourseMemoCoverSheet = ({ data }) => {
   // TODO: Remove and use data from API when it is availabe
@@ -57,6 +43,10 @@ const CourseMemoCoverSheet = ({ data }) => {
       </View>
     </Page>
   )
+}
+
+CourseMemoCoverSheet.propTypes = {
+  data: propTypeData.isRequired
 }
 
 export default CourseMemoCoverSheet

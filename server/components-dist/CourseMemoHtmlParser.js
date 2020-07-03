@@ -26,8 +26,6 @@ function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj;
 /* eslint-disable jsx-a11y/anchor-is-valid */
 
 /* eslint-disable no-use-before-define */
-
-/* eslint-disable react/prop-types */
 // Borrowed from https://github.com/diegomura/react-pdf/
 var PROTOCOL_REGEXP = /^([a-z]+:(\/\/)?)/i;
 var DEST_REGEXP = /^#.+/;

@@ -9,9 +9,9 @@ var _react = _interopRequireDefault(require("react"));
 
 var _CourseMemoDocument = _interopRequireDefault(require("./CourseMemoDocument"));
 
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
+var _CourseMemoPropTypes = require("./CourseMemoPropTypes");
 
-/* eslint-disable react/prop-types */
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
 /*
   Course Memo Components Overview
@@ -19,7 +19,6 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "d
     - CourseMemoDocument
       - CourseMemoCoverSheet
       - CourseMemoPages
-        - CourseMemoPageHeader
         - CourseMemoContent
         - CourseMemoPageFooter
   - CourseMemoStyles
@@ -32,5 +31,8 @@ var CourseMemo = function CourseMemo(_ref) {
   });
 };
 
+CourseMemo.propTypes = {
+  data: _CourseMemoPropTypes.data.isRequired
+};
 var _default = CourseMemo;
 exports["default"] = _default;

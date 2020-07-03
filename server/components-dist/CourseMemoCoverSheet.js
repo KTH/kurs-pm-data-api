@@ -9,58 +9,15 @@ var _react = _interopRequireDefault(require("react"));
 
 var _renderer = require("@react-pdf/renderer");
 
+var _CourseMemoStyles = _interopRequireDefault(require("./CourseMemoStyles"));
+
+var _CourseMemoPropTypes = require("./CourseMemoPropTypes");
+
 var _pdfUtils = require("../lib/pdfUtils");
 
 var _pdfConstants = require("../lib/pdfConstants");
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
-
-/* eslint-disable react/prop-types */
-var A4 = _pdfConstants.pageMeasurements.A4;
-
-var styles = _renderer.StyleSheet.create({
-  coverSheet: {
-    padding: A4.pageMargin
-  },
-  coverSheetContainer: {
-    height: '100%',
-    borderBottom: '1 solid #1954A6'
-  },
-  logotype: {
-    height: A4.logotype,
-    width: A4.logotype
-  },
-  titleContainer: {
-    marginTop: A4.crownDoubleAdjusted,
-    marginLeft: A4.logotypeHalf
-  },
-  title: {
-    fontFamily: _pdfConstants.typography.bold,
-    fontSize: _pdfConstants.typography.h1
-  },
-  subTitle: {
-    fontFamily: _pdfConstants.typography.bold,
-    fontSize: _pdfConstants.typography.h2
-  },
-  version: {
-    fontFamily: _pdfConstants.typography.regular,
-    fontSize: _pdfConstants.typography.p,
-    marginTop: 6
-  },
-  infoContainer: {
-    marginTop: '13mm'
-  },
-  infoHeader: {
-    fontFamily: _pdfConstants.typography.bold,
-    fontSize: _pdfConstants.typography.h4
-  },
-  infoText: {
-    marginTop: 6,
-    marginBottom: 12,
-    fontFamily: _pdfConstants.typography.regular,
-    fontSize: _pdfConstants.typography.p
-  }
-});
 
 var CourseMemoCoverSheet = function CourseMemoCoverSheet(_ref) {
   var data = _ref.data;
@@ -78,37 +35,40 @@ var CourseMemoCoverSheet = function CourseMemoCoverSheet(_ref) {
     /* A4 is default page size value, explicitly set for clarity */
     _react["default"].createElement(_renderer.Page, {
       size: "A4",
-      style: styles.coverSheet
+      style: _CourseMemoStyles["default"].coverSheet
     }, /*#__PURE__*/_react["default"].createElement(_renderer.View, {
-      style: styles.coverSheetContainer
+      style: _CourseMemoStyles["default"].coverSheetContainer
     }, /*#__PURE__*/_react["default"].createElement(_renderer.Image, {
-      style: styles.logotype,
+      style: _CourseMemoStyles["default"].logotype,
       src: _pdfConstants.logotypePath
     }), /*#__PURE__*/_react["default"].createElement(_renderer.View, {
-      style: styles.titleContainer
+      style: _CourseMemoStyles["default"].titleContainer
     }, /*#__PURE__*/_react["default"].createElement(_renderer.Text, {
-      style: styles.title
+      style: _CourseMemoStyles["default"].title
     }, courseName), /*#__PURE__*/_react["default"].createElement(_renderer.Text, {
-      style: styles.subTitle
+      style: _CourseMemoStyles["default"].subTitle
     }, courseMemoName), /*#__PURE__*/_react["default"].createElement(_renderer.Text, {
-      style: styles.version
+      style: _CourseMemoStyles["default"].version
     }, version), /*#__PURE__*/_react["default"].createElement(_renderer.View, {
-      style: styles.infoContainer
+      style: _CourseMemoStyles["default"].infoContainer
     }, /*#__PURE__*/_react["default"].createElement(_renderer.Text, {
-      style: styles.infoHeader
+      style: _CourseMemoStyles["default"].infoHeader
     }, "Kursomg\xE5ng"), /*#__PURE__*/_react["default"].createElement(_renderer.Text, {
-      style: styles.infoText
+      style: _CourseMemoStyles["default"].infoText
     }, data.memoName), /*#__PURE__*/_react["default"].createElement(_renderer.Text, {
-      style: styles.infoHeader
+      style: _CourseMemoStyles["default"].infoHeader
     }, "Undervisningsspr\xE5k"), /*#__PURE__*/_react["default"].createElement(_renderer.Text, {
-      style: styles.infoText
+      style: _CourseMemoStyles["default"].infoText
     }, data.memoCommonLangAbbr === 'en' ? 'English' : 'Svenska'), /*#__PURE__*/_react["default"].createElement(_renderer.Text, {
-      style: styles.infoHeader
+      style: _CourseMemoStyles["default"].infoHeader
     }, "Kursen ges av"), /*#__PURE__*/_react["default"].createElement(_renderer.Text, {
-      style: styles.infoText
+      style: _CourseMemoStyles["default"].infoText
     }, data.departmentName ? data.departmentName : '')))))
   );
 };
 
+CourseMemoCoverSheet.propTypes = {
+  data: _CourseMemoPropTypes.data.isRequired
+};
 var _default = CourseMemoCoverSheet;
 exports["default"] = _default;

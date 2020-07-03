@@ -1,17 +1,15 @@
-/* eslint-disable react/prop-types */
 import React, { Profiler } from 'react'
 import { Document, Font } from '@react-pdf/renderer'
 
 import CourseMemoCoverSheet from './CourseMemoCoverSheet'
 import CourseMemoPages from './CourseMemoPages'
-
+import { data as propTypeData } from './CourseMemoPropTypes'
 import { concatMemoName, profilerToLog, timer } from '../lib/pdfUtils'
 
 Font.register({ family: 'Open Sans', src: 'server/fonts/OpenSans-Regular.ttf' })
 Font.register({ family: 'Open Sans Italic', src: 'server/fonts/OpenSans-Italic.ttf' })
 Font.register({ family: 'Open Sans SemiBold', src: 'server/fonts/OpenSans-SemiBold.ttf' })
 Font.register({ family: 'Open Sans Bold', src: 'server/fonts/OpenSans-Bold.ttf' })
-Font.register({ family: 'Open Sans Light', src: 'server/fonts/OpenSans-Light.ttf' })
 Font.register({ family: 'Georgia', src: 'server/fonts/Georgia.ttf' })
 
 const CourseMemoDocument = ({ data }) => {
@@ -28,6 +26,10 @@ const CourseMemoDocument = ({ data }) => {
       </Document>
     </Profiler>
   )
+}
+
+CourseMemoDocument.propTypes = {
+  data: propTypeData.isRequired
 }
 
 export default CourseMemoDocument

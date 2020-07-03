@@ -1,34 +1,9 @@
-/* eslint-disable react/prop-types */
 import React from 'react'
-import { View, Text, StyleSheet } from '@react-pdf/renderer'
+import { View, Text } from '@react-pdf/renderer'
 
-import i18n from '../../i18n'
-
+import styles from './CourseMemoStyles'
+import { data as propTypeData } from './CourseMemoPropTypes'
 import { concatMemoName, concatSyllabusName, formatVersionDate } from '../lib/pdfUtils'
-
-const styles = StyleSheet.create({
-  italic: {
-    fontFamily: 'Open Sans Italic'
-  },
-  pageFooter: {
-    fontFamily: 'Open Sans',
-    fontSize: 12,
-    flexDirection: 'row',
-    borderTop: '1px solid black',
-    paddingTop: '6pt'
-  },
-  pageNumberLeft: {
-    flexGrow: 0,
-    flexDirection: 'column',
-    fontSize: 12,
-    textAlign: 'left'
-  },
-  pageFooterRight: {
-    flexGrow: 1,
-    fontSize: 12,
-    textAlign: 'right'
-  }
-})
 
 const CourseMemoPageFooter = ({ data }) => {
   const syllabusText = concatSyllabusName(data.memoCommonLangAbbr)
@@ -50,6 +25,10 @@ const CourseMemoPageFooter = ({ data }) => {
       />
     </View>
   )
+}
+
+CourseMemoPageFooter.propTypes = {
+  data: propTypeData.isRequired
 }
 
 export default CourseMemoPageFooter

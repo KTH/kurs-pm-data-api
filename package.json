@@ -53,13 +53,13 @@
   "devDependencies": {
     "@babel/cli": "^7.10.1",
     "@babel/core": "^7.10.2",
-    "@babel/preset-env": "^7.10.2",
-    "@babel/preset-react": "^7.10.1",
+    "@babel/preset-env": "^7.10.4",
+    "@babel/preset-react": "^7.10.4",
     "chai": "^4.2.0",
     "cross-env": "^6.0.3",
     "husky": "^3.0.9",
-    "mocha": "^6.2.2",
-    "nodemon": "^1.19.4",
+    "mocha": "^8.0.1",
+    "nodemon": "^2.0.4",
     "prettier": "^1.19.1",
     "pretty-quick": "^2.0.1",
     "proxyquire": "^2.1.3"

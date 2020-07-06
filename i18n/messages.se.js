@@ -788,8 +788,8 @@ module.exports = {
     courseMemoPdf: 'Kurs-PM som pdf',
     syllabus: 'Kursplan',
     syllabusInformation: 'information hämtas från',
-    syllabusLinkStart: 'Kursplan (',
-    syllabusLinkEnd: '– )',
+    syllabusLabelStart: 'Kursplan (',
+    syllabusLabelEnd: ')',
     mandatoryFieldMissing: 'Obligatoriskt innehåll saknas',
     linkOpensInNewTab: 'Länken kommer att öppnas i ny flik',
     inDevelopment: 'Under utveckling'

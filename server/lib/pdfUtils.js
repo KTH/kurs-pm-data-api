@@ -29,10 +29,10 @@ function concatMemoName(semester, ladokRoundIds, langAbbr) {
 }
 
 // TODO: Remove when syllabus name is available from API
-function concatSyllabusName(langAbbr) {
+function concatSyllabusName(syllabusValid, langAbbr) {
   const langIndex = langAbbr === 'en' ? 0 : 1
-  const { syllabusInformation, syllabusLinkStart, syllabusLinkEnd } = i18n.messages[langIndex].courseMemoLinksLabels
-  return `* ${syllabusInformation} ${syllabusLinkStart}${syllabusLinkEnd}`
+  const { syllabusInformation, syllabusLabelStart, syllabusLabelEnd } = i18n.messages[langIndex].courseMemoLinksLabels
+  return `* ${syllabusInformation} ${syllabusLabelStart}${syllabusValid.textFromTo}${syllabusLabelEnd}`
 }
 
 function formatCredits(credits = 0, creditUnitAbbr = 'hp', language) {

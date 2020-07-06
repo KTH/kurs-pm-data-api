@@ -6,7 +6,7 @@ import { data as propTypeData } from './CourseMemoPropTypes'
 import { concatMemoName, concatSyllabusName, formatVersionDate } from '../lib/pdfUtils'
 
 const CourseMemoPageFooter = ({ data }) => {
-  const syllabusText = concatSyllabusName(data.memoCommonLangAbbr)
+  const syllabusText = concatSyllabusName(data.syllabusValid, data.memoCommonLangAbbr)
   const courseMemoName = concatMemoName(data.semester, data.ladokRoundIds, data.memoCommonLangAbbr)
   const version = `Ver ${data.version} ${formatVersionDate(data.memoCommonLangAbbr, data.lastChangeDate)}`
   const memoNameText = `${data.courseCode} - ${courseMemoName}, ${version}`

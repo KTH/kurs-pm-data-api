@@ -19,7 +19,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "d
 
 var CourseMemoPageFooter = function CourseMemoPageFooter(_ref) {
   var data = _ref.data;
-  var syllabusText = (0, _pdfUtils.concatSyllabusName)(data.memoCommonLangAbbr);
+  var syllabusText = (0, _pdfUtils.concatSyllabusName)(data.syllabusValid, data.memoCommonLangAbbr);
   var courseMemoName = (0, _pdfUtils.concatMemoName)(data.semester, data.ladokRoundIds, data.memoCommonLangAbbr);
   var version = "Ver ".concat(data.version, " ").concat((0, _pdfUtils.formatVersionDate)(data.memoCommonLangAbbr, data.lastChangeDate));
   var memoNameText = "".concat(data.courseCode, " - ").concat(courseMemoName, ", ").concat(version);

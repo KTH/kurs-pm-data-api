@@ -14,9 +14,7 @@ var data = _propTypes["default"].shape({
   ladokRoundIds: _propTypes["default"].array,
   memoCommonLangAbbr: _propTypes["default"].string,
   courseCode: _propTypes["default"].string,
-  title: _propTypes["default"].string,
-  credits: _propTypes["default"].string,
-  creditUnitAbbr: _propTypes["default"].string
+  title: _propTypes["default"].string
 });
 
 exports.data = data;

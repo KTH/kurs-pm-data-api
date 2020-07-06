@@ -5,9 +5,7 @@ export const data = PropTypes.shape({
   ladokRoundIds: PropTypes.array,
   memoCommonLangAbbr: PropTypes.string,
   courseCode: PropTypes.string,
-  title: PropTypes.string,
-  credits: PropTypes.string,
-  creditUnitAbbr: PropTypes.string
+  title: PropTypes.string
 })
 
 export const section = PropTypes.shape({

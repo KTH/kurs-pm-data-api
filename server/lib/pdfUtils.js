@@ -7,7 +7,6 @@ const i18n = require('../../i18n')
 const log = require('kth-node-log')
 
 const { context } = require('./fieldsByType')
-const { end } = require('pdfkit')
 
 const entities = new Entities()
 
@@ -28,17 +27,10 @@ function concatMemoName(semester, ladokRoundIds, langAbbr) {
   return `${memoLabel} ${seasonStr(season, semester)}-${ladokRoundIds.join('-')}`
 }
 
-// TODO: Remove when syllabus name is available from API
 function concatSyllabusName(syllabusValid, langAbbr) {
   const langIndex = langAbbr === 'en' ? 0 : 1
   const { syllabusInformation, syllabusLabelStart, syllabusLabelEnd } = i18n.messages[langIndex].courseMemoLinksLabels
   return `* ${syllabusInformation} ${syllabusLabelStart}${syllabusValid.textFromTo}${syllabusLabelEnd}`
-}
-
-function formatCredits(credits = 0, creditUnitAbbr = 'hp', language) {
-  const localeCredits = language === 'sv' ? credits.toLocaleString('sv-SE') : credits.toLocaleString('en-US')
-  const creditUnit = language === 'sv' ? creditUnitAbbr : 'credits'
-  return `${localeCredits} ${creditUnit}`
 }
 
 function decodeHtml(html) {
@@ -112,7 +104,6 @@ module.exports = {
   inPx,
   concatMemoName,
   concatSyllabusName,
-  formatCredits,
   decodeHtml,
   getMessages,
   filterVisibible,

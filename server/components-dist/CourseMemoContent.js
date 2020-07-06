@@ -23,6 +23,8 @@ function _getRequireWildcardCache() { if (typeof WeakMap !== "function") return 
 
 function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } if (obj === null || _typeof(obj) !== "object" && typeof obj !== "function") { return { "default": obj }; } var cache = _getRequireWildcardCache(); if (cache && cache.has(obj)) { return cache.get(obj); } var newObj = {}; var hasPropertyDescriptor = Object.defineProperty && Object.getOwnPropertyDescriptor; for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = hasPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : null; if (desc && (desc.get || desc.set)) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } newObj["default"] = obj; if (cache) { cache.set(obj, newObj); } return newObj; }
 
+function _extends() { _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; }; return _extends.apply(this, arguments); }
+
 var _require = require('../lib/pdfUtils'),
     getMessages = _require.getMessages,
     filterVisibible = _require.filterVisibible,
@@ -128,8 +130,7 @@ var ExtraSubSection = function ExtraSubSection(_ref3) {
   }, subSectionHeader), /*#__PURE__*/_react["default"].createElement(_renderer.View, null, (0, _CourseMemoHtmlParser["default"])(subSection.htmlContent)));
 };
 
-var CourseMemoContent = function CourseMemoContent(_ref4) {
-  var data = _ref4.data;
+var CourseMemoContent = function CourseMemoContent(props) {
   return /*#__PURE__*/_react["default"].createElement(_renderer.View, {
     style: _CourseMemoStyles["default"].contentContainer
   }, sections.map(function (section) {
@@ -137,23 +138,19 @@ var CourseMemoContent = function CourseMemoContent(_ref4) {
       key: "profiler-".concat(section.id),
       id: section.id,
       onRender: profilerToLog
-    }, /*#__PURE__*/_react["default"].createElement(Section, {
+    }, /*#__PURE__*/_react["default"].createElement(Section, _extends({
       key: section.id,
-      section: section,
-      data: data
-    }));
+      section: section
+    }, props)));
   }));
 };
 
-CourseMemoContent.propTypes = {
-  data: _CourseMemoPropTypes.data.isRequired
-};
 Section.propTypes = {
   section: _CourseMemoPropTypes.section.isRequired,
   data: _CourseMemoPropTypes.data.isRequired
 };
 SubSection.propTypes = {
-  subSection: _CourseMemoPropTypes.subSection.isRequired,
+  subSection: _CourseMemoPropTypes.propTypeString.isRequired,
   data: _CourseMemoPropTypes.data.isRequired
 };
 ExtraSubSection.propTypes = {

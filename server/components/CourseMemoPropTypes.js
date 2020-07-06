@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types'
 
-export const data = {
+export const data = PropTypes.shape({
   semester: PropTypes.string,
   ladokRoundIds: PropTypes.array,
   memoCommonLangAbbr: PropTypes.string,
@@ -8,11 +8,17 @@ export const data = {
   title: PropTypes.string,
   credits: PropTypes.string,
   creditUnitAbbr: PropTypes.string
-}
+})
 
-export const section = {
+export const section = PropTypes.shape({
   id: PropTypes.string,
   extraHeaderTitle: PropTypes.string
-}
+})
 
-export const subSection = {}
+export const subSection = PropTypes.shape({
+  visibleInMemo: PropTypes.bool,
+  title: PropTypes.string,
+  htmlContent: PropTypes.string
+})
+
+export const propTypeString = PropTypes.string

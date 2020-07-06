@@ -4,6 +4,7 @@ import { View, Text } from '@react-pdf/renderer'
 import parse from './CourseMemoHtmlParser'
 import styles from './CourseMemoStyles'
 import {
+  propTypeString,
   data as propTypeData,
   section as propTypeSection,
   subSection as propTypeSubSection
@@ -89,20 +90,16 @@ const ExtraSubSection = ({ subSection }) => {
   )
 }
 
-const CourseMemoContent = ({ data }) => {
+const CourseMemoContent = props => {
   return (
     <View style={styles.contentContainer}>
       {sections.map(section => (
         <Profiler key={`profiler-${section.id}`} id={section.id} onRender={profilerToLog}>
-          <Section key={section.id} section={section} data={data} />
+          <Section key={section.id} section={section} {...props} />
         </Profiler>
       ))}
     </View>
   )
-}
-
-CourseMemoContent.propTypes = {
-  data: propTypeData.isRequired
 }
 
 Section.propTypes = {
@@ -111,7 +108,7 @@ Section.propTypes = {
 }
 
 SubSection.propTypes = {
-  subSection: propTypeSubSection.isRequired,
+  subSection: propTypeString.isRequired,
   data: propTypeData.isRequired
 }
 

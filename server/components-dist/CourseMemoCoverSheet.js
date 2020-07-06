@@ -21,14 +21,14 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "d
 
 var CourseMemoCoverSheet = function CourseMemoCoverSheet(_ref) {
   var data = _ref.data;
-  // TODO: Remove and use data from API when it is availabe
-  // MJ2462 Achieving Energy Efficiency in Existing Buildings 6 credits
-  var courseName = "".concat(data.courseCode, "\n").concat(data.title ? data.title : '', " ").concat((0, _pdfUtils.formatCredits)(data.credits, data.creditUnitAbbr, data.memoCommonLangAbbr)); // TODO: Remove and use name from API data when it is available
+  var courseTitle = data.courseTitle || _pdfConstants.NOT_AVAILABLE; // TODO: Remove and use name from API data when it is available
   // I.e. ”Course memo Autumn 2020-1”
 
   var courseMemoName = (0, _pdfUtils.concatMemoName)(data.semester, data.ladokRoundIds, data.memoCommonLangAbbr); // ”Ver” string seems to be language agnostic
 
   var version = "Ver ".concat(data.version, " ").concat((0, _pdfUtils.formatVersionDate)(data.memoCommonLangAbbr, data.lastChangeDate));
+  var language = _pdfConstants.LANGUAGE[data.memoCommonLangAbbr];
+  var departmentName = data.departmentName || _pdfConstants.NOT_AVAILABLE;
   return (
     /*#__PURE__*/
 
@@ -45,7 +45,7 @@ var CourseMemoCoverSheet = function CourseMemoCoverSheet(_ref) {
       style: _CourseMemoStyles["default"].titleContainer
     }, /*#__PURE__*/_react["default"].createElement(_renderer.Text, {
       style: _CourseMemoStyles["default"].title
-    }, courseName), /*#__PURE__*/_react["default"].createElement(_renderer.Text, {
+    }, courseTitle), /*#__PURE__*/_react["default"].createElement(_renderer.Text, {
       style: _CourseMemoStyles["default"].subTitle
     }, courseMemoName), /*#__PURE__*/_react["default"].createElement(_renderer.Text, {
       style: _CourseMemoStyles["default"].version
@@ -59,11 +59,11 @@ var CourseMemoCoverSheet = function CourseMemoCoverSheet(_ref) {
       style: _CourseMemoStyles["default"].infoHeader
     }, "Undervisningsspr\xE5k"), /*#__PURE__*/_react["default"].createElement(_renderer.Text, {
       style: _CourseMemoStyles["default"].infoText
-    }, data.memoCommonLangAbbr === 'en' ? 'English' : 'Svenska'), /*#__PURE__*/_react["default"].createElement(_renderer.Text, {
+    }, language), /*#__PURE__*/_react["default"].createElement(_renderer.Text, {
       style: _CourseMemoStyles["default"].infoHeader
     }, "Kursen ges av"), /*#__PURE__*/_react["default"].createElement(_renderer.Text, {
       style: _CourseMemoStyles["default"].infoText
-    }, data.departmentName ? data.departmentName : '')))))
+    }, departmentName)))))
   );
 };
 

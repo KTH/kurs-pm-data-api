@@ -47,6 +47,8 @@ const typography = {
 }
 
 const EMPTY = ['No information inserted', 'Ingen information tillagd']
+const NOT_AVAILABLE = 'N/A'
+const LANGUAGE = { en: 'English', sv: 'Svenska' }
 
 module.exports = {
   fontPaths,
@@ -57,5 +59,7 @@ module.exports = {
   pageSize,
   pageMeasurements,
   typography,
-  EMPTY
+  EMPTY,
+  NOT_AVAILABLE,
+  LANGUAGE
 }

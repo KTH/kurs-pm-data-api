@@ -10,12 +10,6 @@ const { context } = require('./fieldsByType')
 
 const entities = new Entities()
 
-function inPx(mm) {
-  const mmInInch = 25.4
-  const dpi = 72
-  return (mm / mmInInch) * dpi
-}
-
 function seasonStr(season, semesterCode = '') {
   return `${season[semesterCode.toString()[4]]}${semesterCode.toString().slice(0, 4)}`
 }
@@ -31,10 +25,6 @@ function concatSyllabusName(syllabusValid, langAbbr) {
   const langIndex = langAbbr === 'en' ? 0 : 1
   const { syllabusInformation, syllabusLabelStart, syllabusLabelEnd } = i18n.messages[langIndex].courseMemoLinksLabels
   return `* ${syllabusInformation} ${syllabusLabelStart}${syllabusValid.textFromTo}${syllabusLabelEnd}`
-}
-
-function decodeHtml(html) {
-  return entities.decode(html)
 }
 
 function getMessages(language) {
@@ -101,10 +91,8 @@ function formatVersionDate(language = 'sv', version) {
 }
 
 module.exports = {
-  inPx,
   concatMemoName,
   concatSyllabusName,
-  decodeHtml,
   getMessages,
   filterVisibible,
   profilerToLog,

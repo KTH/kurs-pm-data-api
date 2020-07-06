@@ -1,29 +1,6 @@
 'use strict'
 
-const fontPaths = {
-  OpenSans: 'server/fonts/OpenSans-Regular.ttf',
-  Georgia: 'server/fonts/Georgia.ttf'
-}
-
 const logotypePath = 'server/img/KTH_Logotyp_RGB_2013.png'
-
-const fontSizes = {
-  h1: 36,
-  h2: 24,
-  h3: 18,
-  p: 12
-}
-
-const paragraphGaps = {
-  h1: 18,
-  h2: 12,
-  h3: 6,
-  p: 18
-}
-
-const pageMargins = 20
-
-const pageSize = 'A4'
 
 const pageMeasurements = {
   A4: {
@@ -51,12 +28,7 @@ const NOT_AVAILABLE = 'N/A'
 const LANGUAGE = { en: 'English', sv: 'Svenska' }
 
 module.exports = {
-  fontPaths,
   logotypePath,
-  fontSizes,
-  paragraphGaps,
-  pageMargins,
-  pageSize,
   pageMeasurements,
   typography,
   EMPTY,

@@ -245,7 +245,7 @@
           {
             "name": "download",
             "in": "query",
-            "description": "Should PDF document be download? If download parameter is true, the response will have a 'Content-Disposition' header set.",
+            "description": "Should PDF document be downloaded? If download parameter is true, the response will have a 'Content-Disposition' header set to 'attachment', otherwise 'inline'.",
             "required": false,
             "type": "string"
           }

@@ -7,7 +7,8 @@ const { createPdf } = require('../lib/pdfRenderer.js')
 
 async function getMemoByEndPoint(req, res, next) {
   const { memoEndPoint } = req.params
-  const { download, fileName } = req.query
+  const { documentName, download } = req.query
+  const fileName = documentName || memoEndPoint
   log.debug('getMemoByEndPoint: Received request for PDF with memoEndPoint:', memoEndPoint)
   try {
     const dbResponse = await fetchMemoByEndPointAndStatus(memoEndPoint, 'published')

@@ -9,6 +9,31 @@ var _renderer = require("@react-pdf/renderer");
 
 var _pdfConstants = require("../lib/pdfConstants");
 
+_renderer.Font.register({
+  family: 'Open Sans',
+  src: 'server/fonts/OpenSans-Regular.ttf'
+});
+
+_renderer.Font.register({
+  family: 'Open Sans Italic',
+  src: 'server/fonts/OpenSans-Italic.ttf'
+});
+
+_renderer.Font.register({
+  family: 'Open Sans SemiBold',
+  src: 'server/fonts/OpenSans-SemiBold.ttf'
+});
+
+_renderer.Font.register({
+  family: 'Open Sans Bold',
+  src: 'server/fonts/OpenSans-Bold.ttf'
+});
+
+_renderer.Font.register({
+  family: 'Georgia',
+  src: 'server/fonts/Georgia.ttf'
+});
+
 var A4 = _pdfConstants.pageMeasurements.A4;
 
 var styles = _renderer.StyleSheet.create({

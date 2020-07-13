@@ -20,15 +20,13 @@ Admin and public pages uses different rights and keys to separate their behaviou
 
 Only admin pages may change API data while public pages can only read. Therefore while useing `Swagger`, a developer should choose the correct api key, because some functions will not be shown in details.
 
+Kurs-pm-api also generates PDF files using [React-pdf](https://react-pdf.org/) and [html-react-parser](https://github.com/remarkablemark/html-react-parser).
+
 ### Related Projects
 
 - [kurs-pm-data-admin-web](https://github.com/KTH/kurs-pm-data-admin-web)
 - [kurs-pm-web](https://github.com/KTH/kurs-pm-web)
 - [node-api](https://github.com/KTH/node-api)
-- [Mongoose](https://mongoosejs.com/)
-- [Swagger](https://swagger.io/)
-- [React-pdf](https://react-pdf.org/)
-- [html-react-parser](https://github.com/remarkablemark/html-react-parser)
 
 ## Prerequisites
 

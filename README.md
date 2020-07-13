@@ -8,13 +8,13 @@
 
 The course information project (KIP) is an initiative at KTH that was launched in 2018 to improve the quality and availability of information about KTH:s courses. The background to the project is, among other things, that it was difficult for the student to find information about the courses and even more difficult to compare information about several courses. The reason for the problems is scattered course information in several places and that there is no uniformity or assigned places for the course information. The project takes measures to consolidate course information into two locations and to present the information in a manner that is uniform for KTH. The student should find the right information about the course, depending on their needs. The result of the project is a public course site where the correct course information is collected and presented uniformly. Also, a tool is developed for teachers to enter and publish course information. Eventually, this will lead to the student making better decisions based on their needs, and it will also reduce the burden on teachers and administration regarding questions and support for the student.
 
-Kurs-pm-api is a microservice to save course memos data to database. It accepts data from admin pages (kurs-pm-data-admin-web) and serves this data to the public view of course memos (kth-pm-web). It uses `Node.js`, `Moongoose`, `kth-node-cosmos-db`, and is based on [https://github.com/KTH/node-api](https://github.com/KTH/node-api).
+Kurs-pm-api is a microservice to save course memos data to database. It accepts data from admin pages ([kurs-pm-data-admin-web](https://github.com/KTH/kurs-pm-data-admin-web)) and serves this data to the public view of course memos ([kurs-pm-web](https://github.com/KTH/kurs-pm-web)). It uses [Node.js](https://nodejs.org/), [Mongoose](https://mongoosejs.com/), `kth-node-cosmos-db`, and is based on [https://github.com/KTH/node-api](node-api).
 
 ### 🏠 [Homepage](https://github.com/KTH/kurs-pm-data-api)
 
 ## Overview
 
-Kurs-pm-api is used to save data in a Azure Cosmos database by using `kth-node-cosmos-db` to establish a connection to Azure. Before using it, the database and collection must be prepared in Azure because it will establish a connection to an existing database, and not try to create it from a code. [Mongoose](https://mongoosejs.com/) is used for creating models and saving data. To present a documentation [Swagger](https://swagger.io/) is used.
+Kurs-pm-api is used to save data in a Azure Cosmos database by using `kth-node-cosmos-db` to establish a connection to Azure. Before using it, the database and collection must be prepared in Azure because it will establish a connection to an existing database, and not try to create it from a code. `Mongoose` is used for creating models and saving data. To present a documentation [Swagger](https://swagger.io/) is used.
 
 Admin and public pages uses different rights and keys to separate their behaviour.
 
@@ -25,6 +25,8 @@ Only admin pages may change API data while public pages can only read. Therefore
 - [kurs-pm-data-admin-web](https://github.com/KTH/kurs-pm-data-admin-web)
 - [kurs-pm-web](https://github.com/KTH/kurs-pm-web)
 - [node-api](https://github.com/KTH/node-api)
+- [Mongoose](https://mongoosejs.com/)
+- [Swagger](https://swagger.io/)
 - [React-pdf](https://react-pdf.org/)
 - [html-react-parser](https://github.com/remarkablemark/html-react-parser)
 

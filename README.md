@@ -132,7 +132,7 @@ APPINSIGHTS_INSTRUMENTATIONKEY=[Azure, Application insights, Instrumentation Key
 
 The application has an endpoint that generates a PDF course memo. The PDF file is generated with [React-pdf](https://react-pdf.org/). Memo data in `HTML` will be parsed into `React` elements with [html-react-parser](https://github.com/remarkablemark/html-react-parser), before they are added to the document element tree.
 
-'React`components are converted with [Babel](https://babeljs.io/) into`./components-dist/`.
+`React`components are converted with [Babel](https://babeljs.io/) into`./components-dist/`.
 
 ### Course Memo Components
 

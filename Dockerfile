@@ -14,12 +14,10 @@ WORKDIR /application
 RUN cp -a /npm/node_modules /application && \
     rm -rf /npm
 
-# Copy files used by Gulp.
 COPY ["config", "config"]
 
 COPY ["package.json", "package.json"]
 
-# Copy source files, so changes does not trigger gulp.
 COPY ["app.js", "app.js"]
 COPY ["swagger.json", "swagger.json"]
 COPY ["server", "server"]

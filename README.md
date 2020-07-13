@@ -1,7 +1,6 @@
-# Kurs-pm-data-api
-# Welcome to Kurs-pm-data-api 👋
+# Welcome to kurs-pm-data-api 👋
 
-![Version](https://img.shields.io/badge/version-0.1.0-blue.svg?cacheSeconds=2592000)
+![Version](https://img.shields.io/badge/version-0.8.0-blue.svg?cacheSeconds=2592000)
 ![Prerequisite](https://img.shields.io/badge/node-12.0.0-blue.svg)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](#)
 
@@ -15,16 +14,19 @@ Kurs-pm-api is a microservice to save course memos data to database. It accepts 
 
 ## Overview
 
-Kurs-pm-api is used to save data in Azure Cosmos db by using kth-node-cosmos-db to establish a connection to Azure. Before using it, the database and collection must be prepared in Azure because it is establish a connection to an existing database and not trying to create it from a code. Meanwhile for creating models and saving data it uses a Mongoose. To present a documentation `Swagger` is used.
+Kurs-pm-api is used to save data in a Azure Cosmos database by using `kth-node-cosmos-db` to establish a connection to Azure. Before using it, the database and collection must be prepared in Azure because it will establish a connection to an existing database, and not try to create it from a code. [Mongoose](https://mongoosejs.com/) is used for creating models and saving data. To present a documentation [Swagger](https://swagger.io/) is used.
+
 Admin and public pages uses different rights and keys to separate their behaviour.
-Only admin pages may change api data while public pages can only read. Therefore while useing a 'Swagger' developer should choose a correct api key, because some function will not be shown in details.
 
+Only admin pages may change API data while public pages can only read. Therefore while useing `Swagger`, a developer should choose the correct api key, because some functions will not be shown in details.
 
-### Related projects
+### Related Projects
 
-- [https://github.com/KTH/kurs-pm-data-admin-web](https://github.com/KTH/kurs-pm-data-admin-web)
-- [https://github.com/KTH/kurs-pm-web](https://github.com/KTH/kurs-pm-web)
-- [https://github.com/KTH/node-web](https://github.com/KTH/node-api)
+- [kurs-pm-data-admin-web](https://github.com/KTH/kurs-pm-data-admin-web)
+- [kurs-pm-web](https://github.com/KTH/kurs-pm-web)
+- [node-api](https://github.com/KTH/node-api)
+- [React-pdf](https://react-pdf.org/)
+- [html-react-parser](https://github.com/remarkablemark/html-react-parser)
 
 ## Prerequisites
 
@@ -40,12 +42,14 @@ MONGODB_URI=mongodb://kurs-pm-data-api-stage-mongodb-kthse:[password, specified 
 API_KEYS_0=?name=kursinfo-web&apiKey=[generate a password for public pages]&scope=read
 API_KEYS_1=?name=kurs-pm-data&apiKey=[generate a password for admin page]&scope=write&scope=read
 APPINSIGHTS_INSTRUMENTATIONKEY=[Azure, Application insights, Instrumentation Key, can be found in Overview]
+USE_COSMOS_DB='true'
+LOGGING_ACCESS_LOG=debug
 SERVER_PORT=3001 [if you want to change port]
 ```
 
 These settings are also available in an `env.in` file.
 
-## Prepara database in Azure
+## Prepara Database in Azure
 
 Create database `kursinfo` and manually set Throughput: 400 (Shared),
 In this database create a collection `coursememos` where a shard key is `/courseCode`.
@@ -53,31 +57,25 @@ Change a connection string:
 
 `mongodb://kurs-pm-data-api-stage-mongodb-kthse:[password]==@kurs-pm-data-api-stage-mongodb-kthse.documents.azure.com:[port]`~~/?ssl=true&replicaSet=globaldb~~`/kursinfo?ssl=true&authSource=kursinfo`
 
+## For Development
 
-
-
-## Install
+### Install
 
 ```sh
 npm install
 ```
 
-## Usage
+### Usage
 
-Start the service on [http://localhost:3001/api/kurs-pm-data/swagger](http://localhost:3001/api/kurs-pm-data/swagger).
+Start the service on [localhost:3001/api/kurs-pm-data/swagger](http://localhost:3001/api/kurs-pm-data/swagger).
 
 ```sh
 npm run start-dev
 ```
 
-## In production
+## In Production
 
 Secrets and docker-compose are located in cellus-registry.
-
-Used:
-```sh
-npm run start
-```
 
 ## Run tests
 
@@ -85,25 +83,27 @@ npm run start
 npm run test
 ```
 
+## Monitor and Dashboards
+
+### Application Status
+
+[localhost:3001/api/kurs-pm-data/\_monitor](http://localhost:3001/api/kurs-pm-data/_monitor)
+
+### Branch Information
+
+[localhost:3001/api/kurs-pm-data/\_about](http://localhost:3001/api/kurs-pm-data/_about)
+
+### Application Insights
+
+To see more detailed behaviour in project, use `Application Insights`, e.g., `kursinfo-web-stage-application-insights-kthse`.
+
 ## Use 🐳
 
-Copy `docker-compose.yml.in` to `docker-compose.yml` and make necessary changes, if any. 
+Copy `docker-compose.yml.in` to `docker-compose.yml` and make necessary changes, if any.
 
 ```sh
 docker-compose up
 ```
-
-
-### Monitor and dashboards
-
-Status: 
-
-To monitor status: http://localhost:3001/api/kurs-pm-data/_monitor
-
-To see branch information: http://localhost:3001/api/kurs-pm-data/_about
-
-To see more detailed behaviour in project used application insights: f.e., kursinfo-web-stage-application-insights-kthse
-
 
 ## Deploy in Stage
 
@@ -114,6 +114,7 @@ The deployment process is described in [Build, release, deploy](https://confluen
 ```sh
 ansible-vault edit secrets.env
 ```
+
 Password find in gsv-key vault
 
 ### Configure secrets.env
@@ -124,6 +125,57 @@ API_KEYS_0=?name=kursinfo-web&apiKey=[generate a password for public pages]&scop
 API_KEYS_1=?name=kurs-pm-data-admin-web&apiKey=[generate a password for admin page]&scope=write&scope=read
 APPINSIGHTS_INSTRUMENTATIONKEY=[Azure, Application insights, Instrumentation Key, can be found in Overview]
 ```
+
+## PDF Generation
+
+The application has an endpoint that generates a PDF course memo. The PDF file is generated with [React-pdf](https://react-pdf.org/). Memo data in `HTML` will be parsed into `React` elements with [html-react-parser](https://github.com/remarkablemark/html-react-parser), before they are added to the document element tree.
+
+'React`components are converted with [Babel](https://babeljs.io/) into`./components-dist/`.
+
+### Course Memo Components
+
+```sh
+CourseMemo
+|-- CourseMemoDocument
+|   |-- CourseMemoCoverSheet
+|   |-- CourseMemoPages
+|       |-- CourseMemoContent
+|       |-- CourseMemoPageFooter
+|-- CourseMemoHtmlParser
+|-- CourseMemoStyles
+```
+
+#### CourseMemo
+
+Entry point component. Renders `CourseMemoDocument` component.
+
+#### CourseMemoDocument
+
+Renders wrapping `Document` component, `CourseMemoCoverSheet` and `CourseMemoPages`.
+
+#### CourseMemoCoverSheet
+
+Renders `Page` component containing the memo’s cover sheet.
+
+#### CourseMemoPages
+
+Renders `Page` component containing the memo’s pages. Inside the `Page`, a `CourseMemoContent` component is rendered for the memo`s content, and a`CourseMemoPageFooter` component for the memo’s footers.
+
+#### CourseMemoContent
+
+Renders `Section` components for the memo’s sections. Contains logic for determining if sections are visible in memo, or not.
+
+#### CourseMemoPageFooter
+
+Renders footer text and page numbers.
+
+#### CourseMemoHtmlParser
+
+Parses `HTML` data into `React` elements. Called from `CourseMemoContent`.
+
+#### CourseMemoStyles
+
+Contains all styles for PDF components.
 
 ## Author
 

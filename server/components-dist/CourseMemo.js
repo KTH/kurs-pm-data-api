@@ -13,17 +13,6 @@ var _CourseMemoPropTypes = require("./CourseMemoPropTypes");
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
-/*
-  Course Memo Components Overview
-  - CourseMemo
-    - CourseMemoDocument
-      - CourseMemoCoverSheet
-      - CourseMemoPages
-        - CourseMemoContent
-        - CourseMemoPageFooter
-  - CourseMemoStyles
-  - CourseMemoHtmlParser
-*/
 var CourseMemo = function CourseMemo(_ref) {
   var data = _ref.data;
   return /*#__PURE__*/_react["default"].createElement(_CourseMemoDocument["default"], {

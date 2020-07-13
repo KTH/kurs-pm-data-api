@@ -1,7 +1,7 @@
 {
   "//": "The production flag is added in the jenkins build script.",
   "name": "kurs-pm-data-api",
-  "version": "0.1.0",
+  "version": "0.8.0",
   "description": "API that supports the new administraion site that makes it possible to create and manage course memos.",
   "main": "app.js",
   "private": true,
@@ -72,7 +72,7 @@
     "printWidth": 120
   },
   "engines": {
-    "node": "8.16.1"
+    "node": "12.0.0"
   },
   "husky": {
     "hooks": {

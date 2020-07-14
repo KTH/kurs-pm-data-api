@@ -243,6 +243,13 @@
             "type": "string"
           },
           {
+            "name": "status",
+            "in": "query",
+            "description": "Status of document, e.g. 'published' or 'draft'",
+            "required": true,
+            "type": "string"
+          },
+          {
             "name": "documentName",
             "in": "query",
             "description": "Desired name for PDF document. File suffix pdf will be added.",

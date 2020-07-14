@@ -159,7 +159,7 @@ Renders `Page` component containing the memo’s cover sheet.
 
 #### CourseMemoPages
 
-Renders `Page` component containing the memo’s pages. Inside the `Page`, a `CourseMemoContent` component is rendered for the memo`s content, and a`CourseMemoPageFooter` component for the memo’s footers.
+Renders `Page` component containing the memo’s pages. Inside the `Page`, a `CourseMemoContent` component is rendered for the memo’s content, and a`CourseMemoPageFooter` component for the memo’s footers.
 
 #### CourseMemoContent
 

@@ -39,7 +39,8 @@ var A4 = _pdfConstants.pageMeasurements.A4;
 var styles = _renderer.StyleSheet.create({
   contentContainer: {
     fontFamily: 'Georgia',
-    fontSize: '12pt'
+    fontSize: 13.552714304808,
+    lineHeight: 1.563
   },
   h2: {
     fontFamily: 'Open Sans SemiBold',
@@ -60,7 +61,8 @@ var styles = _renderer.StyleSheet.create({
   },
   addedSubSection: {
     fontFamily: 'Open Sans',
-    fontSize: 12,
+    fontSize: 13.552714304808,
+    lineHeight: 1.563,
     marginTop: 18,
     marginBottom: 6
   },

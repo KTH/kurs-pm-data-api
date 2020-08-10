@@ -11,11 +11,17 @@ Font.register({ family: 'Georgia', src: 'server/fonts/Georgia.ttf' })
 const { A4 } = pageMeasurements
 
 const styles = StyleSheet.create({
-  contentContainer: { fontFamily: 'Georgia', fontSize: '12pt' },
+  contentContainer: { fontFamily: 'Georgia', fontSize: 13.552714304808, lineHeight: 1.563 },
   h2: { fontFamily: 'Open Sans SemiBold', fontSize: 24, marginTop: 24, marginBottom: 0 },
   h3: { fontFamily: 'Open Sans SemiBold', fontSize: 18, marginTop: 18, marginBottom: 6 },
   h4: { fontFamily: 'Open Sans SemiBold', fontSize: 14, marginBottom: 3 },
-  addedSubSection: { fontFamily: 'Open Sans', fontSize: 12, marginTop: 18, marginBottom: 6 },
+  addedSubSection: {
+    fontFamily: 'Open Sans',
+    fontSize: 13.552714304808,
+    lineHeight: 1.563,
+    marginTop: 18,
+    marginBottom: 6
+  },
   table: {
     fontFamily: 'Open Sans',
     margin: 0,

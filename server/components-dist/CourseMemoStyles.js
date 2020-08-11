@@ -163,7 +163,10 @@ var styles = _renderer.StyleSheet.create({
   },
   content: {
     flexGrow: 1,
-    padding: '0 0 10mm 0'
+    paddingTop: 0,
+    paddingRight: 0,
+    paddingBottom: 18,
+    paddingLeft: 0
   },
   footer: {
     flexGrow: 0

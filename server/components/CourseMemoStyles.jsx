@@ -74,7 +74,7 @@ const styles = StyleSheet.create({
   infoText: { marginTop: 6, marginBottom: 12, fontFamily: typography.regular, fontSize: typography.p },
   pages: { padding: A4.pageMargin, flexDirection: 'column' },
   header: { flexGrow: 0 },
-  content: { flexGrow: 1, padding: '0 0 10mm 0' },
+  content: { flexGrow: 1, paddingTop: 0, paddingRight: 0, paddingBottom: 18, paddingLeft: 0 },
   footer: { flexGrow: 0 },
   emptySectionText: { marginTop: 18 },
   italic: {

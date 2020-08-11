@@ -66,7 +66,7 @@ var styles = _renderer.StyleSheet.create({
     paddingLeft: 12.046857
   },
   li: {
-    textIndent: -12.046857,
+    textIndent: -9,
     marginBottom: 3
   },
   addedSubSection: {
@@ -81,9 +81,9 @@ var styles = _renderer.StyleSheet.create({
     margin: 0,
     padding: 0,
     borderColor: '#65656c',
-    borderTop: '1pt',
-    borderBottom: '1pt',
-    borderLeft: '1pt'
+    borderTop: 1,
+    borderBottom: 1,
+    borderLeft: 1
   },
   thead: {
     color: 'white',
@@ -99,8 +99,8 @@ var styles = _renderer.StyleSheet.create({
   },
   th: {
     margin: 0,
-    padding: '3pt',
-    borderRight: '1pt',
+    padding: 3,
+    borderRight: 1,
     borderRightColor: '#65656c',
     flexBasis: 0,
     flexGrow: 1

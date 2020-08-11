@@ -203,7 +203,7 @@ getClient({
   db: 'kursinfo',
   defaultThroughput: 200,
   maxThroughput: 400,
-  collections: [{ name: 'coursememos' }]
+  collections: [{ name: 'coursememos' }, { name: 'pdfcoursememos' }]
 })
 
 module.exports = server

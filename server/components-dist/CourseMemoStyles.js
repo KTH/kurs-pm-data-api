@@ -39,28 +39,40 @@ var A4 = _pdfConstants.pageMeasurements.A4;
 var styles = _renderer.StyleSheet.create({
   contentContainer: {
     fontFamily: 'Georgia',
-    fontSize: '12pt'
+    fontSize: 13.552714304808,
+    lineHeight: 1.563
   },
   h2: {
     fontFamily: 'Open Sans SemiBold',
-    fontSize: 24,
-    marginTop: 24,
+    fontSize: 22.587857,
+    marginTop: 22.587857,
     marginBottom: 0
   },
   h3: {
     fontFamily: 'Open Sans SemiBold',
-    fontSize: 18,
-    marginTop: 18,
+    fontSize: 18.070286,
+    marginTop: 18.070286,
     marginBottom: 6
   },
   h4: {
     fontFamily: 'Open Sans SemiBold',
-    fontSize: 14,
+    fontSize: 15.058571,
+    marginBottom: 3
+  },
+  p: {
+    paddingBottom: 12.046857
+  },
+  ul: {
+    paddingLeft: 12.046857
+  },
+  li: {
+    textIndent: -12.046857,
     marginBottom: 3
   },
   addedSubSection: {
     fontFamily: 'Open Sans',
-    fontSize: 12,
+    fontSize: 13.552714304808,
+    lineHeight: 1.563,
     marginTop: 18,
     marginBottom: 6
   },
@@ -151,7 +163,10 @@ var styles = _renderer.StyleSheet.create({
   },
   content: {
     flexGrow: 1,
-    padding: '0 0 10mm 0'
+    paddingTop: 0,
+    paddingRight: 0,
+    paddingBottom: 18,
+    paddingLeft: 0
   },
   footer: {
     flexGrow: 0

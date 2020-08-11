@@ -72,10 +72,14 @@ const styles = StyleSheet.create({
   infoContainer: { marginTop: '13mm' },
   infoHeader: { fontFamily: typography.bold, fontSize: typography.h4 },
   infoText: { marginTop: 3, marginBottom: 12, fontFamily: typography.regular, fontSize: typography.p },
-  pages: { padding: A4.pageMargin, flexDirection: 'column' },
-  header: { flexGrow: 0 },
-  content: { flexGrow: 1, paddingTop: 0, paddingRight: 0, paddingBottom: 18, paddingLeft: 0 },
-  footer: { flexGrow: 0 },
+  pages: {
+    paddingTop: '15mm',
+    paddingRight: '15mm',
+    paddingBottom: '30mm',
+    paddingLeft: '15mm'
+  },
+  content: { paddingTop: 0, paddingRight: 0, paddingBottom: 0, paddingLeft: 0 },
+  footer: { position: 'absolute', right: '15mm', bottom: '10mm', width: '100%' },
   emptySectionText: { marginTop: 18 },
   italic: {
     fontFamily: 'Open Sans Italic'

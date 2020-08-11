@@ -156,21 +156,22 @@ var styles = _renderer.StyleSheet.create({
     fontSize: _pdfConstants.typography.p
   },
   pages: {
-    padding: A4.pageMargin,
-    flexDirection: 'column'
-  },
-  header: {
-    flexGrow: 0
+    paddingTop: '15mm',
+    paddingRight: '15mm',
+    paddingBottom: '30mm',
+    paddingLeft: '15mm'
   },
   content: {
-    flexGrow: 1,
     paddingTop: 0,
     paddingRight: 0,
-    paddingBottom: 18,
+    paddingBottom: 0,
     paddingLeft: 0
   },
   footer: {
-    flexGrow: 0
+    position: 'absolute',
+    right: '15mm',
+    bottom: '10mm',
+    width: '100%'
   },
   emptySectionText: {
     marginTop: 18

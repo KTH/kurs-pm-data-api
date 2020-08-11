@@ -15,6 +15,9 @@ const styles = StyleSheet.create({
   h2: { fontFamily: 'Open Sans SemiBold', fontSize: 24, marginTop: 24, marginBottom: 0 },
   h3: { fontFamily: 'Open Sans SemiBold', fontSize: 18, marginTop: 18, marginBottom: 6 },
   h4: { fontFamily: 'Open Sans SemiBold', fontSize: 14, marginBottom: 3 },
+  p: { paddingBottom: 12.046857 },
+  ul: { paddingLeft: 12.046857 },
+  li: { textIndent: -12.046857, marginBottom: 3 },
   addedSubSection: {
     fontFamily: 'Open Sans',
     fontSize: 13.552714304808,

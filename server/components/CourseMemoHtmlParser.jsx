@@ -37,13 +37,13 @@ const components = {
         )}
       </View>
     ) : (
-      <Text>{domToReact(domNode.children, htmlParseOptions)}</Text>
+      <View style={styles.p}>{domToReact(domNode.children, htmlParseOptions)}</View>
     ),
-  ul: domNode => <View>{domToReact(domNode.children, htmlParseOptions)}</View>,
+  ul: domNode => <View style={styles.ul}>{domToReact(domNode.children, htmlParseOptions)}</View>,
   li: domNode => (
-    <Text>
+    <Text style={styles.li}>
       {/* TODO: Bullet and spacing should maybe be CSS instead */}
-      {domNode.prev ? `\n• ` : `• `}
+      •&nbsp;
       {domToReact(domNode.children, htmlParseOptions)}
     </Text>
   ),

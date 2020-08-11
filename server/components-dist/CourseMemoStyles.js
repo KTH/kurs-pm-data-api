@@ -59,6 +59,16 @@ var styles = _renderer.StyleSheet.create({
     fontSize: 14,
     marginBottom: 3
   },
+  p: {
+    paddingBottom: 12.046857
+  },
+  ul: {
+    paddingLeft: 12.046857
+  },
+  li: {
+    textIndent: -12.046857,
+    marginBottom: 3
+  },
   addedSubSection: {
     fontFamily: 'Open Sans',
     fontSize: 13.552714304808,

@@ -126,7 +126,8 @@ var styles = _renderer.StyleSheet.create({
   },
   titleContainer: {
     marginTop: A4.crownDoubleAdjusted,
-    marginLeft: A4.logotypeHalf
+    marginLeft: A4.logotypeHalf,
+    marginRight: A4.logotypeHalf
   },
   title: {
     fontFamily: _pdfConstants.typography.bold,
@@ -149,7 +150,7 @@ var styles = _renderer.StyleSheet.create({
     fontSize: _pdfConstants.typography.h4
   },
   infoText: {
-    marginTop: 6,
+    marginTop: 3,
     marginBottom: 12,
     fontFamily: _pdfConstants.typography.regular,
     fontSize: _pdfConstants.typography.p

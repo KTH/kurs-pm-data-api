@@ -126,7 +126,8 @@ var styles = _renderer.StyleSheet.create({
   },
   titleContainer: {
     marginTop: A4.crownDoubleAdjusted,
-    marginLeft: A4.logotypeHalf
+    marginLeft: A4.logotypeHalf,
+    marginRight: A4.logotypeHalf
   },
   title: {
     fontFamily: _pdfConstants.typography.bold,
@@ -149,27 +150,28 @@ var styles = _renderer.StyleSheet.create({
     fontSize: _pdfConstants.typography.h4
   },
   infoText: {
-    marginTop: 6,
+    marginTop: 3,
     marginBottom: 12,
     fontFamily: _pdfConstants.typography.regular,
     fontSize: _pdfConstants.typography.p
   },
   pages: {
-    padding: A4.pageMargin,
-    flexDirection: 'column'
-  },
-  header: {
-    flexGrow: 0
+    paddingTop: '15mm',
+    paddingRight: '15mm',
+    paddingBottom: '30mm',
+    paddingLeft: '15mm'
   },
   content: {
-    flexGrow: 1,
     paddingTop: 0,
     paddingRight: 0,
-    paddingBottom: 18,
+    paddingBottom: 0,
     paddingLeft: 0
   },
   footer: {
-    flexGrow: 0
+    position: 'absolute',
+    right: '15mm',
+    bottom: '10mm',
+    width: '100%'
   },
   emptySectionText: {
     marginTop: 18

@@ -2,6 +2,7 @@
 /* eslint-disable no-underscore-dangle */
 const log = require('kth-node-log')
 const { CourseMemo } = require('../models/mainMemoModel')
+const { MigratedMemoPdfs } = require('../models/migratedMemoPdfs')
 
 function getAllMemosByCourseCode(courseCode) {
   if (!courseCode) throw new Error('courseCode must be set')
@@ -25,12 +26,18 @@ async function getCourseSemesterUsedRounds(courseCode, semester) {
     const _dbResponse = await CourseMemo.aggregate([
       { $match: { courseCode, semester, $or: [{ status: 'draft' }, { status: 'published' }] } }
     ])
+    const _dbMigratedPdfs = await MigratedMemoPdfs.aggregate([{ $match: { courseCode, semester } }])
+    log.debug('-----> _dbResponsePdf', { _dbMigratedPdfs })
     const finalObj = {
       usedRoundsThisSemester: []
     }
     for (let index = 0; index < _dbResponse.length; index++) {
       const { ladokRoundIds } = _dbResponse[index]
       finalObj.usedRoundsThisSemester.push(...ladokRoundIds)
+    }
+    for (let index = 0; index < _dbMigratedPdfs.length; index++) {
+      const { koppsRoundId } = _dbMigratedPdfs[index]
+      finalObj.usedRoundsThisSemester.push(...koppsRoundId)
     }
 
     log.debug('Successfully got used round ids for', {

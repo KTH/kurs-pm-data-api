@@ -12,9 +12,9 @@ const { A4 } = pageMeasurements
 
 const styles = StyleSheet.create({
   contentContainer: { fontFamily: 'Georgia', fontSize: 13.552714304808, lineHeight: 1.563 },
-  h2: { fontFamily: 'Open Sans SemiBold', fontSize: 24, marginTop: 24, marginBottom: 0 },
-  h3: { fontFamily: 'Open Sans SemiBold', fontSize: 18, marginTop: 18, marginBottom: 6 },
-  h4: { fontFamily: 'Open Sans SemiBold', fontSize: 14, marginBottom: 3 },
+  h2: { fontFamily: 'Open Sans SemiBold', fontSize: 22.587857, marginTop: 22.587857, marginBottom: 0 },
+  h3: { fontFamily: 'Open Sans SemiBold', fontSize: 18.070286, marginTop: 18.070286, marginBottom: 6 },
+  h4: { fontFamily: 'Open Sans SemiBold', fontSize: 15.058571, marginBottom: 3 },
   p: { paddingBottom: 12.046857 },
   ul: { paddingLeft: 12.046857 },
   li: { textIndent: -12.046857, marginBottom: 3 },

@@ -44,19 +44,19 @@ var styles = _renderer.StyleSheet.create({
   },
   h2: {
     fontFamily: 'Open Sans SemiBold',
-    fontSize: 24,
-    marginTop: 24,
+    fontSize: 22.587857,
+    marginTop: 22.587857,
     marginBottom: 0
   },
   h3: {
     fontFamily: 'Open Sans SemiBold',
-    fontSize: 18,
-    marginTop: 18,
+    fontSize: 18.070286,
+    marginTop: 18.070286,
     marginBottom: 6
   },
   h4: {
     fontFamily: 'Open Sans SemiBold',
-    fontSize: 14,
+    fontSize: 15.058571,
     marginBottom: 3
   },
   p: {

@@ -17,7 +17,7 @@ const styles = StyleSheet.create({
   h4: { fontFamily: 'Open Sans SemiBold', fontSize: 15.058571, marginBottom: 3 },
   p: { paddingBottom: 12.046857 },
   ul: { paddingLeft: 12.046857 },
-  li: { textIndent: -12.046857, marginBottom: 3 },
+  li: { textIndent: -9, marginBottom: 3 },
   addedSubSection: {
     fontFamily: 'Open Sans',
     fontSize: 13.552714304808,
@@ -30,9 +30,9 @@ const styles = StyleSheet.create({
     margin: 0,
     padding: 0,
     borderColor: '#65656c',
-    borderTop: '1pt',
-    borderBottom: '1pt',
-    borderLeft: '1pt'
+    borderTop: 1,
+    borderBottom: 1,
+    borderLeft: 1
   },
   thead: {
     color: 'white',
@@ -48,8 +48,8 @@ const styles = StyleSheet.create({
   },
   th: {
     margin: 0,
-    padding: '3pt',
-    borderRight: '1pt',
+    padding: 3,
+    borderRight: 1,
     borderRightColor: '#65656c',
     flexBasis: 0,
     flexGrow: 1

@@ -76,6 +76,7 @@ var components = {
   },
   table: function table(domNode) {
     return /*#__PURE__*/_react["default"].createElement(_renderer.View, {
+      wrap: false,
       style: _CourseMemoStyles["default"].table
     }, (0, _htmlReactParser.domToReact)(domNode.children, htmlParseOptions));
   },

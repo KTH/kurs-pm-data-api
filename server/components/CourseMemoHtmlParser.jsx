@@ -49,7 +49,11 @@ const components = {
   ),
   a: domNode => <Link src={getURL(domNode.attribs.href)}>{getURL(domNode.attribs.href)}</Link>,
   img: domNode => <Fragment>{domToReact(domNode.children, htmlParseOptions)}</Fragment>,
-  table: domNode => <View style={styles.table}>{domToReact(domNode.children, htmlParseOptions)}</View>,
+  table: domNode => (
+    <View wrap={false} style={styles.table}>
+      {domToReact(domNode.children, htmlParseOptions)}
+    </View>
+  ),
   thead: domNode => <View style={styles.thead}>{domToReact(domNode.children, htmlParseOptions)}</View>,
   tbody: domNode => <View>{domToReact(domNode.children, htmlParseOptions)}</View>,
   tr: domNode => <View style={styles.tr}>{domToReact(domNode.children, htmlParseOptions)}</View>,

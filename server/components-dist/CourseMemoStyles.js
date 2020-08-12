@@ -156,10 +156,10 @@ var styles = _renderer.StyleSheet.create({
     fontSize: _pdfConstants.typography.p
   },
   pages: {
-    paddingTop: '15mm',
-    paddingRight: '15mm',
+    paddingTop: '20mm',
+    paddingRight: '25mm',
     paddingBottom: '30mm',
-    paddingLeft: '15mm'
+    paddingLeft: '25mm'
   },
   content: {
     paddingTop: 0,
@@ -169,7 +169,7 @@ var styles = _renderer.StyleSheet.create({
   },
   footer: {
     position: 'absolute',
-    right: '15mm',
+    right: '25mm',
     bottom: '10mm',
     width: '100%'
   },

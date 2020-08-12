@@ -116,7 +116,7 @@ var SubSection = function SubSection(_ref2) {
     style: _CourseMemoStyles["default"].addedSubSection
   }, translatedInsertedSubSectionText), translatedSubSectionHeader && /*#__PURE__*/_react["default"].createElement(_renderer.Text, {
     style: _CourseMemoStyles["default"].h3
-  }, "".concat(translatedSubSectionHeader, " ").concat(fromSyllabus ? '*' : '')), /*#__PURE__*/_react["default"].createElement(_renderer.View, null, (0, _CourseMemoHtmlParser["default"])(contentHtml)));
+  }, "".concat(translatedSubSectionHeader, " ").concat(fromSyllabus.is ? '*' : '')), /*#__PURE__*/_react["default"].createElement(_renderer.View, null, (0, _CourseMemoHtmlParser["default"])(contentHtml)));
 };
 
 var ExtraSubSection = function ExtraSubSection(_ref3) {

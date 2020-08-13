@@ -26,7 +26,7 @@ var CourseMemoCoverSheet = function CourseMemoCoverSheet(_ref) {
 
   var courseMemoName = (0, _pdfUtils.concatMemoName)(data.semester, data.ladokRoundIds, data.memoCommonLangAbbr); // ”Ver” string seems to be language agnostic
 
-  var version = "Ver ".concat(data.version, " ").concat((0, _pdfUtils.formatVersionDate)(data.memoCommonLangAbbr, data.lastChangeDate));
+  var version = "Version ".concat(data.version, " \u2014 ").concat((0, _pdfUtils.formatVersionDate)(data.memoCommonLangAbbr, data.lastChangeDate));
   var language = _pdfConstants.LANGUAGE[data.memoCommonLangAbbr];
   var departmentName = data.departmentName || _pdfConstants.NOT_AVAILABLE;
 

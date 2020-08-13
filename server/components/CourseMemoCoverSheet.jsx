@@ -14,7 +14,7 @@ const CourseMemoCoverSheet = ({ data }) => {
   const courseMemoName = concatMemoName(data.semester, data.ladokRoundIds, data.memoCommonLangAbbr)
 
   // ”Ver” string seems to be language agnostic
-  const version = `Ver ${data.version} ${formatVersionDate(data.memoCommonLangAbbr, data.lastChangeDate)}`
+  const version = `Version ${data.version} — ${formatVersionDate(data.memoCommonLangAbbr, data.lastChangeDate)}`
 
   const language = LANGUAGE[data.memoCommonLangAbbr]
 

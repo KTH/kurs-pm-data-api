@@ -4,8 +4,8 @@ const i18n = require('../../i18n')
 
 const log = require('kth-node-log')
 
-const { format } = require('date-fns')
 const { sv, en } = require('date-fns/locale')
+const { utcToZonedTime, format } = require('date-fns-tz')
 
 const locales = { sv, en }
 
@@ -85,7 +85,9 @@ function timer(id, startTime) {
 function formatVersionDate(language = 'sv', version) {
   const unixTime = Date.parse(version)
   if (unixTime) {
-    return format(new Date(unixTime), 'Ppp', { locale: locales[language], timeZone: 'Europe/Berlin' })
+    const timeZone = 'Europe/Berlin'
+    const zonedDate = utcToZonedTime(new Date(unixTime), timeZone)
+    return format(zonedDate, 'Ppp', { locale: locales[language] })
 
     // const locale = language === 'sv' ? 'sv-SE' : 'en-US'
     // return new Date(unixTime).toLocaleString(locale)

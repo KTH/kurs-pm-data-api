@@ -85,7 +85,7 @@ function timer(id, startTime) {
 function formatVersionDate(language = 'sv', version) {
   const unixTime = Date.parse(version)
   if (unixTime) {
-    return format(new Date(unixTime), 'Ppp', { locale: locales[language] })
+    return format(new Date(unixTime), 'Ppp', { locale: locales[language], timeZone: 'Europe/Berlin' })
 
     // const locale = language === 'sv' ? 'sv-SE' : 'en-US'
     // return new Date(unixTime).toLocaleString(locale)

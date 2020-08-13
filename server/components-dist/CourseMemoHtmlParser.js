@@ -124,7 +124,7 @@ var htmlParseOptions = {
 };
 
 var replaceLineBreaks = function replaceLineBreaks(html) {
-  return html.replace(/\n/g, '').replace(/<br>|<br.*\/>/, '\n');
+  return html.replace(/\n/g, '').replace(/<br>|<br.?\/>/g, '\n');
 };
 
 var htmlParser = function htmlParser(rawHtml) {

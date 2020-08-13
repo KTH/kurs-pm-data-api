@@ -1,14 +1,15 @@
 'use strict'
 
-const Entities = require('html-entities').AllHtmlEntities
-
 const i18n = require('../../i18n')
 
 const log = require('kth-node-log')
 
-const { context } = require('./fieldsByType')
+const { format } = require('date-fns')
+const { sv, en } = require('date-fns/locale')
 
-const entities = new Entities()
+const locales = { sv, en }
+
+const { context } = require('./fieldsByType')
 
 function seasonStr(season, semesterCode = '') {
   return `${season[semesterCode.toString()[4]]}${semesterCode.toString().slice(0, 4)}`
@@ -84,8 +85,10 @@ function timer(id, startTime) {
 function formatVersionDate(language = 'sv', version) {
   const unixTime = Date.parse(version)
   if (unixTime) {
-    const locale = language === 'sv' ? 'sv-SE' : 'en-US'
-    return new Date(unixTime).toLocaleString(locale)
+    return format(new Date(unixTime), 'Ppp', { locale: locales[language] })
+
+    // const locale = language === 'sv' ? 'sv-SE' : 'en-US'
+    // return new Date(unixTime).toLocaleString(locale)
   }
   return null
 }

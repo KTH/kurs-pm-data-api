@@ -80,14 +80,9 @@ var components = {
     }, number ? "".concat(number < 10 ? '\xa0' + number : number, ". ") : ' • ', (0, _htmlReactParser.domToReact)(domNode.children, htmlParseOptions));
   },
   a: function a(domNode) {
-    // Special case for teacher’s profiles; don’t display link, only show name
-    if (domNode.attribs.property === 'teach:teacher') {
-      return /*#__PURE__*/_react["default"].createElement(_renderer.Text, null, domNode.children[0].data);
-    }
-
     return /*#__PURE__*/_react["default"].createElement(_renderer.Link, {
       src: getURL(domNode.attribs.href)
-    }, getURL(domNode.attribs.href));
+    }, (0, _htmlReactParser.domToReact)(domNode.children, htmlParseOptions));
   },
   img: function img(domNode) {
     return /*#__PURE__*/_react["default"].createElement(_react.Fragment, null, (0, _htmlReactParser.domToReact)(domNode.children, htmlParseOptions));

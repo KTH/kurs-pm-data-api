@@ -56,13 +56,7 @@ const components = {
       </Text>
     )
   },
-  a: domNode => {
-    // Special case for teacher’s profiles; don’t display link, only show name
-    if (domNode.attribs.property === 'teach:teacher') {
-      return <Text>{domNode.children[0].data}</Text>
-    }
-    return <Link src={getURL(domNode.attribs.href)}>{getURL(domNode.attribs.href)}</Link>
-  },
+  a: domNode => <Link src={getURL(domNode.attribs.href)}>{domToReact(domNode.children, htmlParseOptions)}</Link>,
   img: domNode => <Fragment>{domToReact(domNode.children, htmlParseOptions)}</Fragment>,
   table: domNode => (
     <View wrap={false} style={styles.table}>

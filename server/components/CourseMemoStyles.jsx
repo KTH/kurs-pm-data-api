@@ -18,8 +18,8 @@ const styles = StyleSheet.create({
   p: { paddingBottom: 12.046857 },
   ul: { paddingLeft: 12.046857 },
   ol: { paddingLeft: 18.070286 },
-  ulItem: { textIndent: -9, marginBottom: 3 },
-  olItem: { textIndent: -18, marginBottom: 3 },
+  ulItem: { textIndent: -9, marginBottom: 9 },
+  olItem: { textIndent: -18, marginBottom: 9 },
   addedSubSection: {
     fontFamily: 'Open Sans',
     fontSize: 13.552714304808,

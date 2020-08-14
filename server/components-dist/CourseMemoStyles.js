@@ -70,11 +70,11 @@ var styles = _renderer.StyleSheet.create({
   },
   ulItem: {
     textIndent: -9,
-    marginBottom: 3
+    marginBottom: 9
   },
   olItem: {
     textIndent: -18,
-    marginBottom: 3
+    marginBottom: 9
   },
   addedSubSection: {
     fontFamily: 'Open Sans',

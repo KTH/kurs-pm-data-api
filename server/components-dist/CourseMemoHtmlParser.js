@@ -61,6 +61,11 @@ var components = {
       style: _CourseMemoStyles["default"].ul
     }, (0, _htmlReactParser.domToReact)(domNode.children, htmlParseOptions));
   },
+  ol: function ol(domNode) {
+    return /*#__PURE__*/_react["default"].createElement(_renderer.View, {
+      style: _CourseMemoStyles["default"].ul
+    }, (0, _htmlReactParser.domToReact)(domNode.children, htmlParseOptions));
+  },
   li: function li(domNode) {
     return /*#__PURE__*/_react["default"].createElement(_renderer.Text, {
       style: _CourseMemoStyles["default"].li

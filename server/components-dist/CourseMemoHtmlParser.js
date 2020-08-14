@@ -63,13 +63,21 @@ var components = {
   },
   ol: function ol(domNode) {
     return /*#__PURE__*/_react["default"].createElement(_renderer.View, {
-      style: _CourseMemoStyles["default"].ul
+      style: _CourseMemoStyles["default"].ol
     }, (0, _htmlReactParser.domToReact)(domNode.children, htmlParseOptions));
   },
   li: function li(domNode) {
+    var number;
+
+    if (domNode.parent && domNode.parent.name === 'ol') {
+      number = domNode.parent.counter; // eslint-disable-next-line no-param-reassign
+
+      domNode.parent.counter += 1;
+    }
+
     return /*#__PURE__*/_react["default"].createElement(_renderer.Text, {
-      style: _CourseMemoStyles["default"].li
-    }, "\u2022\xA0", (0, _htmlReactParser.domToReact)(domNode.children, htmlParseOptions));
+      style: number ? _CourseMemoStyles["default"].olItem : _CourseMemoStyles["default"].ulItem
+    }, number ? "".concat(number < 10 ? '\xa0' + number : number, ". ") : ' • ', (0, _htmlReactParser.domToReact)(domNode.children, htmlParseOptions));
   },
   a: function a(domNode) {
     // Special case for teacher’s profiles; don’t display link, only show name
@@ -124,12 +132,18 @@ var components = {
 };
 var htmlParseOptions = {
   replace: function replace(domNode) {
-    if (domNode.type === 'text') {
-      return /*#__PURE__*/_react["default"].createElement(_renderer.Text, null, domNode.data);
+    var node = domNode;
+
+    if (node.type === 'text') {
+      return /*#__PURE__*/_react["default"].createElement(_renderer.Text, null, node.data);
     }
 
-    var component = components[domNode.name] || components["default"];
-    return component(domNode);
+    if (node.name === 'ol') {
+      node.counter = 1;
+    }
+
+    var component = components[node.name] || components["default"];
+    return component(node);
   }
 };
 

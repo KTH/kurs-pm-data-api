@@ -65,8 +65,15 @@ var styles = _renderer.StyleSheet.create({
   ul: {
     paddingLeft: 12.046857
   },
-  li: {
+  ol: {
+    paddingLeft: 18.070286
+  },
+  ulItem: {
     textIndent: -9,
+    marginBottom: 3
+  },
+  olItem: {
+    textIndent: -18,
     marginBottom: 3
   },
   addedSubSection: {

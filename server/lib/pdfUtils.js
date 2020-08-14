@@ -40,7 +40,7 @@ function visibleSection(sectionId, courseMemoData) {
 
   // The section is required, and mandatory or editable mandatory, and will therefor
   // be shown. If no content exists, the section will display a warning (managed in component).
-  if (isRequired && (type === 'mandatory' || type === 'mandatoryAndEditable')) {
+  if (isRequired && (type === 'mandatory' || type === 'mandatoryAndEditable' || type === 'mandatoryForSome')) {
     return true
   }
 

@@ -48,12 +48,45 @@ var getURL = function getURL(value) {
 }; // End borrowed from https://github.com/diegomura/react-pdf/
 
 
+var inlineElementsPresent = function inlineElementsPresent(nodes) {
+  var inlineElementTags = ['em', 'strong', 'i', 'b'];
+  return nodes && nodes.some(function (node) {
+    return inlineElementTags.includes(node.name);
+  });
+};
+
+var renderParagraph = function renderParagraph(domNode) {
+  return inlineElementsPresent(domNode.children) ? /*#__PURE__*/_react["default"].createElement(_renderer.View, {
+    style: _CourseMemoStyles["default"].p
+  }, /*#__PURE__*/_react["default"].createElement(_renderer.Text, null, (0, _htmlReactParser.domToReact)(domNode.children, htmlParseOptions))) : /*#__PURE__*/_react["default"].createElement(_renderer.View, {
+    style: _CourseMemoStyles["default"].p
+  }, (0, _htmlReactParser.domToReact)(domNode.children, htmlParseOptions));
+};
+
 var components = {
   p: function p(domNode) {
     return domNode.attribs["class"] === 'person' ? /*#__PURE__*/_react["default"].createElement(_renderer.View, null, (0, _htmlReactParser.domToReact)(domNode.children.filter(function (c) {
       return c.type === 'tag' && c.name === 'a';
-    }), htmlParseOptions)) : /*#__PURE__*/_react["default"].createElement(_renderer.View, {
-      style: _CourseMemoStyles["default"].p
+    }), htmlParseOptions)) : renderParagraph(domNode);
+  },
+  em: function em(domNode) {
+    return /*#__PURE__*/_react["default"].createElement(_renderer.Text, {
+      style: _CourseMemoStyles["default"].em
+    }, (0, _htmlReactParser.domToReact)(domNode.children, htmlParseOptions));
+  },
+  strong: function strong(domNode) {
+    return /*#__PURE__*/_react["default"].createElement(_renderer.Text, {
+      style: _CourseMemoStyles["default"].strong
+    }, (0, _htmlReactParser.domToReact)(domNode.children, htmlParseOptions));
+  },
+  i: function i(domNode) {
+    return /*#__PURE__*/_react["default"].createElement(_renderer.Text, {
+      style: _CourseMemoStyles["default"].i
+    }, (0, _htmlReactParser.domToReact)(domNode.children, htmlParseOptions));
+  },
+  b: function b(domNode) {
+    return /*#__PURE__*/_react["default"].createElement(_renderer.Text, {
+      style: _CourseMemoStyles["default"].b
     }, (0, _htmlReactParser.domToReact)(domNode.children, htmlParseOptions));
   },
   ul: function ul(domNode) {

@@ -27,6 +27,20 @@ const getURL = value => {
 }
 // End borrowed from https://github.com/diegomura/react-pdf/
 
+const inlineElementsPresent = nodes => {
+  const inlineElementTags = ['em', 'strong', 'i', 'b']
+  return nodes && nodes.some(node => inlineElementTags.includes(node.name))
+}
+
+const renderParagraph = domNode =>
+  inlineElementsPresent(domNode.children) ? (
+    <View style={styles.p}>
+      <Text>{domToReact(domNode.children, htmlParseOptions)}</Text>
+    </View>
+  ) : (
+    <View style={styles.p}>{domToReact(domNode.children, htmlParseOptions)}</View>
+  )
+
 const components = {
   p: domNode =>
     domNode.attribs.class === 'person' ? (
@@ -37,8 +51,12 @@ const components = {
         )}
       </View>
     ) : (
-      <View style={styles.p}>{domToReact(domNode.children, htmlParseOptions)}</View>
+      renderParagraph(domNode)
     ),
+  em: domNode => <Text style={styles.em}>{domToReact(domNode.children, htmlParseOptions)}</Text>,
+  strong: domNode => <Text style={styles.strong}>{domToReact(domNode.children, htmlParseOptions)}</Text>,
+  i: domNode => <Text style={styles.i}>{domToReact(domNode.children, htmlParseOptions)}</Text>,
+  b: domNode => <Text style={styles.b}>{domToReact(domNode.children, htmlParseOptions)}</Text>,
   ul: domNode => <View style={styles.ul}>{domToReact(domNode.children, htmlParseOptions)}</View>,
   ol: domNode => <View style={styles.ol}>{domToReact(domNode.children, htmlParseOptions)}</View>,
   li: domNode => {

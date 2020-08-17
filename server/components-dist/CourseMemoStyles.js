@@ -34,6 +34,16 @@ _renderer.Font.register({
   src: 'server/fonts/Georgia.ttf'
 });
 
+_renderer.Font.register({
+  family: 'Georgia Italic',
+  src: 'server/fonts/Georgia-Italic.ttf'
+});
+
+_renderer.Font.register({
+  family: 'Georgia Bold',
+  src: 'server/fonts/Georgia-Bold.ttf'
+});
+
 var A4 = _pdfConstants.pageMeasurements.A4;
 
 var styles = _renderer.StyleSheet.create({
@@ -61,6 +71,18 @@ var styles = _renderer.StyleSheet.create({
   },
   p: {
     paddingBottom: 12.046857
+  },
+  i: {
+    fontFamily: 'Georgia Italic'
+  },
+  em: {
+    fontFamily: 'Georgia Italic'
+  },
+  b: {
+    fontFamily: 'Georgia Bold'
+  },
+  strong: {
+    fontFamily: 'Georgia Bold'
   },
   ul: {
     paddingLeft: 12.046857

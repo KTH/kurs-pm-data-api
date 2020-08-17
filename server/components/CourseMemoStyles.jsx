@@ -7,6 +7,8 @@ Font.register({ family: 'Open Sans Italic', src: 'server/fonts/OpenSans-Italic.t
 Font.register({ family: 'Open Sans SemiBold', src: 'server/fonts/OpenSans-SemiBold.ttf' })
 Font.register({ family: 'Open Sans Bold', src: 'server/fonts/OpenSans-Bold.ttf' })
 Font.register({ family: 'Georgia', src: 'server/fonts/Georgia.ttf' })
+Font.register({ family: 'Georgia Italic', src: 'server/fonts/Georgia-Italic.ttf' })
+Font.register({ family: 'Georgia Bold', src: 'server/fonts/Georgia-Bold.ttf' })
 
 const { A4 } = pageMeasurements
 
@@ -16,6 +18,18 @@ const styles = StyleSheet.create({
   h3: { fontFamily: 'Open Sans SemiBold', fontSize: 18.070286, marginTop: 18.070286, marginBottom: 6 },
   h4: { fontFamily: 'Open Sans SemiBold', fontSize: 15.058571, marginBottom: 3 },
   p: { paddingBottom: 12.046857 },
+  i: {
+    fontFamily: 'Georgia Italic'
+  },
+  em: {
+    fontFamily: 'Georgia Italic'
+  },
+  b: {
+    fontFamily: 'Georgia Bold'
+  },
+  strong: {
+    fontFamily: 'Georgia Bold'
+  },
   ul: { paddingLeft: 12.046857 },
   ol: { paddingLeft: 18.070286 },
   ulItem: { textIndent: -9, marginBottom: 9 },

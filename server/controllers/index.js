@@ -7,5 +7,6 @@ module.exports = {
   // Replace with actual API controller
   Sample: require('./sampleCtrl'),
   CourseMemo: require('./memoDataCtrl'),
-  PDF: require('./pdfCtrl')
+  PDF: require('./pdfCtrl'),
+  MigrateMemo: require('./migrateFromOldDB')
 }

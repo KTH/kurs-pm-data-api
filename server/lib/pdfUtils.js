@@ -25,6 +25,9 @@ function concatMemoName(semester, ladokRoundIds, langAbbr) {
 function concatSyllabusName(syllabusValid, langAbbr) {
   const langIndex = langAbbr === 'en' ? 0 : 1
   const { syllabusInformation, syllabusLabelStart, syllabusLabelEnd } = i18n.messages[langIndex].courseMemoLinksLabels
+  if (!syllabusValid.textFromTo) {
+    return `* ${syllabusInformation} N/A`
+  }
   return `* ${syllabusInformation} ${syllabusLabelStart}${syllabusValid.textFromTo}${syllabusLabelEnd}`
 }
 

@@ -26,9 +26,13 @@ var CourseMemoCoverSheet = function CourseMemoCoverSheet(_ref) {
 
   var courseMemoName = (0, _pdfUtils.concatMemoName)(data.semester, data.ladokRoundIds, data.memoCommonLangAbbr); // ”Ver” string seems to be language agnostic
 
-  var version = "Ver ".concat(data.version, " ").concat((0, _pdfUtils.formatVersionDate)(data.memoCommonLangAbbr, data.lastChangeDate));
+  var version = "Version ".concat(data.version, " \u2014 ").concat((0, _pdfUtils.formatVersionDate)(data.memoCommonLangAbbr, data.lastChangeDate));
   var language = _pdfConstants.LANGUAGE[data.memoCommonLangAbbr];
   var departmentName = data.departmentName || _pdfConstants.NOT_AVAILABLE;
+
+  var _getMessages = (0, _pdfUtils.getMessages)(data.memoCommonLangAbbr),
+      courseFactsLabels = _getMessages.courseFactsLabels;
+
   return (
     /*#__PURE__*/
 
@@ -53,15 +57,15 @@ var CourseMemoCoverSheet = function CourseMemoCoverSheet(_ref) {
       style: _CourseMemoStyles["default"].infoContainer
     }, /*#__PURE__*/_react["default"].createElement(_renderer.Text, {
       style: _CourseMemoStyles["default"].infoHeader
-    }, "Kursomg\xE5ng"), /*#__PURE__*/_react["default"].createElement(_renderer.Text, {
+    }, courseFactsLabels.roundsTitle), /*#__PURE__*/_react["default"].createElement(_renderer.Text, {
       style: _CourseMemoStyles["default"].infoText
     }, data.memoName), /*#__PURE__*/_react["default"].createElement(_renderer.Text, {
       style: _CourseMemoStyles["default"].infoHeader
-    }, "Undervisningsspr\xE5k"), /*#__PURE__*/_react["default"].createElement(_renderer.Text, {
+    }, courseFactsLabels.languageOfInstructionTitle), /*#__PURE__*/_react["default"].createElement(_renderer.Text, {
       style: _CourseMemoStyles["default"].infoText
     }, language), /*#__PURE__*/_react["default"].createElement(_renderer.Text, {
       style: _CourseMemoStyles["default"].infoHeader
-    }, "Kursen ges av"), /*#__PURE__*/_react["default"].createElement(_renderer.Text, {
+    }, courseFactsLabels.offeredByTitle), /*#__PURE__*/_react["default"].createElement(_renderer.Text, {
       style: _CourseMemoStyles["default"].infoText
     }, departmentName)))))
   );

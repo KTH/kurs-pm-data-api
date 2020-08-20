@@ -8,7 +8,7 @@ import { concatMemoName, concatSyllabusName, formatVersionDate } from '../lib/pd
 const CourseMemoPageFooter = ({ data }) => {
   const syllabusText = concatSyllabusName(data.syllabusValid, data.memoCommonLangAbbr)
   const courseMemoName = concatMemoName(data.semester, data.ladokRoundIds, data.memoCommonLangAbbr)
-  const version = `Ver ${data.version} ${formatVersionDate(data.memoCommonLangAbbr, data.lastChangeDate)}`
+  const version = `Version ${data.version} — ${formatVersionDate(data.memoCommonLangAbbr, data.lastChangeDate)}`
   const memoNameText = `${data.courseCode} - ${courseMemoName}, ${version}`
   return (
     <View style={styles.pageFooter}>

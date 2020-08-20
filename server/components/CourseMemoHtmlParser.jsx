@@ -27,6 +27,20 @@ const getURL = value => {
 }
 // End borrowed from https://github.com/diegomura/react-pdf/
 
+const inlineElementsPresent = nodes => {
+  const inlineElementTags = ['em', 'strong', 'i', 'b']
+  return nodes && nodes.some(node => inlineElementTags.includes(node.name))
+}
+
+const renderParagraph = domNode =>
+  inlineElementsPresent(domNode.children) ? (
+    <View style={styles.p}>
+      <Text>{domToReact(domNode.children, htmlParseOptions)}</Text>
+    </View>
+  ) : (
+    <View style={styles.p}>{domToReact(domNode.children, htmlParseOptions)}</View>
+  )
+
 const components = {
   p: domNode =>
     domNode.attribs.class === 'person' ? (
@@ -37,23 +51,32 @@ const components = {
         )}
       </View>
     ) : (
-      <View style={styles.p}>{domToReact(domNode.children, htmlParseOptions)}</View>
+      renderParagraph(domNode)
     ),
+  em: domNode => <Text style={styles.em}>{domToReact(domNode.children, htmlParseOptions)}</Text>,
+  strong: domNode => <Text style={styles.strong}>{domToReact(domNode.children, htmlParseOptions)}</Text>,
+  i: domNode => <Text style={styles.i}>{domToReact(domNode.children, htmlParseOptions)}</Text>,
+  b: domNode => <Text style={styles.b}>{domToReact(domNode.children, htmlParseOptions)}</Text>,
   ul: domNode => <View style={styles.ul}>{domToReact(domNode.children, htmlParseOptions)}</View>,
-  li: domNode => (
-    <Text style={styles.li}>
-      {/* TODO: Bullet and spacing should maybe be CSS instead */}
-      •&nbsp;
-      {domToReact(domNode.children, htmlParseOptions)}
-    </Text>
-  ),
-  a: domNode => <Link src={getURL(domNode.attribs.href)}>{getURL(domNode.attribs.href)}</Link>,
+  ol: domNode => <View style={styles.ol}>{domToReact(domNode.children, htmlParseOptions)}</View>,
+  li: domNode => {
+    let number
+    if (domNode.parent && domNode.parent.name === 'ol') {
+      number = domNode.parent.counter
+      // eslint-disable-next-line no-param-reassign
+      domNode.parent.counter += 1
+    }
+    return (
+      <Text style={number ? styles.olItem : styles.ulItem}>
+        {/* TODO: Bullet and spacing should maybe be CSS instead */}
+        {number ? `${number < 10 ? '\xa0' + number : number}. ` : ' • '}
+        {domToReact(domNode.children, htmlParseOptions)}
+      </Text>
+    )
+  },
+  a: domNode => <Link src={getURL(domNode.attribs.href)}>{domToReact(domNode.children, htmlParseOptions)}</Link>,
   img: domNode => <Fragment>{domToReact(domNode.children, htmlParseOptions)}</Fragment>,
-  table: domNode => (
-    <View wrap={false} style={styles.table}>
-      {domToReact(domNode.children, htmlParseOptions)}
-    </View>
-  ),
+  table: domNode => <View style={styles.table}>{domToReact(domNode.children, htmlParseOptions)}</View>,
   thead: domNode => <View style={styles.thead}>{domToReact(domNode.children, htmlParseOptions)}</View>,
   tbody: domNode => <View>{domToReact(domNode.children, htmlParseOptions)}</View>,
   tr: domNode => <View style={styles.tr}>{domToReact(domNode.children, htmlParseOptions)}</View>,
@@ -65,15 +88,19 @@ const components = {
 
 const htmlParseOptions = {
   replace: domNode => {
-    if (domNode.type === 'text') {
-      return <Text>{domNode.data}</Text>
+    const node = domNode
+    if (node.type === 'text') {
+      return <Text>{node.data}</Text>
     }
-    const component = components[domNode.name] || components.default
-    return component(domNode)
+    if (node.name === 'ol') {
+      node.counter = 1
+    }
+    const component = components[node.name] || components.default
+    return component(node)
   }
 }
 
-const replaceLineBreaks = html => html.replace(/\n/g, '').replace(/<br>|<br.*\/>/, '\n')
+const replaceLineBreaks = html => html.replace(/\n/g, '').replace(/<br>|<br.?\/>/g, '\n')
 
 const htmlParser = rawHtml => {
   console.time('htmlParser: replaceLineBreaks')

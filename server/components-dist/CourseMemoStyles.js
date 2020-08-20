@@ -34,6 +34,16 @@ _renderer.Font.register({
   src: 'server/fonts/Georgia.ttf'
 });
 
+_renderer.Font.register({
+  family: 'Georgia Italic',
+  src: 'server/fonts/Georgia-Italic.ttf'
+});
+
+_renderer.Font.register({
+  family: 'Georgia Bold',
+  src: 'server/fonts/Georgia-Bold.ttf'
+});
+
 var A4 = _pdfConstants.pageMeasurements.A4;
 
 var styles = _renderer.StyleSheet.create({
@@ -62,12 +72,31 @@ var styles = _renderer.StyleSheet.create({
   p: {
     paddingBottom: 12.046857
   },
+  i: {
+    fontFamily: 'Georgia Italic'
+  },
+  em: {
+    fontFamily: 'Georgia Italic'
+  },
+  b: {
+    fontFamily: 'Georgia Bold'
+  },
+  strong: {
+    fontFamily: 'Georgia Bold'
+  },
   ul: {
     paddingLeft: 12.046857
   },
-  li: {
+  ol: {
+    paddingLeft: 18.070286
+  },
+  ulItem: {
     textIndent: -9,
-    marginBottom: 3
+    marginBottom: 9
+  },
+  olItem: {
+    textIndent: -18,
+    marginBottom: 9
   },
   addedSubSection: {
     fontFamily: 'Open Sans',
@@ -156,10 +185,10 @@ var styles = _renderer.StyleSheet.create({
     fontSize: _pdfConstants.typography.p
   },
   pages: {
-    paddingTop: '15mm',
-    paddingRight: '15mm',
+    paddingTop: '20mm',
+    paddingRight: '25mm',
     paddingBottom: '30mm',
-    paddingLeft: '15mm'
+    paddingLeft: '25mm'
   },
   content: {
     paddingTop: 0,
@@ -169,7 +198,7 @@ var styles = _renderer.StyleSheet.create({
   },
   footer: {
     position: 'absolute',
-    right: '15mm',
+    right: '25mm',
     bottom: '10mm',
     width: '100%'
   },

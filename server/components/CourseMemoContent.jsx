@@ -71,7 +71,7 @@ const SubSection = ({ subSection, data }) => {
     <View key={subSectionHeader}>
       {isAddedSubSection && <Text style={styles.addedSubSection}>{translatedInsertedSubSectionText}</Text>}
       {translatedSubSectionHeader && (
-        <Text style={styles.h3}>{`${translatedSubSectionHeader} ${fromSyllabus ? '*' : ''}`}</Text>
+        <Text style={styles.h3}>{`${translatedSubSectionHeader} ${fromSyllabus.is ? '*' : ''}`}</Text>
       )}
       <View>{parse(contentHtml)}</View>
     </View>

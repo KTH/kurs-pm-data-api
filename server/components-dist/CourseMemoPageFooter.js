@@ -21,7 +21,7 @@ var CourseMemoPageFooter = function CourseMemoPageFooter(_ref) {
   var data = _ref.data;
   var syllabusText = (0, _pdfUtils.concatSyllabusName)(data.syllabusValid, data.memoCommonLangAbbr);
   var courseMemoName = (0, _pdfUtils.concatMemoName)(data.semester, data.ladokRoundIds, data.memoCommonLangAbbr);
-  var version = "Ver ".concat(data.version, " ").concat((0, _pdfUtils.formatVersionDate)(data.memoCommonLangAbbr, data.lastChangeDate));
+  var version = "Version ".concat(data.version, " \u2014 ").concat((0, _pdfUtils.formatVersionDate)(data.memoCommonLangAbbr, data.lastChangeDate));
   var memoNameText = "".concat(data.courseCode, " - ").concat(courseMemoName, ", ").concat(version);
   return /*#__PURE__*/_react["default"].createElement(_renderer.View, {
     style: _CourseMemoStyles["default"].pageFooter

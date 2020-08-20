@@ -48,12 +48,45 @@ var getURL = function getURL(value) {
 }; // End borrowed from https://github.com/diegomura/react-pdf/
 
 
+var inlineElementsPresent = function inlineElementsPresent(nodes) {
+  var inlineElementTags = ['em', 'strong', 'i', 'b'];
+  return nodes && nodes.some(function (node) {
+    return inlineElementTags.includes(node.name);
+  });
+};
+
+var renderParagraph = function renderParagraph(domNode) {
+  return inlineElementsPresent(domNode.children) ? /*#__PURE__*/_react["default"].createElement(_renderer.View, {
+    style: _CourseMemoStyles["default"].p
+  }, /*#__PURE__*/_react["default"].createElement(_renderer.Text, null, (0, _htmlReactParser.domToReact)(domNode.children, htmlParseOptions))) : /*#__PURE__*/_react["default"].createElement(_renderer.View, {
+    style: _CourseMemoStyles["default"].p
+  }, (0, _htmlReactParser.domToReact)(domNode.children, htmlParseOptions));
+};
+
 var components = {
   p: function p(domNode) {
     return domNode.attribs["class"] === 'person' ? /*#__PURE__*/_react["default"].createElement(_renderer.View, null, (0, _htmlReactParser.domToReact)(domNode.children.filter(function (c) {
       return c.type === 'tag' && c.name === 'a';
-    }), htmlParseOptions)) : /*#__PURE__*/_react["default"].createElement(_renderer.View, {
-      style: _CourseMemoStyles["default"].p
+    }), htmlParseOptions)) : renderParagraph(domNode);
+  },
+  em: function em(domNode) {
+    return /*#__PURE__*/_react["default"].createElement(_renderer.Text, {
+      style: _CourseMemoStyles["default"].em
+    }, (0, _htmlReactParser.domToReact)(domNode.children, htmlParseOptions));
+  },
+  strong: function strong(domNode) {
+    return /*#__PURE__*/_react["default"].createElement(_renderer.Text, {
+      style: _CourseMemoStyles["default"].strong
+    }, (0, _htmlReactParser.domToReact)(domNode.children, htmlParseOptions));
+  },
+  i: function i(domNode) {
+    return /*#__PURE__*/_react["default"].createElement(_renderer.Text, {
+      style: _CourseMemoStyles["default"].i
+    }, (0, _htmlReactParser.domToReact)(domNode.children, htmlParseOptions));
+  },
+  b: function b(domNode) {
+    return /*#__PURE__*/_react["default"].createElement(_renderer.Text, {
+      style: _CourseMemoStyles["default"].b
     }, (0, _htmlReactParser.domToReact)(domNode.children, htmlParseOptions));
   },
   ul: function ul(domNode) {
@@ -61,22 +94,34 @@ var components = {
       style: _CourseMemoStyles["default"].ul
     }, (0, _htmlReactParser.domToReact)(domNode.children, htmlParseOptions));
   },
+  ol: function ol(domNode) {
+    return /*#__PURE__*/_react["default"].createElement(_renderer.View, {
+      style: _CourseMemoStyles["default"].ol
+    }, (0, _htmlReactParser.domToReact)(domNode.children, htmlParseOptions));
+  },
   li: function li(domNode) {
+    var number;
+
+    if (domNode.parent && domNode.parent.name === 'ol') {
+      number = domNode.parent.counter; // eslint-disable-next-line no-param-reassign
+
+      domNode.parent.counter += 1;
+    }
+
     return /*#__PURE__*/_react["default"].createElement(_renderer.Text, {
-      style: _CourseMemoStyles["default"].li
-    }, "\u2022\xA0", (0, _htmlReactParser.domToReact)(domNode.children, htmlParseOptions));
+      style: number ? _CourseMemoStyles["default"].olItem : _CourseMemoStyles["default"].ulItem
+    }, number ? "".concat(number < 10 ? '\xa0' + number : number, ". ") : ' • ', (0, _htmlReactParser.domToReact)(domNode.children, htmlParseOptions));
   },
   a: function a(domNode) {
     return /*#__PURE__*/_react["default"].createElement(_renderer.Link, {
       src: getURL(domNode.attribs.href)
-    }, getURL(domNode.attribs.href));
+    }, (0, _htmlReactParser.domToReact)(domNode.children, htmlParseOptions));
   },
   img: function img(domNode) {
     return /*#__PURE__*/_react["default"].createElement(_react.Fragment, null, (0, _htmlReactParser.domToReact)(domNode.children, htmlParseOptions));
   },
   table: function table(domNode) {
     return /*#__PURE__*/_react["default"].createElement(_renderer.View, {
-      wrap: false,
       style: _CourseMemoStyles["default"].table
     }, (0, _htmlReactParser.domToReact)(domNode.children, htmlParseOptions));
   },
@@ -114,17 +159,23 @@ var components = {
 };
 var htmlParseOptions = {
   replace: function replace(domNode) {
-    if (domNode.type === 'text') {
-      return /*#__PURE__*/_react["default"].createElement(_renderer.Text, null, domNode.data);
+    var node = domNode;
+
+    if (node.type === 'text') {
+      return /*#__PURE__*/_react["default"].createElement(_renderer.Text, null, node.data);
     }
 
-    var component = components[domNode.name] || components["default"];
-    return component(domNode);
+    if (node.name === 'ol') {
+      node.counter = 1;
+    }
+
+    var component = components[node.name] || components["default"];
+    return component(node);
   }
 };
 
 var replaceLineBreaks = function replaceLineBreaks(html) {
-  return html.replace(/\n/g, '').replace(/<br>|<br.*\/>/, '\n');
+  return html.replace(/\n/g, '').replace(/<br>|<br.?\/>/g, '\n');
 };
 
 var htmlParser = function htmlParser(rawHtml) {

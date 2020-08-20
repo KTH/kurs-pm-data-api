@@ -34,6 +34,16 @@ _renderer.Font.register({
   src: 'server/fonts/Georgia.ttf'
 });
 
+_renderer.Font.register({
+  family: 'Georgia Italic',
+  src: 'server/fonts/Georgia-Italic.ttf'
+});
+
+_renderer.Font.register({
+  family: 'Georgia Bold',
+  src: 'server/fonts/Georgia-Bold.ttf'
+});
+
 var A4 = _pdfConstants.pageMeasurements.A4;
 
 var styles = _renderer.StyleSheet.create({
@@ -62,12 +72,31 @@ var styles = _renderer.StyleSheet.create({
   p: {
     paddingBottom: 12.046857
   },
+  i: {
+    fontFamily: 'Georgia Italic'
+  },
+  em: {
+    fontFamily: 'Georgia Italic'
+  },
+  b: {
+    fontFamily: 'Georgia Bold'
+  },
+  strong: {
+    fontFamily: 'Georgia Bold'
+  },
   ul: {
     paddingLeft: 12.046857
   },
-  li: {
+  ol: {
+    paddingLeft: 18.070286
+  },
+  ulItem: {
     textIndent: -9,
-    marginBottom: 3
+    marginBottom: 9
+  },
+  olItem: {
+    textIndent: -18,
+    marginBottom: 9
   },
   addedSubSection: {
     fontFamily: 'Open Sans',
@@ -126,7 +155,8 @@ var styles = _renderer.StyleSheet.create({
   },
   titleContainer: {
     marginTop: A4.crownDoubleAdjusted,
-    marginLeft: A4.logotypeHalf
+    marginLeft: A4.logotypeHalf,
+    marginRight: A4.logotypeHalf
   },
   title: {
     fontFamily: _pdfConstants.typography.bold,
@@ -149,27 +179,28 @@ var styles = _renderer.StyleSheet.create({
     fontSize: _pdfConstants.typography.h4
   },
   infoText: {
-    marginTop: 6,
+    marginTop: 3,
     marginBottom: 12,
     fontFamily: _pdfConstants.typography.regular,
     fontSize: _pdfConstants.typography.p
   },
   pages: {
-    padding: A4.pageMargin,
-    flexDirection: 'column'
-  },
-  header: {
-    flexGrow: 0
+    paddingTop: '20mm',
+    paddingRight: '25mm',
+    paddingBottom: '30mm',
+    paddingLeft: '25mm'
   },
   content: {
-    flexGrow: 1,
     paddingTop: 0,
     paddingRight: 0,
-    paddingBottom: 18,
+    paddingBottom: 0,
     paddingLeft: 0
   },
   footer: {
-    flexGrow: 0
+    position: 'absolute',
+    right: '25mm',
+    bottom: '10mm',
+    width: '100%'
   },
   emptySectionText: {
     marginTop: 18

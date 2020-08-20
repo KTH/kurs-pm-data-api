@@ -1,14 +1,15 @@
 'use strict'
 
-const Entities = require('html-entities').AllHtmlEntities
-
 const i18n = require('../../i18n')
 
 const log = require('kth-node-log')
 
-const { context } = require('./fieldsByType')
+const { sv, en } = require('date-fns/locale')
+const { utcToZonedTime, format } = require('date-fns-tz')
 
-const entities = new Entities()
+const locales = { sv, en }
+
+const { context } = require('./fieldsByType')
 
 function seasonStr(season, semesterCode = '') {
   return `${season[semesterCode.toString()[4]]}${semesterCode.toString().slice(0, 4)}`
@@ -24,6 +25,9 @@ function concatMemoName(semester, ladokRoundIds, langAbbr) {
 function concatSyllabusName(syllabusValid, langAbbr) {
   const langIndex = langAbbr === 'en' ? 0 : 1
   const { syllabusInformation, syllabusLabelStart, syllabusLabelEnd } = i18n.messages[langIndex].courseMemoLinksLabels
+  if (!syllabusValid.textFromTo) {
+    return `* ${syllabusInformation} N/A`
+  }
   return `* ${syllabusInformation} ${syllabusLabelStart}${syllabusValid.textFromTo}${syllabusLabelEnd}`
 }
 
@@ -41,6 +45,12 @@ function visibleSection(sectionId, courseMemoData) {
   // be shown. If no content exists, the section will display a warning (managed in component).
   if (isRequired && (type === 'mandatory' || type === 'mandatoryAndEditable')) {
     return true
+  }
+
+  // The section is required, and mandatory for some, and will therefor be shown,
+  // if content exists.
+  if (isRequired && type === 'mandatoryForSome') {
+    return !!courseMemoData[sectionId]
   }
 
   // Sections af other types should only be visible if they have content
@@ -84,8 +94,12 @@ function timer(id, startTime) {
 function formatVersionDate(language = 'sv', version) {
   const unixTime = Date.parse(version)
   if (unixTime) {
-    const locale = language === 'sv' ? 'sv-SE' : 'en-US'
-    return new Date(unixTime).toLocaleString(locale)
+    const timeZone = 'Europe/Berlin'
+    const zonedDate = utcToZonedTime(new Date(unixTime), timeZone)
+    return format(zonedDate, 'Ppp', { locale: locales[language] })
+
+    // const locale = language === 'sv' ? 'sv-SE' : 'en-US'
+    // return new Date(unixTime).toLocaleString(locale)
   }
   return null
 }

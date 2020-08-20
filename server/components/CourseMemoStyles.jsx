@@ -7,6 +7,8 @@ Font.register({ family: 'Open Sans Italic', src: 'server/fonts/OpenSans-Italic.t
 Font.register({ family: 'Open Sans SemiBold', src: 'server/fonts/OpenSans-SemiBold.ttf' })
 Font.register({ family: 'Open Sans Bold', src: 'server/fonts/OpenSans-Bold.ttf' })
 Font.register({ family: 'Georgia', src: 'server/fonts/Georgia.ttf' })
+Font.register({ family: 'Georgia Italic', src: 'server/fonts/Georgia-Italic.ttf' })
+Font.register({ family: 'Georgia Bold', src: 'server/fonts/Georgia-Bold.ttf' })
 
 const { A4 } = pageMeasurements
 
@@ -16,8 +18,22 @@ const styles = StyleSheet.create({
   h3: { fontFamily: 'Open Sans SemiBold', fontSize: 18.070286, marginTop: 18.070286, marginBottom: 6 },
   h4: { fontFamily: 'Open Sans SemiBold', fontSize: 15.058571, marginBottom: 3 },
   p: { paddingBottom: 12.046857 },
+  i: {
+    fontFamily: 'Georgia Italic'
+  },
+  em: {
+    fontFamily: 'Georgia Italic'
+  },
+  b: {
+    fontFamily: 'Georgia Bold'
+  },
+  strong: {
+    fontFamily: 'Georgia Bold'
+  },
   ul: { paddingLeft: 12.046857 },
-  li: { textIndent: -9, marginBottom: 3 },
+  ol: { paddingLeft: 18.070286 },
+  ulItem: { textIndent: -9, marginBottom: 9 },
+  olItem: { textIndent: -18, marginBottom: 9 },
   addedSubSection: {
     fontFamily: 'Open Sans',
     fontSize: 13.552714304808,
@@ -65,17 +81,21 @@ const styles = StyleSheet.create({
   coverSheet: { padding: A4.pageMargin },
   coverSheetContainer: { height: '100%', borderBottom: '1 solid #1954A6' },
   logotype: { height: A4.logotype, width: A4.logotype },
-  titleContainer: { marginTop: A4.crownDoubleAdjusted, marginLeft: A4.logotypeHalf },
+  titleContainer: { marginTop: A4.crownDoubleAdjusted, marginLeft: A4.logotypeHalf, marginRight: A4.logotypeHalf },
   title: { fontFamily: typography.bold, fontSize: typography.h1 },
   subTitle: { fontFamily: typography.bold, fontSize: typography.h2 },
   version: { fontFamily: typography.regular, fontSize: typography.p, marginTop: 6 },
   infoContainer: { marginTop: '13mm' },
   infoHeader: { fontFamily: typography.bold, fontSize: typography.h4 },
-  infoText: { marginTop: 6, marginBottom: 12, fontFamily: typography.regular, fontSize: typography.p },
-  pages: { padding: A4.pageMargin, flexDirection: 'column' },
-  header: { flexGrow: 0 },
-  content: { flexGrow: 1, paddingTop: 0, paddingRight: 0, paddingBottom: 18, paddingLeft: 0 },
-  footer: { flexGrow: 0 },
+  infoText: { marginTop: 3, marginBottom: 12, fontFamily: typography.regular, fontSize: typography.p },
+  pages: {
+    paddingTop: '20mm',
+    paddingRight: '25mm',
+    paddingBottom: '30mm',
+    paddingLeft: '25mm'
+  },
+  content: { paddingTop: 0, paddingRight: 0, paddingBottom: 0, paddingLeft: 0 },
+  footer: { position: 'absolute', right: '25mm', bottom: '10mm', width: '100%' },
   emptySectionText: { marginTop: 18 },
   italic: {
     fontFamily: 'Open Sans Italic'

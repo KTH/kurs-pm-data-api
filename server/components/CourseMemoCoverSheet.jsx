@@ -3,7 +3,7 @@ import { Page, View, Text, Image } from '@react-pdf/renderer'
 
 import styles from './CourseMemoStyles'
 import { data as propTypeData } from './CourseMemoPropTypes'
-import { concatMemoName, formatVersionDate } from '../lib/pdfUtils'
+import { concatMemoName, formatVersionDate, getMessages } from '../lib/pdfUtils'
 import { logotypePath, NOT_AVAILABLE, LANGUAGE } from '../lib/pdfConstants'
 
 const CourseMemoCoverSheet = ({ data }) => {
@@ -14,11 +14,13 @@ const CourseMemoCoverSheet = ({ data }) => {
   const courseMemoName = concatMemoName(data.semester, data.ladokRoundIds, data.memoCommonLangAbbr)
 
   // ”Ver” string seems to be language agnostic
-  const version = `Ver ${data.version} ${formatVersionDate(data.memoCommonLangAbbr, data.lastChangeDate)}`
+  const version = `Version ${data.version} — ${formatVersionDate(data.memoCommonLangAbbr, data.lastChangeDate)}`
 
   const language = LANGUAGE[data.memoCommonLangAbbr]
 
   const departmentName = data.departmentName || NOT_AVAILABLE
+
+  const { courseFactsLabels } = getMessages(data.memoCommonLangAbbr)
 
   return (
     /* A4 is default page size value, explicitly set for clarity */
@@ -30,11 +32,11 @@ const CourseMemoCoverSheet = ({ data }) => {
           <Text style={styles.subTitle}>{courseMemoName}</Text>
           <Text style={styles.version}>{version}</Text>
           <View style={styles.infoContainer}>
-            <Text style={styles.infoHeader}>Kursomgång</Text>
+            <Text style={styles.infoHeader}>{courseFactsLabels.roundsTitle}</Text>
             <Text style={styles.infoText}>{data.memoName}</Text>
-            <Text style={styles.infoHeader}>Undervisningsspråk</Text>
+            <Text style={styles.infoHeader}>{courseFactsLabels.languageOfInstructionTitle}</Text>
             <Text style={styles.infoText}>{language}</Text>
-            <Text style={styles.infoHeader}>Kursen ges av</Text>
+            <Text style={styles.infoHeader}>{courseFactsLabels.offeredByTitle}</Text>
             <Text style={styles.infoText}>{departmentName}</Text>
           </View>
         </View>

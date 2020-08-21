@@ -159,11 +159,11 @@ var styles = _renderer.StyleSheet.create({
     marginRight: A4.logotypeHalf
   },
   title: {
-    fontFamily: _pdfConstants.typography.bold,
+    fontFamily: 'Open Sans SemiBold',
     fontSize: _pdfConstants.typography.h1
   },
   subTitle: {
-    fontFamily: _pdfConstants.typography.bold,
+    fontFamily: 'Open Sans SemiBold',
     fontSize: _pdfConstants.typography.h2
   },
   version: {
@@ -175,7 +175,7 @@ var styles = _renderer.StyleSheet.create({
     marginTop: '13mm'
   },
   infoHeader: {
-    fontFamily: _pdfConstants.typography.bold,
+    fontFamily: 'Open Sans SemiBold',
     fontSize: _pdfConstants.typography.h4
   },
   infoText: {

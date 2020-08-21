@@ -49,7 +49,7 @@ var getURL = function getURL(value) {
 
 
 var inlineElementsPresent = function inlineElementsPresent(nodes) {
-  var inlineElementTags = ['em', 'strong', 'i', 'b'];
+  var inlineElementTags = ['em', 'strong', 'i', 'b', 'span'];
   return nodes && nodes.some(function (node) {
     return inlineElementTags.includes(node.name);
   });

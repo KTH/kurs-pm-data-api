@@ -28,7 +28,7 @@ const getURL = value => {
 // End borrowed from https://github.com/diegomura/react-pdf/
 
 const inlineElementsPresent = nodes => {
-  const inlineElementTags = ['em', 'strong', 'i', 'b']
+  const inlineElementTags = ['em', 'strong', 'i', 'b', 'span']
   return nodes && nodes.some(node => inlineElementTags.includes(node.name))
 }
 

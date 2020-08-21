@@ -69,6 +69,9 @@ var components = {
       return c.type === 'tag' && c.name === 'a';
     }), htmlParseOptions)) : renderParagraph(domNode);
   },
+  span: function span(domNode) {
+    return /*#__PURE__*/_react["default"].createElement(_renderer.Text, null, (0, _htmlReactParser.domToReact)(domNode.children, htmlParseOptions));
+  },
   em: function em(domNode) {
     return /*#__PURE__*/_react["default"].createElement(_renderer.Text, {
       style: _CourseMemoStyles["default"].em

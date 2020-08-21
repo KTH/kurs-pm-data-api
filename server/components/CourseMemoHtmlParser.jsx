@@ -53,6 +53,7 @@ const components = {
     ) : (
       renderParagraph(domNode)
     ),
+  span: domNode => <Text>{domToReact(domNode.children, htmlParseOptions)}</Text>,
   em: domNode => <Text style={styles.em}>{domToReact(domNode.children, htmlParseOptions)}</Text>,
   strong: domNode => <Text style={styles.strong}>{domToReact(domNode.children, htmlParseOptions)}</Text>,
   i: domNode => <Text style={styles.i}>{domToReact(domNode.children, htmlParseOptions)}</Text>,

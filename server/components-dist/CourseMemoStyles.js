@@ -206,7 +206,8 @@ var styles = _renderer.StyleSheet.create({
     marginTop: 18
   },
   italic: {
-    fontFamily: 'Open Sans Italic'
+    fontFamily: 'Open Sans Italic',
+    marginBottom: 3
   },
   pageFooter: {
     fontFamily: 'Open Sans',

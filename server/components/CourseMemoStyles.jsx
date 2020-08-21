@@ -98,7 +98,8 @@ const styles = StyleSheet.create({
   footer: { position: 'absolute', right: '25mm', bottom: '10mm', width: '100%' },
   emptySectionText: { marginTop: 18 },
   italic: {
-    fontFamily: 'Open Sans Italic'
+    fontFamily: 'Open Sans Italic',
+    marginBottom: 3
   },
   pageFooter: {
     fontFamily: 'Open Sans',

@@ -21,7 +21,7 @@ async function getStoredCourseMemoPdfListByCourseCode(req, res) {
   log.info('Received request for all memos with: ', { courseCode })
 
   try {
-    dbResponse = await StoredMemoPdfs.find({ courseCode }).populate('MemoDataListForCourseCode').lean()
+    dbResponse = await StoredMemoPdfs.find({ courseCode }).populate('MemoStoredFilesListForCourseCode').lean()
 
     log.info('Successfully got all memos for', { courseCode }, 'dbResponse length', dbResponse.length)
     if (!dbResponse) {

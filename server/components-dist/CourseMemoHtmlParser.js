@@ -49,7 +49,7 @@ var getURL = function getURL(value) {
 
 
 var inlineElementsPresent = function inlineElementsPresent(nodes) {
-  var inlineElementTags = ['em', 'strong', 'i', 'b'];
+  var inlineElementTags = ['em', 'strong', 'i', 'b', 'span'];
   return nodes && nodes.some(function (node) {
     return inlineElementTags.includes(node.name);
   });
@@ -68,6 +68,9 @@ var components = {
     return domNode.attribs["class"] === 'person' ? /*#__PURE__*/_react["default"].createElement(_renderer.View, null, (0, _htmlReactParser.domToReact)(domNode.children.filter(function (c) {
       return c.type === 'tag' && c.name === 'a';
     }), htmlParseOptions)) : renderParagraph(domNode);
+  },
+  span: function span(domNode) {
+    return /*#__PURE__*/_react["default"].createElement(_renderer.Text, null, (0, _htmlReactParser.domToReact)(domNode.children, htmlParseOptions));
   },
   em: function em(domNode) {
     return /*#__PURE__*/_react["default"].createElement(_renderer.Text, {

@@ -28,7 +28,7 @@ const getURL = value => {
 // End borrowed from https://github.com/diegomura/react-pdf/
 
 const inlineElementsPresent = nodes => {
-  const inlineElementTags = ['em', 'strong', 'i', 'b']
+  const inlineElementTags = ['em', 'strong', 'i', 'b', 'span']
   return nodes && nodes.some(node => inlineElementTags.includes(node.name))
 }
 
@@ -53,6 +53,7 @@ const components = {
     ) : (
       renderParagraph(domNode)
     ),
+  span: domNode => <Text>{domToReact(domNode.children, htmlParseOptions)}</Text>,
   em: domNode => <Text style={styles.em}>{domToReact(domNode.children, htmlParseOptions)}</Text>,
   strong: domNode => <Text style={styles.strong}>{domToReact(domNode.children, htmlParseOptions)}</Text>,
   i: domNode => <Text style={styles.i}>{domToReact(domNode.children, htmlParseOptions)}</Text>,

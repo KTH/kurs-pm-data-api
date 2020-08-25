@@ -82,11 +82,11 @@ const styles = StyleSheet.create({
   coverSheetContainer: { height: '100%', borderBottom: '1 solid #1954A6' },
   logotype: { height: A4.logotype, width: A4.logotype },
   titleContainer: { marginTop: A4.crownDoubleAdjusted, marginLeft: A4.logotypeHalf, marginRight: A4.logotypeHalf },
-  title: { fontFamily: typography.bold, fontSize: typography.h1 },
-  subTitle: { fontFamily: typography.bold, fontSize: typography.h2 },
+  title: { fontFamily: 'Open Sans SemiBold', fontSize: typography.h1 },
+  subTitle: { fontFamily: 'Open Sans SemiBold', fontSize: typography.h2 },
   version: { fontFamily: typography.regular, fontSize: typography.p, marginTop: 6 },
   infoContainer: { marginTop: '13mm' },
-  infoHeader: { fontFamily: typography.bold, fontSize: typography.h4 },
+  infoHeader: { fontFamily: 'Open Sans SemiBold', fontSize: typography.h4 },
   infoText: { marginTop: 3, marginBottom: 12, fontFamily: typography.regular, fontSize: typography.p },
   pages: {
     paddingTop: '20mm',
@@ -98,7 +98,8 @@ const styles = StyleSheet.create({
   footer: { position: 'absolute', right: '25mm', bottom: '10mm', width: '100%' },
   emptySectionText: { marginTop: 18 },
   italic: {
-    fontFamily: 'Open Sans Italic'
+    fontFamily: 'Open Sans Italic',
+    marginBottom: 3
   },
   pageFooter: {
     fontFamily: 'Open Sans',

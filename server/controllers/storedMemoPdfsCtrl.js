@@ -10,7 +10,6 @@ async function getStoredCourseMemoPdfListByCourseCode(req, res) {
 
   const courseCode = req.params.courseCode.toUpperCase()
   let { semester } = req.params
-  let dbResponse
   const returnList = []
   const tempObj = {}
   log.debug('Fetching all courseMemos for ' + courseCode)
@@ -21,7 +20,7 @@ async function getStoredCourseMemoPdfListByCourseCode(req, res) {
   log.info('Received request for all memos with: ', { courseCode })
 
   try {
-    dbResponse = await StoredMemoPdfs.find({ courseCode }).populate('MemoStoredFilesListForCourseCode').lean()
+    const dbResponse = await StoredMemoPdfs.find({ courseCode }).populate('MemoStoredFilesListForCourseCode').lean()
 
     log.info('Successfully got all memos for', { courseCode }, 'dbResponse length', dbResponse.length)
     if (!dbResponse) {

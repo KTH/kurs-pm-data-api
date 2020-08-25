@@ -11,8 +11,6 @@ const Promise = require('bluebird')
 const registry = require('component-registry').globalRegistry
 const { IHealthCheck } = require('kth-node-monitor').interfaces
 
-const { getClient } = require('@kth/kth-node-cosmos-db')
-
 /**
  * GET /swagger.json
  * Swagger config
@@ -28,9 +26,6 @@ function getSwagger(req, res) {
 async function getAbout(req, res) {
   const paths = server.getPaths()
 
-  const client = getClient()
-  const collections = await client.listCollectionsWithThroughput()
-
   res.render('system/about', {
     layout: '',
     appName: packageFile.name,
@@ -44,8 +39,8 @@ async function getAbout(req, res) {
     jenkinsBuildDate: JSON.stringify(version.jenkinsBuildDate),
     dockerName: JSON.stringify(version.dockerName),
     dockerVersion: JSON.stringify(version.dockerVersion),
-    collections,
-    hostname: os.hostname(),
+    collections: ['coursememos', 'memofiles'],
+    hostname: os.hostname()
   })
 }
 
@@ -72,24 +67,18 @@ function getMonitor(req, res) {
   const systemStatus = systemHealthUtil.status(localSystems, subSystems)
 
   systemStatus
-    .then(status => {
+    .then((status) => {
       // Return the result either as JSON or text
       if (req.headers.accept === 'application/json') {
         const outp = systemHealthUtil.renderJSON(status)
         res.status(status.statusCode).json(outp)
       } else {
         const outp = systemHealthUtil.renderText(status)
-        res
-          .type('text')
-          .status(status.statusCode)
-          .send(outp)
+        res.type('text').status(status.statusCode).send(outp)
       }
     })
-    .catch(err => {
-      res
-        .type('text')
-        .status(500)
-        .send(err)
+    .catch((err) => {
+      res.type('text').status(500).send(err)
     })
 }
 
@@ -99,7 +88,7 @@ function getMonitor(req, res) {
  */
 function getRobotsTxt(req, res) {
   res.type('text').render('system/robots', {
-    layout: '',
+    layout: ''
   })
 }
 
@@ -125,5 +114,5 @@ module.exports = {
   robotsTxt: getRobotsTxt,
   paths: getPathsHandler,
   checkAPIKey: getCheckAPIKey,
-  swagger: getSwagger,
+  swagger: getSwagger
 }

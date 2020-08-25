@@ -109,218 +109,6 @@
         ]
       }
     },
-    "/v1/memos/{type}/{courseCode}/": {
-      "get": {
-        "operationId": "getAllMemosByCourseCodeAndType",
-        "summary": "Get all course memos documents fetched by this course code and type of status, only published, or draft, or archived, or old ",
-        "description": "Gets some form of data that only requires read access",
-        "parameters": [
-          {
-            "name": "courseCode",
-            "in": "path",
-            "description": "Course code, ex, SF1624",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "name": "type",
-            "in": "path",
-            "description": "published / draft / archived / old",
-            "required": true,
-            "type": "string"
-          }
-        ],
-        "tags": ["v1"],
-        "responses": {
-          "200": {
-            "description": "The requested data",
-            "schema": {
-              "$ref": "#/definitions/MemoDataListForCourseCode"
-            }
-          },
-          "default": {
-            "description": "Unexpected error",
-            "schema": {
-              "$ref": "#/definitions/Error"
-            }
-          }
-        },
-        "security": [
-          {
-            "api_key": ["read"]
-          }
-        ]
-      }
-    },
-    "/v1/migrateAll": {
-      "post": {
-        "operationId": "migrateAllData",
-        "summary": "Save migrated data from kurs-pm-api",
-        "description": "Save migrated data from kurs-pm-api",
-        "parameters": [
-          {
-            "name": "migratedDataArray",
-            "in": "body",
-            "description": "Array with memo data objects",
-            "required": true,
-            "schema": {
-              "$ref": "#/definitions/MigratedDataArray"
-            }
-          }
-        ],
-        "tags": ["v1"],
-        "responses": {
-          "200": {
-            "description": "A successful save"
-          },
-          "default": {
-            "description": "Unexpected error",
-            "schema": {
-              "$ref": "#/definitions/Error"
-            }
-          }
-        },
-        "security": [
-          {
-            "api_key": ["write"]
-          }
-        ]
-      }
-    },
-    "/v1/memo/{memoEndPoint}": {
-      "get": {
-        "operationId": "getPublishedMemoByEndPoint",
-        "summary": "Get published course memo document descriptive data by its endpoint memoEndPoint ",
-        "description": "Get a memo which exists in database and has memoEndPoint which identify unique memo",
-        "parameters": [
-          {
-            "name": "memoEndPoint",
-            "in": "path",
-            "description": "memoEndPoint is used to keep all versions under the same endpoint, unique for memo for one kursomgång. Unchangeable enpoint to display it in url (for bookmarks) and keep track on versions change",
-            "required": true,
-            "type": "string"
-          }
-        ],
-        "tags": ["v1"],
-        "responses": {
-          "200": {
-            "description": "The requested data",
-            "schema": {
-              "$ref": "#/definitions/MemoData"
-            }
-          },
-          "default": {
-            "description": "Unexpected error",
-            "schema": {
-              "$ref": "#/definitions/Error"
-            }
-          }
-        },
-        "security": [
-          {
-            "api_key": ["read"]
-          }
-        ]
-      },
-      "post": {
-        "operationId": "publishMemoByEndPoint",
-        "summary": "Saves an object of one course memo document descriptive data in the database per course and term, f.e, SF1624 and 20191",
-        "description": "Saves a course memo document descriptive data in the database per course and term",
-        "parameters": [
-          {
-            "name": "memoEndPoint",
-            "in": "path",
-            "description": "memoEndPoint is used to keep all versions under the same endpoint, unique for memo for one kursomgång. Unchangeable enpoint to display it in url (for bookmarks) and keep track on versions change",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "name": "roundCourseMemoData",
-            "in": "body",
-            "description": "Array with memo data objects",
-            "required": true,
-            "schema": {
-              "$ref": "#/definitions/MemoData"
-            }
-          }
-        ],
-        "tags": ["v1"],
-        "responses": {
-          "200": {
-            "description": "A successful save"
-          },
-          "default": {
-            "description": "Unexpected error",
-            "schema": {
-              "$ref": "#/definitions/Error"
-            }
-          }
-        },
-        "security": [
-          {
-            "api_key": ["write"]
-          }
-        ]
-      }
-    },
-    "/v1/pdf/{memoEndPoint}": {
-      "get": {
-        "operationId": "getPdfMemoByEndPoint",
-        "summary": "Get published course memo as PDF by its endpoint memoEndPoint",
-        "description": "Get a memo which exists in database and has memoEndPoint which identify unique memo",
-        "produces": "application/pdf",
-        "parameters": [
-          {
-            "name": "memoEndPoint",
-            "in": "path",
-            "description": "memoEndPoint is used to keep all versions under the same endpoint, unique for memo for one course offering. Unchangeable endpoint to display it in url (for bookmarks) and keep track on versions change",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "name": "status",
-            "in": "query",
-            "description": "Status of document, e.g. 'published' or 'draft'",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "name": "documentName",
-            "in": "query",
-            "description": "Desired name for PDF document. File suffix pdf will be added.",
-            "required": false,
-            "type": "string"
-          },
-          {
-            "name": "download",
-            "in": "query",
-            "description": "Should PDF document be downloaded? If download parameter is true, the response will have a 'Content-Disposition' header set to 'attachment', otherwise 'inline'.",
-            "required": false,
-            "type": "string"
-          }
-        ],
-        "tags": ["v1"],
-        "responses": {
-          "200": {
-            "description": "The requested PDF file",
-            "schema": {
-              "type": "file"
-            }
-          },
-          "default": {
-            "description": "Unexpected error",
-            "schema": {
-              "$ref": "#/definitions/Error"
-            }
-          }
-        },
-        "security": [
-          {
-            "api_key": ["read"]
-          }
-        ]
-      }
-    },
     "/v1/draft/{memoEndPoint}/copyFrom/{anotherMemoEndPoint}": {
       "post": {
         "operationId": "copyFromAPublishedMemo",
@@ -516,6 +304,271 @@
         "security": {
           "api_key": ["read"]
         }
+      }
+    },
+    "/v1/memos/{type}/{courseCode}/": {
+      "get": {
+        "operationId": "getAllMemosByCourseCodeAndType",
+        "summary": "Get all course memos documents fetched by this course code and type of status, only published, or draft, or archived, or old ",
+        "description": "Gets some form of data that only requires read access",
+        "parameters": [
+          {
+            "name": "courseCode",
+            "in": "path",
+            "description": "Course code, ex, SF1624",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "type",
+            "in": "path",
+            "description": "published / draft / archived / old",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "tags": ["v1"],
+        "responses": {
+          "200": {
+            "description": "The requested data",
+            "schema": {
+              "$ref": "#/definitions/MemoDataListForCourseCode"
+            }
+          },
+          "default": {
+            "description": "Unexpected error",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          }
+        },
+        "security": [
+          {
+            "api_key": ["read"]
+          }
+        ]
+      }
+    },
+    "/v1/memo/{memoEndPoint}": {
+      "get": {
+        "operationId": "getPublishedMemoByEndPoint",
+        "summary": "Get published course memo document descriptive data by its endpoint memoEndPoint ",
+        "description": "Get a memo which exists in database and has memoEndPoint which identify unique memo",
+        "parameters": [
+          {
+            "name": "memoEndPoint",
+            "in": "path",
+            "description": "memoEndPoint is used to keep all versions under the same endpoint, unique for memo for one kursomgång. Unchangeable enpoint to display it in url (for bookmarks) and keep track on versions change",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "tags": ["v1"],
+        "responses": {
+          "200": {
+            "description": "The requested data",
+            "schema": {
+              "$ref": "#/definitions/MemoData"
+            }
+          },
+          "default": {
+            "description": "Unexpected error",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          }
+        },
+        "security": [
+          {
+            "api_key": ["read"]
+          }
+        ]
+      },
+      "post": {
+        "operationId": "publishMemoByEndPoint",
+        "summary": "Saves an object of one course memo document descriptive data in the database per course and term, f.e, SF1624 and 20191",
+        "description": "Saves a course memo document descriptive data in the database per course and term",
+        "parameters": [
+          {
+            "name": "memoEndPoint",
+            "in": "path",
+            "description": "memoEndPoint is used to keep all versions under the same endpoint, unique for memo for one kursomgång. Unchangeable enpoint to display it in url (for bookmarks) and keep track on versions change",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "roundCourseMemoData",
+            "in": "body",
+            "description": "Array with memo data objects",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/MemoData"
+            }
+          }
+        ],
+        "tags": ["v1"],
+        "responses": {
+          "200": {
+            "description": "A successful save"
+          },
+          "default": {
+            "description": "Unexpected error",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          }
+        },
+        "security": [
+          {
+            "api_key": ["write"]
+          }
+        ]
+      }
+    },
+    "/v1/migrateAll": {
+      "post": {
+        "operationId": "migrateAllData",
+        "summary": "Save migrated data from kurs-pm-api",
+        "description": "Save migrated data from kurs-pm-api",
+        "parameters": [
+          {
+            "name": "migratedDataArray",
+            "in": "body",
+            "description": "Array with memo data objects",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/MigratedDataArray"
+            }
+          }
+        ],
+        "tags": ["v1"],
+        "responses": {
+          "200": {
+            "description": "A successful save"
+          },
+          "default": {
+            "description": "Unexpected error",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          }
+        },
+        "security": [
+          {
+            "api_key": ["write"]
+          }
+        ]
+      }
+    },
+    "/v1/storedCourseMemoFilesList/{courseCode}/{semester}": {
+      "get": {
+        "operationId": "getStoredMemoPdfListByCourseCode",
+        "summary": "Get a list of course memos stored as pdf files (integrated from kurs-pm-api)",
+        "description": "Gets course memos for rounds in a course. Memos stored as pdfs in kursinfo storage (not generated)",
+        "parameters": [
+          {
+            "name": "courseCode",
+            "in": "path",
+            "description": "Id of the course code",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "semester",
+            "in": "path",
+            "description": "Semester code, five numbers as a string (year + 1 (spring) or 2 (fall). Filter so the result only has memo data from that semester and all subsequent semesters",
+            "required": false,
+            "type": "string"
+          }
+        ],
+        "tags": ["v1"],
+        "responses": {
+          "200": {
+            "description": "The requested data",
+            "schema": {
+              "$ref": "#/definitions/MemoStoredFilesListForCourseCode"
+            }
+          },
+          "400": {
+            "description": "Bad Request, something with the request is invalid",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          },
+          "404": {
+            "description": "No organization or user matched the Ids",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          },
+          "default": {
+            "description": "Unexpected error",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          }
+        },
+        "security": {
+          "api_key": ["read"]
+        }
+      }
+    },
+    "/v1/pdf/{memoEndPoint}": {
+      "get": {
+        "operationId": "getPdfMemoByEndPoint",
+        "summary": "Get published course memo as PDF by its endpoint memoEndPoint",
+        "description": "Get a memo which exists in database and has memoEndPoint which identify unique memo",
+        "produces": "application/pdf",
+        "parameters": [
+          {
+            "name": "memoEndPoint",
+            "in": "path",
+            "description": "memoEndPoint is used to keep all versions under the same endpoint, unique for memo for one course offering. Unchangeable endpoint to display it in url (for bookmarks) and keep track on versions change",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "status",
+            "in": "query",
+            "description": "Status of document, e.g. 'published' or 'draft'",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "documentName",
+            "in": "query",
+            "description": "Desired name for PDF document. File suffix pdf will be added.",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "download",
+            "in": "query",
+            "description": "Should PDF document be downloaded? If download parameter is true, the response will have a 'Content-Disposition' header set to 'attachment', otherwise 'inline'.",
+            "required": false,
+            "type": "string"
+          }
+        ],
+        "tags": ["v1"],
+        "responses": {
+          "200": {
+            "description": "The requested PDF file",
+            "schema": {
+              "type": "file"
+            }
+          },
+          "default": {
+            "description": "Unexpected error",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          }
+        },
+        "security": [
+          {
+            "api_key": ["read"]
+          }
+        ]
       }
     },
     "/v1/usedRoundsForCourseSemester/{courseCode}/semester/{semester}": {
@@ -727,6 +780,34 @@
               "$ref": "#/definitions/MemoData"
             }
           }
+        }
+      }
+    },
+    "MemoStoredFilesListForCourseCode": {
+      "properties": {
+        "_id": {
+          "type": "string",
+          "description": "Unique identifier representing some specific data"
+        },
+        "courseCode": {
+          "type": "string",
+          "description": "Course code for which it is valid"
+        },
+        "pdfMemoUploadDate": {
+          "type": "string",
+          "description": "When document were published (first)?? time"
+        },
+        "koppsRoundId": {
+          "type": "string",
+          "description": "List of round id:s for which memo is valid (kurstillfälle)"
+        },
+        "courseMemoFileName": {
+          "type": "string",
+          "description": "Uploaded courseMemo file"
+        },
+        "changedAfterPublishedDate": {
+          "type": "string",
+          "description": "Date for changes made after published???"
         }
       }
     },

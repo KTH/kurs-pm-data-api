@@ -147,7 +147,7 @@ addPaths(
 const authByApiKey = passport.authenticate('apikey', { session: false })
 
 // Application specific API enpoints
-const { Sample, CourseMemo, PDF } = require('./controllers')
+const { Sample, CourseMemo, PDF, StoredMemoPdf } = require('./controllers')
 const { ApiRouter } = require('kth-node-express-routing')
 
 const apiRoute = ApiRouter(authByApiKey)
@@ -183,6 +183,9 @@ apiRoute.register(paths.api.deleteDraftByMemoEndPoint, CourseMemo.deleteMemoDraf
 
 // Get course memo PDF by end point
 apiRoute.register(paths.api.getPdfMemoByEndPoint, PDF.getMemoByEndPoint)
+
+// Get list of stored pdf files via kurs-pm-admin-web
+apiRoute.register(paths.api.getStoredMemoPdfListByCourseCode, StoredMemoPdf.getStoredCourseMemoPdfListByCourseCode)
 
 // Catch not found and errors
 server.use(notFoundHandler)

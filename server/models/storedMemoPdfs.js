@@ -9,7 +9,7 @@ const schema = mongoose.Schema({
     required: [true, 'Enter Course Code']
   },
   pdfMemoUploadDate: {
-    type: String, // TODO: DATE
+    type: String,
     trim: true,
     minlength: 0,
     default: ''
@@ -51,8 +51,8 @@ const schema = mongoose.Schema({
   }
 })
 
-const MigratedMemoPdfs = mongoose.model('MemoFile', schema)
+const StoredMemoPdfs = mongoose.model('MemoFile', schema)
 module.exports = {
-  MigratedMemoPdfs,
+  StoredMemoPdfs,
   schema
 }

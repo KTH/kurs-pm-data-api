@@ -1,5 +1,5 @@
 module.exports = {
   sample: require('./sample'),
   mainMemoModel: require('./mainMemoModel'),
-  migratedMemoPdfs: require('./migratedMemoPdfs')
+  storedMemoPdfs: require('./storedMemoPdfs')
 }

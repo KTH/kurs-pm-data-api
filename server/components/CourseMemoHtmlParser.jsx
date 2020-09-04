@@ -104,12 +104,12 @@ const htmlParseOptions = {
 const replaceLineBreaks = html => html.replace(/\n/g, '').replace(/<br>|<br.?\/>/g, '\n')
 
 const htmlParser = rawHtml => {
-  console.time('htmlParser: replaceLineBreaks')
+  // console.time('htmlParser: replaceLineBreaks')
   const html = replaceLineBreaks(rawHtml)
-  console.timeEnd('htmlParser: replaceLineBreaks')
-  console.time('htmlParser: parse')
+  // console.timeEnd('htmlParser: replaceLineBreaks')
+  // console.time('htmlParser: parse')
   const parsedHtml = parse(html, htmlParseOptions)
-  console.timeEnd('htmlParser: parse')
+  // console.timeEnd('htmlParser: parse')
   return parsedHtml
 }
 

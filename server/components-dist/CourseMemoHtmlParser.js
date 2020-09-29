@@ -182,12 +182,12 @@ var replaceLineBreaks = function replaceLineBreaks(html) {
 };
 
 var htmlParser = function htmlParser(rawHtml) {
-  console.time('htmlParser: replaceLineBreaks');
-  var html = replaceLineBreaks(rawHtml);
-  console.timeEnd('htmlParser: replaceLineBreaks');
-  console.time('htmlParser: parse');
-  var parsedHtml = (0, _htmlReactParser["default"])(html, htmlParseOptions);
-  console.timeEnd('htmlParser: parse');
+  // console.time('htmlParser: replaceLineBreaks')
+  var html = replaceLineBreaks(rawHtml); // console.timeEnd('htmlParser: replaceLineBreaks')
+  // console.time('htmlParser: parse')
+
+  var parsedHtml = (0, _htmlReactParser["default"])(html, htmlParseOptions); // console.timeEnd('htmlParser: parse')
+
   return parsedHtml;
 };
 

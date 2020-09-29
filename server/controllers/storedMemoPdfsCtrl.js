@@ -10,8 +10,8 @@ async function getStoredCourseMemoPdfListByCourseCode(req, res) {
 
   const courseCode = req.params.courseCode.toUpperCase()
   let { semester } = req.params
-  const returnList = []
-  const tempObj = {}
+  const miniMemosObj = {}
+
   log.debug('Fetching all courseMemos for ' + courseCode)
 
   // eslint-disable-next-line no-restricted-globals
@@ -20,29 +20,29 @@ async function getStoredCourseMemoPdfListByCourseCode(req, res) {
   log.info('Received request for all memos with: ', { courseCode })
 
   try {
-    const dbResponse = await StoredMemoPdfsModel.find({ courseCode })
+    const storedPdfMemosInfo = await StoredMemoPdfsModel.find({ courseCode })
       .populate('MemoStoredFilesListForCourseCode')
       .lean()
 
-    log.info('Successfully got all memos for', { courseCode }, 'dbResponse length', dbResponse.length)
-    if (!dbResponse) {
+    log.info('Successfully got all memos for', { courseCode }, 'dbResponse length', storedPdfMemosInfo.length)
+    if (!storedPdfMemosInfo) {
       log.info('dbResponse IS EMPTY for course', courseCode)
       return res.json()
     }
-    for (let index = 0; index < dbResponse.length; index++) {
-      if (dbResponse[index].semester >= semester) {
-        // eslint-disable-next-line no-underscore-dangle
-        tempObj[dbResponse[index]._id] = {
-          courseCode: dbResponse[index].courseCode,
-          pdfMemoUploadDate: dbResponse[index].pdfMemoUploadDate,
-          koppsRoundId: dbResponse[index].koppsRoundId,
-          courseMemoFileName: dbResponse[index].courseMemoFileName,
-          semester: dbResponse[index].semester
+    await storedPdfMemosInfo.map((dbPdfMemo) => {
+      const { _id: pdfMemoId, semester: thisMemoSemester } = dbPdfMemo
+      if (thisMemoSemester >= semester) {
+        miniMemosObj[pdfMemoId] = {
+          courseCode: dbPdfMemo.courseCode,
+          pdfMemoUploadDate: dbPdfMemo.pdfMemoUploadDate,
+          koppsRoundId: dbPdfMemo.koppsRoundId,
+          courseMemoFileName: dbPdfMemo.courseMemoFileName,
+          semester: thisMemoSemester
         }
       }
-      returnList.push(tempObj)
-    }
-    res.json(tempObj)
+    })
+
+    res.json(miniMemosObj)
     log.info('Responded to request for all memos with: ', { courseCode })
   } catch (error) {
     log.error('Error in getStoredCourseMemoPdfListByCourseCode', { error })

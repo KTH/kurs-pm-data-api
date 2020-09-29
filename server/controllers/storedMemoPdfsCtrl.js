@@ -3,7 +3,7 @@
 'use strict'
 
 const log = require('kth-node-log')
-const { StoredMemoPdfs } = require('../models/storedMemoPdfs')
+const { StoredMemoPdfsModel } = require('../models/storedMemoPdfsModel')
 
 async function getStoredCourseMemoPdfListByCourseCode(req, res) {
   if (!req.params.courseCode) throw new Error('courseCode must be set')
@@ -20,7 +20,9 @@ async function getStoredCourseMemoPdfListByCourseCode(req, res) {
   log.info('Received request for all memos with: ', { courseCode })
 
   try {
-    const dbResponse = await StoredMemoPdfs.find({ courseCode }).populate('MemoStoredFilesListForCourseCode').lean()
+    const dbResponse = await StoredMemoPdfsModel.find({ courseCode })
+      .populate('MemoStoredFilesListForCourseCode')
+      .lean()
 
     log.info('Successfully got all memos for', { courseCode }, 'dbResponse length', dbResponse.length)
     if (!dbResponse) {
@@ -35,7 +37,7 @@ async function getStoredCourseMemoPdfListByCourseCode(req, res) {
           pdfMemoUploadDate: dbResponse[index].pdfMemoUploadDate,
           koppsRoundId: dbResponse[index].koppsRoundId,
           courseMemoFileName: dbResponse[index].courseMemoFileName,
-          semseter: dbResponse[index].semester
+          semester: dbResponse[index].semester
         }
       }
       returnList.push(tempObj)

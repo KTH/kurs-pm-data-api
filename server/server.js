@@ -184,7 +184,7 @@ apiRoute.register(paths.api.deleteDraftByMemoEndPoint, CourseMemo.deleteMemoDraf
 // Get course memo PDF by end point
 apiRoute.register(paths.api.getPdfMemoByEndPoint, PDF.getMemoByEndPoint)
 
-// Get list of stored pdf files via kurs-pm-admin-web
+// Get list of stored pdf files for kursinfo-web
 apiRoute.register(paths.api.getStoredMemoPdfListByCourseCode, StoredMemoPdf.getStoredCourseMemoPdfListByCourseCode)
 
 // Catch not found and errors

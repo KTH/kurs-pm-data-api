@@ -1,13 +1,13 @@
 'use strict'
 
 const log = require('kth-node-log')
-const { StoredMemoPdfs } = require('../models/storedMemoPdfs')
+const { StoredMemoPdfsModel } = require('../models/storedMemoPdfsModel')
 
 async function saveAllArrayOfDocuments(data) {
   if (data) {
     log.info('Saving documents for migration ', { data })
 
-    const resultAfterUpdate = await StoredMemoPdfs.insertMany(data)
+    const resultAfterUpdate = await StoredMemoPdfsModel.insertMany(data)
     if (resultAfterUpdate) {
       log.info('MIGRATION SUCCESS All DATA SAVED! ')
     }
@@ -18,13 +18,13 @@ async function saveAllArrayOfDocuments(data) {
 
 async function fetchAll() {
   log.debug('Fetching all migrated courseMemos ')
-  const migrated = await StoredMemoPdfs.find({})
+  const migrated = await StoredMemoPdfsModel.find({})
   log.info('Length of data in db', migrated.length)
   return migrated
 }
 async function deleteByShardKey(id, courseCode) {
   log.debug('REMOVING all migrated courseMemos ')
-  const deleted = await StoredMemoPdfs.deleteOne({ _id: id, courseCode })
+  const deleted = await StoredMemoPdfsModel.deleteOne({ _id: id, courseCode })
   return deleted
 }
 /**

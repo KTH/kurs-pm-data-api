@@ -56,7 +56,6 @@ const context = {
   extraHeaders2: { isEditable: true, isRequired: false },
   extraHeaders3: { isEditable: true, isRequired: false },
   extraHeaders4: { isEditable: true, isRequired: false },
-  extraHeaders5: { isEditable: true, isRequired: false },
   equipment: {
     openIfContent: true,
     type: 'optionalEditable',

@@ -7,6 +7,5 @@ module.exports = {
   Sample: require('./sampleCtrl'),
   CourseMemo: require('./memoDataCtrl'),
   PDF: require('./pdfCtrl'),
-  MigrateMemo: require('./migrateFromOldDB'),
   StoredMemoPdf: require('./storedMemoPdfsCtrl')
 }

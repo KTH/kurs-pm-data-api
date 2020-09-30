@@ -50,6 +50,27 @@ async function getStoredCourseMemoPdfListByCourseCode(req, res) {
   }
 }
 
+async function fetchAll() {
+  log.debug('Fetching all migrated courseMemos ')
+  const migrated = await StoredMemoPdfsModel.find({})
+  log.info('Length of data in db', migrated.length)
+  return migrated
+}
+
+// /count
+async function checkLength(req, res) {
+  try {
+    const allmemos = await fetchAll()
+    log.info('check length', allmemos.length)
+
+    res.status(201).json({ length: allmemos.length })
+  } catch (error) {
+    log.error('Error in while trying to save all migrating memos ', { error })
+    return error
+  }
+}
+
 module.exports = {
+  collectionLength: checkLength,
   getStoredCourseMemoPdfListByCourseCode
 }

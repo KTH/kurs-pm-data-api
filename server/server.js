@@ -146,7 +146,7 @@ addPaths(
 const authByApiKey = passport.authenticate('apikey', { session: false })
 
 // Application specific API enpoints
-const { Sample, CourseMemo, PDF } = require('./controllers')
+const { Sample, CourseMemo, PDF, MixedWebAndPdfMemosList } = require('./controllers')
 const { ApiRouter } = require('kth-node-express-routing')
 
 const apiRoute = ApiRouter(authByApiKey)
@@ -166,7 +166,7 @@ apiRoute.register(paths.api.createDraftByMemoEndPoint, CourseMemo.createDraftByM
 apiRoute.register(paths.api.copyFromAPublishedMemo, CourseMemo.createDraftByMemoEndPoint)
 
 // // GET ARRAY OF MEMOS BY TYPE AND COURSE CODE
-apiRoute.register(paths.api.getAllMemosByCourseCodeAndType, CourseMemo.getMemosByCourseCodeAndType) // updated
+apiRoute.register(paths.api.getAllMemosByCourseCodeAndType, CourseMemo.getMemosByCourseCodeAndType)
 apiRoute.register(paths.api.getCourseSemesterUsedRounds, CourseMemo.getCourseSemesterUsedRounds) // step 1: to show up which rounds already taken
 apiRoute.register(paths.api.getMemosStartingFromPrevYearSemester, CourseMemo.getMemosStartingFromPrevSemester) // step 1: to show up which rounds already taken
 
@@ -181,8 +181,13 @@ apiRoute.register(paths.api.deleteDraftByMemoEndPoint, CourseMemo.deleteMemoDraf
 // Get course memo PDF by end point
 apiRoute.register(paths.api.getPdfMemoByEndPoint, PDF.getMemoByEndPoint)
 
-// Get list of stored pdf files for kursinfo-web
+// Get list of stored pdf files for kursinfo-web (migrated from kurs-pm-api)
 apiRoute.register(paths.api.getStoredMemoPdfListByCourseCode, StoredMemoPdf.getStoredCourseMemoPdfListByCourseCode)
+// Get list of stored pdf files together with web-based memos all published for kurs-pm-web (migrated from kurs-pm-api)
+apiRoute.register(
+  paths.api.getStoredMemoPdfAndWebMemosListByCourseCode,
+  MixedWebAndPdfMemosList.getStoredCourseMemoPdfListByCourseCode
+)
 
 // Catch not found and errors
 server.use(notFoundHandler)

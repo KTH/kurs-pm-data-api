@@ -480,7 +480,7 @@
     },
     "/v1/allWebAndPdfStoredPublishedMemos/{courseCode}/": {
       "get": {
-        "operationId": "getStoredMemoPdfAndWebMemosListByCourseCode",
+        "operationId": "getPdfAndWebMemosListByCourseCode",
         "summary": "Get a list of course memos stored as pdf files (integrated from kurs-pm-api) AND as web-based versions used by kurs-pm-web 'About memo'",
         "description": "Gets both solutions of course memos for a course. Memos stored as pdfs in kursinfo storage (not generated) and as a html version (kurs-pm-data)",
         "parameters": [

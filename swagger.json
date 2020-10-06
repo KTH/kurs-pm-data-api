@@ -309,7 +309,7 @@
     "/v1/memos/{type}/{courseCode}/": {
       "get": {
         "operationId": "getAllMemosByCourseCodeAndType",
-        "summary": "Get all course memos documents fetched by this course code and type of status, only published, or draft, or archived, or old ",
+        "summary": "Get all course memos documents fetched by this course code and type of status, only published, or draft, or old ",
         "description": "Gets some form of data that only requires read access",
         "parameters": [
           {
@@ -322,7 +322,7 @@
           {
             "name": "type",
             "in": "path",
-            "description": "published / draft / archived / old",
+            "description": "published / draft / old",
             "required": true,
             "type": "string"
           }
@@ -497,7 +497,7 @@
           "200": {
             "description": "The requested data",
             "schema": {
-              "$ref": "#/definitions/MemoStoredFilesListForCourseCode"
+              "$ref": "#/definitions/allMixedMemos"
             }
           },
           "400": {
@@ -677,6 +677,19 @@
         "name": {
           "type": "string",
           "description": "Description of the data"
+        }
+      }
+    },
+    "allMixedMemos": {
+      "properties": {
+        "courseCode": {
+          "type": "string",
+          "description": "Course code for which it is valid"
+        },
+        "miniMemos": {
+          "type": "object",
+          "description": "memos listed by semester and in a mini version",
+          "items": "object"
         }
       }
     },
@@ -866,7 +879,7 @@
         },
         "status": {
           "type": "string",
-          "description": "By default will be set to 'draft'. Other values: published, old, archived, draft"
+          "description": "By default will be set to 'draft'. Other values: published, old, draft"
         },
         "version": {
           "type": "integer",

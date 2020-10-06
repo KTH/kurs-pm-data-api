@@ -478,6 +478,52 @@
         }
       }
     },
+    "/v1/allWebAndPdfStoredPublishedMemos/{courseCode}/": {
+      "get": {
+        "operationId": "getPdfAndWebMemosListByCourseCode",
+        "summary": "Get a list of course memos stored as pdf files (integrated from kurs-pm-api) AND as web-based versions used by kurs-pm-web 'About memo'",
+        "description": "Gets both solutions of course memos for a course. Memos stored as pdfs in kursinfo storage (not generated) and as a html version (kurs-pm-data)",
+        "parameters": [
+          {
+            "name": "courseCode",
+            "in": "path",
+            "description": "Id of the course code",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "tags": ["v1"],
+        "responses": {
+          "200": {
+            "description": "The requested data",
+            "schema": {
+              "$ref": "#/definitions/MemoStoredFilesListForCourseCode"
+            }
+          },
+          "400": {
+            "description": "Bad Request, something with the request is invalid",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          },
+          "404": {
+            "description": "No organization or user matched the Ids",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          },
+          "default": {
+            "description": "Unexpected error",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          }
+        },
+        "security": {
+          "api_key": ["read"]
+        }
+      }
+    },
     "/v1/pdf/{memoEndPoint}": {
       "get": {
         "operationId": "getPdfMemoByEndPoint",

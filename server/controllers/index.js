@@ -7,5 +7,6 @@ module.exports = {
   Sample: require('./sampleCtrl'),
   CourseMemo: require('./memoDataCtrl'),
   PDF: require('./pdfCtrl'),
-  StoredMemoPdf: require('./storedMemoPdfsCtrl')
+  StoredMemoPdf: require('./storedMemoPdfsCtrl'),
+  MixedWebAndPdfMemosList: require('./mixedWebAndPdfMemosCtrl')
 }

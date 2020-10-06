@@ -54,10 +54,10 @@ async function getMixedWebAndPdfMemosList(req, res) {
       miniMemos[pdfMemoSemester] = [...(miniMemos[pdfMemoSemester] || []), ...files]
     })
 
-    webBasedMemos.map(({ ladokRoundIds, memoEndPoint, memoName, semester }) => {
+    webBasedMemos.map(({ ladokRoundIds, memoEndPoint, memoCommonLangAbbr, memoName, semester }) => {
       miniMemos[semester] = [
         ...(miniMemos[semester] || []),
-        { courseCode, ladokRoundIds, semester, memoEndPoint, memoName, isPdf: false }
+        { courseCode, ladokRoundIds, semester, memoEndPoint, memoCommonLangAbbr, memoName, isPdf: false }
       ]
     })
 

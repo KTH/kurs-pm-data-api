@@ -21,7 +21,7 @@ async function getStoredCourseMemoPdfListByCourseCode(req, res) {
 
   try {
     const storedPdfMemosInfo = await StoredMemoPdfsModel.find({ courseCode })
-      .populate('MemoStoredFilesListForCourseCode')
+      .populate('MemoPdfFilesList')
       .lean()
 
     log.info('Successfully got all memos for', { courseCode }, 'dbResponse length', storedPdfMemosInfo.length)
@@ -29,7 +29,7 @@ async function getStoredCourseMemoPdfListByCourseCode(req, res) {
       log.info('dbResponse IS EMPTY for course', courseCode)
       return res.json()
     }
-    await storedPdfMemosInfo.map((dbPdfMemo) => {
+    await storedPdfMemosInfo.map(dbPdfMemo => {
       const { _id: pdfMemoId, semester: thisMemoSemester } = dbPdfMemo
       if (thisMemoSemester >= semester) {
         miniMemosObj[pdfMemoId] = {

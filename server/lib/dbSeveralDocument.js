@@ -18,6 +18,13 @@ function getAllMemosByStatus(courseCode, status) {
   return doc
 }
 
+function getMemosBySemesterAndStatus(semester, status) {
+  if (!semester) throw new Error('semester must be set')
+  log.debug('Fetching all courseMemos for semester' + semester + ' by status ' + status)
+  const doc = CourseMemo.aggregate([{ $match: { semester, status } }])
+  return doc
+}
+
 async function getCourseSemesterUsedRounds(courseCode, semester) {
   // only used rounds -- no drafts
   if (!courseCode) throw new Error('courseCode must be set')
@@ -48,7 +55,7 @@ async function getCourseSemesterUsedRounds(courseCode, semester) {
 
 async function getSortedMiniMemosForAllYears(courseCode, memoStatus = 'published') {
   const webBasedMemos = await CourseMemo.aggregate([{ $match: { courseCode, status: memoStatus } }])
-  const publishedForAllYears = webBasedMemos.map((dbMemo) => {
+  const publishedForAllYears = webBasedMemos.map(dbMemo => {
     const { _id: memoId, semester, status, ladokRoundIds, memoEndPoint, memoName, memoCommonLangAbbr, version } = dbMemo
     const miniMemo = {
       ladokRoundIds,
@@ -93,7 +100,7 @@ async function getMemosFromPrevSemester(courseCode, fromSemester) {
       else if (status === 'published') _publishedAll.push(memoEndPoint)
     })
 
-    await webBasedMemos.map((dbMemo) => {
+    await webBasedMemos.map(dbMemo => {
       const {
         _id: memoId,
         semester,
@@ -135,5 +142,6 @@ module.exports = {
   getAllMemosByCourseCode,
   getAllMemosByStatus,
   getCourseSemesterUsedRounds,
+  getMemosBySemesterAndStatus,
   getMemosFromPrevSemester
 }

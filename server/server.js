@@ -184,7 +184,8 @@ apiRoute.register(paths.api.getPdfMemoByEndPoint, PDF.getMemoByEndPoint)
 // Get list of stored pdf files for kursinfo-web (migrated from kurs-pm-api)
 apiRoute.register(paths.api.getStoredMemoPdfListByCourseCode, StoredMemoPdf.getStoredCourseMemoPdfListByCourseCode)
 // Get list of stored pdf files together with web-based memos all published for kurs-pm-web (migrated from kurs-pm-api)
-apiRoute.register(paths.api.getPdfAndWebMemosListByCourseCode, MixedWebAndPdfMemosList.getMixedWebAndPdfMemosList)
+apiRoute.register(paths.api.getPdfAndWebMemosListByCourseCode, MixedWebAndPdfMemosList.getWebAndPdfMemos)
+apiRoute.register(paths.api.getPdfAndWebMemosListBySemester, MixedWebAndPdfMemosList.getWebAndPdfMemosBySemester)
 
 // Catch not found and errors
 server.use(notFoundHandler)

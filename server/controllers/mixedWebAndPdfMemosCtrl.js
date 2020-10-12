@@ -34,7 +34,7 @@ const pdfMemosTree = dbMigratedPdfs => {
   return pdfMemos
 }
 
-async function getMixedWebAndPdfMemosList(req, res) {
+async function getWebAndPdfMemos(req, res) {
   if (!req.params.courseCode) throw new Error('courseCode must be set')
   const courseCode = req.params.courseCode.toUpperCase()
   const miniMemos = {}
@@ -42,7 +42,7 @@ async function getMixedWebAndPdfMemosList(req, res) {
     log.debug('Fetching all courseMemos for ' + courseCode)
 
     const dbMigratedPdfs = await StoredMemoPdfsModel.find({ courseCode })
-      .populate('MemoStoredFilesListForCourseCode')
+      .populate('MemoPdfFilesList')
       .lean()
     const webBasedMemos = await dbArrayOfDocument.getAllMemosByStatus(courseCode, 'published')
 
@@ -69,6 +69,47 @@ async function getMixedWebAndPdfMemosList(req, res) {
   }
 }
 
+async function getWebAndPdfMemosBySemester(req, res) {
+  if (!req.params.semester) throw new Error('courseCode must be set')
+  const { semester: chosenSemester } = req.params
+  try {
+    log.debug('Fetching all courseMemos for ' + chosenSemester)
+
+    // const dbMigratedPdfs = await StoredMemoPdfsModel.find({ semester: chosenSemester })
+    //   .populate('MemoPdfFilesList')
+    //   .lean()
+    const webBasedMemos = await dbArrayOfDocument.getMemosBySemesterAndStatus(chosenSemester, 'published')
+
+    // const mergedPdfMemos = pdfMemosTree(dbMigratedPdfs)
+    // console.log('dbMigratedPdfs', dbMigratedPdfs)
+
+    // console.log('mergedPdfMemos', mergedPdfMemos)
+
+    const listMiniMemos = [
+      // ...Object.entries(mergedPdfMemos).map(keyValuePair => {
+      //   const files = Object.values(keyValuePair[1])
+      //   return files[0]
+      // }),
+      ...(webBasedMemos.map(({ courseCode, ladokRoundIds, memoEndPoint, memoCommonLangAbbr, memoName, semester }) => ({
+        courseCode,
+        ladokRoundIds,
+        semester,
+        memoEndPoint,
+        memoCommonLangAbbr,
+        memoName,
+        isPdf: false
+      })) || [])
+    ]
+
+    res.json(listMiniMemos)
+    log.info('Responded to request for all memos pdfs and web based with: ', { chosenSemester, listMiniMemos })
+  } catch (err) {
+    log.error('getMemosByCourseCodeAndType: Failed request for memo, error:', { err })
+    return err
+  }
+}
+
 module.exports = {
-  getMixedWebAndPdfMemosList
+  getWebAndPdfMemos,
+  getWebAndPdfMemosBySemester
 }

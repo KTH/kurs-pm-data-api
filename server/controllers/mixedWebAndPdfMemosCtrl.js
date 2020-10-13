@@ -18,9 +18,10 @@ const pdfMemosTree = dbMigratedPdfs => {
     const miniFileInfo = semesterInfo[courseMemoFileName] || {}
     const { ladokRoundIds } = miniFileInfo
     if (ladokRoundIds) {
-      miniFileInfo.ladokRoundIds = mergeRoundsWithTheSamePdfFile(miniFileInfo, koppsRoundId)
+      pdfMemos[semester][courseMemoFileName].ladokRoundIds = mergeRoundsWithTheSamePdfFile(miniFileInfo, koppsRoundId)
     } else {
       pdfMemos[semester] = {
+        ...pdfMemos[semester],
         [courseMemoFileName]: {
           courseCode,
           courseMemoFileName,
@@ -47,6 +48,8 @@ async function getWebAndPdfMemos(req, res) {
     const webBasedMemos = await dbArrayOfDocument.getAllMemosByStatus(courseCode, 'published')
 
     const mergedPdfMemos = pdfMemosTree(dbMigratedPdfs)
+    console.log('>>>aaaaasssa MigratedPdfs', JSON.stringify(dbMigratedPdfs))
+    log.error('------->sssss mergedPdfMemos ', JSON.stringify(mergedPdfMemos))
 
     Object.entries(mergedPdfMemos).map(keyValuePair => {
       const pdfMemoSemester = keyValuePair[0]
@@ -70,26 +73,21 @@ async function getWebAndPdfMemos(req, res) {
 }
 
 async function getWebAndPdfMemosBySemester(req, res) {
-  if (!req.params.semester) throw new Error('courseCode must be set')
+  /* Used by kursinfo-admin-web statistik page per semester (not course code) */
+  if (!req.params.semester) throw new Error('semester must be set')
   const { semester: chosenSemester } = req.params
   try {
     log.debug('Fetching all courseMemos for ' + chosenSemester)
 
-    // const dbMigratedPdfs = await StoredMemoPdfsModel.find({ semester: chosenSemester })
-    //   .populate('MemoPdfFilesList')
-    //   .lean()
+    const dbMigratedPdfs = await StoredMemoPdfsModel.find({ semester: chosenSemester })
+      .populate('MemoPdfFilesList')
+      .lean()
     const webBasedMemos = await dbArrayOfDocument.getMemosBySemesterAndStatus(chosenSemester, 'published')
 
-    // const mergedPdfMemos = pdfMemosTree(dbMigratedPdfs)
-    // console.log('dbMigratedPdfs', dbMigratedPdfs)
-
-    // console.log('mergedPdfMemos', mergedPdfMemos)
+    const mergedPdfMemos = pdfMemosTree(dbMigratedPdfs)
 
     const listMiniMemos = [
-      // ...Object.entries(mergedPdfMemos).map(keyValuePair => {
-      //   const files = Object.values(keyValuePair[1])
-      //   return files[0]
-      // }),
+      ...Object.values(mergedPdfMemos[chosenSemester] || []),
       ...(webBasedMemos.map(({ courseCode, ladokRoundIds, memoEndPoint, memoCommonLangAbbr, memoName, semester }) => ({
         courseCode,
         ladokRoundIds,

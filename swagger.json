@@ -497,7 +497,7 @@
           "200": {
             "description": "The requested data",
             "schema": {
-              "$ref": "#/definitions/allMixedMemos"
+              "$ref": "#/definitions/allMixedMemosForCourse"
             }
           },
           "400": {
@@ -527,7 +527,7 @@
     "/v1/webAndPdfPublishedMemosBySemester/{semester}/": {
       "get": {
         "operationId": "getPdfAndWebMemosListBySemester",
-        "summary": "Get a list of course memos for a chosen semester stored as pdf files (integrated from kurs-pm-api) AND as web-based versions used by kurs-pm-web 'About memo'",
+        "summary": "Get a list of course memos for a chosen semester stored as pdf files (integrated from kurs-pm-api) AND as web-based versions used by kursinfo-admin-web 'About memo' statistic",
         "description": "Gets both solutions of course memos for a chosen semester. Memos stored as pdfs in kursinfo storage (not generated) and as a html version (kurs-pm-data)",
         "parameters": [
           {
@@ -543,7 +543,7 @@
           "200": {
             "description": "The requested data",
             "schema": {
-              "$ref": "#/definitions/allMixedMemos"
+              "$ref": "#/definitions/listOfMixedMemosForSemester"
             }
           },
           "400": {
@@ -642,7 +642,7 @@
           },
           {
             "name": "semester",
-            "description": "Semester for rounds, f.e., 20201",
+            "description": "Term/Termin/semester Autumn 2020 -> 20202, Spring 2020 -> 20201 (year)(1-2)",
             "in": "path",
             "required": true,
             "type": "string"
@@ -726,7 +726,7 @@
         }
       }
     },
-    "allMixedMemos": {
+    "allMixedMemosForCourse": {
       "properties": {
         "courseCode": {
           "type": "string",
@@ -735,7 +735,51 @@
         "miniMemos": {
           "type": "object",
           "description": "memos listed by semester and in a mini version",
-          "items": "object"
+          "items": {
+            "type": "array",
+            "schema": {
+              "$ref": "#/definitions/listOfMixedMemosForSemester"
+            }
+          }
+        }
+      }
+    },
+    "listOfMixedMemosForSemester": {
+      "type": "array",
+      "items": "object",
+      "properties": {
+        "courseCode": {
+          "type": "string",
+          "description": "Course code for which it is valid"
+        },
+        "courseMemoFileName": {
+          "type": "string",
+          "description": "Name of this course memo pdf file in storage (only for pdf-based), usually a string of course offerings names"
+        },
+        "ladokRoundIds": {
+          "type": "array",
+          "items": "string",
+          "description": "List of round ids (course offerings), including renamed koppsRoundIds if it is a pdf or ladokRoundsIds if it is web-based, that have been used for a course semester"
+        },
+        "semester": {
+          "type": "string",
+          "description": "f.e., if it is an autumn 2020: 20202, if it is a spring 2020: 20201"
+        },
+        "memoEndPoint": {
+          "type": "string",
+          "description": "memo id which is unchangeable"
+        },
+        "memoCommonLangAbbr": {
+          "type": "string",
+          "description": "Language of this course memo (only for web-based)"
+        },
+        "memoName": {
+          "type": "string",
+          "description": "Name of this course memo (only for web-based), usually a string of course offerings names"
+        },
+        "isPdf": {
+          "type": "boolean",
+          "description": "Is it a pdf or web-based memo?"
         }
       }
     },

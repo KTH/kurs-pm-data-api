@@ -4,10 +4,6 @@
 ![Prerequisite](https://img.shields.io/badge/node-12.0.0-blue.svg)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](#)
 
-_Don't mention Azure if not necessary_
-_Docker image är scopet för projektet_
-_Instruktioner för lokal databas_
-
 ## Introduction
 
 The course information project (KIP) is an initiative at KTH that was launched in 2018 to improve the quality and availability of information about KTH:s courses. The background to the project is, among other things, that it was difficult for the student to find information about the courses and even more difficult to compare information about several courses. The reason for the problems is scattered course information in several places and that there is no uniformity or assigned places for the course information. The project takes measures to consolidate course information into two locations and to present the information in a manner that is uniform for KTH. The student should find the right information about the course, depending on their needs. The result of the project is a public course site where the correct course information is collected and presented uniformly. Also, a tool is developed for teachers to enter and publish course information. Eventually, this will lead to the student making better decisions based on their needs, and it will also reduce the burden on teachers and administration regarding questions and support for the student.
@@ -18,11 +14,11 @@ Kurs-pm-api is a microservice to save course memos data to database. It accepts 
 
 ## Overview
 
-Kurs-pm-api is used to save data in a Azure Cosmos database by using `kth-node-cosmos-db` to establish a connection to Azure. Before using it, the database and collection must be prepared in Azure because it will establish a connection to an existing collection, and not try to create it from a code. _`Mongoose` is an ORM library for is used for creating models and saving data._ To present documentation, [Swagger](https://swagger.io/) is used.
+Kurs-pm-api is used to save data in a Azure Cosmos database by using `kth-node-cosmos-db` to establish a connection to Azure. Before using it, the database and collection must be prepared in Azure because it will establish a connection to an existing database, and not try to create it from a code. `Mongoose` is used for creating models and saving data. To present a documentation [Swagger](https://swagger.io/) is used.
 
-_Admin and public pages_ uses different rights and keys to separate their behaviour.
+Admin and public pages uses different rights and keys to separate their behaviour.
 
-_Only admin pages may change API data while public pages can only read._ Therefore while useing `Swagger`, a developer should choose the correct api key, because some functions will not be shown in details. _what details?_
+Only admin pages may change API data while public pages can only read. Therefore while useing `Swagger`, a developer should choose the correct api key, because some functions will not be shown in details.
 
 Kurs-pm-api also generates PDF files using [React-pdf](https://react-pdf.org/) and [html-react-parser](https://github.com/remarkablemark/html-react-parser).
 
@@ -35,10 +31,11 @@ Kurs-pm-api also generates PDF files using [React-pdf](https://react-pdf.org/) a
 ## Prerequisites
 
 - Node.js 12.0.0
+- Ansible Vault
 
 ### Secrets for Development
 
-Secrets during local development are ALWAYS stored in a `.env`-file in the root of your project. This file should be in .gitignore.
+Secrets during local development are ALWAYS stored in a `.env`-file in the root of your project. This file should be in .gitignore. It needs to contain at least ldap connection URI and password in order for authentication to work properly.
 
 ```
 MONGODB_URI=mongodb://kurs-pm-data-api-stage-mongodb-kthse:[password, specified in Azure]==@kurs-pm-data-api-stage-mongodb-kthse.documents.azure.com:[port, specified in Azure]/kursinfo?ssl=true&authSource=kursinfo
@@ -50,17 +47,15 @@ LOGGING_ACCESS_LOG=debug
 SERVER_PORT=3001 [if you want to change port]
 ```
 
-_These (template?) settings are also available in an `env.in` file. _
+These settings are also available in an `env.in` file.
 
-\*## Prepare Database in Azure
+## Prepara Database in Azure
 
 Create database `kursinfo` and manually set Throughput: 400 (Shared),
 In this database create a collection `coursememos` where a shard key is `/courseCode`.
 Change a connection string:
 
 `mongodb://kurs-pm-data-api-stage-mongodb-kthse:[password]==@kurs-pm-data-api-stage-mongodb-kthse.documents.azure.com:[port]`~~/?ssl=true&replicaSet=globaldb~~`/kursinfo?ssl=true&authSource=kursinfo`
-
-Information om att skapa nytt, viktigs detaljer Kursinfo: Driftinformation\*
 
 ## For Development
 
@@ -78,11 +73,9 @@ Start the service on [localhost:3001/api/kurs-pm-data/swagger](http://localhost:
 npm run start-dev
 ```
 
-- Behövs det här? Allt som behövs för att köra lokalt
-
 ## In Production
 
-Secrets and docker-compose are located in cellus-registry.\*
+Secrets and docker-compose are located in cellus-registry.
 
 ## Run tests
 

@@ -840,7 +840,10 @@
       }
     },
     "SyllabusData": {
-      "validFrom": {
+      "validFromTerm": {
+        "type": "integer"
+      },
+      "validUntilTerm": {
         "type": "integer"
       },
       "textFromTo": {

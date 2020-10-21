@@ -48,8 +48,6 @@ async function getWebAndPdfMemos(req, res) {
     const webBasedMemos = await dbArrayOfDocument.getAllMemosByStatus(courseCode, 'published')
 
     const mergedPdfMemos = pdfMemosTree(dbMigratedPdfs)
-    console.log('>>>aaaaasssa MigratedPdfs', JSON.stringify(dbMigratedPdfs))
-    log.error('------->sssss mergedPdfMemos ', JSON.stringify(mergedPdfMemos))
 
     Object.entries(mergedPdfMemos).map(keyValuePair => {
       const pdfMemoSemester = keyValuePair[0]
@@ -65,9 +63,12 @@ async function getWebAndPdfMemos(req, res) {
     })
 
     res.json(miniMemos)
-    log.info('Responded to request for all memos pdfs and web based with: ', { courseCode, miniMemos })
+    log.debug('getWebAndPdfMemos: Responded to request for all memos pdfs and web based with: ', {
+      courseCode,
+      miniMemos
+    })
   } catch (err) {
-    log.error('getMemosByCourseCodeAndType: Failed request for memo, error:', { err })
+    log.error('getWebAndPdfMemos: Failed request for memo, error:', { err })
     return err
   }
 }
@@ -100,9 +101,12 @@ async function getWebAndPdfMemosBySemester(req, res) {
     ]
 
     res.json(listMiniMemos)
-    log.info('Responded to request for all memos pdfs and web based with: ', { chosenSemester, listMiniMemos })
+    log.info('getWebAndPdfMemosBySemester: Responded to request for all memos pdfs and web based with: ', {
+      chosenSemester,
+      listMiniMemos
+    })
   } catch (err) {
-    log.error('getMemosByCourseCodeAndType: Failed request for memo, error:', { err })
+    log.error('getWebAndPdfMemosBySemester: Failed request for memo, error:', { err })
     return err
   }
 }

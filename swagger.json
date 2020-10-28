@@ -780,6 +780,14 @@
         "isPdf": {
           "type": "boolean",
           "description": "Is it a pdf or web-based memo?"
+        },
+        "version": {
+          "type": "integer",
+          "description": "Version of this course memo (only for web-based)"
+        },
+        "lastChangeDate": {
+          "type": "string",
+          "description": "Date and time for last change of this memo (only for web-based)"
         }
       }
     },

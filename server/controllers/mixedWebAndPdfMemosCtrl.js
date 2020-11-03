@@ -55,12 +55,24 @@ async function getWebAndPdfMemos(req, res) {
       miniMemos[pdfMemoSemester] = [...(miniMemos[pdfMemoSemester] || []), ...files]
     })
 
-    webBasedMemos.map(({ ladokRoundIds, memoEndPoint, memoCommonLangAbbr, memoName, semester }) => {
-      miniMemos[semester] = [
-        ...(miniMemos[semester] || []),
-        { courseCode, ladokRoundIds, semester, memoEndPoint, memoCommonLangAbbr, memoName, isPdf: false }
-      ]
-    })
+    webBasedMemos.map(
+      ({ ladokRoundIds, memoEndPoint, memoCommonLangAbbr, memoName, semester, version, lastChangeDate }) => {
+        miniMemos[semester] = [
+          ...(miniMemos[semester] || []),
+          {
+            courseCode,
+            ladokRoundIds,
+            semester,
+            memoEndPoint,
+            memoCommonLangAbbr,
+            memoName,
+            isPdf: false,
+            version,
+            lastChangeDate
+          }
+        ]
+      }
+    )
 
     res.json(miniMemos)
     log.debug('getWebAndPdfMemos: Responded to request for all memos pdfs and web based with: ', {
@@ -89,17 +101,31 @@ async function getWebAndPdfMemosBySemester(req, res) {
 
     const listMiniMemos = [
       ...Object.values(mergedPdfMemos[chosenSemester] || []),
-      ...(webBasedMemos.map(({ courseCode, ladokRoundIds, memoEndPoint, memoCommonLangAbbr, memoName, semester }) => ({
-        courseCode,
-        ladokRoundIds,
-        semester,
-        memoEndPoint,
-        memoCommonLangAbbr,
-        memoName,
-        isPdf: false
-      })) || [])
+      ...(webBasedMemos.map(
+        ({
+          courseCode,
+          ladokRoundIds,
+          memoEndPoint,
+          memoCommonLangAbbr,
+          memoName,
+          semester,
+          version,
+          lastChangeDate
+        }) => ({
+          courseCode,
+          ladokRoundIds,
+          semester,
+          memoEndPoint,
+          memoCommonLangAbbr,
+          memoName,
+          isPdf: false,
+          version,
+          lastChangeDate
+        })
+      ) || [])
     ]
 
+    console.log('listMiniMemos', listMiniMemos)
     res.json(listMiniMemos)
     log.info('getWebAndPdfMemosBySemester: Responded to request for all memos pdfs and web based with: ', {
       chosenSemester,

@@ -1,0 +1,9 @@
+{
+  "testEnvironment": "node",
+  "env:": {
+    "node": true,
+    "jest/globals": true
+  },
+  "plugins": ["jest", "jest-extended"],
+  "extends": ["plugin:jest/recommended"]
+}

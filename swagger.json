@@ -6,7 +6,7 @@
     "version": "1.0.0"
   },
   "basePath": "/api/kurs-pm-data",
-  "produces": ["application/json", "application/pdf"],
+  "produces": ["application/json"],
   "paths": {
     "/_checkAPIkey": {
       "get": {
@@ -568,64 +568,6 @@
         "security": {
           "api_key": ["read"]
         }
-      }
-    },
-    "/v1/pdf/{memoEndPoint}": {
-      "get": {
-        "operationId": "getPdfMemoByEndPoint",
-        "summary": "Get published course memo as PDF by its endpoint memoEndPoint",
-        "description": "Get a memo which exists in database and has memoEndPoint which identify unique memo",
-        "produces": "application/pdf",
-        "parameters": [
-          {
-            "name": "memoEndPoint",
-            "in": "path",
-            "description": "memoEndPoint is used to keep all versions under the same endpoint, unique for memo for one course offering. Unchangeable endpoint to display it in url (for bookmarks) and keep track on versions change",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "name": "status",
-            "in": "query",
-            "description": "Status of document, e.g. 'published' or 'draft'",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "name": "documentName",
-            "in": "query",
-            "description": "Desired name for PDF document. File suffix pdf will be added.",
-            "required": false,
-            "type": "string"
-          },
-          {
-            "name": "download",
-            "in": "query",
-            "description": "Should PDF document be downloaded? If download parameter is true, the response will have a 'Content-Disposition' header set to 'attachment', otherwise 'inline'.",
-            "required": false,
-            "type": "string"
-          }
-        ],
-        "tags": ["v1"],
-        "responses": {
-          "200": {
-            "description": "The requested PDF file",
-            "schema": {
-              "type": "file"
-            }
-          },
-          "default": {
-            "description": "Unexpected error",
-            "schema": {
-              "$ref": "#/definitions/Error"
-            }
-          }
-        },
-        "security": [
-          {
-            "api_key": ["read"]
-          }
-        ]
       }
     },
     "/v1/usedRoundsForCourseSemester/{courseCode}/semester/{semester}": {

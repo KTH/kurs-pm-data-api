@@ -146,7 +146,7 @@ addPaths(
 const authByApiKey = passport.authenticate('apikey', { session: false })
 
 // Application specific API enpoints
-const { Sample, CourseMemo, PDF, MixedWebAndPdfMemosList } = require('./controllers')
+const { Sample, CourseMemo, MixedWebAndPdfMemosList } = require('./controllers')
 const { ApiRouter } = require('kth-node-express-routing')
 
 const apiRoute = ApiRouter(authByApiKey)
@@ -177,9 +177,6 @@ server.use('/', apiRoute.getRouter())
 
 // Delete a course memo draft
 apiRoute.register(paths.api.deleteDraftByMemoEndPoint, CourseMemo.deleteMemoDraftByMemoEndPoint)
-
-// Get course memo PDF by end point
-apiRoute.register(paths.api.getPdfMemoByEndPoint, PDF.getMemoByEndPoint)
 
 // Get list of stored pdf files for kursinfo-web (migrated from kurs-pm-api)
 apiRoute.register(paths.api.getStoredMemoPdfListByCourseCode, StoredMemoPdf.getStoredCourseMemoPdfListByCourseCode)

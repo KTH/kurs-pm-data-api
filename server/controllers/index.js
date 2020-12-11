@@ -6,7 +6,6 @@ module.exports = {
   // Replace with actual API controller
   Sample: require('./sampleCtrl'),
   CourseMemo: require('./memoDataCtrl'),
-  PDF: require('./pdfCtrl'),
   StoredMemoPdf: require('./storedMemoPdfsCtrl'),
   MixedWebAndPdfMemosList: require('./mixedWebAndPdfMemosCtrl')
 }

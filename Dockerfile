@@ -21,7 +21,6 @@ COPY ["package.json", "package.json"]
 COPY ["app.js", "app.js"]
 COPY ["swagger.json", "swagger.json"]
 COPY ["server", "server"]
-COPY ["i18n", "i18n"]
 
 ENV NODE_PATH /application
 

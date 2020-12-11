@@ -20,8 +20,6 @@ Admin and public pages uses different rights and keys to separate their behaviou
 
 Only admin pages may change API data while public pages can only read. Therefore while useing `Swagger`, a developer should choose the correct api key, because some functions will not be shown in details.
 
-Kurs-pm-api also generates PDF files using [React-pdf](https://react-pdf.org/) and [html-react-parser](https://github.com/remarkablemark/html-react-parser).
-
 ### Related Projects
 
 - [kurs-pm-data-admin-web](https://github.com/KTH/kurs-pm-data-admin-web)
@@ -125,57 +123,6 @@ API_KEYS_0=?name=kursinfo-web&apiKey=[generate a password for public pages]&scop
 API_KEYS_1=?name=kurs-pm-data-admin-web&apiKey=[generate a password for admin page]&scope=write&scope=read
 APPINSIGHTS_INSTRUMENTATIONKEY=[Azure, Application insights, Instrumentation Key, can be found in Overview]
 ```
-
-## PDF Generation
-
-The application has an endpoint that generates a PDF course memo. The PDF file is generated with [React-pdf](https://react-pdf.org/). Memo data in `HTML` will be parsed into `React` elements with [html-react-parser](https://github.com/remarkablemark/html-react-parser), before they are added to the document element tree.
-
-`React`components are converted with [Babel](https://babeljs.io/) into`./components-dist/`.
-
-### Course Memo Components
-
-```sh
-CourseMemo
-|-- CourseMemoDocument
-|   |-- CourseMemoCoverSheet
-|   |-- CourseMemoPages
-|       |-- CourseMemoContent
-|       |-- CourseMemoPageFooter
-|-- CourseMemoHtmlParser
-|-- CourseMemoStyles
-```
-
-#### CourseMemo
-
-Entry point component. Renders `CourseMemoDocument` component.
-
-#### CourseMemoDocument
-
-Renders wrapping `Document` component, `CourseMemoCoverSheet` and `CourseMemoPages`.
-
-#### CourseMemoCoverSheet
-
-Renders `Page` component containing the memo’s cover sheet.
-
-#### CourseMemoPages
-
-Renders `Page` component containing the memo’s pages. Inside the `Page`, a `CourseMemoContent` component is rendered for the memo’s content, and a`CourseMemoPageFooter` component for the memo’s footers.
-
-#### CourseMemoContent
-
-Renders `Section` components for the memo’s sections. Contains logic for determining if sections are visible in memo, or not.
-
-#### CourseMemoPageFooter
-
-Renders footer text and page numbers.
-
-#### CourseMemoHtmlParser
-
-Parses `HTML` data into `React` elements. Called from `CourseMemoContent`.
-
-#### CourseMemoStyles
-
-Contains all styles for PDF components.
 
 ## Author
 

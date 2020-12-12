@@ -1,0 +1,24 @@
+version: '3.2'
+
+services:
+  #############################################
+  # Start app as a container
+  #############################################
+  api:
+    # if not --build and kursplan-api already exists in
+    # your local computers registry 'image' is used.
+    image: $LOCAL_IMAGE_ID
+
+    # Since we do not want to add tests to our
+    # production image. We mount the catalog
+    # 'test' on in the repo on your local machine
+    # to /application on the inside of the container.
+    # The volume mount is done at startup.
+    volumes:
+      - ./test:/application/test
+
+    tty: true
+
+    # The unit test command that triggers tests to be run
+    # inside the container
+    command: ['sh', '-c', 'npm install --development && npm test']

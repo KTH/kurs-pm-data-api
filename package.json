@@ -9,6 +9,7 @@
     "codefix": "pretty-quick",
     "test": "cross-env NODE_ENV=test jest",
     "test:watch": "NODE_ENV=test jest test/unit/*.js --watch",
+    "test-unit-in-docker": "ID=$(docker build -q .) && LOCAL_IMAGE_ID=$ID docker-compose -f docker-compose-unit-tests.yml up --build --abort-on-container-exit --always-recreate-deps --force-recreate",
     "start": "NODE_ENV=production node app.js",
     "start-dev": "cross-env NODE_ENV=development nodemon app.js"
   },

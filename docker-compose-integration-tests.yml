@@ -1,0 +1,27 @@
+version: '3.7'
+
+services:
+  mongodb:
+    image: mongo:4.4.2
+    ports:
+      - 27017
+
+  api:
+    image: $LOCAL_IMAGE_ID
+    environment:
+      SERVICE_PUBLISH: '/api/kurs-pm-data'
+      SERVER_PORT: 3000
+      MONGODB_URI: mongodb://mongodb:27017/kurs-pm-data
+      API_KEYS_0: '?name=cypress&apiKey=1234&scope=read&scope=write'
+      LOGGING_ACCESS_LOG: 'true'
+    ports:
+      - 3000
+    depends_on:
+      - mongodb
+
+  e2e:
+    build: ./test/e2e
+    environment:
+      - CYPRESS_baseUrl=http://api:3000/api/kurs-pm-data/
+    depends_on:
+      - api

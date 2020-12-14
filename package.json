@@ -7,6 +7,7 @@
   "private": true,
   "scripts": {
     "codefix": "pretty-quick",
+    "cy:run": "cypress run -C test/e2e/cypress.env.json",
     "test": "cross-env NODE_ENV=test jest",
     "test:watch": "NODE_ENV=test jest test/unit/*.js --watch",
     "test-unit-in-docker": "ID=$(docker build -q .) && LOCAL_IMAGE_ID=$ID docker-compose -f docker-compose-unit-tests.yml up --build --abort-on-container-exit --always-recreate-deps --force-recreate",
@@ -51,6 +52,7 @@
     "babel-jest": "^26.6.3",
     "chai": "^4.2.0",
     "cross-env": "^7.0.3",
+    "cypress": "^6.1.0",
     "eslint": "^7.15.0",
     "eslint-config-airbnb": "^18.2.1",
     "eslint-config-prettier": "^7.0.0",

@@ -21,6 +21,7 @@ COPY ["package.json", "package.json"]
 COPY ["app.js", "app.js"]
 COPY ["swagger.json", "swagger.json"]
 COPY ["server", "server"]
+COPY ["jest.config.js", "jest.config.js"]
 
 ENV NODE_PATH /application
 

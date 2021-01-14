@@ -1,28 +1,34 @@
 {
-  "swagger": "2.0",
+  "openapi": "3.0.1",
   "info": {
     "title": "[NEW] Course Information – API for course memos",
     "description": "API that supports the new administraion site that makes it possible to create and manage course memos.",
     "version": "1.0.0"
   },
-  "basePath": "/api/kurs-pm-data",
-  "produces": ["application/json"],
+  "servers": [
+    {
+      "url": "/api/kurs-pm-data"
+    }
+  ],
   "paths": {
     "/_checkAPIkey": {
       "get": {
-        "operationId": "checkAPIkey",
-        "summary": "GET a test endpoint that is protected by api key to validate that consumer has a proper api key",
-        "description": "",
-        "parameters": [],
         "tags": ["system"],
+        "summary": "GET a test endpoint that is protected by api key to validate that consumer has a proper api key",
+        "operationId": "checkAPIkey",
         "responses": {
           "200": {
-            "description": "An empty response"
+            "description": "An empty response",
+            "content": {}
           },
           "default": {
             "description": "Unexpected error",
-            "schema": {
-              "$ref": "#/definitions/Error"
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
             }
           }
         },
@@ -35,30 +41,40 @@
     },
     "/v1/data/{id}": {
       "get": {
-        "operationId": "getDataById",
+        "tags": ["v1"],
         "summary": "Get data for simple test",
         "description": "Gets some form of data that only requires read access for testing",
+        "operationId": "getDataById",
         "parameters": [
           {
             "name": "id",
             "in": "path",
             "description": "Id of data to get",
             "required": true,
-            "type": "string"
+            "schema": {
+              "type": "string"
+            }
           }
         ],
-        "tags": ["v1"],
         "responses": {
           "200": {
             "description": "The requested data",
-            "schema": {
-              "$ref": "#/definitions/Data"
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Data"
+                }
+              }
             }
           },
           "default": {
             "description": "Unexpected error",
-            "schema": {
-              "$ref": "#/definitions/Error"
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
             }
           }
         },
@@ -69,36 +85,45 @@
         ]
       },
       "post": {
-        "operationId": "postDataById",
+        "tags": ["v1"],
         "summary": "Saves an object in the database for test",
         "description": "Saves changes to an object in the database for test",
+        "operationId": "postDataById",
         "parameters": [
           {
             "name": "id",
             "in": "path",
             "description": "Id of the data to save",
             "required": true,
-            "type": "string"
-          },
-          {
-            "name": "data",
-            "in": "body",
-            "description": "The data to save",
-            "required": true,
             "schema": {
-              "$ref": "#/definitions/Data"
+              "type": "string"
             }
           }
         ],
-        "tags": ["v1"],
+        "requestBody": {
+          "description": "The data to save",
+          "content": {
+            "*/*": {
+              "schema": {
+                "$ref": "#/components/schemas/Data"
+              }
+            }
+          },
+          "required": true
+        },
         "responses": {
           "200": {
-            "description": "A successful save"
+            "description": "A successful save",
+            "content": {}
           },
           "default": {
             "description": "Unexpected error",
-            "schema": {
-              "$ref": "#/definitions/Error"
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
             }
           }
         },
@@ -106,48 +131,60 @@
           {
             "api_key": ["write"]
           }
-        ]
+        ],
+        "x-codegen-request-body-name": "data"
       }
     },
     "/v1/draft/{memoEndPoint}/copyFrom/{anotherMemoEndPoint}": {
       "post": {
-        "operationId": "copyFromAPublishedMemo",
+        "tags": ["v1"],
         "summary": "Admin page: create new (empty with default values /  or copied from any published version(anotherMemoEndPoint)) draft and assign memoEndPoint to it",
         "description": "Creates a copy of published memo and save it as a draft with memoEndPoint in parameter anotherMemoEndPoint, if anotherMemoEndPoint==memoEndPoint, it will create empty standard draft or or copy from prev published version with the same memoEndPoint",
+        "operationId": "copyFromAPublishedMemo",
         "parameters": [
           {
             "name": "memoEndPoint",
             "in": "path",
             "description": "memoEndPoint is used to keep all versions under the same endpoint, unique for memo for one kursomgång. Unchangeable enpoint to display it in url (for bookmarks) and keep track on versions change",
             "required": true,
-            "type": "string"
+            "schema": {
+              "type": "string"
+            }
           },
           {
             "name": "anotherMemoEndPoint",
             "in": "path",
             "description": "anotherMemoEndPoint is memoEndPoint for previously published memo which will be copied into this new memo",
             "required": true,
-            "type": "string"
-          },
-          {
-            "name": "roundCourseMemoData",
-            "in": "body",
-            "description": "Data with course code, semester and rounds to create first draft",
-            "required": true,
             "schema": {
-              "$ref": "#/definitions/MemoData"
+              "type": "string"
             }
           }
         ],
-        "tags": ["v1"],
+        "requestBody": {
+          "description": "Data with course code, semester and rounds to create first draft",
+          "content": {
+            "*/*": {
+              "schema": {
+                "$ref": "#/components/schemas/MemoData"
+              }
+            }
+          },
+          "required": true
+        },
         "responses": {
           "200": {
-            "description": "A successful save"
+            "description": "A successful save",
+            "content": {}
           },
           "default": {
             "description": "Unexpected error",
-            "schema": {
-              "$ref": "#/definitions/Error"
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
             }
           }
         },
@@ -155,35 +192,46 @@
           {
             "api_key": ["write"]
           }
-        ]
+        ],
+        "x-codegen-request-body-name": "roundCourseMemoData"
       }
     },
     "/v1/draft/{memoEndPoint}": {
       "get": {
-        "operationId": "getDraftByEndPoint",
+        "tags": ["v1"],
         "summary": "Get published course memo document descriptive data by its endpoint memoEndPoint",
         "description": "For admin pages often need to access draft version of memo to edit it before publishing",
+        "operationId": "getDraftByEndPoint",
         "parameters": [
           {
             "name": "memoEndPoint",
             "in": "path",
             "description": "memoEndPoint is used to keep all versions under the same endpoint, unique for memo for one kursomgång. Unchangeable enpoint to display it in url (for bookmarks) and keep track on versions change",
             "required": true,
-            "type": "string"
+            "schema": {
+              "type": "string"
+            }
           }
         ],
-        "tags": ["v1"],
         "responses": {
           "200": {
             "description": "The requested data",
-            "schema": {
-              "$ref": "#/definitions/MemoData"
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/MemoData"
+                }
+              }
             }
           },
           "default": {
             "description": "Unexpected error",
-            "schema": {
-              "$ref": "#/definitions/Error"
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
             }
           }
         },
@@ -194,36 +242,45 @@
         ]
       },
       "put": {
-        "operationId": "updateCreatedDraft",
+        "tags": ["v1"],
         "summary": "The draft is already in database. Update some of its properties, f.e., only text for examinations, for fast and often update",
         "description": "Saves a course memo document descriptive data in the database per course and term, and per chosen {key: value}",
+        "operationId": "updateCreatedDraft",
         "parameters": [
           {
             "name": "memoEndPoint",
             "in": "path",
             "description": "memoEndPoint is used to keep all versions under the same endpoint, unique for memo for one kursomgång. Unchangeable enpoint to display it in url (for bookmarks) and keep track on versions change",
             "required": true,
-            "type": "string"
-          },
-          {
-            "name": "roundCourseMemoData",
-            "in": "body",
-            "description": "Data with course code, semester and rounds to create first draft",
-            "required": true,
             "schema": {
-              "$ref": "#/definitions/MemoData"
+              "type": "string"
             }
           }
         ],
-        "tags": ["v1"],
+        "requestBody": {
+          "description": "Data with course code, semester and rounds to create first draft",
+          "content": {
+            "*/*": {
+              "schema": {
+                "$ref": "#/components/schemas/MemoData"
+              }
+            }
+          },
+          "required": true
+        },
         "responses": {
           "200": {
-            "description": "A successful save"
+            "description": "A successful save",
+            "content": {}
           },
           "default": {
             "description": "Unexpected error",
-            "schema": {
-              "$ref": "#/definitions/Error"
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
             }
           }
         },
@@ -231,39 +288,49 @@
           {
             "api_key": ["write"]
           }
-        ]
+        ],
+        "x-codegen-request-body-name": "roundCourseMemoData"
       },
       "post": {
-        "operationId": "createDraftByMemoEndPoint",
+        "tags": ["v1"],
         "summary": "Admin page: create new (empty with default values /  or copied from published version) draft and assign memoEndPoint to it",
         "description": "Creates a copy of published memo and save it as a draft or creates a new empty draft with default values",
+        "operationId": "createDraftByMemoEndPoint",
         "parameters": [
           {
             "name": "memoEndPoint",
             "in": "path",
             "description": "memoEndPoint is used to keep all versions under the same endpoint, unique for memo for one kursomgång. Unchangeable enpoint to display it in url (for bookmarks) and keep track on versions change",
             "required": true,
-            "type": "string"
-          },
-          {
-            "name": "roundCourseMemoData",
-            "in": "body",
-            "description": "Data with course code, semester and rounds to create first draft",
-            "required": true,
             "schema": {
-              "$ref": "#/definitions/MemoData"
+              "type": "string"
             }
           }
         ],
-        "tags": ["v1"],
+        "requestBody": {
+          "description": "Data with course code, semester and rounds to create first draft",
+          "content": {
+            "*/*": {
+              "schema": {
+                "$ref": "#/components/schemas/MemoData"
+              }
+            }
+          },
+          "required": true
+        },
         "responses": {
           "200": {
-            "description": "A successful save"
+            "description": "A successful save",
+            "content": {}
           },
           "default": {
             "description": "Unexpected error",
-            "schema": {
-              "$ref": "#/definitions/Error"
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
             }
           }
         },
@@ -271,74 +338,99 @@
           {
             "api_key": ["write"]
           }
-        ]
+        ],
+        "x-codegen-request-body-name": "roundCourseMemoData"
       },
       "delete": {
-        "operationId": "deleteDraftByMemoEndPoint",
+        "tags": ["v1"],
         "summary": "Delete a course memo draft by memoEndPoint",
         "description": "Delete draft for course memo with sent memoEndPoint",
+        "operationId": "deleteDraftByMemoEndPoint",
         "parameters": [
           {
             "name": "memoEndPoint",
             "in": "path",
             "description": "memoEndPoint of the memo draft to delete course memo data",
             "required": true,
-            "type": "string"
+            "schema": {
+              "type": "string"
+            }
           }
         ],
-        "tags": ["v1"],
         "responses": {
           "200": {
             "description": "The memo was deleted",
-            "schema": {
-              "$ref": "#/definitions/MemoData"
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/MemoData"
+                }
+              }
             }
           },
           "default": {
             "description": "Unexpected error",
-            "schema": {
-              "$ref": "#/definitions/Error"
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
             }
           }
         },
-        "security": {
-          "api_key": ["read"]
-        }
+        "security": [
+          {
+            "api_key": ["read"]
+          }
+        ]
       }
     },
     "/v1/memos/{type}/{courseCode}/": {
       "get": {
-        "operationId": "getAllMemosByCourseCodeAndType",
+        "tags": ["v1"],
         "summary": "Get all course memos documents fetched by this course code and type of status, only published, or draft, or old ",
         "description": "Gets some form of data that only requires read access",
+        "operationId": "getAllMemosByCourseCodeAndType",
         "parameters": [
           {
             "name": "courseCode",
             "in": "path",
             "description": "Course code, ex, SF1624",
             "required": true,
-            "type": "string"
+            "schema": {
+              "type": "string"
+            }
           },
           {
             "name": "type",
             "in": "path",
             "description": "published / draft / old",
             "required": true,
-            "type": "string"
+            "schema": {
+              "type": "string"
+            }
           }
         ],
-        "tags": ["v1"],
         "responses": {
           "200": {
             "description": "The requested data",
-            "schema": {
-              "$ref": "#/definitions/MemoDataListForCourseCode"
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/MemoDataListForCourseCode"
+                }
+              }
             }
           },
           "default": {
             "description": "Unexpected error",
-            "schema": {
-              "$ref": "#/definitions/Error"
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
             }
           }
         },
@@ -351,30 +443,40 @@
     },
     "/v1/memo/{memoEndPoint}": {
       "get": {
-        "operationId": "getPublishedMemoByEndPoint",
+        "tags": ["v1"],
         "summary": "Get published course memo document descriptive data by its endpoint memoEndPoint ",
         "description": "Get a memo which exists in database and has memoEndPoint which identify unique memo",
+        "operationId": "getPublishedMemoByEndPoint",
         "parameters": [
           {
             "name": "memoEndPoint",
             "in": "path",
             "description": "memoEndPoint is used to keep all versions under the same endpoint, unique for memo for one kursomgång. Unchangeable enpoint to display it in url (for bookmarks) and keep track on versions change",
             "required": true,
-            "type": "string"
+            "schema": {
+              "type": "string"
+            }
           }
         ],
-        "tags": ["v1"],
         "responses": {
           "200": {
             "description": "The requested data",
-            "schema": {
-              "$ref": "#/definitions/MemoData"
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/MemoData"
+                }
+              }
             }
           },
           "default": {
             "description": "Unexpected error",
-            "schema": {
-              "$ref": "#/definitions/Error"
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
             }
           }
         },
@@ -385,36 +487,45 @@
         ]
       },
       "post": {
-        "operationId": "publishMemoByEndPoint",
+        "tags": ["v1"],
         "summary": "Saves an object of one course memo document descriptive data in the database per course and term, f.e, SF1624 and 20191",
         "description": "Saves a course memo document descriptive data in the database per course and term",
+        "operationId": "publishMemoByEndPoint",
         "parameters": [
           {
             "name": "memoEndPoint",
             "in": "path",
             "description": "memoEndPoint is used to keep all versions under the same endpoint, unique for memo for one kursomgång. Unchangeable enpoint to display it in url (for bookmarks) and keep track on versions change",
             "required": true,
-            "type": "string"
-          },
-          {
-            "name": "roundCourseMemoData",
-            "in": "body",
-            "description": "Array with memo data objects",
-            "required": true,
             "schema": {
-              "$ref": "#/definitions/MemoData"
+              "type": "string"
             }
           }
         ],
-        "tags": ["v1"],
+        "requestBody": {
+          "description": "Array with memo data objects",
+          "content": {
+            "*/*": {
+              "schema": {
+                "$ref": "#/components/schemas/MemoData"
+              }
+            }
+          },
+          "required": true
+        },
         "responses": {
           "200": {
-            "description": "A successful save"
+            "description": "A successful save",
+            "content": {}
           },
           "default": {
             "description": "Unexpected error",
-            "schema": {
-              "$ref": "#/definitions/Error"
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
             }
           }
         },
@@ -422,718 +533,724 @@
           {
             "api_key": ["write"]
           }
-        ]
+        ],
+        "x-codegen-request-body-name": "roundCourseMemoData"
       }
     },
     "/v1/pdfCourseMemoFilesList/{courseCode}/{semester}": {
       "get": {
-        "operationId": "getStoredMemoPdfListByCourseCode",
+        "tags": ["v1"],
         "summary": "Get a list of course memos stored as pdf files (integrated from kurs-pm-api) used by kursinfo-web",
         "description": "Gets course memos for rounds in a course. Memos stored as pdfs in kursinfo storage (not generated)",
+        "operationId": "getStoredMemoPdfListByCourseCode",
         "parameters": [
           {
             "name": "courseCode",
             "in": "path",
             "description": "Id of the course code",
             "required": true,
-            "type": "string"
+            "schema": {
+              "type": "string"
+            }
           },
           {
             "name": "semester",
             "in": "path",
             "description": "Semester code, five numbers as a string (year + 1 (spring) or 2 (fall). Filter so the result only has memo data from that semester and all subsequent semesters",
-            "required": false,
-            "type": "string"
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
           }
         ],
-        "tags": ["v1"],
         "responses": {
           "200": {
             "description": "The requested data",
-            "schema": {
-              "$ref": "#/definitions/MemoPdfFilesList"
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/MemoPdfFilesList"
+                }
+              }
             }
           },
           "400": {
             "description": "Bad Request, something with the request is invalid",
-            "schema": {
-              "$ref": "#/definitions/Error"
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
             }
           },
           "404": {
             "description": "No organization or user matched the Ids",
-            "schema": {
-              "$ref": "#/definitions/Error"
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
             }
           },
           "default": {
             "description": "Unexpected error",
-            "schema": {
-              "$ref": "#/definitions/Error"
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
             }
           }
         },
-        "security": {
-          "api_key": ["read"]
-        }
+        "security": [
+          {
+            "api_key": ["read"]
+          }
+        ]
       }
     },
     "/v1/webAndPdfPublishedMemos/{courseCode}/": {
       "get": {
-        "operationId": "getPdfAndWebMemosListByCourseCode",
+        "tags": ["v1"],
         "summary": "Get a list of course memos stored as pdf files (integrated from kurs-pm-api) AND as web-based versions used by kurs-pm-web 'About memo'",
         "description": "Gets both solutions of course memos for a course. Memos stored as pdfs in kursinfo storage (not generated) and as a html version (kurs-pm-data)",
+        "operationId": "getPdfAndWebMemosListByCourseCode",
         "parameters": [
           {
             "name": "courseCode",
             "in": "path",
             "description": "Id of the course code",
             "required": true,
-            "type": "string"
+            "schema": {
+              "type": "string"
+            }
           }
         ],
-        "tags": ["v1"],
         "responses": {
           "200": {
             "description": "The requested data",
-            "schema": {
-              "$ref": "#/definitions/allMixedMemosForCourse"
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/allMixedMemosForCourse"
+                }
+              }
             }
           },
           "400": {
             "description": "Bad Request, something with the request is invalid",
-            "schema": {
-              "$ref": "#/definitions/Error"
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
             }
           },
           "404": {
             "description": "No organization or user matched the Ids",
-            "schema": {
-              "$ref": "#/definitions/Error"
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
             }
           },
           "default": {
             "description": "Unexpected error",
-            "schema": {
-              "$ref": "#/definitions/Error"
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
             }
           }
         },
-        "security": {
-          "api_key": ["read"]
-        }
+        "security": [
+          {
+            "api_key": ["read"]
+          }
+        ]
       }
     },
     "/v1/webAndPdfPublishedMemosBySemester/{semester}/": {
       "get": {
-        "operationId": "getPdfAndWebMemosListBySemester",
+        "tags": ["v1"],
         "summary": "Get a list of course memos for a chosen semester stored as pdf files (integrated from kurs-pm-api) AND as web-based versions used by kursinfo-admin-web 'About memo' statistic",
         "description": "Gets both solutions of course memos for a chosen semester. Memos stored as pdfs in kursinfo storage (not generated) and as a html version (kurs-pm-data)",
+        "operationId": "getPdfAndWebMemosListBySemester",
         "parameters": [
           {
             "name": "semester",
             "in": "path",
             "description": "Term/Termin/semester Autumn 2020 -> 20202, Spring 2020 -> 20201 (year)(1-2)",
             "required": true,
-            "type": "string"
+            "schema": {
+              "type": "string"
+            }
           }
         ],
-        "tags": ["v1"],
         "responses": {
           "200": {
             "description": "The requested data",
-            "schema": {
-              "$ref": "#/definitions/listOfMixedMemosForSemester"
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/listOfMixedMemosForSemester"
+                }
+              }
             }
           },
           "400": {
             "description": "Bad Request, something with the request is invalid",
-            "schema": {
-              "$ref": "#/definitions/Error"
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
             }
           },
           "404": {
             "description": "No organization or user matched the Ids",
-            "schema": {
-              "$ref": "#/definitions/Error"
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
             }
           },
           "default": {
             "description": "Unexpected error",
-            "schema": {
-              "$ref": "#/definitions/Error"
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
             }
           }
         },
-        "security": {
-          "api_key": ["read"]
-        }
+        "security": [
+          {
+            "api_key": ["read"]
+          }
+        ]
       }
     },
     "/v1/usedRoundsForCourseSemester/{courseCode}/semester/{semester}": {
       "get": {
-        "operationId": "getCourseSemesterUsedRounds",
+        "tags": ["v1"],
         "summary": "Gets a list of used round ids for a semester in a course",
+        "operationId": "getCourseSemesterUsedRounds",
         "parameters": [
           {
             "name": "courseCode",
             "in": "path",
             "description": "Course code, six or seven characters",
             "required": true,
-            "type": "string"
+            "schema": {
+              "type": "string"
+            }
           },
           {
             "name": "semester",
-            "description": "Term/Termin/semester Autumn 2020 -> 20202, Spring 2020 -> 20201 (year)(1-2)",
             "in": "path",
+            "description": "Term/Termin/semester Autumn 2020 -> 20202, Spring 2020 -> 20201 (year)(1-2)",
             "required": true,
-            "type": "string"
+            "schema": {
+              "type": "string"
+            }
           }
         ],
-        "tags": ["v1"],
         "responses": {
           "200": {
             "description": "Round ids",
-            "schema": {
-              "$ref": "#/definitions/usedRoundsForCourseAndSemester"
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/usedRoundsForCourseAndSemester"
+                }
+              }
             }
           },
           "default": {
             "description": "Unexpected error",
-            "schema": {
-              "$ref": "#/definitions/Error"
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
             }
           }
         },
-        "security": {
-          "api_key": ["read"]
-        }
+        "security": [
+          {
+            "api_key": ["read"]
+          }
+        ]
       }
     },
     "/v1/usedMemosStartingFromPrevYearSemester/{courseCode}": {
       "get": {
-        "operationId": "getMemosStartingFromPrevYearSemester",
+        "tags": ["v1"],
         "summary": "Gets a list of used round ids for a semester in a course",
+        "operationId": "getMemosStartingFromPrevYearSemester",
         "parameters": [
           {
             "name": "courseCode",
             "in": "path",
             "description": "Course code, six or seven characters",
             "required": true,
-            "type": "string"
+            "schema": {
+              "type": "string"
+            }
           }
         ],
-        "tags": ["v1"],
         "responses": {
           "200": {
             "description": "Round ids",
-            "schema": {
-              "$ref": "#/definitions/latestPublishedAndDraftMemos"
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/latestPublishedAndDraftMemos"
+                }
+              }
             }
           },
           "default": {
             "description": "Unexpected error",
-            "schema": {
-              "$ref": "#/definitions/Error"
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
             }
           }
         },
-        "security": {
-          "api_key": ["read"]
-        }
+        "security": [
+          {
+            "api_key": ["read"]
+          }
+        ]
       }
     }
   },
-  "securityDefinitions": {
-    "api_key": {
-      "type": "apiKey",
-      "name": "api_key",
-      "in": "header",
-      "scopes": {
-        "read": "Read access to data",
-        "write": "Write access to data"
-      }
-    }
-  },
-  "definitions": {
-    "Data": {
-      "properties": {
-        "id": {
-          "type": "string",
-          "description": "Unique identifier representing some specific data"
-        },
-        "name": {
-          "type": "string",
-          "description": "Description of the data"
+  "components": {
+    "schemas": {
+      "Data": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "Unique identifier representing some specific data"
+          },
+          "name": {
+            "type": "string",
+            "description": "Description of the data"
+          }
         }
-      }
-    },
-    "allMixedMemosForCourse": {
-      "properties": {
-        "courseCode": {
-          "type": "string",
-          "description": "Course code for which it is valid"
-        },
-        "miniMemos": {
-          "type": "object",
-          "description": "memos listed by semester and in a mini version",
-          "items": {
+      },
+      "allMixedMemosForCourse": {
+        "type": "object",
+        "properties": {
+          "courseCode": {
+            "type": "string",
+            "description": "Course code for which it is valid"
+          },
+          "miniMemos": {
+            "type": "object",
+            "properties": {},
+            "description": "memos listed by semester and in a mini version"
+          }
+        }
+      },
+      "listOfMixedMemosForSemester": {
+        "type": "array",
+        "properties": {
+          "courseCode": {
+            "type": "string",
+            "description": "Course code for which it is valid"
+          },
+          "courseMemoFileName": {
+            "type": "string",
+            "description": "Name of this course memo pdf file in storage (only for pdf-based), usually a string of course offerings names"
+          },
+          "ladokRoundIds": {
             "type": "array",
-            "schema": {
-              "$ref": "#/definitions/listOfMixedMemosForSemester"
+            "description": "List of round ids (course offerings), including renamed koppsRoundIds if it is a pdf or ladokRoundsIds if it is web-based, that have been used for a course semester",
+            "items": {
+              "type": "string"
             }
+          },
+          "semester": {
+            "type": "string",
+            "description": "f.e., if it is an autumn 2020: 20202, if it is a spring 2020: 20201"
+          },
+          "memoEndPoint": {
+            "type": "string",
+            "description": "memo id which is unchangeable"
+          },
+          "memoCommonLangAbbr": {
+            "type": "string",
+            "description": "Language of this course memo (only for web-based)"
+          },
+          "memoName": {
+            "type": "string",
+            "description": "Name of this course memo (only for web-based), usually a string of course offerings names"
+          },
+          "isPdf": {
+            "type": "boolean",
+            "description": "Is it a pdf or web-based memo?"
+          },
+          "version": {
+            "type": "integer",
+            "description": "Version of this course memo (only for web-based)"
+          },
+          "lastChangeDate": {
+            "type": "string",
+            "description": "Date and time for last change of this memo (only for web-based)"
           }
-        }
-      }
-    },
-    "listOfMixedMemosForSemester": {
-      "type": "array",
-      "items": "object",
-      "properties": {
-        "courseCode": {
-          "type": "string",
-          "description": "Course code for which it is valid"
         },
-        "courseMemoFileName": {
-          "type": "string",
-          "description": "Name of this course memo pdf file in storage (only for pdf-based), usually a string of course offerings names"
-        },
-        "ladokRoundIds": {
-          "type": "array",
-          "items": "string",
-          "description": "List of round ids (course offerings), including renamed koppsRoundIds if it is a pdf or ladokRoundsIds if it is web-based, that have been used for a course semester"
-        },
-        "semester": {
-          "type": "string",
-          "description": "f.e., if it is an autumn 2020: 20202, if it is a spring 2020: 20201"
-        },
-        "memoEndPoint": {
-          "type": "string",
-          "description": "memo id which is unchangeable"
-        },
-        "memoCommonLangAbbr": {
-          "type": "string",
-          "description": "Language of this course memo (only for web-based)"
-        },
-        "memoName": {
-          "type": "string",
-          "description": "Name of this course memo (only for web-based), usually a string of course offerings names"
-        },
-        "isPdf": {
-          "type": "boolean",
-          "description": "Is it a pdf or web-based memo?"
-        },
-        "version": {
-          "type": "integer",
-          "description": "Version of this course memo (only for web-based)"
-        },
-        "lastChangeDate": {
-          "type": "string",
-          "description": "Date and time for last change of this memo (only for web-based)"
-        }
-      }
-    },
-    "usedRoundsForCourseAndSemester": {
-      "properties": {
-        "usedRoundsThisSemester": {
-          "type": "array",
-          "items": "string",
-          "description": "List of round ids that have been used for a course semester"
-        }
-      }
-    },
-    "latestPublishedAndDraftMemos": {
-      "properties": {
-        "publishedWithNoActiveDraft": {
-          "type": "array",
-          "items": {
-            "schema": {
-              "$ref": "#/definitions/UsedMemos"
-            }
-          },
-          "description": "List of latest published memos which do not have an active draft which user can edit"
-        },
-        "draftsOfPublishedMemos": {
-          "type": "array",
-          "items": {
-            "schema": {
-              "$ref": "#/definitions/UsedMemos"
-            }
-          },
-          "description": "List of latest published memos which have an active draft which user can edit"
-        },
-        "draftsWithNoActivePublishedVer": {
-          "type": "array",
-          "items": {
-            "schema": {
-              "$ref": "#/definitions/UsedMemos"
-            }
-          },
-          "description": "List of draft memos, endpoint, id"
-        }
-      }
-    },
-    "newSection": {
-      "properties": {
-        "uKey": {
-          "type": "string"
-        },
-        "title": {
-          "type": "string"
-        },
-        "htmlContent": {
-          "type": "string"
-        },
-        "visibleInMemo": {
-          "type": "boolean"
-        }
-      }
-    },
-    "SyllabusData": {
-      "validFromTerm": {
-        "type": "integer"
-      },
-      "validUntilTerm": {
-        "type": "integer"
-      },
-      "textFromTo": {
-        "type": "string"
-      }
-    },
-    "UsedMemos": {
-      "properties": {
-        "semester": {
-          "type": "string"
-        },
-        "status": {
-          "type": "string"
-        },
-        "memoId": {
-          "type": "string"
-        },
-        "memoEndPoint": {
-          "type": "string"
-        },
-        "memoCommonLangAbbr": {
-          "type": "string"
-        },
-        "memoName": {
-          "type": "string"
-        },
-        "ladokRoundIds": {
-          "type": "array",
-          "items": "string"
-        },
-        "version": {
-          "type": "integer"
-        }
-      }
-    },
-    "MemoDataListForCourseCode": {
-      "properties": {
-        "_id": {
-          "type": "string",
-          "description": "Unique identifier representing some specific data"
-        },
-        "courseCode": {
-          "type": "string",
-          "description": "Course code for which it is valid"
-        },
-        "memo": {
+        "items": {
           "type": "object",
-          "description": "....",
-          "items": {
-            "schema": {
-              "$ref": "#/definitions/MemoData"
+          "properties": {}
+        }
+      },
+      "usedRoundsForCourseAndSemester": {
+        "type": "object",
+        "properties": {
+          "usedRoundsThisSemester": {
+            "type": "array",
+            "description": "List of round ids that have been used for a course semester",
+            "items": {
+              "type": "string"
             }
+          }
+        }
+      },
+      "latestPublishedAndDraftMemos": {
+        "type": "object",
+        "properties": {
+          "publishedWithNoActiveDraft": {
+            "type": "array",
+            "description": "List of latest published memos which do not have an active draft which user can edit",
+            "items": {
+              "type": "object"
+            }
+          },
+          "draftsOfPublishedMemos": {
+            "type": "array",
+            "description": "List of latest published memos which have an active draft which user can edit",
+            "items": {
+              "type": "object"
+            }
+          },
+          "draftsWithNoActivePublishedVer": {
+            "type": "array",
+            "description": "List of draft memos, endpoint, id",
+            "items": {
+              "type": "object"
+            }
+          }
+        }
+      },
+      "MemoDataListForCourseCode": {
+        "type": "object",
+        "properties": {
+          "_id": {
+            "type": "string",
+            "description": "Unique identifier representing some specific data"
+          },
+          "courseCode": {
+            "type": "string",
+            "description": "Course code for which it is valid"
+          },
+          "memo": {
+            "type": "object",
+            "properties": {},
+            "description": "...."
+          }
+        }
+      },
+      "MemoPdfFilesList": {
+        "type": "object",
+        "properties": {
+          "_id": {
+            "type": "string",
+            "description": "Unique identifier representing some specific data"
+          },
+          "courseCode": {
+            "type": "string",
+            "description": "Course code for which it is valid"
+          },
+          "pdfMemoUploadDate": {
+            "type": "string",
+            "description": "When document were published (first)?? time"
+          },
+          "koppsRoundId": {
+            "type": "string",
+            "description": "List of round id:s for which memo is valid (kurstillfälle)"
+          },
+          "courseMemoFileName": {
+            "type": "string",
+            "description": "Uploaded courseMemo file"
+          },
+          "changedAfterPublishedDate": {
+            "type": "string",
+            "description": "Date for changes made after published???"
+          }
+        }
+      },
+      "MemoData": {
+        "type": "object",
+        "properties": {
+          "_id": {
+            "type": "string",
+            "description": "Unique identifier specific for this object so it can be used to delete a draft"
+          },
+          "courseCode": {
+            "type": "string",
+            "description": "Course code for which it is valid"
+          },
+          "courseTitle": {
+            "type": "string",
+            "description": "Course name with credits and credit units for which it is valid"
+          },
+          "departmentName": {
+            "type": "string",
+            "description": "Department for course"
+          },
+          "lastChangeDate": {
+            "type": "string",
+            "description": "Date and time for last change, set by API"
+          },
+          "lastPublishedVersionPublishDate": {
+            "type": "string",
+            "description": "Date and time for last published version, set by API"
+          },
+          "memoCommonLangAbbr": {
+            "type": "string",
+            "description": "Memo language based on common languageOfInstructions for all rounds, 'sv' or 'en'"
+          },
+          "memoEndPoint": {
+            "type": "string",
+            "description": "memoEndPoint is used to keep all versions under the same endpoint, unique for memo for one kursomgång. Unchangeable enpoint to display it in url (for bookmarks) and keep track on versions change"
+          },
+          "memoName": {
+            "type": "string",
+            "description": "Changeable name for course memo based on course offering name and semester"
+          },
+          "semester": {
+            "type": "string",
+            "description": "Course start term year (spring(VT)-1, autumn(HT)-2) , f.e. 20182 or 20181 (termin)"
+          },
+          "status": {
+            "type": "string",
+            "description": "By default will be set to 'draft'. Other values: published, old, draft"
+          },
+          "version": {
+            "type": "integer",
+            "description": "Will be set by api, it will be incremented for copied draft"
+          },
+          "additionalRegulations": {
+            "type": "string",
+            "description": "Text field for html with Additional regulations / Övriga föreskrifter (kopps kursplan)"
+          },
+          "commentAboutMadeChanges": {
+            "type": "string",
+            "description": "Text field to describe what changes have been made to new version of published memo"
+          },
+          "communicationDuringCourse": {
+            "type": "string",
+            "description": "Text field for html with Communication during course / Kommunikation i kursen (KIP - via kurs pm admin)"
+          },
+          "courseContent": {
+            "type": "string",
+            "description": "Text field for html with course content/ Kursinnehåll (kopps kursplan)"
+          },
+          "courseCoordinator": {
+            "type": "string",
+            "description": "Text field for html with Course coordinator  / Kursansvarig (admin via kopps, fetched from redis-ug)"
+          },
+          "ethicalApproach": {
+            "type": "string",
+            "description": "Text field for html with Ethical approach / Etiskt förhållningssätt (kopps kursplan)"
+          },
+          "ethicalApproachSubSection": {
+            "type": "string",
+            "description": "Text field for html with Course specific regulations for ethical approach / Kursspecifika regler för etiskt förhållningssätt (KIP - via kurs pm admin)"
+          },
+          "examination": {
+            "type": "string",
+            "description": "Text field for html with Ethical approach / Etiskt förhållningssätt (kopps kursplan)"
+          },
+          "examinationSubSection": {
+            "type": "string",
+            "description": "Text field for html with examination Modules / examination Moduler (KIP - via kurs pm admin)"
+          },
+          "examiner": {
+            "type": "string",
+            "description": "Text field for html with Examinator / Examinator (admin via kopps, fetched from redis-ug)"
+          },
+          "extraHeaders1": {
+            "type": "array",
+            "description": "Text field for html with extraHeaders / Egna Rubriker för Innehål och lärandemål ",
+            "items": {
+              "type": "object"
+            }
+          },
+          "extraHeaders2": {
+            "type": "array",
+            "description": "Text field for html with extraHeaders / Egna Rubriker för Förbereda inför kursstart ",
+            "items": {
+              "type": "object"
+            }
+          },
+          "extraHeaders3": {
+            "type": "array",
+            "description": "Text field for html with extraHeaders / Egna Rubriker för Examination ",
+            "items": {
+              "type": "object"
+            }
+          },
+          "extraHeaders4": {
+            "type": "array",
+            "description": "Text field for html with extraHeaders / Egna Rubriker för Ytterligare Information ",
+            "items": {
+              "type": "object"
+            }
+          },
+          "equipment": {
+            "type": "string",
+            "description": "Text field for html with Equipment / Utrustning (kopps kursinformation)"
+          },
+          "gradingCriteria": {
+            "type": "string",
+            "description": "Text field for html with Grading Criteria / Målrelaterade betygskriterier / (KIP - via kurs pm admin)"
+          },
+          "gradingScale": {
+            "type": "string",
+            "description": "Text field for html with Grading scale / Betygsskala (kopps kursplan)"
+          },
+          "infoForReregisteredStudents": {
+            "type": "string",
+            "description": "Text field for html with Information for re-registered students / Information till omregistrerade studenter (KIP - via kurs pm admin)"
+          },
+          "ladokRoundIds": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "languageOfInstructions": {
+            "type": "string",
+            "description": "Memo language: Svenska, Swedish, Engelska, English ..."
+          },
+          "learningActivities": {
+            "type": "string",
+            "description": "Text field for html with Learning activities / Läraktiviteter (KIP - via kurs pm admin)"
+          },
+          "learningOutcomes": {
+            "type": "string",
+            "description": "Text field for html with Intended learning outcomes / Lärandemål (kopps kursplan)"
+          },
+          "literature": {
+            "type": "string",
+            "description": "Text field for html with Literature / Kurslitteratur (kopps kursinformation)"
+          },
+          "otherContacts": {
+            "type": "string",
+            "description": "Text field for html with other Contacts like Lab supervisors / Labbhandledare (KIP - via kurs pm admin)"
+          },
+          "otherRequirementsForFinalGrade": {
+            "type": "string",
+            "description": "Text field for html with Other requirements for final grade / Övriga krav för slutbetyg (kopps kursplan)"
+          },
+          "permanentDisability": {
+            "type": "string",
+            "description": "Text field for html with Permanent Disability / Funktionsnedsättning (KIP - via kurs pm admin)"
+          },
+          "permanentDisabilitySubSection": {
+            "type": "string",
+            "description": "Text field for html subsection with Permanent Disability / Funktionsnedsättning (KIP - via kurs pm admin)"
+          },
+          "possibilityToAddition": {
+            "type": "string",
+            "description": "Text field for html with Opportunity to raise an approved grade via renewed examination / Möjlighet till plussning (kopps kursinformation)"
+          },
+          "possibilityToCompletion": {
+            "type": "string",
+            "description": "Text field for html with Opportunity to complete the requirements via supplementary examination / Möjlighet till komplettering (kopps kursinformation)"
+          },
+          "possibilityToCompensate": {
+            "type": "string",
+            "description": "Text field for html with Opportunity to compensate / Möjlighet till ersättningsuppgifter (KIP - via kurs pm admin)"
+          },
+          "preparations": {
+            "type": "string",
+            "description": "Text field for html with Preparations / Förbereda inför kursstart (KIP - via kurs pm admin)"
+          },
+          "prerequisites": {
+            "type": "string",
+            "description": "Text field for html with Prerequisites / Rekommenderade förkunskaper (kopps kursinformation)"
+          },
+          "reportingResults": {
+            "type": "string",
+            "description": "Text field for html with Results reporting / Resultatrapportering (KIP - via kurs pm admin)"
+          },
+          "scheduleDetails": {
+            "type": "string",
+            "description": "Text field for html with Schedule details / Detaljschema / (KIP - via kurs pm admin)"
+          },
+          "software": {
+            "type": "string",
+            "description": "Text field for html with Software / Programvara (KIP - via kurs pm admin)"
+          },
+          "syllabusValid": {
+            "type": "object",
+            "properties": {},
+            "description": "Syllabus valit from term in digital and text form"
+          },
+          "teacher": {
+            "type": "string",
+            "description": "Text field for html with  Teacher / Lärare (admin via kopps, fetched from redis-ug)"
+          },
+          "teacherAssistants": {
+            "type": "string",
+            "description": "Text field for html with Teacher assistants / Lärarassistenter (admin via kopps, fetched from redis-ug)"
+          }
+        }
+      },
+      "Error": {
+        "type": "object",
+        "properties": {
+          "code": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "message": {
+            "type": "string"
+          },
+          "fields": {
+            "type": "string"
           }
         }
       }
     },
-    "MemoPdfFilesList": {
-      "properties": {
-        "_id": {
-          "type": "string",
-          "description": "Unique identifier representing some specific data"
-        },
-        "courseCode": {
-          "type": "string",
-          "description": "Course code for which it is valid"
-        },
-        "pdfMemoUploadDate": {
-          "type": "string",
-          "description": "When document were published (first)?? time"
-        },
-        "koppsRoundId": {
-          "type": "string",
-          "description": "List of round id:s for which memo is valid (kurstillfälle)"
-        },
-        "courseMemoFileName": {
-          "type": "string",
-          "description": "Uploaded courseMemo file"
-        },
-        "changedAfterPublishedDate": {
-          "type": "string",
-          "description": "Date for changes made after published???"
-        }
-      }
-    },
-    "MemoData": {
-      "properties": {
-        "_id": {
-          "type": "string",
-          "description": "Unique identifier specific for this object so it can be used to delete a draft"
-        },
-        "courseCode": {
-          "type": "string",
-          "description": "Course code for which it is valid"
-        },
-        "courseTitle": {
-          "type": "string",
-          "description": "Course name with credits and credit units for which it is valid"
-        },
-        "departmentName": {
-          "type": "string",
-          "description": "Department for course"
-        },
-        "lastChangeDate": {
-          "type": "string",
-          "description": "Date and time for last change, set by API"
-        },
-        "lastPublishedVersionPublishDate": {
-          "type": "string",
-          "description": "Date and time for last published version, set by API"
-        },
-        "memoCommonLangAbbr": {
-          "type": "string",
-          "description": "Memo language based on common languageOfInstructions for all rounds, 'sv' or 'en'"
-        },
-        "memoEndPoint": {
-          "type": "string",
-          "description": "memoEndPoint is used to keep all versions under the same endpoint, unique for memo for one kursomgång. Unchangeable enpoint to display it in url (for bookmarks) and keep track on versions change"
-        },
-        "memoName": {
-          "type": "string",
-          "description": "Changeable name for course memo based on course offering name and semester"
-        },
-        "semester": {
-          "type": "string",
-          "description": "Course start term year (spring(VT)-1, autumn(HT)-2) , f.e. 20182 or 20181 (termin)"
-        },
-        "status": {
-          "type": "string",
-          "description": "By default will be set to 'draft'. Other values: published, old, draft"
-        },
-        "version": {
-          "type": "integer",
-          "description": "Will be set by api, it will be incremented for copied draft"
-        },
-        "additionalRegulations": {
-          "type": "string",
-          "description": "Text field for html with Additional regulations / Övriga föreskrifter (kopps kursplan)"
-        },
-        "commentAboutMadeChanges": {
-          "type": "string",
-          "description": "Text field to describe what changes have been made to new version of published memo"
-        },
-        "communicationDuringCourse": {
-          "type": "string",
-          "description": "Text field for html with Communication during course / Kommunikation i kursen (KIP - via kurs pm admin)"
-        },
-        "courseContent": {
-          "type": "string",
-          "description": "Text field for html with course content/ Kursinnehåll (kopps kursplan)"
-        },
-        "courseCoordinator": {
-          "type": "string",
-          "description": "Text field for html with Course coordinator  / Kursansvarig (admin via kopps, fetched from redis-ug)"
-        },
-        "ethicalApproach": {
-          "type": "string",
-          "description": "Text field for html with Ethical approach / Etiskt förhållningssätt (kopps kursplan)"
-        },
-        "ethicalApproachSubSection": {
-          "type": "string",
-          "description": "Text field for html with Course specific regulations for ethical approach / Kursspecifika regler för etiskt förhållningssätt (KIP - via kurs pm admin)"
-        },
-        "examination": {
-          "type": "string",
-          "description": "Text field for html with Ethical approach / Etiskt förhållningssätt (kopps kursplan)"
-        },
-        "examinationSubSection": {
-          "type": "string",
-          "description": "Text field for html with examination Modules / examination Moduler (KIP - via kurs pm admin)"
-        },
-        "examiner": {
-          "type": "string",
-          "description": "Text field for html with Examinator / Examinator (admin via kopps, fetched from redis-ug)"
-        },
-        "extraHeaders1": {
-          "type": "array",
-          "items": {
-            "schema": {
-              "$ref": "#/definitions/newSection"
-            }
-          },
-          "description": "Text field for html with extraHeaders / Egna Rubriker för Innehål och lärandemål "
-        },
-        "extraHeaders2": {
-          "type": "array",
-          "items": {
-            "schema": {
-              "$ref": "#/definitions/newSection"
-            }
-          },
-          "description": "Text field for html with extraHeaders / Egna Rubriker för Förbereda inför kursstart "
-        },
-        "extraHeaders3": {
-          "type": "array",
-          "items": {
-            "schema": {
-              "$ref": "#/definitions/newSection"
-            }
-          },
-          "description": "Text field for html with extraHeaders / Egna Rubriker för Examination "
-        },
-        "extraHeaders4": {
-          "type": "array",
-          "items": {
-            "schema": {
-              "$ref": "#/definitions/newSection"
-            }
-          },
-          "description": "Text field for html with extraHeaders / Egna Rubriker för Ytterligare Information "
-        },
-        "equipment": {
-          "type": "string",
-          "description": "Text field for html with Equipment / Utrustning (kopps kursinformation)"
-        },
-        "gradingCriteria": {
-          "type": "string",
-          "description": "Text field for html with Grading Criteria / Målrelaterade betygskriterier / (KIP - via kurs pm admin)"
-        },
-        "gradingScale": {
-          "type": "string",
-          "description": "Text field for html with Grading scale / Betygsskala (kopps kursplan)"
-        },
-        "infoForReregisteredStudents": {
-          "type": "string",
-          "description": "Text field for html with Information for re-registered students / Information till omregistrerade studenter (KIP - via kurs pm admin)"
-        },
-        "ladokRoundIds": {
-          "type": "array",
-          "items": "string",
-          "memoEndPoint": "Course round offerings included in one kursomgång(round) for which memo is created"
-        },
-        "languageOfInstructions": {
-          "type": "string",
-          "description": "Memo language: Svenska, Swedish, Engelska, English ..."
-        },
-        "learningActivities": {
-          "type": "string",
-          "description": "Text field for html with Learning activities / Läraktiviteter (KIP - via kurs pm admin)"
-        },
-        "learningOutcomes": {
-          "type": "string",
-          "description": "Text field for html with Intended learning outcomes / Lärandemål (kopps kursplan)"
-        },
-        "literature": {
-          "type": "string",
-          "description": "Text field for html with Literature / Kurslitteratur (kopps kursinformation)"
-        },
-        "otherContacts": {
-          "type": "string",
-          "description": "Text field for html with other Contacts like Lab supervisors / Labbhandledare (KIP - via kurs pm admin)"
-        },
-        "otherRequirementsForFinalGrade": {
-          "type": "string",
-          "description": "Text field for html with Other requirements for final grade / Övriga krav för slutbetyg (kopps kursplan)"
-        },
-        "permanentDisability": {
-          "type": "string",
-          "description": "Text field for html with Permanent Disability / Funktionsnedsättning (KIP - via kurs pm admin)"
-        },
-        "permanentDisabilitySubSection": {
-          "type": "string",
-          "description": "Text field for html subsection with Permanent Disability / Funktionsnedsättning (KIP - via kurs pm admin)"
-        },
-        "possibilityToAddition": {
-          "type": "string",
-          "description": "Text field for html with Opportunity to raise an approved grade via renewed examination / Möjlighet till plussning (kopps kursinformation)"
-        },
-        "possibilityToCompletion": {
-          "type": "string",
-          "description": "Text field for html with Opportunity to complete the requirements via supplementary examination / Möjlighet till komplettering (kopps kursinformation)"
-        },
-        "possibilityToCompensate": {
-          "type": "string",
-          "description": "Text field for html with Opportunity to compensate / Möjlighet till ersättningsuppgifter (KIP - via kurs pm admin)"
-        },
-        "preparations": {
-          "type": "string",
-          "description": "Text field for html with Preparations / Förbereda inför kursstart (KIP - via kurs pm admin)"
-        },
-        "prerequisites": {
-          "type": "string",
-          "description": "Text field for html with Prerequisites / Rekommenderade förkunskaper (kopps kursinformation)"
-        },
-        "reportingResults": {
-          "type": "string",
-          "description": "Text field for html with Results reporting / Resultatrapportering (KIP - via kurs pm admin)"
-        },
-        "scheduleDetails": {
-          "type": "string",
-          "description": "Text field for html with Schedule details / Detaljschema / (KIP - via kurs pm admin)"
-        },
-        "software": {
-          "type": "string",
-          "description": "Text field for html with Software / Programvara (KIP - via kurs pm admin)"
-        },
-        "syllabusValid": {
-          "type": "object",
-          "description": "Syllabus valit from term in digital and text form",
-          "items": {
-            "schema": {
-              "$ref": "#/definitions/SyllabusData"
-            }
-          }
-        },
-        "teacher": {
-          "type": "string",
-          "description": "Text field for html with  Teacher / Lärare (admin via kopps, fetched from redis-ug)"
-        },
-        "teacherAssistants": {
-          "type": "string",
-          "description": "Text field for html with Teacher assistants / Lärarassistenter (admin via kopps, fetched from redis-ug)"
-        }
-      }
-    },
-    "Error": {
-      "properties": {
-        "code": {
-          "type": "integer",
-          "format": "int32"
-        },
-        "message": {
-          "type": "string"
-        },
-        "fields": {
-          "type": "string"
-        }
-      }
-    },
-    "UserList": {
-      "properties": {
-        "code": {
-          "type": "integer",
-          "format": "int32"
-        },
-        "message": {
-          "type": "string"
-        },
-        "fields": {
-          "type": "string"
-        }
+    "securitySchemes": {
+      "api_key": {
+        "type": "apiKey",
+        "name": "api_key",
+        "in": "header"
       }
     }
   }

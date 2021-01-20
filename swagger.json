@@ -1,7 +1,7 @@
 {
   "openapi": "3.0.1",
   "info": {
-    "title": "[NEW] Course Information – API for course memos",
+    "title": "Course Information – API for course memos",
     "description": "API that supports the new administraion site that makes it possible to create and manage course memos.",
     "version": "1.0.0"
   },

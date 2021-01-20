@@ -101,6 +101,7 @@ function getPathsHandler(req, res) {
 }
 
 function getCheckAPIKey(req, res) {
+  // res.type('text').send('Hej')
   res.end()
 }
 

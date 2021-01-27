@@ -165,7 +165,7 @@ async function getMemosByCourseCodeAndType(req, res) {
   try {
     const dbResponse = await dbArrayOfDocument.getAllMemosByStatus(courseCode, type)
 
-    res.json(dbResponse || {})
+    res.json(dbResponse || [])
     log.info('getMemosByCourseCodeAndType: Responded to request for memo:', dbResponse)
   } catch (err) {
     log.error('getMemosByCourseCodeAndType: Failed request for memo, error:', { err })

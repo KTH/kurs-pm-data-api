@@ -301,9 +301,11 @@
             }
           }
         },
-        "security": {
-          "api_key": ["read"]
-        }
+        "security": [
+          {
+            "api_key": ["read"]
+          }
+        ]
       }
     },
     "/v1/memos/{type}/{courseCode}/": {
@@ -473,9 +475,11 @@
             }
           }
         },
-        "security": {
-          "api_key": ["read"]
-        }
+        "security": [
+          {
+            "api_key": ["read"]
+          }
+        ]
       }
     },
     "/v1/webAndPdfPublishedMemos/{courseCode}/": {
@@ -519,9 +523,11 @@
             }
           }
         },
-        "security": {
-          "api_key": ["read"]
-        }
+        "security": [
+          {
+            "api_key": ["read"]
+          }
+        ]
       }
     },
     "/v1/webAndPdfPublishedMemosBySemester/{semester}/": {
@@ -565,9 +571,11 @@
             }
           }
         },
-        "security": {
-          "api_key": ["read"]
-        }
+        "security": [
+          {
+            "api_key": ["read"]
+          }
+        ]
       }
     },
     "/v1/usedRoundsForCourseSemester/{courseCode}/semester/{semester}": {
@@ -605,9 +613,11 @@
             }
           }
         },
-        "security": {
-          "api_key": ["read"]
-        }
+        "security": [
+          {
+            "api_key": ["read"]
+          }
+        ]
       }
     },
     "/v1/usedMemosStartingFromPrevYearSemester/{courseCode}": {
@@ -638,9 +648,11 @@
             }
           }
         },
-        "security": {
-          "api_key": ["read"]
-        }
+        "security": [
+          {
+            "api_key": ["read"]
+          }
+        ]
       }
     }
   },

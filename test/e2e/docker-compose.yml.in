@@ -1,7 +1,0 @@
-version: '3.7'
-
-services:
-  e2e:
-    build: .
-    environment:
-      - CYPRESS_baseUrl=http://host.docker.internal:3000/api/kurs-pm-data/

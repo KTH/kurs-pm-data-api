@@ -6,5 +6,5 @@ module.exports = {
   notifyMode: 'failure-change',
   transformIgnorePatterns: ['node_modules/(?!(@kth|@babel|@jest)/)'],
   moduleFileExtensions: ['js', 'json', 'node'],
-  testPathIgnorePatterns: ['test/e2e']
+  testPathIgnorePatterns: ['test/integration']
 }

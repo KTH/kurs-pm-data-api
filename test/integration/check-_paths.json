@@ -1,4 +1,4 @@
 {
-  "expectedSingleResponses": [],
-  "expectedDefaultResponseCodes": [401]
+  "expectedSingleResponses": [{ "method": "GET", "uri": "_count", "statusCode": 201 }],
+  "expectedDefaultResponseCodes": [401, 403]
 }

@@ -10,7 +10,7 @@
     "test": "cross-env NODE_ENV=test jest",
     "test:watch": "NODE_ENV=test jest test/unit/*.js --watch",
     "test-unit-in-docker": "ID=$(docker build -q .) && LOCAL_IMAGE_ID=$ID docker-compose -f docker-compose-unit-tests.yml up --build --abort-on-container-exit --always-recreate-deps --force-recreate",
-    "test-integration-in-docker": "ID=$(docker build -q .) && LOCAL_IMAGE_ID=$ID docker-compose -f docker-compose-integration-tests.yml up --build --abort-on-container-exit --always-recreate-deps --force-recreate ",
+    "test:docker:integration": "docker build --progress plain -t kurs-pm-data-api-integration . && bash -c 'LOCAL_IMAGE_ID=kurs-pm-data-api-integration SUCCESS_DELAY=5000 docker-compose -f docker-compose-integration-tests.yml up --abort-on-container-exit --build --remove-orphans'",
     "start": "NODE_ENV=production node app.js",
     "start-dev": "cross-env NODE_ENV=development nodemon app.js"
   },

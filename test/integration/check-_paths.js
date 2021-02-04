@@ -1,6 +1,8 @@
 /**
  * Run with
  *    node check-_paths.js <BASE_URL>
+ * or
+ *    INTEGRATION_TEST_BASEURL=<BASE_URL> node check-_paths.js
  *
  * Example:
  *    node check-_paths.js https://api.kth.se/api/files
@@ -51,14 +53,9 @@ const INTERNAL_HTTP_TIMEOUT = 2000
 const INTERNAL_ERROR_CODE = 'failed'
 const INTERNAL_TIMEOUT_CODE = 'timeout'
 
-const ENDPOINT_KEYS_TO_IGNORE = [
-  'system.monitor',
-  'system.about',
-  'system.paths',
-  'system.robots',
-  'system.swagger',
-  'system.count'
-]
+const WAIT_FOR_SERVER_TIMEOUT = 15000
+
+const ENDPOINT_KEYS_TO_IGNORE = ['system.monitor', 'system.about', 'system.paths', 'system.robots', 'system.swagger']
 
 /**
  * @param {*} input
@@ -72,8 +69,10 @@ function _isObject(input) {
  * @throws
  * @returns {object} with shape { baseUrl }
  */
-function readCliArguments() {
-  let baseUrl = process.argv[2]
+function getBaseUrl() {
+  const { INTEGRATION_TEST_BASEURL } = process.env
+
+  let baseUrl = process.argv[2] || INTEGRATION_TEST_BASEURL
   if (!baseUrl) {
     throw new Error('Missing base-URL')
   }
@@ -84,7 +83,7 @@ function readCliArguments() {
     baseUrl += '/'
   }
 
-  return { baseUrl }
+  return baseUrl
 }
 
 /**
@@ -298,7 +297,7 @@ async function runTestsWithServerAsync({ baseUrl }) {
 
   console.log(`\n - Processing ${baseUrl} ...`)
 
-  await waitForServerToBeAvailable(baseUrl, 15000)
+  await waitForServerToBeAvailable(baseUrl, WAIT_FOR_SERVER_TIMEOUT)
 
   const pathsList = await listAllPathsAsync(baseUrl)
   if (pathsList == null) {
@@ -374,11 +373,32 @@ function checkServerResultsForProblems(serverConfiguration, serverResults) {
   return problems
 }
 
+/**
+ * @param {number} [exitCode]
+ * @returns {Promise}
+ */
+async function exitAsync(exitCode = 0) {
+  const { INTEGRATION_TEST_SUCCESS_DELAY, INTEGRATION_TEST_FAILURE_DELAY } = process.env
+  const _delay = exitCode === 0 ? INTEGRATION_TEST_SUCCESS_DELAY : INTEGRATION_TEST_FAILURE_DELAY
+
+  if (/\d+/.test(_delay)) {
+    console.log(`\nExit with code ${exitCode} in ${_delay} ms`)
+    await new Promise((resolve) => setTimeout(resolve, parseInt(_delay, 10)))
+  } else {
+    console.log(`\nExit with code ${exitCode}`)
+  }
+
+  process.exit(exitCode)
+}
+
+/**
+ * @returns {Promise<number>}
+ */
 async function mainAsync() {
   try {
     console.log(`\n${path.basename(process.argv[1])} - checking endpoints listed by a given server via _paths`)
 
-    const { baseUrl } = readCliArguments()
+    const baseUrl = getBaseUrl()
 
     if (ENDPOINT_KEYS_TO_IGNORE.length > 0) {
       console.log(`\nPlease note: No requests will be send to\n * "${ENDPOINT_KEYS_TO_IGNORE.join('",\n * "')}".`)
@@ -390,25 +410,22 @@ async function mainAsync() {
 
     if (Object.keys(serverResults).length === 0) {
       console.warn(`\n** NO RESPONSES when checking endpoints (${baseUrl}) **`)
-      console.log('\nExit with code 1')
-      process.exit(1)
+      return 1
     }
 
     const problems = checkServerResultsForProblems({ baseUrl, ...configuration }, serverResults)
     if (problems.length > 0) {
       console.warn(`\n** UNEXPECTED RESPONSE CODES when checking endpoints (${baseUrl}) **`)
       console.log(problems)
-      console.log('\nExit with code 1')
-      process.exit(1)
+      return 1
     }
 
     console.log(`\n** No problems found when checking endpoints (${baseUrl}) **`)
-    return
+    return 0
   } catch (error) {
     console.error(error)
-    console.log('\nExit with code 2')
-    process.exit(2)
+    return 2
   }
 }
 
-mainAsync().then(() => process.exit(0))
+mainAsync().then(exitAsync)

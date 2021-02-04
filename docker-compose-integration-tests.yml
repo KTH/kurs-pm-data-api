@@ -3,23 +3,26 @@ version: '3.7'
 services:
   mongodb:
     image: mongo:4.4.2
-    ports:
-      - 27017
 
   api:
     image: $LOCAL_IMAGE_ID
     environment:
       SERVICE_PUBLISH: '/api/kurs-pm-data'
       SERVER_PORT: 3000
-      MONGODB_URI: mongodb://mongodb:27017/kurs-pm-data
+      MONGODB_URI: mongodb://mongodb/kurs-pm-data
       API_KEYS_0: '?name=test&apiKey=1234&scope=read'
-      LOGGING_ACCESS_LOG: 'true'
-    ports:
-      - 3000
+      WAIT_HOSTS: 'mongodbdb:27017'
+      WAIT_HOSTS_TIMEOUT: 30
     depends_on:
       - mongodb
 
   integration:
     build: ./test/integration
+    environment:
+      INTEGRATION_TEST_BASEURL: 'http://api:3000/api/kurs-pm-data'
+      INTEGRATION_TEST_SUCCESS_DELAY: '${SUCCESS_DELAY:-0}'
+      INTEGRATION_TEST_FAILURE_DELAY: '${FAILURE_DELAY:-0}'
+      WAIT_HOSTS: 'api:3000'
+      WAIT_HOSTS_TIMEOUT: 30
     depends_on:
       - api

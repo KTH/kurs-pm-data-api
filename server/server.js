@@ -146,7 +146,7 @@ addPaths(
 const authByApiKey = passport.authenticate('apikey', { session: false })
 
 // Application specific API enpoints
-const { Sample, CourseMemo, MixedWebAndPdfMemosList } = require('./controllers')
+const { CourseMemo, MixedWebAndPdfMemosList } = require('./controllers')
 const { ApiRouter } = require('kth-node-express-routing')
 
 const apiRoute = ApiRouter(authByApiKey)
@@ -155,8 +155,6 @@ const paths = getPaths()
 // Api enpoints
 apiRoute.register(paths.api.checkAPIkey, System.checkAPIKey)
 
-apiRoute.register(paths.api.getDataById, Sample.getData)
-apiRoute.register(paths.api.postDataById, Sample.postData)
 // Get one draft | update it
 apiRoute.register(paths.api.getDraftByEndPoint, CourseMemo.getDraftByEndPoint) // step 2: editor, fetch data
 apiRoute.register(paths.api.updateCreatedDraft, CourseMemo.putDraftByEndPoint) // step 2: editor, fast update

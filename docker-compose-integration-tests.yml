@@ -2,7 +2,7 @@ version: '3.7'
 
 services:
   mongodb:
-    image: mongo:4.4.2
+    image: mongo:latest
 
   api:
     image: $LOCAL_IMAGE_ID

@@ -12,4 +12,4 @@ RUN chmod +x /wait
 COPY ["check-_paths.js", "check-_paths.js"]
 COPY ["check-_paths.json", "check-_paths.json"]
 
-CMD ["ash", "-c", "/wait && node check-_paths.js"]
+CMD ["bash", "-c", "/wait && node check-_paths.js"]

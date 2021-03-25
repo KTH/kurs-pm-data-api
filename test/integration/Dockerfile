@@ -1,11 +1,9 @@
-FROM kthse/kth-nodejs:14.0.0
+FROM kthse/kth-nodejs:12.0.0
 LABEL maintainer="KTH StudAdm studadm.developers@kth.se"
 
 RUN apk add --no-cache curl bash
 
 ADD https://github.com/ufoscout/docker-compose-wait/releases/download/2.8.0/wait /wait
-
-COPY * /
 
 RUN chmod +x /wait
 

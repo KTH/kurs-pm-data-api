@@ -3,24 +3,24 @@ const newSection = {
   uKey: {
     type: String,
     trim: true,
-    minlength: 0
+    minlength: 0,
   },
   title: {
     type: String,
     trim: true,
-    minlength: 0
+    minlength: 0,
   },
   htmlContent: {
     type: String,
     trim: true,
-    minlength: 0
+    minlength: 0,
   },
   visibleInMemo: {
     // remove
     type: Boolean,
     trim: true,
-    minlength: 0
-  }
+    minlength: 0,
+  },
 }
 
 const extraHeaders = {
@@ -28,26 +28,26 @@ const extraHeaders = {
     type: Array,
     items: newSection,
     trim: true,
-    required: false
+    required: false,
   },
   extraHeaders2: {
     type: Array,
     items: newSection,
     trim: true,
-    required: false
+    required: false,
   },
   extraHeaders3: {
     type: Array,
     items: newSection,
     trim: true,
-    required: false
+    required: false,
   },
   extraHeaders4: {
     type: Array,
     items: newSection,
     trim: true,
-    required: false
-  }
+    required: false,
+  },
 }
 
 module.exports = extraHeaders

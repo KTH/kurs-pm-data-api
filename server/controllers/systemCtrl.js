@@ -40,7 +40,7 @@ async function getAbout(req, res) {
     dockerName: JSON.stringify(version.dockerName),
     dockerVersion: JSON.stringify(version.dockerVersion),
     collections: ['coursememos', 'memofiles'],
-    hostname: os.hostname()
+    hostname: os.hostname(),
   })
 }
 
@@ -67,7 +67,7 @@ function getMonitor(req, res) {
   const systemStatus = systemHealthUtil.status(localSystems, subSystems)
 
   systemStatus
-    .then((status) => {
+    .then(status => {
       // Return the result either as JSON or text
       if (req.headers.accept === 'application/json') {
         const outp = systemHealthUtil.renderJSON(status)
@@ -77,7 +77,7 @@ function getMonitor(req, res) {
         res.type('text').status(status.statusCode).send(outp)
       }
     })
-    .catch((err) => {
+    .catch(err => {
       res.type('text').status(500).send(err)
     })
 }
@@ -88,7 +88,7 @@ function getMonitor(req, res) {
  */
 function getRobotsTxt(req, res) {
   res.type('text').render('system/robots', {
-    layout: ''
+    layout: '',
   })
 }
 
@@ -114,5 +114,5 @@ module.exports = {
   robotsTxt: getRobotsTxt,
   paths: getPathsHandler,
   checkAPIKey: getCheckAPIKey,
-  swagger: getSwagger
+  swagger: getSwagger,
 }

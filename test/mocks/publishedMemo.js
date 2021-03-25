@@ -7,7 +7,7 @@ const publishedMemo = {
   status: 'published',
   syllabusValid: {
     validFromTerm: 20191,
-    textFromTo: 'Spring 2019 - '
+    textFromTo: 'Spring 2019 - ',
   },
   version: 1,
   commentAboutMadeChanges: '',
@@ -66,14 +66,14 @@ const publishedMemo = {
     possibilityToCompletion: false,
     prerequisites: true,
     scheduleDetails: true,
-    teacherAssistants: false
+    teacherAssistants: false,
   },
   courseCode: 'EH2720',
   courseTitle: 'EH2720 Management of Projects 7.5 credits',
   memoName: 'Autumn 2019-1 (Start date 26/08/2019, English)',
   memoEndPoint: 'EH272020192-1',
   __v: 0,
-  departmentName: 'EECS/Computer Science'
+  departmentName: 'EECS/Computer Science',
 }
 
 module.exports = publishedMemo

@@ -132,9 +132,9 @@ async function createDraftByMemoEndPoint(req, res) {
             status: 'draft',
             commentAboutMadeChanges: '',
             lastPublishedVersionPublishDate: isToCopyFrom ? '' : publishedObj.lastChangeDate,
-            version: isToCopyFrom ? 1 : Number(publishedObj.version) + 1
+            version: isToCopyFrom ? 1 : Number(publishedObj.version) + 1,
           },
-          ...newMemoObj
+          ...newMemoObj,
         }
 
         dbResponse.push(await dbOneDocument.storeNewCourseMemoData(publishedObj))
@@ -203,7 +203,7 @@ async function getMemosStartingFromPrevSemester(req, res) {
 
   log.info('getMemosStartingFromPrevSemester: Received request for existing memos for :', {
     courseCode,
-    prevYearSemester
+    prevYearSemester,
   })
   try {
     const dbResponse = await dbArrayOfDocument.getMemosFromPrevSemester(courseCode, prevYearSemester)
@@ -248,5 +248,5 @@ module.exports = {
   getCourseSemesterUsedRounds,
   deleteMemoDraftByMemoEndPoint,
   postNewVersionOfPublishedMemo,
-  putDraftByEndPoint
+  putDraftByEndPoint,
 }

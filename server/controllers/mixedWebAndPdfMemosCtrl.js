@@ -27,8 +27,8 @@ const pdfMemosTree = dbMigratedPdfs => {
           courseMemoFileName,
           ladokRoundIds: [koppsRoundId],
           semester,
-          isPdf: true
-        }
+          isPdf: true,
+        },
       }
     }
   })
@@ -42,9 +42,7 @@ async function getWebAndPdfMemos(req, res) {
   try {
     log.debug('Fetching all courseMemos for ' + courseCode)
 
-    const dbMigratedPdfs = await StoredMemoPdfsModel.find({ courseCode })
-      .populate('MemoPdfFilesList')
-      .lean()
+    const dbMigratedPdfs = await StoredMemoPdfsModel.find({ courseCode }).populate('MemoPdfFilesList').lean()
     const webBasedMemos = await dbArrayOfDocument.getAllMemosByStatus(courseCode, 'published')
 
     const mergedPdfMemos = pdfMemosTree(dbMigratedPdfs)
@@ -68,8 +66,8 @@ async function getWebAndPdfMemos(req, res) {
             memoName,
             isPdf: false,
             version,
-            lastChangeDate
-          }
+            lastChangeDate,
+          },
         ]
       }
     )
@@ -77,7 +75,7 @@ async function getWebAndPdfMemos(req, res) {
     res.json(miniMemos)
     log.debug('getWebAndPdfMemos: Responded to request for all memos pdfs and web based with: ', {
       courseCode,
-      miniMemos
+      miniMemos,
     })
   } catch (err) {
     log.error('getWebAndPdfMemos: Failed request for memo, error:', { err })
@@ -110,7 +108,7 @@ async function getWebAndPdfMemosBySemester(req, res) {
           memoName,
           semester,
           version,
-          lastChangeDate
+          lastChangeDate,
         }) => ({
           courseCode,
           ladokRoundIds,
@@ -120,16 +118,16 @@ async function getWebAndPdfMemosBySemester(req, res) {
           memoName,
           isPdf: false,
           version,
-          lastChangeDate
+          lastChangeDate,
         })
-      ) || [])
+      ) || []),
     ]
 
     console.log('listMiniMemos', listMiniMemos)
     res.json(listMiniMemos)
     log.info('getWebAndPdfMemosBySemester: Responded to request for all memos pdfs and web based with: ', {
       chosenSemester,
-      listMiniMemos
+      listMiniMemos,
     })
   } catch (err) {
     log.error('getWebAndPdfMemosBySemester: Failed request for memo, error:', { err })
@@ -139,5 +137,5 @@ async function getWebAndPdfMemosBySemester(req, res) {
 
 module.exports = {
   getWebAndPdfMemos,
-  getWebAndPdfMemosBySemester
+  getWebAndPdfMemosBySemester,
 }

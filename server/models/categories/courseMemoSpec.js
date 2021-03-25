@@ -4,80 +4,80 @@ const courseMemoSpec = {
     type: String,
     trim: true,
     minlength: 0,
-    default: ''
+    default: '',
   },
   ethicalApproachSubSection: {
     type: String,
     trim: true,
     minlength: 0,
-    default: ''
+    default: '',
   },
   examinationSubSection: {
     type: String,
     trim: true,
     minlength: 0,
-    default: ''
+    default: '',
   },
   gradingCriteria: {
     type: String,
     trim: true,
     minlength: 0,
-    default: ''
+    default: '',
   },
   infoForReregisteredStudents: {
     type: String,
     trim: true,
     minlength: 0,
-    default: ''
+    default: '',
   },
   learningActivities: {
     type: String,
     trim: true,
     minlength: 0,
-    default: ''
+    default: '',
   },
   possibilityToCompensate: {
     type: String,
     trim: true,
     minlength: 0,
-    default: ''
+    default: '',
   },
   preparations: {
     type: String,
     trim: true,
     minlength: 0,
-    default: ''
+    default: '',
   },
   permanentDisability: {
     type: String,
     trim: true,
     minlength: 0,
-    default: ''
+    default: '',
   },
   permanentDisabilitySubSection: {
     type: String,
     trim: true,
     minlength: 0,
-    default: ''
+    default: '',
   },
   reportingResults: {
     type: String,
     trim: true,
     minlength: 0,
-    default: ''
+    default: '',
   },
   scheduleDetails: {
     type: String,
     trim: true,
     minlength: 0,
-    default: ''
+    default: '',
   },
   software: {
     type: String,
     trim: true,
     minlength: 0,
-    default: ''
-  }
+    default: '',
+  },
 }
 
 module.exports = courseMemoSpec

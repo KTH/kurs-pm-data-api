@@ -26,9 +26,9 @@ const combinedMemoData = {
       possibilityToCompletion: 'defaultTrue',
       prerequisites: 'defaultTrue',
       scheduleDetails: 'defaultTrue',
-      teacherAssistants: 'defaultTrue'
-    }
-  }
+      teacherAssistants: 'defaultTrue',
+    },
+  },
 }
 
 module.exports = combinedMemoData

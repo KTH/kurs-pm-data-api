@@ -20,9 +20,7 @@ async function getStoredCourseMemoPdfListByCourseCode(req, res) {
   log.info('Received request for all memos with: ', { courseCode })
 
   try {
-    const storedPdfMemosInfo = await StoredMemoPdfsModel.find({ courseCode })
-      .populate('MemoPdfFilesList')
-      .lean()
+    const storedPdfMemosInfo = await StoredMemoPdfsModel.find({ courseCode }).populate('MemoPdfFilesList').lean()
 
     log.info('Successfully got all memos for', { courseCode }, 'dbResponse length', storedPdfMemosInfo.length)
     if (!storedPdfMemosInfo) {
@@ -37,7 +35,7 @@ async function getStoredCourseMemoPdfListByCourseCode(req, res) {
           pdfMemoUploadDate: dbPdfMemo.pdfMemoUploadDate,
           koppsRoundId: dbPdfMemo.koppsRoundId,
           courseMemoFileName: dbPdfMemo.courseMemoFileName,
-          semester: thisMemoSemester
+          semester: thisMemoSemester,
         }
       }
     })
@@ -72,5 +70,5 @@ async function checkLength(req, res) {
 
 module.exports = {
   collectionLength: checkLength,
-  getStoredCourseMemoPdfListByCourseCode
+  getStoredCourseMemoPdfListByCourseCode,
 }

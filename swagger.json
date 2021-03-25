@@ -1,8 +1,8 @@
 {
   "swagger": "2.0",
   "info": {
-    "title": "[NEW] Course Information – API for course memos",
-    "description": "API that supports the new administraion site that makes it possible to create and manage course memos.",
+    "title": "Course Information – API for course memos, used for web-based memos",
+    "description": "API that supports the course memo administraion and public site that makes it possible to create and manage course memos.",
     "version": "1.0.0"
   },
   "basePath": "/api/kurs-pm-data",
@@ -17,7 +17,10 @@
         "tags": ["system"],
         "responses": {
           "200": {
-            "description": "An empty response"
+            "description": "The given authentication is **accepted**"
+          },
+          "401": {
+            "description": "This endpoint is secured - **credentials are missing or invalid**."
           },
           "default": {
             "description": "Unexpected error",
@@ -67,6 +70,9 @@
         "responses": {
           "200": {
             "description": "A successful save"
+          },
+          "401": {
+            "description": "This endpoint is secured - **credentials are missing or invalid**."
           },
           "default": {
             "description": "Unexpected error",

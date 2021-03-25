@@ -5,32 +5,32 @@ const generalCourseInfo = {
     type: String,
     trim: true,
     minlength: 0,
-    default: ''
+    default: '',
   },
   literature: {
     type: String,
     trim: true,
     minlength: 0,
-    default: ''
+    default: '',
   },
   possibilityToCompletion: {
     type: String,
     trim: true,
     minlength: 0,
-    default: ''
+    default: '',
   },
   possibilityToAddition: {
     type: String,
     trim: true,
     minlength: 0,
-    default: ''
+    default: '',
   },
   prerequisites: {
     type: String,
     trim: true,
     minlength: 0,
-    default: ''
-  }
+    default: '',
+  },
 }
 
 module.exports = generalCourseInfo

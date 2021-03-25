@@ -6,44 +6,44 @@ const courseSyllabus = {
     type: String,
     trim: true,
     minlength: 0,
-    default: ''
+    default: '',
   },
   learningOutcomes: {
     type: String,
     trim: true,
     minlength: 0,
-    default: ''
+    default: '',
   },
   additionalRegulations: {
     type: String,
     trim: true,
     minlength: 0,
-    default: ''
+    default: '',
   },
   gradingScale: {
     type: String,
     trim: true,
     minlength: 0,
-    default: ''
+    default: '',
   },
   ethicalApproach: {
     type: String,
     trim: true,
     minlength: 0,
-    default: ''
+    default: '',
   },
   examination: {
     type: String,
     trim: true,
     minlength: 0,
-    default: ''
+    default: '',
   },
   otherRequirementsForFinalGrade: {
     type: String,
     trim: true,
     minlength: 0,
-    default: ''
-  }
+    default: '',
+  },
 }
 
 module.exports = courseSyllabus

@@ -4,7 +4,7 @@ const courseRoundFields = {
     type: String,
     trim: true,
     minlength: 0,
-    default: ''
-  }
+    default: '',
+  },
 }
 module.exports = courseRoundFields

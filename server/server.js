@@ -46,7 +46,7 @@ const logConfiguration = {
   level: config.logging.log.level,
   console: config.logging.console,
   stdout: config.logging.stdout,
-  src: config.logging.src
+  src: config.logging.src,
 }
 log.init(logConfiguration)
 
@@ -138,7 +138,7 @@ addPaths(
   'api',
   createApiPaths({
     swagger: swaggerData,
-    proxyPrefixPathUri: config.proxyPrefixPath.uri
+    proxyPrefixPathUri: config.proxyPrefixPath.uri,
   })
 )
 
@@ -205,7 +205,7 @@ getClient({
   db: 'kursinfo',
   defaultThroughput: 200,
   maxThroughput: 400,
-  collections: [{ name: 'coursememos' }, { name: 'memofiles' }]
+  collections: [{ name: 'coursememos' }, { name: 'memofiles' }],
 })
 
 module.exports = server

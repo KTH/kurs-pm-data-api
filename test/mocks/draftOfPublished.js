@@ -7,7 +7,7 @@ const draftOfPublished = {
   status: 'draft',
   syllabusValid: {
     validFromTerm: 20191,
-    textFromTo: 'Spring 2019 - '
+    textFromTo: 'Spring 2019 - ',
   },
   version: 2,
   commentAboutMadeChanges: '',
@@ -66,7 +66,7 @@ const draftOfPublished = {
     possibilityToCompletion: false,
     prerequisites: true,
     scheduleDetails: true,
-    teacherAssistants: false
+    teacherAssistants: false,
   },
   courseCode: 'EH2720',
   courseTitle: 'EH2720 Management of Projects 7.5 credits',
@@ -74,7 +74,7 @@ const draftOfPublished = {
   memoEndPoint: 'EH272020192-1',
   __v: 0,
   departmentName: 'EECS/Computer Science',
-  lastPublishedVersionPublishDate: 'Thu Aug 13 2020 12:47:34 GMT+0000 (Coordinated Universal Time)'
+  lastPublishedVersionPublishDate: 'Thu Aug 13 2020 12:47:34 GMT+0000 (Coordinated Universal Time)',
 }
 
 module.exports = draftOfPublished

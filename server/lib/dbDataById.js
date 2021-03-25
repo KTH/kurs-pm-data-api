@@ -7,7 +7,6 @@ const { CourseMemo } = require('../models/mainMemoModel')
 /* ANY BY STATUS AND MemoEndPoint */
 /* ****** */
 async function fetchMemoByEndPointAndStatus(memoEndPoint, status) {
-  // UPDATED
   if (!memoEndPoint) throw new Error('memoEndPoint must be set')
   log.debug('Fetching memo based on ', { memoEndPoint, status })
   const memo = await CourseMemo.findOne({ memoEndPoint, status }) // courseCode
@@ -60,5 +59,5 @@ module.exports = {
   fetchMemoByEndPointAndStatus,
   storeNewCourseMemoData,
   updateMemoByEndPointAndStatus,
-  removeCourseMemoDataById
+  removeCourseMemoDataById,
 }

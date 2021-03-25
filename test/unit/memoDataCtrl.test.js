@@ -14,7 +14,7 @@ jest.mock('../../server/lib/dbDataById', () => {
     },
     storeNewCourseMemoData: jest.fn(),
     updateMemoByEndPointAndStatus: jest.fn(),
-    removeCourseMemoDataById: jest.fn()
+    removeCourseMemoDataById: jest.fn(),
   }
 })
 
@@ -29,7 +29,7 @@ jest.mock('../../server/lib/dbSeveralDocument', () => {
       return new Promise((resolve, reject) => {
         resolve({ status: 201 })
       })
-    }
+    },
   }
 })
 jest.mock('../../server/configuration', () => {
@@ -41,21 +41,21 @@ jest.mock('../../server/configuration', () => {
       db: {},
       logging: {
         log: {
-          level: 'debug'
-        }
+          level: 'debug',
+        },
       },
       ldap: {},
       proxyPrefixPath: {
-        uri: 'kurs-pm-data'
+        uri: 'kurs-pm-data',
       },
-      collections: ['dev-tests']
-    }
+      collections: ['dev-tests'],
+    },
   }
 })
 
 jest.mock('../../server/controllers/storedMemoPdfsCtrl', () => {
   return {
-    StoredMemoPdf: { collectionLength: jest.fn() }
+    StoredMemoPdf: { collectionLength: jest.fn() },
   }
 })
 
@@ -76,7 +76,7 @@ function buildRes(overrides = {}) {
     send: jest.fn(() => res).mockName('send'),
     render: jest.fn(() => res).mockName('render'),
 
-    ...overrides
+    ...overrides,
   }
   return res
 }
@@ -86,14 +86,14 @@ function buildNext(impl) {
 }
 
 const reqOverride = {
-  params: { memoEndPoint: 'EH272020192-1', anotherMemoEndPoint: 'EH272020192-1' }
+  params: { memoEndPoint: 'EH272020192-1', anotherMemoEndPoint: 'EH272020192-1' },
 }
 jest.mock('kth-node-log', () => {
   return {
     init: jest.fn(),
     debug: jest.fn(),
     error: jest.fn(),
-    info: jest.fn()
+    info: jest.fn(),
   }
 })
 describe('', () => {
@@ -144,7 +144,7 @@ describe('', () => {
   test('createDraftByMemoEndPoint', async done => {
     const { createDraftByMemoEndPoint } = require('../../server/controllers/memoDataCtrl')
     const req = buildReq({
-      ...reqOverride
+      ...reqOverride,
     })
     const res = buildRes()
     await createDraftByMemoEndPoint(req, res)

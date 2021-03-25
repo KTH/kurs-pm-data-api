@@ -7,32 +7,32 @@ const teachersTypesUg = {
     type: String,
     trim: true,
     minlength: 0,
-    default: ''
+    default: '',
   },
   courseCoordinator: {
     type: String,
     trim: true,
     minlength: 0,
-    default: ''
+    default: '',
   },
   otherContacts: {
     type: String,
     trim: true,
     minlength: 0,
-    default: ''
+    default: '',
   },
   teacherAssistants: {
     type: String,
     trim: true,
     minlength: 0,
-    default: ''
+    default: '',
   },
   teacher: {
     type: String,
     trim: true,
     minlength: 0,
-    default: ''
-  }
+    default: '',
+  },
 }
 
 module.exports = teachersTypesUg

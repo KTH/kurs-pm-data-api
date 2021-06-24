@@ -412,6 +412,54 @@
         ]
       }
     },
+    "/v1/prioritizedWebOrPdfPublishedMemos/{courseCode}/": {
+      "get": {
+        "operationId": "getPrioritizedWebOrPdfMemosByCourseCode",
+        "summary": "Get and prioritize which document to show for each course round, web-based version is prioritized. If there is two versions for the same round, it will choose a web-based.",
+        "description": "For each course round search a document, if there is a web-based version then skip a memo saved as a file. One round - one document.",
+        "parameters": [
+          {
+            "name": "courseCode",
+            "in": "path",
+            "description": "Id of the course code",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "tags": ["v1"],
+        "responses": {
+          "200": {
+            "description": "The requested data",
+            "schema": {
+              "$ref": "#/definitions/allMixedAndPrioritedMemosForCourse"
+            }
+          },
+          "400": {
+            "description": "Bad Request, something with the request is invalid",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          },
+          "404": {
+            "description": "No organization or user matched the Ids",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          },
+          "default": {
+            "description": "Unexpected error",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          }
+        },
+        "security": [
+          {
+            "api_key": ["read"]
+          }
+        ]
+      }
+    },
     "/v1/webAndPdfPublishedMemos/{courseCode}/": {
       "get": {
         "operationId": "getPdfAndWebMemosListByCourseCode",
@@ -623,6 +671,27 @@
             "type": "array",
             "schema": {
               "$ref": "#/definitions/listOfMixedMemosForSemester"
+            }
+          }
+        }
+      }
+    },
+    "allMixedAndPrioritedMemosForCourse": {
+      "properties": {
+        "courseCode": {
+          "type": "string",
+          "description": "Course code for which it is valid"
+        },
+        "miniMemos": {
+          "type": "object",
+          "description": "memos listed by semester and by round and in a mini version",
+          "items": {
+            "type": "object",
+            "items": {
+              "type": "object",
+              "schema": {
+                "$ref": "#/definitions/listOfMixedMemosForSemester"
+              }
             }
           }
         }

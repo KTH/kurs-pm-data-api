@@ -135,7 +135,66 @@ async function getWebAndPdfMemosBySemester(req, res) {
   }
 }
 
+async function getPrioritizedWebOrPdfMemos(req, res) {
+  // List of all actual memos but only prioritized by principle:
+  // If there is a web-based memo, then don't fetch pdf version. Add pdf version only in case there is no web based memo.
+  if (!req.params.courseCode) throw new Error('courseCode must be set')
+  const courseCode = req.params.courseCode.toUpperCase()
+  const miniMemos = {}
+  try {
+    log.debug('Fetching all courseMemos for ' + courseCode)
+
+    const dbMigratedPdfs = await StoredMemoPdfsModel.find({ courseCode }).populate('MemoPdfFilesList').lean()
+
+    const webBasedMemos = await dbArrayOfDocument.getAllMemosByStatus(courseCode, 'published')
+    // firstly fetch web-based
+    webBasedMemos.forEach(
+      ({ ladokRoundIds, memoEndPoint, memoCommonLangAbbr, memoName, semester, version, lastChangeDate }) => {
+        if (!semester) return
+        if (!miniMemos[semester]) miniMemos[semester] = {}
+        ladokRoundIds.forEach(roundId => {
+          miniMemos[semester][roundId] = {
+            courseCode,
+            ladokRoundIds,
+            semester,
+            memoEndPoint,
+            memoCommonLangAbbr,
+            memoName,
+            isPdf: false,
+            version,
+            lastChangeDate,
+          }
+        })
+      }
+    )
+    // if there is a round without a web-based memo, then fill it with pdf memo (if memo exists)
+    dbMigratedPdfs.forEach(({ courseCode, courseMemoFileName, koppsRoundId, semester }) => {
+      if (!semester) return
+      if (!miniMemos[semester]) miniMemos[semester] = {}
+      if (!miniMemos[semester][koppsRoundId]) {
+        miniMemos[semester][koppsRoundId] = {
+          courseCode,
+          courseMemoFileName,
+          ladokRoundIds: [koppsRoundId],
+          semester,
+          isPdf: true,
+        }
+      }
+    })
+
+    res.json(miniMemos)
+    log.debug('getPrioritizedWebOrPdfMemos: Responded to request for filtered memos pdfs and web based with: ', {
+      courseCode,
+      miniMemos,
+    })
+  } catch (err) {
+    log.error('getPrioritizedWebOrPdfMemos: Failed request for memo, error:', { err })
+    return err
+  }
+}
+
 module.exports = {
   getWebAndPdfMemos,
   getWebAndPdfMemosBySemester,
+  getPrioritizedWebOrPdfMemos,
 }

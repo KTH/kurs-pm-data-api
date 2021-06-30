@@ -412,6 +412,41 @@
         ]
       }
     },
+    "/v1/migrateAll": {
+      "post": {
+        "operationId": "migrateAllData",
+        "summary": "Save migrated data from kursutveckling-api",
+        "description": "Save migrated data from kursutveckling-api",
+        "parameters": [
+          {
+            "name": "migratedDataArray",
+            "in": "body",
+            "description": "Array with memo data objects",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/MigratedDataArray"
+            }
+          }
+        ],
+        "tags": ["v1"],
+        "responses": {
+          "200": {
+            "description": "A successful save"
+          },
+          "default": {
+            "description": "Unexpected error",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          }
+        },
+        "security": [
+          {
+            "api_key": ["write"]
+          }
+        ]
+      }
+    },
     "/v1/prioritizedWebOrPdfPublishedMemos/{courseCode}/": {
       "get": {
         "operationId": "getPrioritizedWebOrPdfMemosByCourseCode",

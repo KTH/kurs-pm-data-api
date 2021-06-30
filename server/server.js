@@ -110,10 +110,14 @@ const { addPaths } = require('kth-node-express-routing')
 
 const { createApiPaths, createSwaggerRedirectHandler, notFoundHandler, errorHandler } = require('kth-node-api-common')
 const swaggerData = require('../swagger.json')
-const { System, StoredMemoPdf } = require('./controllers')
+const { System, StoredMemoPdf, MigrateMemo } = require('./controllers')
 
 // System pages routes
 const systemRoute = AppRouter()
+
+systemRoute.get('system.delete', config.proxyPrefixPath.uri + '/_delete', MigrateMemo.emptyCollection)
+systemRoute.get('system.count', config.proxyPrefixPath.uri + '/_count', MigrateMemo.collectionLength)
+
 systemRoute.get('system.count', config.proxyPrefixPath.uri + '/_count', StoredMemoPdf.collectionLength)
 systemRoute.get('system.monitor', config.proxyPrefixPath.uri + '/_monitor', System.monitor)
 systemRoute.get('system.about', config.proxyPrefixPath.uri + '/_about', System.about)

@@ -18,7 +18,7 @@ async function saveAllArrayOfDocuments(data) {
 
 async function fetchAll() {
   log.debug('Fetching all migrated courseMemos ')
-  const migrated = await StoredMemoPdfsModel.find({})
+  const migrated = await StoredMemoPdfsModel.find({ memoFlag: 'historyMemo' })
   log.info('Length of data in db', migrated.length)
   return migrated
 }

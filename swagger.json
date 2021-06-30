@@ -1154,6 +1154,64 @@
         }
       }
     },
+    "MigratedDataArray": {
+      "properties": {
+        "documents": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "description": "....",
+            "items": {
+              "schema": {
+                "$ref": "#/definitions/MigratedMemoInfoOfPdfSavedInStorage"
+              }
+            }
+          },
+          "description": "List of round ids that have been used for a course semester"
+        }
+      }
+    },
+    "MigratedMemoInfoOfPdfSavedInStorage": {
+      "properties": {
+        "_id": {
+          "type": "string",
+          "description": "Unique identifier representing some specific data"
+        },
+        "courseCode": {
+          "type": "string",
+          "description": "Course code for which it is valid"
+        },
+        "pdfMemoUploadDate": {
+          "type": "string",
+          "description": "When document were published (first)?? time"
+        },
+        "changedBy": {
+          "type": "string",
+          "description": "Unique KTH id of user who uploaded or changed this document data, f.e., u1iooii,"
+        },
+        "semester": {
+          "type": "string",
+          "description": "Course start term year (spring(VT)-1, autumn(HT)-2) , f.e. 20182 or 20181 (termin)"
+        },
+        "koppsRoundId": {
+          "type": "string",
+          "description": "List of round id:s for which memo is valid (kurstillfälle)"
+        },
+        "courseMemoFileName": {
+          "type": "string",
+          "description": "Uploaded courseMemo file"
+        },
+        "lastChangeDate": {
+          "type": "string",
+          "description": "Date and time for last change, set by API"
+        },
+        "previousFileList": {
+          "type": "array",
+          "items": "string",
+          "description": "Array for object with previous memo file and publish date "
+        }
+      }
+    },
     "Error": {
       "properties": {
         "code": {

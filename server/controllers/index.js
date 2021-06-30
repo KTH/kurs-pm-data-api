@@ -5,5 +5,6 @@ module.exports = {
   System: require('./systemCtrl'),
   CourseMemo: require('./memoDataCtrl'),
   StoredMemoPdf: require('./storedMemoPdfsCtrl'),
-  MixedWebAndPdfMemosList: require('./mixedWebAndPdfMemosCtrl')
+  MixedWebAndPdfMemosList: require('./mixedWebAndPdfMemosCtrl'),
+  MigrateMemo: require('./migrateFromOldDB'),
 }

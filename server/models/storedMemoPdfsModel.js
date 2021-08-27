@@ -41,6 +41,10 @@ const schema = mongoose.Schema({
     type: Array,
     default: [],
   },
+  memoFlag: {
+    type: String,
+    default: '', //  'historyMemo',
+  },
   lastChangeDate: {
     type: String,
     default: '',

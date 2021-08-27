@@ -447,6 +447,41 @@
         ]
       }
     },
+    "/v1/findDublicatesAndMemos": {
+      "post": {
+        "operationId": "findDublicatesAndMemos",
+        "summary": "Get conflicts of migrated data from kursutveckling-api",
+        "description": "Get conflicts of  migrated data from kursutveckling-api",
+        "parameters": [
+          {
+            "name": "migratedDataArray",
+            "in": "body",
+            "description": "Array with memo data objects",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/MigratedDataArray"
+            }
+          }
+        ],
+        "tags": ["v1"],
+        "responses": {
+          "200": {
+            "description": "A successful save"
+          },
+          "default": {
+            "description": "Unexpected error",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          }
+        },
+        "security": [
+          {
+            "api_key": ["write"]
+          }
+        ]
+      }
+    },
     "/v1/prioritizedWebOrPdfPublishedMemos/{courseCode}/": {
       "get": {
         "operationId": "getPrioritizedWebOrPdfMemosByCourseCode",
@@ -747,7 +782,7 @@
         "ladokRoundIds": {
           "type": "array",
           "items": "string",
-          "description": "List of round ids (course offerings), including renamed koppsRoundIds if it is a pdf or ladokRoundsIds if it is web-based, that have been used for a course semester"
+          "description": "List of round ids (course offerings), including renamed koppsRoundId if it is a pdf or ladokRoundsIds if it is web-based, that have been used for a course semester"
         },
         "semester": {
           "type": "string",
@@ -912,7 +947,7 @@
         },
         "koppsRoundId": {
           "type": "string",
-          "description": "List of round id:s for which memo is valid (kurstillfälle)"
+          "description": "round id for which memo is valid (kurstillfälle)"
         },
         "courseMemoFileName": {
           "type": "string",
@@ -1195,7 +1230,7 @@
         },
         "koppsRoundId": {
           "type": "string",
-          "description": "List of round id:s for which memo is valid (kurstillfälle)"
+          "description": "round id for which memo is valid (kurstillfälle)"
         },
         "courseMemoFileName": {
           "type": "string",

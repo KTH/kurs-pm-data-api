@@ -116,7 +116,7 @@ const { System, StoredMemoPdf, MigrateMemo } = require('./controllers')
 const systemRoute = AppRouter()
 
 systemRoute.get('system.delete', config.proxyPrefixPath.uri + '/_delete', MigrateMemo.emptyCollection)
-systemRoute.get('system.count', config.proxyPrefixPath.uri + '/_count', MigrateMemo.collectionLength)
+systemRoute.get('system.count', config.proxyPrefixPath.uri + '/_count_history', MigrateMemo.collectionLength)
 
 systemRoute.get('system.count', config.proxyPrefixPath.uri + '/_count', StoredMemoPdf.collectionLength)
 systemRoute.get('system.monitor', config.proxyPrefixPath.uri + '/_monitor', System.monitor)
@@ -166,6 +166,9 @@ apiRoute.register(paths.api.updateCreatedDraft, CourseMemo.putDraftByEndPoint) /
 // step 1: choose action, new draft, or copied draft from published memo (same memoEndPoint)
 apiRoute.register(paths.api.createDraftByMemoEndPoint, CourseMemo.createDraftByMemoEndPoint)
 apiRoute.register(paths.api.copyFromAPublishedMemo, CourseMemo.createDraftByMemoEndPoint)
+// Migration tool for data from kursutveckling-api
+apiRoute.register(paths.api.migrateAllData, MigrateMemo.migrateMemoInfoOfStoredPdf) // step 4: publish new version and unpublish prev version if it exists
+apiRoute.register(paths.api.findDublicatesAndMemos, MigrateMemo.findDublicatesAndMemos) // step 4: publish new version and unpublish prev version if it exists
 
 // // GET ARRAY OF MEMOS BY TYPE AND COURSE CODE
 apiRoute.register(paths.api.getAllMemosByCourseCodeAndType, CourseMemo.getMemosByCourseCodeAndType)

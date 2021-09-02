@@ -582,7 +582,7 @@
       "get": {
         "operationId": "getPdfAndWebMemosListBySemester",
         "summary": "Get a list of course memos for a chosen semester stored as pdf files (integrated from kurs-pm-api) AND as web-based versions used by kursinfo-admin-web 'About memo' statistic",
-        "description": "Gets both solutions of course memos for a chosen semester. Memos stored as pdfs in kursinfo storage (not generated) and as a html version (kurs-pm-data)",
+        "description": "Gets both solutions of course memos for a chosen semester. Memos stored as pdfs in kursinfo storage (not generated) and as a html version (kurs-pm-data). Only the first version of web-based memos is retrieved, and status can be 'old' or 'published'.",
         "parameters": [
           {
             "name": "semester",

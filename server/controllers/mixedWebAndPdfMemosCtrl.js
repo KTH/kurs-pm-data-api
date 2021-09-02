@@ -11,7 +11,7 @@ const mergeRoundsWithTheSamePdfFile = (miniFileInfo, koppsRoundId) => {
 
 const pdfMemosTree = dbMigratedPdfs => {
   const pdfMemos = {}
-  dbMigratedPdfs.map(({ courseCode, courseMemoFileName, koppsRoundId, semester }) => {
+  dbMigratedPdfs.map(({ courseCode, courseMemoFileName, koppsRoundId, semester, lastChangeDate }) => {
     if (!koppsRoundId || koppsRoundId === '') return
 
     const semesterInfo = pdfMemos[semester] || {}
@@ -28,6 +28,7 @@ const pdfMemosTree = dbMigratedPdfs => {
           ladokRoundIds: [koppsRoundId],
           semester,
           isPdf: true,
+          lastChangeDate,
         },
       }
     }
@@ -93,9 +94,11 @@ async function getWebAndPdfMemosBySemester(req, res) {
     const dbMigratedPdfs = await StoredMemoPdfsModel.find({ semester: chosenSemester })
       .populate('MemoPdfFilesList')
       .lean()
-    const webBasedMemos = await dbArrayOfDocument.getMemosBySemesterAndStatus(chosenSemester, 'published')
-
     const mergedPdfMemos = pdfMemosTree(dbMigratedPdfs)
+
+    const webBasedPublishedMemos = await dbArrayOfDocument.getFirstMemosBySemesterAndStatus(chosenSemester, 'published')
+    const webBasedOldMemos = await dbArrayOfDocument.getFirstMemosBySemesterAndStatus(chosenSemester, 'old')
+    const webBasedMemos = [...webBasedPublishedMemos, ...webBasedOldMemos]
 
     const listMiniMemos = [
       ...Object.values(mergedPdfMemos[chosenSemester] || []),

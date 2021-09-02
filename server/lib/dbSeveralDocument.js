@@ -20,8 +20,15 @@ function getAllMemosByStatus(courseCode, status) {
 
 function getMemosBySemesterAndStatus(semester, status) {
   if (!semester) throw new Error('semester must be set')
-  log.debug('Fetching all courseMemos for semester' + semester + ' by status ' + status)
+  log.debug('Fetching all courseMemos for semester ' + semester + ' by status ' + status)
   const doc = CourseMemo.aggregate([{ $match: { semester, status } }])
+  return doc
+}
+
+function getFirstMemosBySemesterAndStatus(semester, status) {
+  if (!semester) throw new Error('semester must be set')
+  log.debug('Fetching all courseMemos for semester ' + semester + ' by status ' + status + ' with version 1')
+  const doc = CourseMemo.aggregate([{ $match: { semester, status, version: 1 } }])
   return doc
 }
 
@@ -142,5 +149,6 @@ module.exports = {
   getAllMemosByStatus,
   getCourseSemesterUsedRounds,
   getMemosBySemesterAndStatus,
+  getFirstMemosBySemesterAndStatus,
   getMemosFromPrevSemester,
 }

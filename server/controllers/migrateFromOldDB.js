@@ -4,25 +4,25 @@ const log = require('kth-node-log')
 const { StoredMemoPdfsModel } = require('../models/storedMemoPdfsModel')
 const fs = require('fs')
 
-const conflictsLogger = fs.createWriteStream('./conflictsPROD.csv', {
+const conflictsLogger = fs.createWriteStream('./conflictsREF-Aug8.csv', {
   flags: 'a', // 'a' means appending (old data will be preserved)
 })
 conflictsLogger.write(
   'ny memos id,existernade memos id,courseCode,semester,koppsRoundId,ny memos skapare,exist memos skapare,ny memos link,exist memos link \r\n'
 )
-const loggerDuplicatesFromPrevMigration = fs.createWriteStream('duplicatesFromPrevMigrationPROD.txt', {
+const loggerDuplicatesFromPrevMigration = fs.createWriteStream('duplicatesFromPrevMigrationREF-Aug8.txt', {
   flags: 'a', // 'a' means appending (old data will be preserved)
 })
 loggerDuplicatesFromPrevMigration.write(
   'ny memos id,existernade memos id,courseCode,semester,koppsRoundId,ny memos skapare,exist memos skapare,ny memos link,exist memos link \r\n'
 )
 
-const loggerMigrated = fs.createWriteStream('migratedPROD.txt', {
+const loggerMigrated = fs.createWriteStream('migratedREF-Aug8.txt', {
   flags: 'a', // 'a' means appending (old data will be preserved)
 })
 const BLOB_SERVICE_SAS_URL = {
   stage: 'https://kursinfostoragestage.blob.core.windows.net/',
-  prod: 'https://kursinfostorageprod.blob.core.windows.net/',
+  prod: 'https://kursinfostorageREF-Aug8.blob.core.windows.net/',
 }
 const KUTSUTV_BLOB = 'kursutveckling-blob-container'
 const KURSPM_BLOB = 'memo-blob-container'
@@ -43,64 +43,85 @@ async function searchAndFilterHistoryMemos(historyMemo) {
 const TEST_ENV = 'stage' //'stage'
 
 async function searchAndFilterForConlictMemos(historyMemo) {
-  const { courseCode, koppsRoundId, semester, changedBy, courseMemoFileName, _id } = historyMemo
-  const alternativeMemo = await StoredMemoPdfsModel.find({ courseCode, koppsRoundId, semester })
-  if (alternativeMemo.length > 0) {
-    log.info(`---------c********* ${_id} has conflicts ${alternativeMemo.map(m => m._id).join(',')}`)
+  const { courseCode, koppsRoundId, semester, changedBy, courseMemoFileName, _id } = historyMemo //pdfPMDate
+  try {
+    // lastChangeDate: { $gte : new ISODate("2021-07-05T16:34:31Z") }
+    const alternativeMemo = await StoredMemoPdfsModel.find({
+      courseCode,
+      koppsRoundId,
+      semester,
+      // lastChangeDate: { $gte: new ISODate('2021-03-04T16:34:31Z') },
+    })
+    if (alternativeMemo.length > 0) {
+      log.info(`---------c********* ${_id} has conflicts ${alternativeMemo.map(m => m._id).join(',')}`)
 
-    conflictsLogger.write(
-      `${_id},${alternativeMemo[0]._id},${courseCode},${semester},${koppsRoundId},${changedBy},${alternativeMemo[0].changedBy},${BLOB_SERVICE_SAS_URL[TEST_ENV]}${KUTSUTV_BLOB}/${courseMemoFileName},${BLOB_SERVICE_SAS_URL[TEST_ENV]}${KURSPM_BLOB}/${alternativeMemo[0].courseMemoFileName} \r\n`
-    )
-    return false
+      conflictsLogger.write(
+        `${_id},${alternativeMemo[0]._id},${courseCode},${semester},${koppsRoundId},${changedBy},${alternativeMemo[0].changedBy},${BLOB_SERVICE_SAS_URL[TEST_ENV]}${KUTSUTV_BLOB}/${courseMemoFileName},${BLOB_SERVICE_SAS_URL[TEST_ENV]}${KURSPM_BLOB}/${alternativeMemo[0].courseMemoFileName} \r\n`
+      )
+      return false
+    }
+    return true
+  } catch (error) {
+    log.error('Error in searchAndFilterForConlictMemos ', { error })
+    return error
   }
-  return true
 }
 
 async function filterMemos(data) {
-  if (data) {
-    log.info('Filtering documents before migration ', { data })
-    const filterMigrated = await data.filter(historyMemo => searchAndFilterHistoryMemos(historyMemo))
-    const existingHistoryMemoNum = data.length - filterMigrated.length
+  try {
+    if (data) {
+      log.info('3 --- Filtering documents before migration ', data.length)
+      const filterMigrated = await data.filter(async historyMemo => searchAndFilterHistoryMemos(historyMemo))
+      const existingHistoryMemoNum = data.length - filterMigrated.length
 
-    log.info('Skipped in Total memos which were migrated before: ', existingHistoryMemoNum)
-    log.info('--- Prepare to find conflicted memos ---', existingHistoryMemoNum)
+      log.info('4 ----Skipped in Total memos which were migrated before: ', existingHistoryMemoNum)
+      log.info('5 --- Prepare to find conflicted memos ---', existingHistoryMemoNum)
 
-    const newData = await filterMigrated.filter(historyMemo => searchAndFilterForConlictMemos(historyMemo))
-    const conflictedNum = filterMigrated.length - newData.length
+      const newData = await filterMigrated.filter(historyMemo => searchAndFilterForConlictMemos(historyMemo))
+      const conflictedNum = filterMigrated.length - newData.length
 
-    log.info('Skipped in Total conflicted', conflictedNum)
+      log.info('6 ---- Skipped in Total conflicted', conflictedNum)
 
-    if (newData) {
-      log.info('Found new memos to migrate', newData.length)
-      loggerMigrated.write(`${newData.map(m => JSON.stringify(m)).join(',\n')}\n`)
+      if (newData) {
+        log.info('7 ----Found new memos to migrate', newData.length)
+        loggerMigrated.write(`${newData.map(m => JSON.stringify(m)).join(',\n')}\n`)
+      }
+      // res.json(
+      //   {
+      //     totalBeforeFilter: data.length,
+      //     amount: newData.length,
+      //     existingHistoryMemoNum,
+      //     conflictedNum,
+      //     cleanData: newData,
+      //   } || {
+      //     fileFound: 0,
+      //   }
+      // )
+      return newData
     }
-    // res.json(
-    //   {
-    //     totalBeforeFilter: data.length,
-    //     amount: newData.length,
-    //     existingHistoryMemoNum,
-    //     conflictedNum,
-    //     cleanData: newData,
-    //   } || {
-    //     fileFound: 0,
-    //   }
-    // )
-    return newData
+    log.info('No migration data sent to be checked for dublicates or conflicts', { data })
+  } catch (error) {
+    log.error('Error in filterMemos ', { error })
+    return error
   }
-  log.info('No migration data sent to be checked for dublicates or conflicts', { data })
 }
 
 async function saveAllArrayOfDocuments(data) {
-  if (data) {
-    log.info('Saving documents for migration ', { data })
-    // TODO: FIND CONFLICTS
-    const resultAfterUpdate = await StoredMemoPdfsModel.insertMany(data)
-    if (resultAfterUpdate) {
-      log.info('MIGRATION SUCCESS All DATA SAVED! ')
+  try {
+    if (data) {
+      log.info('Saving documents for migration ', { data })
+      // TODO: FIND CONFLICTS
+      const resultAfterUpdate = await StoredMemoPdfsModel.insertMany(data, { ordered: false })
+      if (resultAfterUpdate) {
+        log.info('MIGRATION SUCCESS All DATA SAVED! ')
+      }
+      return resultAfterUpdate
     }
-    return resultAfterUpdate
+    log.info('No migration data sent to be saved', { data })
+  } catch (error) {
+    log.error('Error in saveAllArrayOfDocuments ', { error })
+    return error
   }
-  log.info('No migration data sent to be saved', { data })
 }
 
 async function fetchAllHistoryMemosFromKursPmAPI() {
@@ -123,12 +144,18 @@ async function migrateSaveAll(req, res) {
     const memoObj = req.body
     const { documents } = memoObj
     const dbResponse = []
-    log.info('----------documents', documents)
-    const onlyNewAndWithoutConflictsMemos = await filterMemos(documents)
-    log.info('Save all migrated memo data about pdfs stored in storage, data origin: kursutveckling-api' + memoObj)
-    dbResponse.push(await saveAllArrayOfDocuments(documents))
+    log.info('1 Save all migrated memo data about pdfs stored in storage, data origin: kursutveckling-api')
 
-    log.info('dbResponse after migration', dbResponse)
+    log.info('2 ----------all documents', documents.length)
+    const onlyNewAndWithoutConflictsMemos = await filterMemos(documents)
+    log.info(
+      '3 ----------Save all new withoud conflicts migrated memo data about pdfs stored in storage, data origin: kursutveckling-api' +
+        onlyNewAndWithoutConflictsMemos
+    )
+    // dbResponse.push(await saveAllArrayOfDocuments(documents))
+    await dbResponse.push(await saveAllArrayOfDocuments(onlyNewAndWithoutConflictsMemos))
+
+    log.info('dbResponse after migration', dbResponse.length || 'error')
     res.status(201).json(dbResponse)
   } catch (error) {
     log.error('Error in while trying to save all migrating memos ', { error })

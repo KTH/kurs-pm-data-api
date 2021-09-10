@@ -91,7 +91,11 @@ async function getWebAndPdfMemosBySemester(req, res) {
   try {
     log.debug('Fetching all courseMemos for ' + chosenSemester)
 
-    const dbMigratedPdfs = await StoredMemoPdfsModel.find({ semester: chosenSemester })
+    const dbMigratedPdfs = await StoredMemoPdfsModel.find({
+      semester: chosenSemester,
+      // Don’t include memo’s originally uploaded in kursutvecklinga-admin-web
+      memoFlag: { $ne: 'historyMemo' },
+    })
       .populate('MemoPdfFilesList')
       .lean()
     const mergedPdfMemos = pdfMemosTree(dbMigratedPdfs)

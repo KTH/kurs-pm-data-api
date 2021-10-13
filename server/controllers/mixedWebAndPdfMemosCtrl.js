@@ -175,21 +175,24 @@ async function getPrioritizedWebOrPdfMemos(req, res) {
       }
     )
     // if there is a round without a web-based memo, then fill it with pdf memo (if memo exists)
-    dbMigratedPdfs.forEach(({ courseCode, courseMemoFileName, koppsRoundId, pdfMemoUploadDate, semester }) => {
-      if (!semester) return
-      if (!koppsRoundId) return
-      if (!miniMemos[semester]) miniMemos[semester] = {}
-      if (!miniMemos[semester][koppsRoundId]) {
-        miniMemos[semester][koppsRoundId] = {
-          courseCode,
-          courseMemoFileName,
-          ladokRoundIds: [koppsRoundId],
-          lastChangeDate: pdfMemoUploadDate || '',
-          semester,
-          isPdf: true,
+    dbMigratedPdfs.forEach(
+      ({ courseCode, courseMemoFileName, koppsRoundId, pdfMemoUploadDate, previousFileList, semester }) => {
+        if (!semester) return
+        if (!koppsRoundId) return
+        if (!miniMemos[semester]) miniMemos[semester] = {}
+        if (!miniMemos[semester][koppsRoundId]) {
+          miniMemos[semester][koppsRoundId] = {
+            courseCode,
+            courseMemoFileName,
+            ladokRoundIds: [koppsRoundId],
+            lastChangeDate: pdfMemoUploadDate || '',
+            semester,
+            previousFileList,
+            isPdf: true,
+          }
         }
       }
-    })
+    )
 
     res.json(miniMemos)
     log.debug('getPrioritizedWebOrPdfMemos: Responded to request for filtered memos pdfs and web based with: ', {

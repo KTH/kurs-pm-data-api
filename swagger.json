@@ -741,6 +741,25 @@
         "lastChangeDate": {
           "type": "string",
           "description": "Date and time for last change of this memo (only for web-based)"
+        },
+        "previousFileList": {
+          "type": "array",
+          "items": "object",
+          "description": "Array for object with previous memo files and its upload date",
+          "properties": {
+            "courseMemoFileName": {
+              "type": "string",
+              "description": "File name of a previous course memo"
+            },
+            "pdfMemoUploadDate": {
+              "type": "string",
+              "description": "Published date of a previous course memo"
+            },
+            "version": {
+              "type": "string",
+              "description": "Version number of course memo, the earliest version starts with 1"
+            }
+          }
         }
       }
     },

@@ -130,7 +130,6 @@ async function getWebAndPdfMemosBySemester(req, res) {
       ) || []),
     ]
 
-    console.log('listMiniMemos', listMiniMemos)
     res.json(listMiniMemos)
     log.info('getWebAndPdfMemosBySemester: Responded to request for all memos pdfs and web based with: ', {
       chosenSemester,
@@ -145,8 +144,10 @@ async function getWebAndPdfMemosBySemester(req, res) {
 async function getPrioritizedWebOrPdfMemos(req, res) {
   // List of all actual memos but only prioritized by principle:
   // If there is a web-based memo, then don't fetch pdf version. Add pdf version only in case there is no web based memo.
-  if (!req.params.courseCode) throw new Error('courseCode must be set')
-  const courseCode = req.params.courseCode.toUpperCase()
+
+  const { courseCode: rawCourseCode } = req.params
+  if (!rawCourseCode) throw new Error('courseCode must be set')
+  const courseCode = rawCourseCode.toUpperCase()
   const miniMemos = {}
   try {
     log.debug('Fetching all courseMemos for ' + courseCode)
@@ -176,7 +177,15 @@ async function getPrioritizedWebOrPdfMemos(req, res) {
     )
     // if there is a round without a web-based memo, then fill it with pdf memo (if memo exists)
     dbMigratedPdfs.forEach(
-      ({ courseCode, courseMemoFileName, koppsRoundId, pdfMemoUploadDate, previousFileList, semester }) => {
+      ({
+        courseCode,
+        courseMemoFileName,
+        koppsRoundId,
+        pdfMemoUploadDate = '',
+        lastChangeDate = pdfMemoUploadDate,
+        previousFileList,
+        semester,
+      }) => {
         if (!semester) return
         if (!koppsRoundId) return
         if (!miniMemos[semester]) miniMemos[semester] = {}
@@ -185,7 +194,7 @@ async function getPrioritizedWebOrPdfMemos(req, res) {
             courseCode,
             courseMemoFileName,
             ladokRoundIds: [koppsRoundId],
-            lastChangeDate: pdfMemoUploadDate || '',
+            lastChangeDate,
             semester,
             previousFileList,
             isPdf: true,

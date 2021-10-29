@@ -740,7 +740,7 @@
         },
         "lastChangeDate": {
           "type": "string",
-          "description": "Date and time for last change of this memo (only for web-based)"
+          "description": "Date and time and hour for last change of this memo "
         },
         "previousFileList": {
           "type": "array",
@@ -751,7 +751,7 @@
               "type": "string",
               "description": "File name of a previous course memo"
             },
-            "pdfMemoUploadDate": {
+            "lastChangeDate": {
               "type": "string",
               "description": "Published date of a previous course memo"
             },

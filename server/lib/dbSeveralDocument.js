@@ -3,7 +3,7 @@
 const log = require('kth-node-log')
 const { CourseMemo } = require('../models/mainMemoModel')
 const { StoredMemoPdfsModel } = require('../models/storedMemoPdfsModel')
-
+// TODO: compare each aggregate to azure
 function getAllMemosByCourseCode(courseCode) {
   if (!courseCode) throw new Error('courseCode must be set')
   log.debug('Fetching all courseMemos for ' + courseCode)
@@ -25,10 +25,29 @@ function getMemosBySemesterAndStatus(semester, status) {
   return doc
 }
 
-function getFirstMemosBySemesterAndStatus(semester, status) {
+async function getFirstMemosBySemesterAndStatus(semester, status) {
+  // TODO: when mongo will be updated to version > 4 then it will limit find to 101 results
+  // Then need use hasNext(), next()
   if (!semester) throw new Error('semester must be set')
   log.debug('Fetching all courseMemos for semester ' + semester + ' by status ' + status + ' with version 1')
-  const doc = CourseMemo.aggregate([{ $match: { semester, status, version: 1 } }])
+  const doc = await CourseMemo.find({ semester, status, version: 1 })
+  log.debug(
+    'Done fetching memos total:' + doc.length + ', for: ' + semester + ' by status ' + status + ' with version 1'
+  )
+
+  if (doc.length === 101) {
+    log.debug('*** *************************')
+    log.warn(
+      '***  Get 101 results, check if bunchSize were limited by mongo(pga version update, check doc.hasNext())',
+      {
+        semester,
+        status,
+        version: 1,
+      }
+    )
+    log.debug('*** *************************')
+  }
+
   return doc
 }
 

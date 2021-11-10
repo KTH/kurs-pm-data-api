@@ -4,24 +4,11 @@ const log = require('kth-node-log')
 const { CourseMemo } = require('../models/mainMemoModel')
 const { StoredMemoPdfsModel } = require('../models/storedMemoPdfsModel')
 // TODO: compare each aggregate to azure
-function getAllMemosByCourseCode(courseCode) {
-  if (!courseCode) throw new Error('courseCode must be set')
-  log.debug('Fetching all courseMemos for ' + courseCode)
-  const doc = CourseMemo.aggregate([{ $match: { courseCode } }])
-  return doc
-}
 
 function getAllMemosByStatus(courseCode, status) {
   if (!courseCode) throw new Error('courseCode must be set')
   log.debug('Fetching all courseMemos for ' + courseCode + ' by status ' + status)
-  const doc = CourseMemo.aggregate([{ $match: { courseCode, status } }])
-  return doc
-}
-
-function getMemosBySemesterAndStatus(semester, status) {
-  if (!semester) throw new Error('semester must be set')
-  log.debug('Fetching all courseMemos for semester ' + semester + ' by status ' + status)
-  const doc = CourseMemo.aggregate([{ $match: { semester, status } }])
+  const doc = CourseMemo.find({ courseCode, status })
   return doc
 }
 
@@ -29,21 +16,17 @@ async function getFirstMemosBySemesterAndStatus(semester, status) {
   // TODO: when mongo will be updated to version > 4 then it will limit find to 101 results
   // Then need use hasNext(), next()
   if (!semester) throw new Error('semester must be set')
-  log.debug('Fetching all courseMemos for semester ' + semester + ' by status ' + status + ' with version 1')
-  const doc = await CourseMemo.find({ semester, status, version: 1 })
-  log.debug(
-    'Done fetching memos total:' + doc.length + ', for: ' + semester + ' by status ' + status + ' with version 1'
-  )
+  const matchingParameters = { semester, status, version: 1 }
+
+  log.debug('Fetching all courseMemos for semester ', matchingParameters)
+  const doc = await CourseMemo.find(matchingParameters)
+  log.debug('Done fetching memos total: ', doc.length, ', for: ', matchingParameters)
 
   if (doc.length === 101) {
     log.debug('*** *************************')
     log.warn(
-      '***  Get 101 results, check if bunchSize were limited by mongo(pga version update, check doc.hasNext())',
-      {
-        semester,
-        status,
-        version: 1,
-      }
+      '***  Got 101 results, check if bunchSize were limited by mongo(pga version update, might need to use doc.hasNext())',
+      matchingParameters
     )
     log.debug('*** *************************')
   }
@@ -79,7 +62,7 @@ async function getCourseSemesterUsedRounds(courseCode, semester) {
   }
 }
 
-async function getSortedMiniMemosForAllYears(courseCode, memoStatus = 'published') {
+async function _getSortedMiniMemosForAllYears(courseCode, memoStatus = 'published') {
   const webBasedMemos = await CourseMemo.aggregate([{ $match: { courseCode, status: memoStatus } }])
   const publishedForAllYears = webBasedMemos.map(dbMemo => {
     const { _id: memoId, semester, status, ladokRoundIds, memoEndPoint, memoName, memoCommonLangAbbr, version } = dbMemo
@@ -114,7 +97,7 @@ async function getMemosFromPrevSemester(courseCode, fromSemester) {
     const _draftsAll = []
     const _publishedAll = []
     const finalObj = {
-      sortedPublishedForAllYears: await getSortedMiniMemosForAllYears(courseCode),
+      sortedPublishedForAllYears: await _getSortedMiniMemosForAllYears(courseCode),
       publishedWithNoActiveDraft: [], // PUBLISHED MEMOS WHICH DO NOT HAVE ACTIVE DRAFT VERSION
       draftsOfPublishedMemos: [], // PUBLISHED MEMOS WHICH DO HAVE ACTIVE DRAFT VERSION
       draftsWithNoActivePublishedVer: [], // From previous year
@@ -164,10 +147,8 @@ async function getMemosFromPrevSemester(courseCode, fromSemester) {
 }
 
 module.exports = {
-  getAllMemosByCourseCode,
   getAllMemosByStatus,
   getCourseSemesterUsedRounds,
-  getMemosBySemesterAndStatus,
   getFirstMemosBySemesterAndStatus,
   getMemosFromPrevSemester,
 }

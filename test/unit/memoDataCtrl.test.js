@@ -101,16 +101,16 @@ describe('', () => {
     // process.env = { ...OLD_ENV }
     jest.clearAllMocks()
   })
-  test('getMemoByEndPoint', async (done) => {
-    const { getMemoByEndPoint } = require('../../server/controllers/memoDataCtrl')
+  test('getPublishedMemoByEndPoint', async done => {
+    const { getPublishedMemoByEndPoint } = require('../../server/controllers/memoDataCtrl')
     const req = buildReq(reqOverride)
     const res = buildRes()
-    const response = await getMemoByEndPoint(req, res)
+    const response = await getPublishedMemoByEndPoint(req, res)
     expect(res.json).toHaveBeenCalledTimes(1)
     done()
   })
 
-  test('postNewVersionOfPublishedMemo', async (done) => {
+  test('postNewVersionOfPublishedMemo', async done => {
     const { postNewVersionOfPublishedMemo } = require('../../server/controllers/memoDataCtrl')
     const req = buildReq(reqOverride)
     const res = buildRes()
@@ -120,7 +120,7 @@ describe('', () => {
     done()
   })
 
-  test('getDraftByEndPoint', async (done) => {
+  test('getDraftByEndPoint', async done => {
     const { getDraftByEndPoint } = require('../../server/controllers/memoDataCtrl')
     const req = buildReq(reqOverride)
     const res = buildRes()
@@ -130,7 +130,7 @@ describe('', () => {
     done()
   })
 
-  test('putDraftByEndPoint', async (done) => {
+  test('putDraftByEndPoint', async done => {
     const { putDraftByEndPoint } = require('../../server/controllers/memoDataCtrl')
     const req = buildReq({ ...reqOverride, ...{ body: { equipment: 'Laptop' } } })
     const res = buildRes()
@@ -140,7 +140,7 @@ describe('', () => {
     done()
   })
 
-  test('createDraftByMemoEndPoint', async (done) => {
+  test('createDraftByMemoEndPoint', async done => {
     const { createDraftByMemoEndPoint } = require('../../server/controllers/memoDataCtrl')
     const req = buildReq({
       ...reqOverride,
@@ -152,16 +152,16 @@ describe('', () => {
     done()
   })
 
-  test('getMemosByCourseCodeAndType', async (done) => {
-    const { getMemosByCourseCodeAndType } = require('../../server/controllers/memoDataCtrl')
+  test('getAllMemosByCourseCodeAndType', async done => {
+    const { getAllMemosByCourseCodeAndType } = require('../../server/controllers/memoDataCtrl')
     const req = buildReq(reqOverride)
     const res = buildRes()
-    await getMemosByCourseCodeAndType(req, res)
+    await getAllMemosByCourseCodeAndType(req, res)
     expect(res.json).toHaveBeenCalledTimes(1)
     done()
   })
 
-  test('getCourseSemesterUsedRounds', async (done) => {
+  test('getCourseSemesterUsedRounds', async done => {
     const { getCourseSemesterUsedRounds } = require('../../server/controllers/memoDataCtrl')
     const req = buildReq({ courseCode: 'EH2720', semester: '20192' })
     const res = buildRes()

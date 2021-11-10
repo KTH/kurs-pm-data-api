@@ -101,46 +101,42 @@ describe('', () => {
     // process.env = { ...OLD_ENV }
     jest.clearAllMocks()
   })
-  test('getPublishedMemoByEndPoint', async done => {
+  test('getPublishedMemoByEndPoint', async () => {
     const { getPublishedMemoByEndPoint } = require('../../server/controllers/memoDataCtrl')
     const req = buildReq(reqOverride)
     const res = buildRes()
     const response = await getPublishedMemoByEndPoint(req, res)
     expect(res.json).toHaveBeenCalledTimes(1)
-    done()
   })
 
-  test('postNewVersionOfPublishedMemo', async done => {
+  test('postNewVersionOfPublishedMemo', async () => {
     const { postNewVersionOfPublishedMemo } = require('../../server/controllers/memoDataCtrl')
     const req = buildReq(reqOverride)
     const res = buildRes()
     await postNewVersionOfPublishedMemo(req, res)
     expect(res.status).toHaveBeenNthCalledWith(1, 201)
     expect(res.json).toHaveBeenCalledTimes(1)
-    done()
   })
 
-  test('getDraftByEndPoint', async done => {
+  test('getDraftByEndPoint', async () => {
     const { getDraftByEndPoint } = require('../../server/controllers/memoDataCtrl')
     const req = buildReq(reqOverride)
     const res = buildRes()
     await getDraftByEndPoint(req, res)
     // expect(res.status).toHaveBeenNthCalledWith(1, 201)
     expect(res.json).toHaveBeenCalledTimes(1)
-    done()
   })
 
-  test('putDraftByEndPoint', async done => {
+  test('putDraftByEndPoint', async () => {
     const { putDraftByEndPoint } = require('../../server/controllers/memoDataCtrl')
     const req = buildReq({ ...reqOverride, ...{ body: { equipment: 'Laptop' } } })
     const res = buildRes()
     await putDraftByEndPoint(req, res)
     expect(res.status).toHaveBeenNthCalledWith(1, 201)
     expect(res.json).toHaveBeenCalledTimes(1)
-    done()
   })
 
-  test('createDraftByMemoEndPoint', async done => {
+  test('createDraftByMemoEndPoint', async () => {
     const { createDraftByMemoEndPoint } = require('../../server/controllers/memoDataCtrl')
     const req = buildReq({
       ...reqOverride,
@@ -149,24 +145,21 @@ describe('', () => {
     await createDraftByMemoEndPoint(req, res)
     expect(res.status).toHaveBeenNthCalledWith(1, 201)
     expect(res.json).toHaveBeenCalledTimes(1)
-    done()
   })
 
-  test('getAllMemosByCourseCodeAndType', async done => {
+  test('getAllMemosByCourseCodeAndType', async () => {
     const { getAllMemosByCourseCodeAndType } = require('../../server/controllers/memoDataCtrl')
     const req = buildReq(reqOverride)
     const res = buildRes()
     await getAllMemosByCourseCodeAndType(req, res)
     expect(res.json).toHaveBeenCalledTimes(1)
-    done()
   })
 
-  test('getCourseSemesterUsedRounds', async done => {
+  test('getCourseSemesterUsedRounds', async () => {
     const { getCourseSemesterUsedRounds } = require('../../server/controllers/memoDataCtrl')
     const req = buildReq({ courseCode: 'EH2720', semester: '20192' })
     const res = buildRes()
     await getCourseSemesterUsedRounds(req, res)
     expect(res.json).toHaveBeenCalledTimes(1)
-    done()
   })
 })

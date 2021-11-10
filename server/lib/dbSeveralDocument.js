@@ -5,10 +5,28 @@ const { CourseMemo } = require('../models/mainMemoModel')
 const { StoredMemoPdfsModel } = require('../models/storedMemoPdfsModel')
 // TODO: compare each aggregate to azure
 
+function logInCaseOfPossibleLimit(doc = [], matchingParameters = {}) {
+  if (doc && doc.length === 101) {
+    log.debug('*** *************************')
+    log.warn(
+      '***  Got 101 results, check if bunchSize were limited by mongo(pga version update, might need to use doc.hasNext())',
+      matchingParameters
+    )
+    log.debug('*** *************************')
+  }
+  return
+}
+
 function getAllMemosByStatus(courseCode, status) {
   if (!courseCode) throw new Error('courseCode must be set')
-  log.debug('Fetching all courseMemos for ' + courseCode + ' by status ' + status)
+  const matchingParameters = { courseCode, status }
+
+  log.debug('Fetching all courseMemos for ', matchingParameters)
   const doc = CourseMemo.find({ courseCode, status })
+  if (doc) log.debug('Done fetching memos total: ', doc.length, ', for: ', matchingParameters)
+
+  logInCaseOfPossibleLimit(doc, matchingParameters)
+
   return doc
 }
 
@@ -20,16 +38,9 @@ async function getFirstMemosBySemesterAndStatus(semester, status) {
 
   log.debug('Fetching all courseMemos for semester ', matchingParameters)
   const doc = await CourseMemo.find(matchingParameters)
-  log.debug('Done fetching memos total: ', doc.length, ', for: ', matchingParameters)
+  if (doc) log.debug('Done fetching memos total: ', doc.length, ', for: ', matchingParameters)
 
-  if (doc.length === 101) {
-    log.debug('*** *************************')
-    log.warn(
-      '***  Got 101 results, check if bunchSize were limited by mongo(pga version update, might need to use doc.hasNext())',
-      matchingParameters
-    )
-    log.debug('*** *************************')
-  }
+  logInCaseOfPossibleLimit(doc, matchingParameters)
 
   return doc
 }
@@ -63,7 +74,12 @@ async function getCourseSemesterUsedRounds(courseCode, semester) {
 }
 
 async function _getSortedMiniMemosForAllYears(courseCode, memoStatus = 'published') {
-  const webBasedMemos = await CourseMemo.aggregate([{ $match: { courseCode, status: memoStatus } }])
+  const matchingParameters = { courseCode, status: memoStatus }
+  const webBasedMemos = await CourseMemo.find(matchingParameters)
+  if (webBasedMemos) log.debug('Done fetching memos total: ', webBasedMemos.length, ', for: ', matchingParameters)
+
+  logInCaseOfPossibleLimit(webBasedMemos, matchingParameters)
+
   const publishedForAllYears = webBasedMemos.map(dbMemo => {
     const { _id: memoId, semester, status, ladokRoundIds, memoEndPoint, memoName, memoCommonLangAbbr, version } = dbMemo
     const miniMemo = {
@@ -90,6 +106,11 @@ async function getMemosFromPrevSemester(courseCode, fromSemester) {
     const webBasedMemos = await CourseMemo.aggregate([
       { $match: { courseCode, semester: { $gte: fromSemester }, $or: [{ status: 'draft' }, { status: 'published' }] } },
     ])
+    logInCaseOfPossibleLimit(
+      webBasedMemos,
+      `{ courseCode: ${courseCode}, semester: { $gte: ${fromSemester} }, $or: [{ status: 'draft' }, { status: 'published' }] }`
+    )
+
     log.debug(
       'dbResponse after looking for drafts and published memos starting from prevYear and all published, number of items:',
       webBasedMemos.length

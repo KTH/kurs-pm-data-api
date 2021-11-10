@@ -91,13 +91,13 @@
     "/v1/draft/{memoEndPoint}": {
       "get": {
         "operationId": "getDraftByEndPoint",
-        "summary": "Get published course memo document descriptive data by its endpoint memoEndPoint",
+        "summary": "Get draft version of this course memo document with this memoEndPoint and return descriptive data by its endpoint memoEndPoint",
         "description": "For admin pages often need to access draft version of memo to edit it before publishing",
         "parameters": [
           {
             "name": "memoEndPoint",
             "in": "path",
-            "description": "memoEndPoint is used to keep all versions under the same endpoint, unique for memo for one kursomgång. Unchangeable enpoint to display it in url (for bookmarks) and keep track on versions change",
+            "description": "memoEndPoint is used to keep all versions under the same endpoint, unique. Unchangeable enpoint to display it in url (for bookmarks) and keep track on versions change",
             "required": true,
             "type": "string"
           }

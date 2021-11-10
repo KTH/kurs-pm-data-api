@@ -36,7 +36,7 @@ const pdfMemosTree = dbMigratedPdfs => {
   return pdfMemos
 }
 
-async function getWebAndPdfMemos(req, res) {
+async function getPdfAndWebMemosListByCourseCode(req, res) {
   if (!req.params.courseCode) throw new Error('courseCode must be set')
   const courseCode = req.params.courseCode.toUpperCase()
   const miniMemos = {}
@@ -74,17 +74,17 @@ async function getWebAndPdfMemos(req, res) {
     )
 
     res.json(miniMemos)
-    log.debug('getWebAndPdfMemos: Responded to request for all memos pdfs and web based with: ', {
+    log.debug('getPdfAndWebMemosListByCourseCode: Responded to request for all memos pdfs and web based with: ', {
       courseCode,
       miniMemos,
     })
   } catch (err) {
-    log.error('getWebAndPdfMemos: Failed request for memo, error:', { err })
+    log.error('getPdfAndWebMemosListByCourseCode: Failed request for memo, error:', { err })
     return err
   }
 }
 
-async function getWebAndPdfMemosBySemester(req, res) {
+async function getPdfAndWebMemosListBySemester(req, res) {
   /* Used by kursinfo-admin-web statistik page per semester (not course code) */
   if (!req.params.semester) throw new Error('semester must be set')
   const { semester: chosenSemester } = req.params
@@ -131,17 +131,17 @@ async function getWebAndPdfMemosBySemester(req, res) {
     ]
 
     res.json(listMiniMemos)
-    log.info('getWebAndPdfMemosBySemester: Responded to request for all memos pdfs and web based with: ', {
+    log.info('getPdfAndWebMemosListBySemester: Responded to request for all memos pdfs and web based with: ', {
       chosenSemester,
       listMiniMemos,
     })
   } catch (err) {
-    log.error('getWebAndPdfMemosBySemester: Failed request for memo, error:', { err })
+    log.error('getPdfAndWebMemosListBySemester: Failed request for memo, error:', { err })
     return err
   }
 }
 
-async function getPrioritizedWebOrPdfMemos(req, res) {
+async function getPrioritizedWebOrPdfMemosByCourseCode(req, res) {
   // List of all actual memos but only prioritized by principle:
   // If there is a web-based memo, then don't fetch pdf version. Add pdf version only in case there is no web based memo.
 
@@ -204,18 +204,21 @@ async function getPrioritizedWebOrPdfMemos(req, res) {
     )
 
     res.json(miniMemos)
-    log.debug('getPrioritizedWebOrPdfMemos: Responded to request for filtered memos pdfs and web based with: ', {
-      courseCode,
-      miniMemos,
-    })
+    log.debug(
+      'getPrioritizedWebOrPdfMemosByCourseCode: Responded to request for filtered memos pdfs and web based with: ',
+      {
+        courseCode,
+        miniMemos,
+      }
+    )
   } catch (err) {
-    log.error('getPrioritizedWebOrPdfMemos: Failed request for memo, error:', { err })
+    log.error('getPrioritizedWebOrPdfMemosByCourseCode: Failed request for memo, error:', { err })
     return err
   }
 }
 
 module.exports = {
-  getWebAndPdfMemos,
-  getWebAndPdfMemosBySemester,
-  getPrioritizedWebOrPdfMemos,
+  getPdfAndWebMemosListByCourseCode,
+  getPdfAndWebMemosListBySemester,
+  getPrioritizedWebOrPdfMemosByCourseCode,
 }

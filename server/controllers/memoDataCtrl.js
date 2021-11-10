@@ -7,15 +7,15 @@ const log = require('kth-node-log')
 const dbOneDocument = require('../lib/dbDataById')
 const dbArrayOfDocument = require('../lib/dbSeveralDocument')
 
-async function getMemoByEndPoint(req, res) {
+async function getPublishedMemoByEndPoint(req, res) {
   const { memoEndPoint } = req.params
-  log.info('getMemoByEndPoint: Received request for memo with memoEndPoint:', memoEndPoint)
+  log.info('getPublishedMemoByEndPoint: Received request for memo with memoEndPoint:', memoEndPoint)
   try {
     const dbResponse = await dbOneDocument.fetchMemoByEndPointAndStatus(memoEndPoint, 'published')
     res.json(dbResponse || {})
-    log.info('getMemoByEndPoint: Responded to request for memo with memoEndPoint:', memoEndPoint)
+    log.info('getPublishedMemoByEndPoint: Responded to request for memo with memoEndPoint:', memoEndPoint)
   } catch (err) {
-    log.error('getMemoByEndPoint: Failed request for memo, error:', { err })
+    log.error('getPublishedMemoByEndPoint: Failed request for memo, error:', { err })
     return err
   }
 }
@@ -158,17 +158,17 @@ async function createDraftByMemoEndPoint(req, res) {
   }
 }
 
-async function getMemosByCourseCodeAndType(req, res) {
+async function getAllMemosByCourseCodeAndType(req, res) {
   // TODO: ADD FETCHING USED COURSE ROUNDS (DRAFTS + PUBLISHED)
   const { courseCode, type } = req.params
-  log.info('getMemosByCourseCodeAndType: Received request for memo for course:', courseCode)
+  log.info('getAllMemosByCourseCodeAndType: Received request for memo for course:', courseCode)
   try {
     const dbResponse = await dbArrayOfDocument.getAllMemosByStatus(courseCode, type)
 
     res.json(dbResponse || [])
-    log.info('getMemosByCourseCodeAndType: Responded to request for memo:', dbResponse)
+    log.info('getAllMemosByCourseCodeAndType: Responded to request for memo:', dbResponse)
   } catch (err) {
-    log.error('getMemosByCourseCodeAndType: Failed request for memo, error:', { err })
+    log.error('getAllMemosByCourseCodeAndType: Failed request for memo, error:', { err })
     return err
   }
 }
@@ -216,7 +216,7 @@ async function getMemosStartingFromPrevSemester(req, res) {
   }
 }
 
-async function deleteMemoDraftByMemoEndPoint(req, res) {
+async function deleteDraftByMemoEndPoint(req, res) {
   try {
     const { memoEndPoint } = req.params
     const draftExist = await dbOneDocument.fetchMemoByEndPointAndStatus(memoEndPoint, 'draft')
@@ -242,11 +242,11 @@ async function deleteMemoDraftByMemoEndPoint(req, res) {
 module.exports = {
   createDraftByMemoEndPoint,
   getDraftByEndPoint,
-  getMemoByEndPoint,
-  getMemosByCourseCodeAndType,
+  getPublishedMemoByEndPoint,
+  getAllMemosByCourseCodeAndType,
   getMemosStartingFromPrevSemester,
   getCourseSemesterUsedRounds,
-  deleteMemoDraftByMemoEndPoint,
+  deleteDraftByMemoEndPoint,
   postNewVersionOfPublishedMemo,
   putDraftByEndPoint,
 }

@@ -5,7 +5,7 @@
 const log = require('kth-node-log')
 const { StoredMemoPdfsModel } = require('../models/storedMemoPdfsModel')
 
-async function getStoredCourseMemoPdfListByCourseCode(req, res) {
+async function getStoredMemoPdfListByCourseCode(req, res) {
   if (!req.params.courseCode) throw new Error('courseCode must be set')
 
   const courseCode = req.params.courseCode.toUpperCase()
@@ -43,7 +43,7 @@ async function getStoredCourseMemoPdfListByCourseCode(req, res) {
     res.json(miniMemosObj)
     log.info('Responded to request for all memos with: ', { courseCode })
   } catch (error) {
-    log.error('Error in getStoredCourseMemoPdfListByCourseCode', { error })
+    log.error('Error in getStoredMemoPdfListByCourseCode', { error })
     return error
   }
 }
@@ -70,5 +70,5 @@ async function checkLength(req, res) {
 
 module.exports = {
   collectionLength: checkLength,
-  getStoredCourseMemoPdfListByCourseCode,
+  getStoredMemoPdfListByCourseCode,
 }

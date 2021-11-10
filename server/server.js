@@ -164,26 +164,29 @@ apiRoute.register(paths.api.createDraftByMemoEndPoint, CourseMemo.createDraftByM
 apiRoute.register(paths.api.copyFromAPublishedMemo, CourseMemo.createDraftByMemoEndPoint)
 
 // // GET ARRAY OF MEMOS BY TYPE AND COURSE CODE
-apiRoute.register(paths.api.getAllMemosByCourseCodeAndType, CourseMemo.getMemosByCourseCodeAndType)
+apiRoute.register(paths.api.getAllMemosByCourseCodeAndType, CourseMemo.getAllMemosByCourseCodeAndType)
 apiRoute.register(paths.api.getCourseSemesterUsedRounds, CourseMemo.getCourseSemesterUsedRounds) // step 1: to show up which rounds already taken
 apiRoute.register(paths.api.getMemosStartingFromPrevYearSemester, CourseMemo.getMemosStartingFromPrevSemester) // step 1: to show up which rounds already taken
 
 // // GET one PUBLISHED MEMO | PUBLISH MEMO
-apiRoute.register(paths.api.getPublishedMemoByEndPoint, CourseMemo.getMemoByEndPoint) // public page: show only published one
+apiRoute.register(paths.api.getPublishedMemoByEndPoint, CourseMemo.getPublishedMemoByEndPoint) // public page: show only published one
 apiRoute.register(paths.api.publishMemoByEndPoint, CourseMemo.postNewVersionOfPublishedMemo) // step 4: publish new version and unpublish prev version if it exists
 server.use('/', apiRoute.getRouter())
 
 // Delete a course memo draft
-apiRoute.register(paths.api.deleteDraftByMemoEndPoint, CourseMemo.deleteMemoDraftByMemoEndPoint)
+apiRoute.register(paths.api.deleteDraftByMemoEndPoint, CourseMemo.deleteDraftByMemoEndPoint)
 
 // Get list of stored pdf files for kursinfo-web (migrated from kurs-pm-api)
-apiRoute.register(paths.api.getStoredMemoPdfListByCourseCode, StoredMemoPdf.getStoredCourseMemoPdfListByCourseCode)
+apiRoute.register(paths.api.getStoredMemoPdfListByCourseCode, StoredMemoPdf.getStoredMemoPdfListByCourseCode)
 // Get list of stored pdf files together with web-based memos all published for kurs-pm-web (migrated from kurs-pm-api)
-apiRoute.register(paths.api.getPdfAndWebMemosListByCourseCode, MixedWebAndPdfMemosList.getWebAndPdfMemos)
-apiRoute.register(paths.api.getPdfAndWebMemosListBySemester, MixedWebAndPdfMemosList.getWebAndPdfMemosBySemester)
+apiRoute.register(
+  paths.api.getPdfAndWebMemosListByCourseCode,
+  MixedWebAndPdfMemosList.getPdfAndWebMemosListByCourseCode
+)
+apiRoute.register(paths.api.getPdfAndWebMemosListBySemester, MixedWebAndPdfMemosList.getPdfAndWebMemosListBySemester)
 apiRoute.register(
   paths.api.getPrioritizedWebOrPdfMemosByCourseCode,
-  MixedWebAndPdfMemosList.getPrioritizedWebOrPdfMemos
+  MixedWebAndPdfMemosList.getPrioritizedWebOrPdfMemosByCourseCode
 )
 
 // Catch not found and errors
@@ -203,6 +206,7 @@ server.use(errorHandler)
 const { getClient } = require('@kth/kth-node-cosmos-db')
 
 getClient({
+  batchSize: 10000,
   username: config.db.username,
   password: config.db.password,
   host: config.db.host,

@@ -2,7 +2,7 @@
 
 'use strict'
 
-const log = require('kth-node-log')
+const log = require('@kth/log')
 const { StoredMemoPdfsModel } = require('../models/storedMemoPdfsModel')
 
 async function getStoredMemoPdfListByCourseCode(req, res) {

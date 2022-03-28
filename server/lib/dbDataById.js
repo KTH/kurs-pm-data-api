@@ -1,6 +1,6 @@
 /* eslint-disable consistent-return */
 /* eslint-disable no-underscore-dangle */
-const log = require('kth-node-log')
+const log = require('@kth/log')
 const { CourseMemo } = require('../models/mainMemoModel')
 
 /* ****** */

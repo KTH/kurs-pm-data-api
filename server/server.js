@@ -1,6 +1,6 @@
 'use strict'
 
-const server = require('kth-node-server')
+const server = require('@kth/server')
 const path = require('path')
 
 // Load .env file in development mode
@@ -36,7 +36,7 @@ module.exports.getPaths = () => getPaths()
  * ******* LOGGING *******
  * ***********************
  */
-const log = require('kth-node-log')
+const log = require('@kth/log')
 const packageFile = require('../package.json')
 
 const logConfiguration = {
@@ -107,30 +107,32 @@ require('./database').connect()
  * **********************************
  */
 const { addPaths } = require('kth-node-express-routing')
-
-const { createApiPaths, createSwaggerRedirectHandler, notFoundHandler, errorHandler } = require('kth-node-api-common')
+const { createApiPaths, notFoundHandler, errorHandler } = require('@kth/kth-node-api-common')
 const swaggerData = require('../swagger.json')
 const { System, StoredMemoPdf } = require('./controllers')
+const _addProxy = uri => `${config.proxyPrefixPath.uri}${uri}`
 
 // System pages routes
 const systemRoute = AppRouter()
-systemRoute.get('system.count', config.proxyPrefixPath.uri + '/_count', StoredMemoPdf.collectionLength)
-systemRoute.get('system.monitor', config.proxyPrefixPath.uri + '/_monitor', System.monitor)
-systemRoute.get('system.about', config.proxyPrefixPath.uri + '/_about', System.about)
-systemRoute.get('system.paths', config.proxyPrefixPath.uri + '/_paths', System.paths)
+systemRoute.get('system.monitor', _addProxy('/_monitor'), System.monitor)
+systemRoute.get('system.about', _addProxy('/_about'), System.about)
+systemRoute.get('system.paths', _addProxy('/_paths'), System.paths)
+systemRoute.get('system.swaggerUI', _addProxy('/swagger'), System.swaggerUI)
+systemRoute.get('system.swaggerUI', _addProxy('/swagger/'), System.swaggerUI)
+systemRoute.get('system.swaggerUI', _addProxy('/swagger/index.html'), System.swaggerUI)
 systemRoute.get('system.robots', '/robots.txt', System.robotsTxt)
-systemRoute.get('system.swagger', config.proxyPrefixPath.uri + '/swagger.json', System.swagger)
+systemRoute.get('system.swagger', _addProxy('/swagger.json'), System.swagger)
 server.use('/', systemRoute.getRouter())
 
 // Swagger UI
 const express = require('express')
-
-const swaggerUrl = config.proxyPrefixPath.uri + '/swagger'
 const pathToSwaggerUi = require('swagger-ui-dist').absolutePath()
 
-const redirectUrl = `${swaggerUrl}?url=${getPaths().system.swagger.uri}`
+const swaggerUrl = _addProxy('/swagger')
 
-server.use(swaggerUrl, createSwaggerRedirectHandler(redirectUrl, config.proxyPrefixPath.uri))
+const { swaggerHandler } = require('./swagger')
+
+server.use(swaggerUrl, swaggerHandler)
 server.use(swaggerUrl, express.static(pathToSwaggerUi))
 
 // Add API endpoints defined in swagger to path definitions so we can use them to register API enpoint handlers
@@ -203,7 +205,7 @@ server.use(errorHandler)
  * **********************************
  */
 
-const { getClient } = require('@kth/kth-node-cosmos-db')
+/*const { getClient } = require('@kth/kth-node-cosmos-db')
 
 getClient({
   batchSize: 10000,
@@ -215,5 +217,6 @@ getClient({
   maxThroughput: 400,
   collections: [{ name: 'coursememos' }, { name: 'memofiles' }],
 })
+*/
 
 module.exports = server

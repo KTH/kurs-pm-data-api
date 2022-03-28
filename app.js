@@ -12,7 +12,7 @@ if (nodeEnv === 'development' || nodeEnv === 'dev' || !nodeEnv) {
 
 const config = require('./server/configuration').server
 const server = require('./server/server')
-const log = require('kth-node-log')
+const log = require('@kth/log')
 
 /* ****************************
  * ******* SERVER START *******
@@ -26,5 +26,5 @@ module.exports = server.start({
   ca: config.ssl.ca,
   cert: config.ssl.cert,
   port: config.port,
-  logger: log
+  logger: log,
 })

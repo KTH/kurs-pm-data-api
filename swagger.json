@@ -11,10 +11,9 @@
     "/_checkAPIkey": {
       "get": {
         "operationId": "checkAPIkey",
-        "summary": "GET a test endpoint that is protected by api key to validate that consumer has a proper api key",
-        "description": "",
+        "summary": "Test authentication setup",
+        "description": "Secured test endpoint which can be used to validate that a client has a working authentication setup\n\n_(System.checkAPIKey)_",
         "parameters": [],
-        "tags": ["system"],
         "responses": {
           "200": {
             "description": "The given authentication is **accepted**"
@@ -23,17 +22,10 @@
             "description": "This endpoint is secured - **credentials are missing or invalid**."
           },
           "default": {
-            "description": "Unexpected error",
-            "schema": {
-              "$ref": "#/definitions/Error"
-            }
+            "description": "Unexpected response - internal error"
           }
         },
-        "security": [
-          {
-            "api_key": ["read"]
-          }
-        ]
+        "security": [{ "api_key": ["read"] }]
       }
     },
     "/v1/draft/{memoEndPoint}/copyFrom/{anotherMemoEndPoint}": {

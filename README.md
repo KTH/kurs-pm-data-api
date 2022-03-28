@@ -28,7 +28,7 @@ Only admin pages may change API data while public pages can only read. Therefore
 
 ## Prerequisites
 
-- Node.js 12.0.0
+- Node.js 16.0.0
 - Ansible Vault
 
 ### Secrets for Development

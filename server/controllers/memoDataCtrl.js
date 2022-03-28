@@ -3,7 +3,7 @@
 
 'use strict'
 
-const log = require('kth-node-log')
+const log = require('@kth/log')
 const dbOneDocument = require('../lib/dbDataById')
 const dbArrayOfDocument = require('../lib/dbSeveralDocument')
 

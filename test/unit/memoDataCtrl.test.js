@@ -87,7 +87,7 @@ function buildNext(impl) {
 const reqOverride = {
   params: { memoEndPoint: 'EH272020192-1', anotherMemoEndPoint: 'EH272020192-1' },
 }
-jest.mock('kth-node-log', () => {
+jest.mock('@kth/log', () => {
   return {
     init: jest.fn(),
     debug: jest.fn(),

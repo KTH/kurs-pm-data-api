@@ -1,15 +1,38 @@
 'use strict'
 
-const packageFile = require('../../package.json')
-const server = require('../server')
-const { getPaths } = require('kth-node-express-routing')
-const db = require('kth-node-mongo')
-const version = require('../../config/version')
 const os = require('os')
+const fs = require('fs')
+const log = require('@kth/log')
+const db = require('@kth/mongo')
+const { getPaths } = require('kth-node-express-routing')
+const monitorSystems = require('@kth/monitor')
+const configServer = require('../configuration').server
+const packageFile = require('../../package.json')
+const version = require('../../config/version')
+const server = require('../server')
 
-const Promise = require('bluebird')
-const registry = require('component-registry').globalRegistry
-const { IHealthCheck } = require('kth-node-monitor').interfaces
+/**
+ * * Adds a zero (0) to numbers less then ten (10)
+ */
+function zeroPad(value) {
+  return value < 10 ? '0' + value : value
+}
+
+/**
+ * Takes a Date object and returns a simple date string.
+ */
+function _simpleDate(date) {
+  const year = date.getFullYear()
+  const month = zeroPad(date.getMonth() + 1)
+  const day = zeroPad(date.getDate())
+  const hours = zeroPad(date.getHours())
+  const minutes = zeroPad(date.getMinutes())
+  const seconds = zeroPad(date.getSeconds())
+  const hoursBeforeGMT = date.getTimezoneOffset() / -60
+  const timezone = [' GMT', ' CET', ' CEST'][hoursBeforeGMT] || ''
+  return `${year}-${month}-${day} ${hours}:${minutes}:${seconds}${timezone}`
+}
+const started = _simpleDate(new Date())
 
 /**
  * GET /swagger.json
@@ -17,6 +40,24 @@ const { IHealthCheck } = require('kth-node-monitor').interfaces
  */
 function getSwagger(req, res) {
   res.json(require('../../swagger.json'))
+}
+/**
+ * GET /swagger
+ * Swagger
+ */
+function getSwaggerUI(req, res) {
+  if (req.url === configServer.proxyPrefixPath.uri + '/swagger') {
+    // This redirect is needed since swagger js & css files to get right paths
+    return res.redirect(configServer.proxyPrefixPath.uri + '/swagger/')
+  }
+
+  const pathToSwaggerUi = require('swagger-ui-dist').absolutePath()
+  const swaggerUrl = configServer.proxyPrefixPath.uri + '/swagger.json'
+  const petstoreUrl = 'https://petstore.swagger.io/v2/swagger.json'
+
+  const indexContent = fs.readFileSync(`${pathToSwaggerUi}/index.html`).toString().replace(petstoreUrl, swaggerUrl)
+
+  return res.type('text/html').send(indexContent)
 }
 
 /**
@@ -31,16 +72,21 @@ async function getAbout(req, res) {
     appName: packageFile.name,
     appVersion: packageFile.version,
     appDescription: packageFile.description,
+    config: JSON.stringify(configServer.templateConfig),
     monitorUri: paths.system.monitor.uri,
     robotsUri: paths.system.robots.uri,
     gitBranch: JSON.stringify(version.gitBranch),
     gitCommit: JSON.stringify(version.gitCommit),
     jenkinsBuild: JSON.stringify(version.jenkinsBuild),
-    jenkinsBuildDate: JSON.stringify(version.jenkinsBuildDate),
+    jenkinsBuildDate: version.jenkinsBuild
+      ? _simpleDate(new Date(parseInt(version.jenkinsBuild, 10) * 1000))
+      : JSON.stringify(version.jenkinsBuildDate),
     dockerName: JSON.stringify(version.dockerName),
     dockerVersion: JSON.stringify(version.dockerVersion),
     collections: ['coursememos', 'memofiles'],
     hostname: os.hostname(),
+    started,
+    env: process.env.NODE_ENV,
   })
 }
 
@@ -48,38 +94,25 @@ async function getAbout(req, res) {
  * GET /_monitor
  * Monitor page
  */
-function getMonitor(req, res) {
-  // Check MongoDB
-  const mongodbHealthUtil = registry.getUtility(IHealthCheck, 'kth-node-mongodb')
-  const subSystems = [mongodbHealthUtil.status(db, { required: true })]
-
-  // If we need local system checks, such as memory or disk, we would add it here.
-  // Make sure it returns a promise which resolves with an object containing:
-  // {statusCode: ###, message: '...'}
-  // The property statusCode should be standard HTTP status codes.
-  const localSystems = Promise.resolve({ statusCode: 200, message: 'OK' })
-
-  /* -- You will normally not change anything below this line -- */
-
-  // Determine system health based on the results of the checks above. Expects
-  // arrays of promises as input. This returns a promise
-  const systemHealthUtil = registry.getUtility(IHealthCheck, 'kth-node-system-check')
-  const systemStatus = systemHealthUtil.status(localSystems, subSystems)
-
-  systemStatus
-    .then(status => {
-      // Return the result either as JSON or text
-      if (req.headers.accept === 'application/json') {
-        const outp = systemHealthUtil.renderJSON(status)
-        res.status(status.statusCode).json(outp)
-      } else {
-        const outp = systemHealthUtil.renderText(status)
-        res.type('text').status(status.statusCode).send(outp)
-      }
-    })
-    .catch(err => {
-      res.type('text').status(500).send(err)
-    })
+async function getMonitor(req, res) {
+  try {
+    await monitorSystems(req, res, [
+      {
+        key: 'mongodb',
+        required: true,
+        db,
+      },
+      {
+        key: 'local',
+        isResolved: true,
+        message: '- local system checks: OK',
+        statusCode: 200,
+      },
+    ])
+  } catch (error) {
+    log.error(`Monitor failed`, error)
+    res.status(500).end()
+  }
 }
 
 /**
@@ -115,4 +148,5 @@ module.exports = {
   paths: getPathsHandler,
   checkAPIKey: getCheckAPIKey,
   swagger: getSwagger,
+  swaggerUI: getSwaggerUI,
 }

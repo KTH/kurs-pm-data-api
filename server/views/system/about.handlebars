@@ -1,78 +1,88 @@
-<!DOCTYPE html>
-<html lang="en">
+<html lang='en'>
 
-<head>
-  <meta charset="UTF-8">
-  <title>About {{appName}}</title>
-  <link rel="shortcut icon" id="favicon" href="//www.kth.se/img/icon/favicon.ico" />
-</head>
+  <head>
+    <meta charset='UTF-8' />
+    <title>About {{appName}}</title>
+    <link rel='shortcut icon' id='favicon' href='https://www.kth.se/img/kth/favicon.ico' />
+  </head>
 
-<body>
-  <h1>About {{{appName}}}</h1>
-  <hr />
-  <table class="about">
-    <tr>
-      <td><b>Application version:</b></td>
-      <td>{{{appVersion}}}</td>
-    </tr>
-    <tr class="odd">
-      <td><b>Application description:</b></td>
-      <td>{{{appDescription}}}</td>
-    </tr>
-    <tr>
-      <td><b>Jenkins build id:</b></td>
-      <td>{{{jenkinsBuild}}}</td>
-    </tr>
-    <tr class="odd">
-      <td><b>Git branch:</b></td>
-      <td>{{{gitBranch}}}</td>
-    </tr>
-    <tr>
-      <td><b>Git commit hash:</b></td>
-      <td>{{{gitCommit}}}</td>
-    </tr>
-    <tr class="odd">
-      <td><b>Build date:</b></td>
-      <td>{{{jenkinsBuildDate}}}</td>
-    </tr>
-  </table>
-  <hr />
-  <table>
-    <tr>
-      <td><b>CosmosDb Collections:</b></td>
-    </tr>
-    {{#each collections}}
-    <tr>
-      <td>{{this.collection}}:</td>
-      <td>{{this.throughput}} Ru/s</td>
-    </tr>
-    {{/each}}
-  </table>
-  <hr />
-  <table>
-    <tr>
-      <td><b>Docker Name:</b></td>
-      <td>{{{dockerName}}}</td>
-    </tr>
-    <tr class="odd">
-      <td><b>Docker Version:</b></td>
-      <td>{{{dockerVersion}}}</td>
-    </tr>
-    <tr class="even">
-      <td><b>Hostname:</b></td>
-      <td>{{{hostname}}}</td>
-    </tr>
-  </table>
-  <hr />
-  <dl>
-    <dt>System:</dt>
-    <dd>
-      <a href="{{monitorUri}}">Monitor</a>
-      <span>|</span>
-      <a href="{{robotsUri}}">robots.txt</a>
-    </dd>
-  </dl>
-  <p>{{comment}}</p>
-</body>
+  <body>
+    <style>
+      .about tr td:first-child { font-weight: bold; text-align: right; padding-right: 10px; }
+    </style>
+    <h1>About {{{appName}}}</h1>
+    <hr />
+    <table class='about'>
+      <tr>
+        <td><b>Application version:</b></td>
+        <td>{{{appVersion}}}</td>
+      </tr>
+      <tr class='odd'>
+        <td><b>Application description:</b></td>
+        <td>{{{appDescription}}}</td>
+      </tr>
+      <tr>
+        <td><b>Jenkins build id:</b></td>
+        <td>{{{jenkinsBuild}}}</td>
+      </tr>
+      <tr class='odd'>
+        <td><b>Git branch:</b></td>
+        <td>{{{gitBranch}}}</td>
+      </tr>
+      <tr>
+        <td><b>Git commit hash:</b></td>
+        <td>{{{gitCommit}}}</td>
+      </tr>
+      <tr class='odd'>
+        <td><b>Build date:</b></td>
+        <td>{{{jenkinsBuildDate}}}</td>
+      </tr>
+    </table>
+    <hr />
+    <table>
+      <tr>
+        <td><b>CosmosDb Collections:</b></td>
+      </tr>
+      {{#each collections}}
+        <tr>
+          <td>{{this.collection}}:</td>
+          <td>{{this.throughput}} Ru/s</td>
+        </tr>
+      {{/each}}
+    </table>
+    <hr />
+    <table>
+      <tr>
+        <td><b>Docker Name:</b></td>
+        <td>{{{dockerName}}}</td>
+      </tr>
+      <tr class='odd'>
+        <td><b>Docker Version:</b></td>
+        <td>{{{dockerVersion}}}</td>
+      </tr>
+      <tr class='even'>
+        <td><b>Hostname:</b></td>
+        <td>{{{hostname}}}</td>
+      </tr>
+    </table>
+    <hr />
+    <dl>
+      <dt>System:</dt>
+      <dd>
+        {{#if monitorUri}}
+          <a href='{{monitorUri}}'>Monitor</a>
+        {{else}}
+          <a href='{{withProxyPrefixPath "/_monitor"}}'>Monitor</a>
+        {{/if}}
+        <span>|</span>
+        {{#if robotsUri}}
+          <a href='{{robotsUri}}'>robots.txt</a>
+        {{else}}
+          <a href='/robots.txt'>robots.txt</a>
+        {{/if}}
+      </dd>
+    </dl>
+    <p>{{comment}}</p>
+  </body>
 
 </html>

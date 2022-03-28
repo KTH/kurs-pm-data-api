@@ -1,7 +1,6 @@
 'use strict'
 
 const combinedMemoData = require('./combinedMemoData')
-const { wrap } = require('@kth/kth-node-cosmos-db')
 const mongoose = require('mongoose')
 
 const schema = mongoose.Schema({
@@ -77,11 +76,9 @@ const schema = mongoose.Schema({
   ...combinedMemoData,
 })
 
-// const CourseMemoWrap = wrap(mongoose.model('CourseMemo', schema))
 const CourseMemo = mongoose.model('CourseMemo', schema)
 
 module.exports = {
-  // CourseMemoWrap,
   CourseMemo,
   schema,
 }

@@ -46,18 +46,16 @@ function getSwagger(req, res) {
  * Swagger
  */
 function getSwaggerUI(req, res) {
-  if (req.url === configServer.proxyPrefixPath.uri + '/swagger') {
-    // This redirect is needed since swagger js & css files to get right paths
-    return res.redirect(configServer.proxyPrefixPath.uri + '/swagger/')
-  }
-
   const pathToSwaggerUi = require('swagger-ui-dist').absolutePath()
   const swaggerUrl = configServer.proxyPrefixPath.uri + '/swagger.json'
   const petstoreUrl = 'https://petstore.swagger.io/v2/swagger.json'
 
-  const indexContent = fs.readFileSync(`${pathToSwaggerUi}/index.html`).toString().replace(petstoreUrl, swaggerUrl)
+  const swaggerInitializerContent = fs
+    .readFileSync(`${pathToSwaggerUi}/swagger-initializer.js`)
+    .toString()
+    .replace(petstoreUrl, swaggerUrl)
 
-  return res.type('text/html').send(indexContent)
+  return res.type('text/javascript').send(swaggerInitializerContent)
 }
 
 /**

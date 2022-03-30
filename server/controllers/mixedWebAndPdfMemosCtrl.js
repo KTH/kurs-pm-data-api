@@ -43,7 +43,7 @@ async function getPdfAndWebMemosListByCourseCode(req, res) {
   try {
     log.debug('Fetching all courseMemos for ' + courseCode)
 
-    const dbMigratedPdfs = await StoredMemoPdfsModel.aggregate([{ $match: { courseCode, semester } }])
+    const dbMigratedPdfs = await StoredMemoPdfsModel.aggregate([{ $match: { courseCode } }])
     const webBasedMemos = await dbArrayOfDocument.getAllMemosByStatus(courseCode, 'published')
 
     const mergedPdfMemos = pdfMemosTree(dbMigratedPdfs)
@@ -148,7 +148,7 @@ async function getPrioritizedWebOrPdfMemosByCourseCode(req, res) {
   try {
     log.debug('Fetching all courseMemos for ' + courseCode)
 
-    const dbMigratedPdfs = await StoredMemoPdfsModel.aggregate([{ $match: { courseCode, semester } }])
+    const dbMigratedPdfs = await StoredMemoPdfsModel.aggregate([{ $match: { courseCode } }])
 
     const webBasedMemos = await dbArrayOfDocument.getAllMemosByStatus(courseCode, 'published')
     // firstly fetch web-based

@@ -20,7 +20,7 @@ async function getStoredMemoPdfListByCourseCode(req, res) {
   log.info('Received request for all memos with: ', { courseCode })
 
   try {
-    const storedPdfMemosInfo = await StoredMemoPdfsModel.aggregate([{ $match: { courseCode, semester } }])
+    const storedPdfMemosInfo = await StoredMemoPdfsModel.aggregate([{ $match: { courseCode } }])
 
     log.info('Successfully got all memos for', { courseCode }, 'dbResponse length', storedPdfMemosInfo.length)
     if (!storedPdfMemosInfo) {

@@ -9,7 +9,7 @@ const { CourseMemo } = require('../models/mainMemoModel')
 async function fetchMemoByEndPointAndStatus(memoEndPoint, status) {
   if (!memoEndPoint) throw new Error('memoEndPoint must be set')
   log.debug('Fetching memo based on ', { memoEndPoint, status })
-  const memo = await CourseMemo.aggregate([{ $match: { memoEndPoint, status } }, { $limit: 1 }]) // courseCode
+  const memo = await CourseMemo.findOne({ memoEndPoint, status }) // courseCode
   return memo
 }
 

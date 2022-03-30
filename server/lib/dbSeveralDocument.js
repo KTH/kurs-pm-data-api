@@ -17,12 +17,12 @@ function logInCaseOfPossibleLimit(doc = [], matchingParameters = {}) {
   return
 }
 
-function getAllMemosByStatus(courseCode, status) {
+async function getAllMemosByStatus(courseCode, status) {
   if (!courseCode) throw new Error('courseCode must be set')
   const matchingParameters = { courseCode, status }
 
   log.debug('Fetching all courseMemos for ', matchingParameters)
-  const doc = CourseMemo.find({ courseCode, status })
+  const doc = await CourseMemo.aggregate([{ $match: { courseCode, status } }])
   if (doc) log.debug('Done fetching memos total: ', doc.length, ', for: ', matchingParameters)
 
   logInCaseOfPossibleLimit(doc, matchingParameters)
@@ -31,13 +31,12 @@ function getAllMemosByStatus(courseCode, status) {
 }
 
 async function getFirstMemosBySemesterAndStatus(semester, status) {
-  // TODO: when mongo will be updated to version > 4 then it will limit find to 101 results
-  // Then need use hasNext(), next()
   if (!semester) throw new Error('semester must be set')
   const matchingParameters = { semester, status, version: 1 }
 
   log.debug('Fetching all courseMemos for semester ', matchingParameters)
-  const doc = await CourseMemo.find(matchingParameters)
+
+  const doc = await CourseMemo.aggregate([{ $match: matchingParameters }])
   if (doc) log.debug('Done fetching memos total: ', doc.length, ', for: ', matchingParameters)
 
   logInCaseOfPossibleLimit(doc, matchingParameters)
@@ -75,7 +74,7 @@ async function getCourseSemesterUsedRounds(courseCode, semester) {
 
 async function _getSortedMiniMemosForAllYears(courseCode, memoStatus = 'published') {
   const matchingParameters = { courseCode, status: memoStatus }
-  const webBasedMemos = await CourseMemo.find(matchingParameters)
+  const webBasedMemos = await CourseMemo.aggregate([{ $match: matchingParameters }])
   if (webBasedMemos) log.debug('Done fetching memos total: ', webBasedMemos.length, ', for: ', matchingParameters)
 
   logInCaseOfPossibleLimit(webBasedMemos, matchingParameters)

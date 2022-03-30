@@ -43,7 +43,7 @@ async function getPdfAndWebMemosListByCourseCode(req, res) {
   try {
     log.debug('Fetching all courseMemos for ' + courseCode)
 
-    const dbMigratedPdfs = await StoredMemoPdfsModel.find({ courseCode }).populate('MemoPdfFilesList').lean()
+    const dbMigratedPdfs = await StoredMemoPdfsModel.aggregate([{ $match: { courseCode, semester } }])
     const webBasedMemos = await dbArrayOfDocument.getAllMemosByStatus(courseCode, 'published')
 
     const mergedPdfMemos = pdfMemosTree(dbMigratedPdfs)
@@ -90,14 +90,10 @@ async function getPdfAndWebMemosListBySemester(req, res) {
   const { semester: chosenSemester } = req.params
   try {
     log.debug('Fetching all courseMemos for ' + chosenSemester)
-
-    const dbMigratedPdfs = await StoredMemoPdfsModel.find({
-      semester: chosenSemester,
-      // Don’t include memo’s originally uploaded in kursutvecklinga-admin-web
-      memoFlag: { $ne: 'historyMemo' },
-    })
-      .populate('MemoPdfFilesList')
-      .lean()
+    // Don’t include memo’s originally uploaded in kursutvecklinga-admin-web
+    const dbMigratedPdfs = await StoredMemoPdfsModel.aggregate([
+      { $match: { semester: chosenSemester, memoFlag: { $ne: 'historyMemo' } } },
+    ])
     const mergedPdfMemos = pdfMemosTree(dbMigratedPdfs)
 
     const webBasedPublishedMemos = await dbArrayOfDocument.getFirstMemosBySemesterAndStatus(chosenSemester, 'published')
@@ -152,7 +148,7 @@ async function getPrioritizedWebOrPdfMemosByCourseCode(req, res) {
   try {
     log.debug('Fetching all courseMemos for ' + courseCode)
 
-    const dbMigratedPdfs = await StoredMemoPdfsModel.find({ courseCode }).populate('MemoPdfFilesList').lean()
+    const dbMigratedPdfs = await StoredMemoPdfsModel.aggregate([{ $match: { courseCode, semester } }])
 
     const webBasedMemos = await dbArrayOfDocument.getAllMemosByStatus(courseCode, 'published')
     // firstly fetch web-based

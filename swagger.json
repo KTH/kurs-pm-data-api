@@ -230,6 +230,64 @@
         ]
       }
     },
+    "/v1/memo/course/{courseCode}/memoEndPoint/{memoEndPoint}/version/{version}": {
+      "get": {
+        "operationId": "getMemoVersion",
+        "summary": "Get memo of the exact version for a course",
+        "description": "Gets some form of data that only requires read access",
+        "parameters": [
+          {
+            "name": "courseCode",
+            "in": "path",
+            "description": "Course code, ex, SF1624",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "memoEndPoint",
+            "in": "path",
+            "description": "Memo's endpoint, f.e., SF162520221-1",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "version",
+            "in": "path",
+            "description": "Memo's version, f.e., 1",
+            "required": true,
+            "type": "number"
+          }
+        ],
+        "tags": ["v1"],
+        "responses": {
+          "200": {
+            "description": "Returns a memo data for the exact version, course and endpöoint",
+            "schema": {
+              "type": "object",
+              "allOf": [
+                {
+                  "$ref": "#/components/schemas/MemoData"
+                },
+                {
+                  "$ref": "#/components/schemas/LatestVersion"
+                }
+              ]
+            }
+          },
+          "default": {
+            "description": "Unexpected error",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          }
+        },
+        "security": [
+          {
+            "api_key": ["read"]
+          }
+        ]
+      }
+    },
     "/v1/memos/{type}/{courseCode}/": {
       "get": {
         "operationId": "getAllMemosByCourseCodeAndType",
@@ -897,6 +955,35 @@
         "changedAfterPublishedDate": {
           "type": "string",
           "description": "Date for changes made after published???"
+        }
+      }
+    },
+    "LatestVersionData": {
+      "properties": {
+        "publishedVersion": {
+          "type": "integer",
+          "description": "The version of latest published memo"
+        },
+        "memoCommonLangAbbr": {
+          "type": "string",
+          "description": "Memo language based on common languageOfInstructions for all rounds, 'sv' or 'en'"
+        },
+        "lastChangeDate": {
+          "type": "string",
+          "description": "The last change date for latest published memo"
+        }
+      }
+    },
+    "LatestVersion": {
+      "properties": {
+        "latestVersion": {
+          "type": "object",
+          "description": "Data for latest published memo",
+          "items": {
+            "schema": {
+              "$ref": "#/definitions/LatestVersionData"
+            }
+          }
         }
       }
     },

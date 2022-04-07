@@ -7,6 +7,20 @@ const log = require('@kth/log')
 const dbOneDocument = require('../lib/dbDataById')
 const dbArrayOfDocument = require('../lib/dbSeveralDocument')
 
+async function getMemoVersion(req, res) {
+  const { courseCode, memoEndPoint, version } = req.params
+  const params = { courseCode, memoEndPoint, version }
+  log.info('getMemoVersion: Received request for:', { params })
+  try {
+    const dbResponse = await dbOneDocument.getMemoVersion(courseCode, memoEndPoint, version)
+    res.json(dbResponse || {})
+    log.info('getMemoVersion: Responded to request for:', { params })
+  } catch (err) {
+    log.error('getMemoVersion: Failed request for memo, error:', { err }, { params })
+    return err
+  }
+}
+
 async function getPublishedMemoByEndPoint(req, res) {
   const { memoEndPoint } = req.params
   log.info('getPublishedMemoByEndPoint: Received request for memo with memoEndPoint:', memoEndPoint)
@@ -240,6 +254,7 @@ async function deleteDraftByMemoEndPoint(req, res) {
 }
 
 module.exports = {
+  getMemoVersion,
   createDraftByMemoEndPoint,
   getDraftByEndPoint,
   getPublishedMemoByEndPoint,

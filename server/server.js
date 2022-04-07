@@ -155,6 +155,9 @@ const paths = getPaths()
 // Api enpoints
 apiRoute.register(paths.api.checkAPIkey, System.checkAPIKey)
 
+// Get one memo
+apiRoute.register(paths.api.getMemoVersion, CourseMemo.getMemoVersion) // step 2: editor, fetch data
+
 // Get one draft | update it
 apiRoute.register(paths.api.getDraftByEndPoint, CourseMemo.getDraftByEndPoint) // step 2: editor, fetch data
 apiRoute.register(paths.api.updateCreatedDraft, CourseMemo.putDraftByEndPoint) // step 2: editor, fast update

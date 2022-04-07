@@ -13,6 +13,20 @@ async function fetchMemoByEndPointAndStatus(memoEndPoint, status) {
   return memo
 }
 
+async function getMemoVersion(courseCode, memoEndPoint, version) {
+  if (!courseCode) throw new Error('courseCode must be set')
+  const matchingParameters = { courseCode, memoEndPoint, version }
+
+  log.debug('Fetching memo current version and latest version ', matchingParameters)
+  const memo = await CourseMemo.findOne({ courseCode, memoEndPoint, version })
+  const latestMemo = await fetchMemoByEndPointAndStatus(memoEndPoint, 'published')
+  if (memo && latestMemo) {
+    log.debug('Done fetching memos total: ', memo.length, ', for: ', matchingParameters, { memo })
+    const { version: publishedVersion, lastChangeDate, memoCommonLangAbbr } = latestMemo
+    return { ...memo.toObject(), latestVersion: { publishedVersion, lastChangeDate, memoCommonLangAbbr } }
+  }
+}
+
 /* ****** */
 /* DRAFT */
 /* ****** */
@@ -56,6 +70,7 @@ async function removeCourseMemoDataById(id, courseCode) {
 }
 
 module.exports = {
+  getMemoVersion,
   fetchMemoByEndPointAndStatus,
   storeNewCourseMemoData,
   updateMemoByEndPointAndStatus,

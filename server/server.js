@@ -196,28 +196,4 @@ apiRoute.register(
 server.use(notFoundHandler)
 server.use(errorHandler)
 
-/* ****************************
- * ******* APP SPECIFIC *******
- * ****************************
- */
-
-/* **********************************
- * ******* INIT AZURE CLIENT  *******
- * **********************************
- */
-
-/*const { getClient } = require('@kth/kth-node-cosmos-db')
-
-getClient({
-  batchSize: 10000,
-  username: config.db.username,
-  password: config.db.password,
-  host: config.db.host,
-  db: 'kursinfo',
-  defaultThroughput: 200,
-  maxThroughput: 400,
-  collections: [{ name: 'coursememos' }, { name: 'memofiles' }],
-})
-*/
-
 module.exports = server

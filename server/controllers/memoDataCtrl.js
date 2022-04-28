@@ -51,7 +51,7 @@ async function postNewVersionOfPublishedMemo(req, res) {
     memoObj.status = 'published'
     dbResponse.push(await dbOneDocument.updateMemoByEndPointAndStatus(memoEndPoint, memoObj, 'draft'))
 
-    log.info('dbResponse', dbResponse)
+    log.info('dbResponse length', dbResponse.length, { memoEndPoint })
     res.status(201).json(dbResponse)
   } catch (error) {
     log.error('Error in while trying to postNewMemo ', { error })
@@ -94,7 +94,7 @@ async function putDraftByEndPoint(req, res) {
       log.debug('no memo draft was found to update with memoEndPoint: ', memoEndPoint)
     }
 
-    log.info('dbResponse', dbResponse)
+    log.info('dbResponse length', dbResponse.length, { memoEndPoint })
     res.status(201).json(dbResponse)
   } catch (error) {
     log.error('Error in while trying to putDraftByEndPoint', { error })
@@ -164,7 +164,7 @@ async function createDraftByMemoEndPoint(req, res) {
       }
     }
 
-    log.info('dbResponse', dbResponse)
+    log.info('dbResponse length', dbResponse.length, { memoEndPoint })
     res.status(201).json(dbResponse)
   } catch (error) {
     log.error('Error in while trying to createDraftByMemoEndPoint ', { error })
@@ -175,12 +175,12 @@ async function createDraftByMemoEndPoint(req, res) {
 async function getAllMemosByCourseCodeAndType(req, res) {
   // TODO: ADD FETCHING USED COURSE ROUNDS (DRAFTS + PUBLISHED)
   const { courseCode, type } = req.params
-  log.info('getAllMemosByCourseCodeAndType: Received request for memo for course:', courseCode)
+  log.info('getAllMemosByCourseCodeAndType: Received request for memo for course:', { courseCode, type })
   try {
     const dbResponse = await dbArrayOfDocument.getAllMemosByStatus(courseCode, type)
 
     res.json(dbResponse || [])
-    log.info('getAllMemosByCourseCodeAndType: Responded to request for memo:', dbResponse)
+    log.info('getAllMemosByCourseCodeAndType: Responded to request for memo:', { courseCode, type })
   } catch (err) {
     log.error('getAllMemosByCourseCodeAndType: Failed request for memo, error:', { err })
     return err
@@ -195,7 +195,7 @@ async function getCourseSemesterUsedRounds(req, res) {
     const dbResponse = await dbArrayOfDocument.getCourseSemesterUsedRounds(courseCode, semester)
 
     res.json(dbResponse || {})
-    log.info('getCourseSemesterUsedRounds: Responded to request for memo:', dbResponse)
+    log.info('getCourseSemesterUsedRounds: Responded to request for memo:', { courseCode, semester })
   } catch (err) {
     log.error('getCourseSemesterUsedRounds: Failed request for memo, error:', { err })
     return err
@@ -223,7 +223,7 @@ async function getMemosStartingFromPrevSemester(req, res) {
     const dbResponse = await dbArrayOfDocument.getMemosFromPrevSemester(courseCode, prevYearSemester)
 
     res.json(dbResponse || {})
-    log.info('getMemosStartingFromPrevSemester: Responded to request for memo:', dbResponse)
+    log.info('getMemosStartingFromPrevSemester: Responded to request for memo:', { courseCode })
   } catch (err) {
     log.error('getMemosStartingFromPrevSemester: Failed request for memo, error:', { err })
     return err

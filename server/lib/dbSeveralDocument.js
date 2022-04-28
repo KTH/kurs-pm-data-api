@@ -17,12 +17,13 @@ function logInCaseOfPossibleLimit(doc = [], matchingParameters = {}) {
   return
 }
 
-function getAllMemosByStatus(courseCode, status) {
+async function getAllMemosByStatus(courseCode, status) {
   if (!courseCode) throw new Error('courseCode must be set')
   const matchingParameters = { courseCode, status }
 
   log.debug('Fetching all courseMemos for ', matchingParameters)
-  const doc = CourseMemo.find({ courseCode, status })
+  const doc = await CourseMemo.find({ courseCode, status })
+  // CourseMemo.find({ courseCode, status })
   if (doc) log.debug('Done fetching memos total: ', doc.length, ', for: ', matchingParameters)
 
   logInCaseOfPossibleLimit(doc, matchingParameters)

@@ -57,7 +57,7 @@ log.init(logConfiguration)
 const exphbs = require('express-handlebars')
 
 server.set('views', path.join(__dirname, '/views'))
-server.engine('handlebars', exphbs())
+server.engine('handlebars', exphbs.engine())
 server.set('view engine', 'handlebars')
 
 /* ******************************

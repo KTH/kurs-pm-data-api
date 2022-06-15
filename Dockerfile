@@ -41,15 +41,9 @@ COPY ["package.json", "package.json"]
 COPY ["package-lock.json", "package-lock.json"]
 #
 # - Variant 1 - node-gyp not needed:
-# RUN npm install --production --no-optional --unsafe-perm && \
-#     npm audit fix --only=prod
-#
-# - Variant 2 - node-gyp needs build-essentials:
-RUN apk stats && apk add --no-cache --virtual .gyp-dependencies python2 make g++ util-linux && \
-    npm set-script prepare "" && \
+RUN npm set-script prepare "" && \
     npm ci --production --no-optional --unsafe-perm && \
-    npm audit fix --only=prod && \
-    apk del .gyp-dependencies && apk stats
+    npm audit fix --only=prod
 
 # Copy files used by Gulp.
 COPY ["config", "config"]

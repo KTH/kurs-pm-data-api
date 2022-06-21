@@ -49,13 +49,13 @@ These settings are also available in an `env.in` file.
 
 ## Prepara Database in Azure
 
-Create database `kursinfo` and manually set Throughput: 400 (Shared),
-In this database create a collection `coursememos` where a shard key is `/courseCode`.
-Change a connection string:
+1. Create database `kursinfo` and manually set Throughput: 400 (Shared). Name of database will be used in a connection string.
+2. In this database create a collection `coursememos` where a shard key is `/courseCode`.
+3. Change a connection string by adding name of database (`kursinfo`) after port slush `[port]/` and as a search query after `?` as `authSorce=kursinfo`:
 
-`mongodb://kurs-pm-data-api-stage-mongodb-kthse:[password]==@kurs-pm-data-api-stage-mongodb-kthse.documents.azure.com:[port]`~~/?ssl=true&replicaSet=globaldb~~`/kursinfo?ssl=true&authSource=kursinfo`
+`mongodb://kurs-pm-data-api-stage-mongodb-kthse:[password]==@kurs-pm-data-api-stage-mongodb-kthse.documents.azure.com:[port]`~~/?ssl=true~~`/kursinfo?ssl=true&authSource=kursinfo`
 
-Mer information finns i Confluence: https://confluence.sys.kth.se/confluence/x/a4_KC
+More information can be found in Confluence: [Om kursen: Databas och API, connection string](https://confluence.sys.kth.se/confluence/x/a4_KC)
 
 ## For Development
 

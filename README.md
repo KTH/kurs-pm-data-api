@@ -55,6 +55,8 @@ Change a connection string:
 
 `mongodb://kurs-pm-data-api-stage-mongodb-kthse:[password]==@kurs-pm-data-api-stage-mongodb-kthse.documents.azure.com:[port]`~~/?ssl=true&replicaSet=globaldb~~`/kursinfo?ssl=true&authSource=kursinfo`
 
+Mer information finns i Confluence: https://confluence.sys.kth.se/confluence/x/a4_KC
+
 ## For Development
 
 ### Install

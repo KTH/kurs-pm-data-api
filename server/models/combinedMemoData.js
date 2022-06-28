@@ -25,7 +25,6 @@ const combinedMemoData = {
       possibilityToAddition: 'defaultTrue',
       possibilityToCompletion: 'defaultTrue',
       prerequisites: 'defaultTrue',
-      scheduleDetails: 'defaultTrue',
       teacherAssistants: 'defaultTrue',
     },
   },

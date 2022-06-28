@@ -41,6 +41,10 @@ COPY ["package.json", "package.json"]
 COPY ["package-lock.json", "package-lock.json"]
 #
 # - Variant 1 - node-gyp not needed:
+# RUN npm install --production --no-optional --unsafe-perm && \
+#     npm audit fix --only=prod
+#
+# - Variant 2 - node-gyp needs build-essentials:
 RUN npm set-script prepare "" && \
     npm ci --production --no-optional --unsafe-perm && \
     npm audit fix --only=prod

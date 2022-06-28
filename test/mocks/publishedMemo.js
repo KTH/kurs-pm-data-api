@@ -65,6 +65,7 @@ const publishedMemo = {
     possibilityToAddition: false,
     possibilityToCompletion: false,
     prerequisites: true,
+    scheduleDetails: true,
     teacherAssistants: false,
   },
   courseCode: 'EH2720',

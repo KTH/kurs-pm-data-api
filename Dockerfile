@@ -49,10 +49,7 @@ COPY --chown=node:node ["package-lock.json", "package-lock.json"]
 RUN npm pkg delete scripts.prepare && \
     npm ci --production --no-optional --unsafe-perm
 
-# Copy files used by Gulp.
 COPY --chown=node:node ["config", "config"]
-
-COPY --chown=node:node ["package.json", "package.json"]
 
 # Copy source files, so changes does not trigger gulp.
 COPY --chown=node:node ["app.js", "app.js"]

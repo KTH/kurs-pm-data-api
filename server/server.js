@@ -92,9 +92,6 @@ server.use(cookieParser())
 const passport = require('passport')
 require('./authentication')
 
-server.use(passport.initialize())
-server.use(passport.session())
-
 /* ************************
  * ******* DATABASE *******
  * ************************

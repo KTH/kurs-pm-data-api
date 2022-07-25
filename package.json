@@ -19,7 +19,7 @@
   "dependencies": {
     "@kth/kth-node-api-common": "^2.0.2",
     "@kth/log": "^4.0.4",
-    "@kth/mongo": "^4.0.9",
+    "@kth/mongo": "^4.0.10",
     "@kth/monitor": "^3.0.25",
     "@kth/server": "^4.0.3",
     "applicationinsights": "^2.3.3",

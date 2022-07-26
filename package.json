@@ -17,7 +17,7 @@
     "start-dev": "cross-env NODE_ENV=development nodemon app.js"
   },
   "dependencies": {
-    "@kth/kth-node-api-common": "^2.0.2",
+    "@kth/kth-node-api-common": "^2.0.3",
     "@kth/log": "^4.0.4",
     "@kth/mongo": "^4.0.10",
     "@kth/monitor": "^3.0.25",
@@ -35,7 +35,7 @@
     "kth-node-api-key-strategy": "^2.0.0",
     "kth-node-configuration": "^2.0.12",
     "kth-node-express-routing": "^2.0.15",
-    "mongoose": "^6.4.6",
+    "mongoose": "^6.4.7",
     "passport": "^0.6.0",
     "safe-utils": "1.0.1",
     "swagger-ui-dist": "^4.12.0"

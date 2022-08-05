@@ -20,6 +20,7 @@ const combinedMemoData = {
       additionalRegulations: 'defaultTrue',
       ethicalApproachSubSection: 'defaultTrue',
       equipment: 'defaultTrue',
+      examinationSubSection: false,
       permanentDisabilitySubSection: 'defaultTrue',
       possibilityToAddition: 'defaultTrue',
       possibilityToCompletion: 'defaultTrue',

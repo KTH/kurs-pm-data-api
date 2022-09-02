@@ -1037,10 +1037,6 @@
           "type": "integer",
           "description": "Will be set by api, it will be incremented for copied draft"
         },
-        "additionalRegulations": {
-          "type": "string",
-          "description": "Text field for html with Additional regulations / Övriga föreskrifter (kopps kursplan)"
-        },
         "commentAboutMadeChanges": {
           "type": "string",
           "description": "Text field to describe what changes have been made to new version of published memo"

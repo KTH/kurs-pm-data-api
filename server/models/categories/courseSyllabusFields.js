@@ -14,12 +14,6 @@ const courseSyllabus = {
     minlength: 0,
     default: '',
   },
-  additionalRegulations: {
-    type: String,
-    trim: true,
-    minlength: 0,
-    default: '',
-  },
   gradingScale: {
     type: String,
     trim: true,

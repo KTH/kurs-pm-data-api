@@ -17,6 +17,7 @@ const combinedMemoData = {
   visibleInMemo: {
     type: Object,
     default: {
+      additionalRegulations: 'defaultTrue',
       ethicalApproachSubSection: 'defaultTrue',
       equipment: 'defaultTrue',
       examinationSubSection: false,

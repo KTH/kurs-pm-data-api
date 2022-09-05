@@ -15,6 +15,7 @@ const publishedMemo = {
   ethicalApproachSubSection: '',
   examinationSubSection:
     '<h4>Project ( PRO1 )</h4><h4>Project ( PRO2 )</h4><h4>Project ( PRO3 )</h4><h4>Project ( PRO4 )</h4><h4>Project ( PRO5 )</h4><h4>Seminar ( SEM1 )</h4>',
+  additionalRegulations: '',
   gradingCriteria: '',
   infoForReregisteredStudents: '',
   learningActivities: '',
@@ -56,6 +57,7 @@ const publishedMemo = {
   teacherAssistants: '',
   teacher: '',
   visibleInMemo: {
+    additionalRegulations: 'defaultTrue',
     ethicalApproachSubSection: false,
     equipment: false,
     examinationSubSection: true,

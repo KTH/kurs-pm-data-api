@@ -51,6 +51,11 @@ const schema = mongoose.Schema({
       'Enter well readable memo name to use to describe which course offering included in course memo.',
     ],
   },
+  roundsTypes: {
+    type: Array,
+    items: Object,
+    default: {},
+  },
   semester: {
     type: String,
     trim: true,

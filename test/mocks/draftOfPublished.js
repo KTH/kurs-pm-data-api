@@ -9,6 +9,14 @@ const draftOfPublished = {
     validFromTerm: 20191,
     textFromTo: 'Spring 2019 - ',
   },
+  roundsTypes: [
+    {
+      ladokRoundId: '1',
+      code: 'ORD',
+      name: 'Programutbildning',
+      semester: '20191',
+    },
+  ],
   version: 2,
   commentAboutMadeChanges: '',
   communicationDuringCourse: '',

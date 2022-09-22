@@ -19,6 +19,9 @@ const schema = mongoose.Schema({
     type: String,
     trim: true,
   },
+  educationalTypeId: {
+    type: Number,
+  },
   ladokRoundIds: {
     type: Array,
     items: String,
@@ -50,11 +53,6 @@ const schema = mongoose.Schema({
       false,
       'Enter well readable memo name to use to describe which course offering included in course memo.',
     ],
-  },
-  roundsTypes: {
-    type: Array,
-    items: Object,
-    default: {},
   },
   semester: {
     type: String,

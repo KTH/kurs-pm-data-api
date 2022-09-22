@@ -869,21 +869,6 @@
         }
       }
     },
-    "roundsTypes": {
-      "properties": {
-        "code": {
-          "type": "string",
-          "description": "Code for education type, f.e., UPP (for contract education), PER (course for KTH staff), ORD (for programme students)"
-        },
-        "ladokRoundId": {
-          "type": "string"
-        },
-        "name": {
-          "type": "string",
-          "description": "Descriptive name for a code of round types"
-        }
-      }
-    },
     "SyllabusData": {
       "validFromTerm": {
         "type": "integer"
@@ -1072,6 +1057,10 @@
           "type": "string",
           "description": "Text field for html with Course coordinator  / Kursansvarig (admin via kopps, fetched from redis-ug)"
         },
+        "educationalTypeId":{
+          "type": "integer",
+          "description": "Educational type id, usually empty or if it's a contract education it is 101992, 101993"
+        },
         "ethicalApproach": {
           "type": "string",
           "description": "Text field for html with Ethical approach / Etiskt förhållningssätt (kopps kursplan)"
@@ -1204,15 +1193,6 @@
         "reportingResults": {
           "type": "string",
           "description": "Text field for html with Results reporting / Resultatrapportering (KIP - via kurs pm admin)"
-        },
-        "roundsTypes": {
-          "type": "array",
-          "items": {
-            "schema": {
-              "$ref": "#/definitions/roundsTypes"
-            }
-          },
-          "description": "Information about rounds types"
         },
         "scheduleDetails": {
           "type": "string",

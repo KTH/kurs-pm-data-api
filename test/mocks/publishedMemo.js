@@ -9,14 +9,6 @@ const publishedMemo = {
     validFromTerm: 20191,
     textFromTo: 'Spring 2019 - ',
   },
-  roundsTypes: [
-    {
-      ladokRoundId: '1',
-      code: 'ORD',
-      name: 'Programutbildning',
-      semester: '20192',
-    },
-  ],
   version: 1,
   commentAboutMadeChanges: '',
   communicationDuringCourse: '',

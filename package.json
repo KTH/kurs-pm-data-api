@@ -21,7 +21,7 @@
     "@kth/log": "^4.0.5",
     "@kth/mongo": "^4.0.12",
     "@kth/monitor": "^3.0.25",
-    "@kth/server": "^4.0.3",
+    "@kth/server": "^4.0.4",
     "applicationinsights": "^2.3.4",
     "body-parser": "^1.20.0",
     "cookie-parser": "^1.4.6",

@@ -34,7 +34,7 @@
     "kth-node-access-log": "^0.2.9",
     "kth-node-api-key-strategy": "^2.0.0",
     "kth-node-configuration": "^2.0.13",
-    "kth-node-express-routing": "^2.0.15",
+    "kth-node-express-routing": "^2.0.16",
     "mongoose": "^6.6.3",
     "passport": "^0.6.0",
     "safe-utils": "1.0.1",

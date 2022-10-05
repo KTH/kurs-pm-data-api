@@ -255,17 +255,15 @@ async function getPrioritizedWebOrPdfMemosBySemesters(req, res, next) {
   // If there is a web-based memo, then don't fetch pdf version. Add pdf version only in case there is no web based memo.
 
   const { year } = req.params
-  log.info('------ yearStr', year, typeof year)
   if (!year) throw new Error('year must be set')
 
   const { seasons: seasonsStr } = req.query
-  log.info('------ seasonsStr', seasonsStr, typeof seasonsStr)
 
-  if (!seasonsStr) throw new Error('semesters must be set')
+  if (!seasonsStr) throw new Error('seasons must be set')
   const seasons = seasonsStr.split(',')
 
   try {
-    log.debug('Fetching all courseMemos', { seasons })
+    log.debug('Fetching all courseMemos', { year, seasons })
 
     const miniMemosByYears = _formMiniMemosByYears(year, seasons)
 

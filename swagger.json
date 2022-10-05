@@ -569,14 +569,14 @@
             "in": "path",
             "description": "Year, four digits",
             "required": true,
-            "type": "number"
+            "type": "string"
           },
           {
             "name": "seasons",
             "in": "query",
-            "description": "Seasons list, one digit per season Autumn -> 2, Spring 1 (1-2). Example seasons=1,2",
+            "description": "Seasons comma-separated, one digit per season Autumn -> 2, Spring 1 (1-2). Example seasons=1,2",
             "required": true,
-            "type": "number"
+            "type": "string"
           }
         ],
         "tags": ["v1"],

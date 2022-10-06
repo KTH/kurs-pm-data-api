@@ -126,11 +126,12 @@ async function getMemosListBySemester(chosenSemester) {
     const webBasedOldMemos = await dbArrayOfDocument.getFirstMemosBySemesterAndStatus(chosenSemester, 'old')
     const webBasedMemos = [...webBasedPublishedMemos, ...webBasedOldMemos]
 
-    const listMiniMemos = _formMiniMemosList(chosenSemester, mergedPdfMemos, webBasedMemos)
+    const listMiniMemos = await _formMiniMemosList(chosenSemester, mergedPdfMemos, webBasedMemos)
+    log.info('get listMiniMemos ', { semester: chosenSemester, length: listMiniMemos.length })
 
     return listMiniMemos
   } catch (err) {
-    log.error('getPdfAndWebMemosListBySemester: Failed request for memo, error:', { err })
+    log.error('getMemosListBySemester: Failed request for memo, error:', { err })
     return err
   }
 }
@@ -140,7 +141,7 @@ async function getPdfAndWebMemosListBySemester(req, res) {
   if (!req.params.semester) throw new Error('semester must be set')
   const { semester: chosenSemester } = req.params
   try {
-    const listMiniMemos = getMemosListBySemester(chosenSemester)
+    const listMiniMemos = await getMemosListBySemester(chosenSemester)
 
     res.json(listMiniMemos)
     log.info('getPdfAndWebMemosListBySemester: Responded to request for all memos pdfs and web based with: ', {
@@ -219,7 +220,7 @@ async function getPrioritizedWebOrPdfMemosByCourseCode(req, res) {
 
     const webBasedMemos = await dbArrayOfDocument.getAllMemosByStatus(courseCode, 'published')
 
-    const miniMemos = _formPrioritizedMemosByCourseRounds(dbMigratedPdfs, webBasedMemos)
+    const miniMemos = await _formPrioritizedMemosByCourseRounds(dbMigratedPdfs, webBasedMemos)
 
     res.json(miniMemos)
     log.debug(
@@ -235,17 +236,25 @@ async function getPrioritizedWebOrPdfMemosByCourseCode(req, res) {
   }
 }
 
-function _formMiniMemosByYears(yearStr, seasons) {
+async function _formMiniMemosByYears(yearStr, seasons) {
   const year = Math.abs(yearStr)
   const yearAgo = year - 1
   const years = [year, yearAgo]
   const memosByYears = {}
 
-  years.forEach(y => {
-    const semesters = seasons.map(season => `${y}${season}`)
-    memosByYears[y] = semesters.flatMap(semester => getMemosListBySemester(semester))
-  })
-  log.debug('memosByYears 0', memosByYears[0])
+  for (const y of years) {
+    const semesters = await seasons.map(season => `${y}${season}`)
+    memosByYears[y] = []
+    for (const semester of semesters) {
+      const semesterMemos = await getMemosListBySemester(semester)
+      log.debug('semesterMemos', { semester, semesterMemosLength: semesterMemos.length })
+
+      memosByYears[y].push(...semesterMemos)
+    }
+    memosByYears[y].flat()
+  }
+  log.debug('memos for year', { year, memos: memosByYears[year].length })
+  log.debug('memos for yearAgo', { year: yearAgo, memos: memosByYears[yearAgo].length })
 
   return memosByYears
 }
@@ -263,9 +272,9 @@ async function getPrioritizedWebOrPdfMemosBySemesters(req, res, next) {
   const seasons = seasonsStr.split(',')
 
   try {
-    log.debug('Fetching all courseMemos', { year, seasons })
+    log.debug('Intiating forming and fetching courseMemos', { year, seasons })
 
-    const miniMemosByYears = _formMiniMemosByYears(year, seasons)
+    const miniMemosByYears = await _formMiniMemosByYears(year, seasons)
 
     res.json(miniMemosByYears)
 
@@ -273,7 +282,7 @@ async function getPrioritizedWebOrPdfMemosBySemesters(req, res, next) {
       'getPrioritizedWebOrPdfMemosBySemesters: Responded to request for filtered memos pdfs and web based with: ',
       {
         seasons,
-        length: miniMemosByYears.length,
+        length: miniMemosByYears[year] ? miniMemosByYears[year].length : 'missing memos',
       }
     )
     return

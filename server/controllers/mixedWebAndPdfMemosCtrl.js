@@ -236,58 +236,41 @@ async function getPrioritizedWebOrPdfMemosByCourseCode(req, res) {
   }
 }
 
-async function _formMiniMemosByYears(yearStr, seasons) {
-  const year = Math.abs(yearStr)
-  const yearAgo = year - 1
-  const years = [year, yearAgo]
-  const memosByYears = {}
+async function _getSemestersMemos(semesters) {
+  const memos = []
 
-  for (const y of years) {
-    const semesters = await seasons.map(season => `${y}${season}`)
-    memosByYears[y] = []
-    for (const semester of semesters) {
-      const semesterMemos = await getMemosListBySemester(semester)
-      log.debug('semesterMemos', { semester, semesterMemosLength: semesterMemos.length })
+  for (const semester of semesters) {
+    const semesterMemos = await getMemosListBySemester(semester)
+    log.debug('semesterMemos', { semester, semesterMemosLength: semesterMemos.length })
 
-      memosByYears[y].push(...semesterMemos)
-    }
-    memosByYears[y].flat()
+    memos.push(...semesterMemos)
   }
-  log.debug('memos for year', { year, memos: memosByYears[year].length })
-  log.debug('memos for yearAgo', { year: yearAgo, memos: memosByYears[yearAgo].length })
 
-  return memosByYears
+  log.debug('memos', { memosNumber: memos.length })
+
+  return memos
 }
 
-async function getPrioritizedWebOrPdfMemosBySemesters(req, res, next) {
-  // List of all actual memos for each semester defined in query but only prioritized by principle:
-  // If there is a web-based memo, then don't fetch pdf version. Add pdf version only in case there is no web based memo.
+async function getPdfAndWebMemosListBySemesters(req, res, next) {
+  const { semesters: semestersStr = '' } = req.query
 
-  const { year } = req.params
-  if (!year) throw new Error('year must be set')
-
-  const { seasons: seasonsStr } = req.query
-
-  if (!seasonsStr) throw new Error('seasons must be set')
-  const seasons = seasonsStr.split(',')
+  if (!semestersStr) log.error('semesters must be set')
+  const semesters = semestersStr.split(',')
 
   try {
-    log.debug('Intiating forming and fetching courseMemos', { year, seasons })
+    log.debug('Intiating forming and fetching courseMemos', { semesters })
 
-    const miniMemosByYears = await _formMiniMemosByYears(year, seasons)
+    const semestersMemos = await _getSemestersMemos(semesters)
 
-    res.json(miniMemosByYears)
+    res.json(semestersMemos)
 
-    log.debug(
-      'getPrioritizedWebOrPdfMemosBySemesters: Responded to request for filtered memos pdfs and web based with: ',
-      {
-        seasons,
-        length: miniMemosByYears[year] ? miniMemosByYears[year].length : 'missing memos',
-      }
-    )
+    log.debug('getPdfAndWebMemosListBySemesters: Responded to request for filtered memos pdfs and web based with: ', {
+      semesters,
+      length: semestersMemos ? semestersMemos.length : 'missing memos',
+    })
     return
   } catch (err) {
-    log.error('getPrioritizedWebOrPdfMemosBySemesters: Failed request for memo, error:', { err })
+    log.error('getPdfAndWebMemosListBySemesters: Failed request for memo, error:', { err })
     next(err)
   }
 }
@@ -296,5 +279,5 @@ module.exports = {
   getPdfAndWebMemosListByCourseCode,
   getPdfAndWebMemosListBySemester,
   getPrioritizedWebOrPdfMemosByCourseCode,
-  getPrioritizedWebOrPdfMemosBySemesters,
+  getPdfAndWebMemosListBySemesters,
 }

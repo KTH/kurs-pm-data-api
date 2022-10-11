@@ -183,10 +183,7 @@ apiRoute.register(
   paths.api.getPdfAndWebMemosListByCourseCode,
   MixedWebAndPdfMemosList.getPdfAndWebMemosListByCourseCode
 )
-apiRoute.register(
-  paths.api.getPrioritizedWebOrPdfMemosBySemesters,
-  MixedWebAndPdfMemosList.getPrioritizedWebOrPdfMemosBySemesters
-)
+apiRoute.register(paths.api.getPdfAndWebMemosListBySemesters, MixedWebAndPdfMemosList.getPdfAndWebMemosListBySemesters)
 apiRoute.register(paths.api.getPdfAndWebMemosListBySemester, MixedWebAndPdfMemosList.getPdfAndWebMemosListBySemester)
 apiRoute.register(
   paths.api.getPrioritizedWebOrPdfMemosByCourseCode,

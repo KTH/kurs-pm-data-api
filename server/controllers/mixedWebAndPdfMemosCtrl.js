@@ -154,10 +154,10 @@ async function getPdfAndWebMemosListBySemester(req, res) {
   }
 }
 
-function _formPrioritizedMemosByCourseRounds(pdfMemos, webBasedMemos) {
+async function _formPrioritizedMemosByCourseRounds(courseCode, pdfMemos, webBasedMemos) {
   const miniMemos = {}
   // firstly fetch web-based
-  webBasedMemos.forEach(
+  await webBasedMemos.forEach(
     ({ ladokRoundIds, memoEndPoint, memoCommonLangAbbr, memoName, semester, version, lastChangeDate }) => {
       if (!semester) return
       if (!miniMemos[semester]) miniMemos[semester] = {}
@@ -177,7 +177,7 @@ function _formPrioritizedMemosByCourseRounds(pdfMemos, webBasedMemos) {
     }
   )
   // if there is a round without a web-based memo, then fill it with pdf memo (if memo exists)
-  pdfMemos.forEach(
+  await pdfMemos.forEach(
     ({
       courseCode,
       courseMemoFileName,
@@ -220,7 +220,7 @@ async function getPrioritizedWebOrPdfMemosByCourseCode(req, res) {
 
     const webBasedMemos = await dbArrayOfDocument.getAllMemosByStatus(courseCode, 'published')
 
-    const miniMemos = await _formPrioritizedMemosByCourseRounds(dbMigratedPdfs, webBasedMemos)
+    const miniMemos = await _formPrioritizedMemosByCourseRounds(courseCode, dbMigratedPdfs, webBasedMemos)
 
     res.json(miniMemos)
     log.debug(

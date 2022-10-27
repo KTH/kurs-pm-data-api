@@ -558,6 +558,54 @@
         ]
       }
     },
+    "/v1/prioritizedWebOrPdfMemosBySemesters": {
+      "get": {
+        "operationId": "getPdfAndWebMemosListBySemesters",
+        "summary": "Get a list of course memos for the year provided in the path and one year ago for each semester provided in a query: stored as pdf files (integrated from kurs-pm-api) AND as web-based versions used by kursinfo-web 'About memo' statistic",
+        "description": "Gets both solutions of course memos for all semesters provided in a query. Memos stored as pdfs in kursinfo storage (not generated) and as a html version (kurs-pm-data)",
+        "parameters": [
+          {
+            "name": "semesters",
+            "in": "query",
+            "description": "semesters comma-separated, one digit per semester year + Autumn -> 2 or Spring -> 1. Example seasons=20211,20212",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "tags": ["v1"],
+        "responses": {
+          "200": {
+            "description": "The requested data, list of memos for all provided semesters",
+            "schema": {
+              "$ref": "#/definitions/listOfMixedMemosForSemester"
+            }
+          },
+          "400": {
+            "description": "Bad Request, something with the request is invalid",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          },
+          "404": {
+            "description": "No year or season matched the db",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          },
+          "default": {
+            "description": "Unexpected error",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          }
+        },
+        "security": [
+          {
+            "api_key": ["read"]
+          }
+        ]
+      }
+    },
     "/v1/webAndPdfPublishedMemosBySemester/{semester}/": {
       "get": {
         "operationId": "getPdfAndWebMemosListBySemester",
@@ -1057,7 +1105,7 @@
           "type": "string",
           "description": "Text field for html with Course coordinator  / Kursansvarig (admin via kopps, fetched from redis-ug)"
         },
-        "educationalTypeId":{
+        "educationalTypeId": {
           "type": "integer",
           "description": "Educational type id, usually empty or if it's a contract education it is 101992, 101993"
         },

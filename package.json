@@ -43,7 +43,7 @@
   "devDependencies": {
     "@kth/eslint-config-kth": "^3.0.10",
     "cross-env": "^7.0.3",
-    "eslint": "^8.24.0",
+    "eslint": "^8.26.0",
     "husky": "^8.0.1",
     "jest": "^29.1.2",
     "jest-extended": "^3.1.0",

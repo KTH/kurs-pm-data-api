@@ -19,6 +19,9 @@ const schema = mongoose.Schema({
     type: String,
     trim: true,
   },
+  educationalTypeId: {
+    type: Number,
+  },
   ladokRoundIds: {
     type: Array,
     items: String,

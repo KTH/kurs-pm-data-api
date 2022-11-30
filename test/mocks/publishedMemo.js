@@ -15,6 +15,7 @@ const publishedMemo = {
   ethicalApproachSubSection: '',
   examinationSubSection:
     '<h4>Project ( PRO1 )</h4><h4>Project ( PRO2 )</h4><h4>Project ( PRO3 )</h4><h4>Project ( PRO4 )</h4><h4>Project ( PRO5 )</h4><h4>Seminar ( SEM1 )</h4>',
+  additionalRegulations: '',
   gradingCriteria: '',
   infoForReregisteredStudents: '',
   learningActivities: '',
@@ -32,7 +33,6 @@ const publishedMemo = {
     '<p>The course focuses on creating an understanding of problems connected with technical management rather than offering practical competence in a particular project method. Nevertheless, invited guest lecturers will present examples of different project models.</p><p>Within the course the following moments are treated: the "project" as a working form, product development, delivery and procurement projects, interplay between supplier and customer, presentation and examples of project models, the different phases of a project, the bidding process, risk analysis, leadership, group dynamics, documents in a project, for example, request for bid, bid, contract, project manuals, project plan/start-up reports, progress reports, project conclusion, and evaluation, quality standards.</p>',
   learningOutcomes:
     '<p>Upon completion of this course, participants shall understand what a project manager does and how one works in an industrial project by being able to:</p><ul><li>describe and apply the different phases of a project, i.e. plan, follow up, and finish a project</li><li>use methods and tools for planning and following up a project considering time, costs and resources</li><li>give examples of how activities such as project meetings and documentation are carried out and managed</li><li>with the starting point of an project model create necessary project documentation</li><li>plan and perform a risk analysis</li><li>analyse an industrial project</li><li>present results through oral and written communication</li></ul>',
-  additionalRegulations: '',
   gradingScale: '<p>A, B, C, D, E, FX, F</p>',
   ethicalApproach:
     "<ul><li>All members of a group are responsible for the group's work.</li><li>In any assessment, every student shall honestly disclose any help received and sources used.</li><li>In an oral assessment, every student shall be able to present and answer questions about the entire assignment and solution.</li></ul>",

@@ -648,7 +648,7 @@
         ]
       }
     },
-    "/v1/usedMemosStartingFromPrevYearSemester/{courseCode}": {
+    "/v1/usedMemosStartingFromPrevYearSemester/{courseCode}/{semester}": {
       "get": {
         "operationId": "getMemosStartingFromPrevYearSemester",
         "summary": "Gets a list of used round ids for a semester in a course",
@@ -658,6 +658,13 @@
             "in": "path",
             "description": "Course code, six or seven characters",
             "required": true,
+            "type": "string"
+          },
+          {
+            "name": "semester",
+            "description": "Term/Termin/semester Autumn 2020 -> 20202, Spring 2020 -> 20201 (year)(1-2)",
+            "in": "path",
+            "required": false,
             "type": "string"
           }
         ],

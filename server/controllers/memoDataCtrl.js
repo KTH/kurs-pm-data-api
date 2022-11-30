@@ -212,8 +212,8 @@ const _prevTermNumber = () => {
 }
 async function getMemosStartingFromPrevSemester(req, res) {
   // TODO: ADD FETCHING USED COURSE ROUNDS (DRAFTS + PUBLISHED)
-  const { courseCode } = req.params
-  const prevYearSemester = _prevTermNumber()
+  const { courseCode, semester } = req.params
+  const prevYearSemester = !semester ? _prevTermNumber() : semester
 
   log.info('getMemosStartingFromPrevSemester: Received request for existing memos for :', {
     courseCode,

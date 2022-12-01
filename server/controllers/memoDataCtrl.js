@@ -212,6 +212,7 @@ const _prevTermNumber = () => {
 }
 async function getMemosStartingFromPrevSemester(req, res) {
   // TODO: ADD FETCHING USED COURSE ROUNDS (DRAFTS + PUBLISHED)
+  // Use all active semester to fetch draft memos
   const { courseCode, semester } = req.params
   const prevYearSemester = !semester ? _prevTermNumber() : semester
 

@@ -28,6 +28,12 @@ const schema = mongoose.Schema({
     trim: true,
     required: [true, 'Enter course rounds'],
   },
+  applicationCodes: {
+    type: Array,
+    items: String,
+    trim: true,
+    required: [true, 'Enter course application codes'],
+  },
   lastChangeDate: {
     type: String,
     default: new Date(),

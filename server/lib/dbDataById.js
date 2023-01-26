@@ -12,6 +12,13 @@ async function fetchMemoByEndPointAndStatus(memoEndPoint, status) {
   const memo = await CourseMemo.findOne({ memoEndPoint, status }) // courseCode
   return memo
 }
+// No need to merge this method to master. This is only for updating old memos
+async function fetchMemoByMemoEndpointAndCourseCodeAndSemester(memoEndPoint, courseCode, semester) {
+  if (!memoEndPoint && !courseCode && !semester) throw new Error('MemoEndPoint, courseCode and semester must be set')
+  log.debug('Fetching memo based on ', { memoEndPoint, courseCode, semester })
+  const memo = await CourseMemo.findOne({ memoEndPoint, courseCode, semester })
+  return memo
+}
 
 async function getMemoVersion(courseCode, memoEndPoint, version) {
   if (!courseCode) throw new Error('courseCode must be set')
@@ -34,7 +41,7 @@ async function storeNewCourseMemoData(data) {
   // ***** USED TO POST NEW COURSE MEMO FIRST DRAFT
   if (!data) throw new Error('Trying to post empty/innacurate data in storeNewCourseMemoData')
   else {
-    if (!data.courseCode || !data.semester || !data.ladokRoundIds)
+    if (!data.courseCode || !data.semester || !data.applicationCodes)
       throw new Error('Trying to post data without courseCode or semester or ladokRoundsIds in storeNewCourseMemoData')
     data.lastChangeDate = new Date()
     const doc = new CourseMemo(data)
@@ -42,6 +49,29 @@ async function storeNewCourseMemoData(data) {
     const result = await doc.save()
     return result
   }
+}
+// No need to merge this method to master. This is only for updating old memos
+async function updateMemoByMemoEndPointAndCourseCodeAndSemester(memoEndPoint, courseCode, semester, data) {
+  // UPPDATERA DRAFT GENOM memoEndPoint
+  if (data) {
+    log.debug('Update of existing memo: ', { data })
+
+    const resultAfterUpdate = await CourseMemo.findOneAndUpdate(
+      { memoEndPoint, courseCode, semester },
+      { $set: data },
+      { maxTimeMS: 100, new: true, useFindAndModify: false }
+    )
+    if (resultAfterUpdate && resultAfterUpdate.version) {
+      log.debug('Updated draft: ', {
+        version: resultAfterUpdate.version,
+        memoEndPoint: resultAfterUpdate.memoEndPoint,
+        id: resultAfterUpdate.id,
+        applicationCodes: resultAfterUpdate.applicationCodes,
+      })
+    }
+    return resultAfterUpdate
+  }
+  log.debug('No roundCourseMemoData found for updating it with new data', { data })
 }
 
 async function updateMemoByEndPointAndStatus(memoEndPoint, data, status) {
@@ -73,6 +103,8 @@ module.exports = {
   getMemoVersion,
   fetchMemoByEndPointAndStatus,
   storeNewCourseMemoData,
+  updateMemoByMemoEndPointAndCourseCodeAndSemester,
   updateMemoByEndPointAndStatus,
   removeCourseMemoDataById,
+  fetchMemoByMemoEndpointAndCourseCodeAndSemester,
 }

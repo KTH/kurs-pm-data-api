@@ -13,10 +13,22 @@ async function fetchMemoByEndPointAndStatus(memoEndPoint, status) {
   return memo
 }
 // No need to merge this method to master. This is only for updating old memos
-async function fetchMemoByMemoEndpointAndCourseCodeAndSemester(memoEndPoint, courseCode, semester) {
-  if (!memoEndPoint && !courseCode && !semester) throw new Error('MemoEndPoint, courseCode and semester must be set')
-  log.debug('Fetching memo based on ', { memoEndPoint, courseCode, semester })
-  const memo = await CourseMemo.findOne({ memoEndPoint, courseCode, semester })
+async function fetchMemoByMemoEndpointMemoNameAndStatusCourseCodeAndSemesterAndVersion(
+  memoName,
+  memoEndPoint,
+  courseCode,
+  semester,
+  status,
+  version
+) {
+  if (!memoEndPoint && !courseCode && !semester && !status && !version)
+    throw new Error('MemoEndPoint, courseCode, status, semester and version  must be set')
+  log.debug('Fetching memo based on ', { memoEndPoint, courseCode, semester, memoName, status })
+  const memo = await CourseMemo.findOne(
+    memoName
+      ? { memoName, version, memoEndPoint, courseCode, semester, status }
+      : { version, memoEndPoint, courseCode, semester, status }
+  )
   return memo
 }
 
@@ -51,13 +63,23 @@ async function storeNewCourseMemoData(data) {
   }
 }
 // No need to merge this method to master. This is only for updating old memos
-async function updateMemoByMemoEndPointAndCourseCodeAndSemester(memoEndPoint, courseCode, semester, data) {
+async function updateMemoByMemoEndPointAndMemoNameAndStatusAndCourseCodeAndSemesterAndVersion(
+  memoName,
+  memoEndPoint,
+  courseCode,
+  semester,
+  status,
+  version,
+  data
+) {
   // UPPDATERA DRAFT GENOM memoEndPoint
   if (data) {
     log.debug('Update of existing memo: ', { data })
 
     const resultAfterUpdate = await CourseMemo.findOneAndUpdate(
-      { memoEndPoint, courseCode, semester },
+      memoName
+        ? { memoEndPoint, courseCode, semester, memoName, status, version }
+        : { memoEndPoint, courseCode, semester, status, version },
       { $set: data },
       { maxTimeMS: 100, new: true, useFindAndModify: false }
     )
@@ -65,6 +87,7 @@ async function updateMemoByMemoEndPointAndCourseCodeAndSemester(memoEndPoint, co
       log.debug('Updated draft: ', {
         version: resultAfterUpdate.version,
         memoEndPoint: resultAfterUpdate.memoEndPoint,
+        memoName: resultAfterUpdate.memoName,
         id: resultAfterUpdate.id,
         applicationCodes: resultAfterUpdate.applicationCodes,
       })
@@ -103,8 +126,8 @@ module.exports = {
   getMemoVersion,
   fetchMemoByEndPointAndStatus,
   storeNewCourseMemoData,
-  updateMemoByMemoEndPointAndCourseCodeAndSemester,
+  updateMemoByMemoEndPointAndMemoNameAndStatusAndCourseCodeAndSemesterAndVersion,
   updateMemoByEndPointAndStatus,
   removeCourseMemoDataById,
-  fetchMemoByMemoEndpointAndCourseCodeAndSemester,
+  fetchMemoByMemoEndpointMemoNameAndStatusCourseCodeAndSemesterAndVersion,
 }

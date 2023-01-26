@@ -73,18 +73,21 @@ async function getDraftByEndPoint(req, res) {
   }
 }
 
-async function putMemoByMemoEndPointAndCourseCodeAndSemester(req, res) {
+async function putMemoByMemoEndPointAndMemoNameAndStatusAndCourseCodeAndSemesterAndVersion(req, res) {
   // STEP 2 EDITING: USE IT IN A SECOND STEP
   try {
     const memoObj = req.body
-    const { courseCode, memoEndPoint, semester } = req.params
+    const { courseCode, memoEndPoint, semester, memoName, status, version } = req.params
 
     const dbResponse = []
 
-    const draftExist = await dbOneDocument.fetchMemoByMemoEndpointAndCourseCodeAndSemester(
+    const draftExist = await dbOneDocument.fetchMemoByMemoEndpointMemoNameAndStatusCourseCodeAndSemesterAndVersion(
+      memoName,
       memoEndPoint,
       courseCode,
-      semester
+      semester,
+      status,
+      version
     )
 
     if (draftExist) {
@@ -92,10 +95,13 @@ async function putMemoByMemoEndPointAndCourseCodeAndSemester(req, res) {
         'memo draft already exists,' + memoEndPoint + ' so it will be updated (object id ' + draftExist._id + ')'
       )
       dbResponse.push(
-        await dbOneDocument.updateMemoByMemoEndPointAndCourseCodeAndSemester(
+        await dbOneDocument.updateMemoByMemoEndPointAndMemoNameAndStatusAndCourseCodeAndSemesterAndVersion(
+          memoName,
           memoEndPoint,
           courseCode,
           semester,
+          status,
+          version,
           memoObj
         )
       )
@@ -319,5 +325,5 @@ module.exports = {
   deleteDraftByMemoEndPoint,
   postNewVersionOfPublishedMemo,
   putDraftByEndPoint,
-  putMemoByMemoEndPointAndCourseCodeAndSemester,
+  putMemoByMemoEndPointAndMemoNameAndStatusAndCourseCodeAndSemesterAndVersion,
 }

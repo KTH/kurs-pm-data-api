@@ -230,12 +230,19 @@
         ]
       }
     },
-    "/v1/memo/{memoEndPoint}/{courseCode}/{semester}": {
+    "/v1/memo/{memoName}/{memoEndPoint}/{courseCode}/{semester}/{status}/{version}": {
       "put": {
         "operationId": "updatedMemoById",
         "summary": "The memo is already in database. Update some of its properties, f.e., only text for examinations, for fast and often update",
         "description": "Saves a course memo document descriptive data in the database per course and term, and per chosen {key: value}",
         "parameters": [
+          {
+            "name": "memoName",
+            "in": "path",
+            "description": "memoName is used to keep all versions under the same endpoint, unique for memo for one kursomgång. Unchangeable enpoint to display it in url (for bookmarks) and keep track on versions change",
+            "required": true,
+            "type": "string"
+          },
           {
             "name": "memoEndPoint",
             "in": "path",
@@ -254,6 +261,20 @@
             "name": "semester",
             "in": "path",
             "description": "semester is used to keep all versions under the same endpoint, unique for memo for one kursomgång. Unchangeable enpoint to display it in url (for bookmarks) and keep track on versions change",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "status",
+            "in": "path",
+            "description": "status is used to keep all versions under the same endpoint, unique for memo for one kursomgång. Unchangeable enpoint to display it in url (for bookmarks) and keep track on versions change",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "version",
+            "in": "path",
+            "description": "status is used to keep all versions under the same endpoint, unique for memo for one kursomgång. Unchangeable enpoint to display it in url (for bookmarks) and keep track on versions change",
             "required": true,
             "type": "string"
           },

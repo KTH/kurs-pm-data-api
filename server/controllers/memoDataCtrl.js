@@ -73,6 +73,44 @@ async function getDraftByEndPoint(req, res) {
   }
 }
 
+async function putMemoByMemoEndPointAndCourseCodeAndSemester(req, res) {
+  // STEP 2 EDITING: USE IT IN A SECOND STEP
+  try {
+    const memoObj = req.body
+    const { courseCode, memoEndPoint, semester } = req.params
+
+    const dbResponse = []
+
+    const draftExist = await dbOneDocument.fetchMemoByMemoEndpointAndCourseCodeAndSemester(
+      memoEndPoint,
+      courseCode,
+      semester
+    )
+
+    if (draftExist) {
+      log.info(
+        'memo draft already exists,' + memoEndPoint + ' so it will be updated (object id ' + draftExist._id + ')'
+      )
+      dbResponse.push(
+        await dbOneDocument.updateMemoByMemoEndPointAndCourseCodeAndSemester(
+          memoEndPoint,
+          courseCode,
+          semester,
+          memoObj
+        )
+      )
+    } else {
+      log.debug('no memo draft was found to update with id: ', memoEndPoint)
+    }
+
+    log.info('dbResponse length', dbResponse.length, { memoEndPoint })
+    res.status(201).json(dbResponse)
+  } catch (error) {
+    log.error('Error in while trying to putMemoById', { error })
+    return error
+  }
+}
+
 async function putDraftByEndPoint(req, res) {
   // STEP 2 EDITING: USE IT IN A SECOND STEP
   try {
@@ -172,6 +210,21 @@ async function createDraftByMemoEndPoint(req, res) {
   }
 }
 
+async function getAllMemosByCourseCode(req, res) {
+  // TODO: ADD FETCHING USED COURSE ROUNDS (DRAFTS + PUBLISHED)
+  const { courseCode } = req.params
+  log.info('getAllMemosByCourseCode: Received request for memo for course:', { courseCode })
+  try {
+    const dbResponse = await dbArrayOfDocument.getAllMemosByCourse(courseCode)
+
+    res.json(dbResponse || [])
+    log.info('getAllMemosByCourseCode: Responded to request for memo:', { courseCode })
+  } catch (err) {
+    log.error('getAllMemosByCourseCode: Failed request for memo, error:', { err })
+    return err
+  }
+}
+
 async function getAllMemosByCourseCodeAndType(req, res) {
   // TODO: ADD FETCHING USED COURSE ROUNDS (DRAFTS + PUBLISHED)
   const { courseCode, type } = req.params
@@ -259,10 +312,12 @@ module.exports = {
   createDraftByMemoEndPoint,
   getDraftByEndPoint,
   getPublishedMemoByEndPoint,
+  getAllMemosByCourseCode,
   getAllMemosByCourseCodeAndType,
   getMemosStartingFromPrevSemester,
   getCourseSemesterUsedRounds,
   deleteDraftByMemoEndPoint,
   postNewVersionOfPublishedMemo,
   putDraftByEndPoint,
+  putMemoByMemoEndPointAndCourseCodeAndSemester,
 }

@@ -1,7 +1,7 @@
 'use strict'
 
-const server = require('@kth/server')
 const path = require('path')
+const server = require('@kth/server')
 
 // Load .env file in development mode
 const nodeEnv = process.env.NODE_ENV && process.env.NODE_ENV.toLowerCase()
@@ -143,8 +143,8 @@ addPaths(
 const authByApiKey = passport.authenticate('apikey', { session: false })
 
 // Application specific API enpoints
-const { CourseMemo, MixedWebAndPdfMemosList } = require('./controllers')
 const { ApiRouter } = require('kth-node-express-routing')
+const { CourseMemo, MixedWebAndPdfMemosList } = require('./controllers')
 
 const apiRoute = ApiRouter(authByApiKey)
 const paths = getPaths()
@@ -158,12 +158,14 @@ apiRoute.register(paths.api.getMemoVersion, CourseMemo.getMemoVersion) // step 2
 // Get one draft | update it
 apiRoute.register(paths.api.getDraftByEndPoint, CourseMemo.getDraftByEndPoint) // step 2: editor, fetch data
 apiRoute.register(paths.api.updateCreatedDraft, CourseMemo.putDraftByEndPoint) // step 2: editor, fast update
+apiRoute.register(paths.api.updatedMemoById, CourseMemo.putMemoByMemoEndPointAndCourseCodeAndSemester)
 
 // step 1: choose action, new draft, or copied draft from published memo (same memoEndPoint)
 apiRoute.register(paths.api.createDraftByMemoEndPoint, CourseMemo.createDraftByMemoEndPoint)
 apiRoute.register(paths.api.copyFromAPublishedMemo, CourseMemo.createDraftByMemoEndPoint)
 
 // // GET ARRAY OF MEMOS BY TYPE AND COURSE CODE
+apiRoute.register(paths.api.getAllMemosByCourseCode, CourseMemo.getAllMemosByCourseCode)
 apiRoute.register(paths.api.getAllMemosByCourseCodeAndType, CourseMemo.getAllMemosByCourseCodeAndType)
 apiRoute.register(paths.api.getCourseSemesterUsedRounds, CourseMemo.getCourseSemesterUsedRounds) // step 1: to show up which rounds already taken
 apiRoute.register(paths.api.getMemosStartingFromPrevYearSemester, CourseMemo.getMemosStartingFromPrevSemester) // step 1: to show up which rounds already taken

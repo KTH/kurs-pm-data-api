@@ -13,22 +13,10 @@ async function fetchMemoByEndPointAndStatus(memoEndPoint, status) {
   return memo
 }
 // No need to merge this method to master. This is only for updating old memos
-async function fetchMemoByMemoEndpointMemoNameAndStatusCourseCodeAndSemesterAndVersion(
-  memoName,
-  memoEndPoint,
-  courseCode,
-  semester,
-  status,
-  version
-) {
-  if (!memoEndPoint && !courseCode && !semester && !status && !version)
-    throw new Error('MemoEndPoint, courseCode, status, semester and version  must be set')
-  log.debug('Fetching memo based on ', { memoEndPoint, courseCode, semester, memoName, status })
-  const memo = await CourseMemo.findOne(
-    memoName
-      ? { memoName, version, memoEndPoint, courseCode, semester, status }
-      : { version, memoEndPoint, courseCode, semester, status }
-  )
+async function fetchMemoById(_id) {
+  if (!_id) throw new Error('Id must be set')
+  log.debug('Fetching memo based on ', { _id })
+  const memo = await CourseMemo.findOne({ _id })
   return memo
 }
 
@@ -63,23 +51,13 @@ async function storeNewCourseMemoData(data) {
   }
 }
 // No need to merge this method to master. This is only for updating old memos
-async function updateMemoByMemoEndPointAndMemoNameAndStatusAndCourseCodeAndSemesterAndVersion(
-  memoName,
-  memoEndPoint,
-  courseCode,
-  semester,
-  status,
-  version,
-  data
-) {
+async function updateMemoById(_id, data) {
   // UPPDATERA DRAFT GENOM memoEndPoint
   if (data) {
     log.debug('Update of existing memo: ', { data })
 
     const resultAfterUpdate = await CourseMemo.findOneAndUpdate(
-      memoName
-        ? { memoEndPoint, courseCode, semester, memoName, status, version }
-        : { memoEndPoint, courseCode, semester, status, version },
+      { _id },
       { $set: data },
       { maxTimeMS: 100, new: true, useFindAndModify: false }
     )
@@ -126,8 +104,8 @@ module.exports = {
   getMemoVersion,
   fetchMemoByEndPointAndStatus,
   storeNewCourseMemoData,
-  updateMemoByMemoEndPointAndMemoNameAndStatusAndCourseCodeAndSemesterAndVersion,
+  updateMemoById,
   updateMemoByEndPointAndStatus,
   removeCourseMemoDataById,
-  fetchMemoByMemoEndpointMemoNameAndStatusCourseCodeAndSemesterAndVersion,
+  fetchMemoById,
 }

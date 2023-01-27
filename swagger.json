@@ -230,48 +230,6 @@
         ]
       }
     },
-    "/v1/memo/{_id}": {
-      "put": {
-        "operationId": "updatedMemoById",
-        "summary": "The memo is already in database. Update some of its properties, f.e., only text for examinations, for fast and often update",
-        "description": "Saves a course memo document descriptive data in the database per course and term, and per chosen {key: value}",
-        "parameters": [
-          {
-            "name": "_id",
-            "in": "path",
-            "description": "memoName is used to keep all versions under the same endpoint, unique for memo for one kursomgång. Unchangeable enpoint to display it in url (for bookmarks) and keep track on versions change",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "name": "roundCourseMemoData",
-            "in": "body",
-            "description": "Data with course code, semester and rounds to create first draft",
-            "required": true,
-            "schema": {
-              "$ref": "#/definitions/MemoData"
-            }
-          }
-        ],
-        "tags": ["v1"],
-        "responses": {
-          "200": {
-            "description": "A successful save"
-          },
-          "default": {
-            "description": "Unexpected error",
-            "schema": {
-              "$ref": "#/definitions/Error"
-            }
-          }
-        },
-        "security": [
-          {
-            "api_key": ["write"]
-          }
-        ]
-      }
-    },
     "/v1/memo/course/{courseCode}/memoEndPoint/{memoEndPoint}/version/{version}": {
       "get": {
         "operationId": "getMemoVersion",
@@ -347,42 +305,6 @@
             "name": "type",
             "in": "path",
             "description": "published / draft / old",
-            "required": true,
-            "type": "string"
-          }
-        ],
-        "tags": ["v1"],
-        "responses": {
-          "200": {
-            "description": "The requested data",
-            "schema": {
-              "$ref": "#/definitions/MemoDataListForCourseCode"
-            }
-          },
-          "default": {
-            "description": "Unexpected error",
-            "schema": {
-              "$ref": "#/definitions/Error"
-            }
-          }
-        },
-        "security": [
-          {
-            "api_key": ["read"]
-          }
-        ]
-      }
-    },
-    "/v1/memos/{courseCode}/": {
-      "get": {
-        "operationId": "getAllMemosByCourseCode",
-        "summary": "Get all course memos documents fetched by this course code",
-        "description": "Gets some form of data that only requires read access",
-        "parameters": [
-          {
-            "name": "courseCode",
-            "in": "path",
-            "description": "Course code, ex, SF1624",
             "required": true,
             "type": "string"
           }

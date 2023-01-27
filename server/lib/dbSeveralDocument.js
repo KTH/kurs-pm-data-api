@@ -17,21 +17,6 @@ function logInCaseOfPossibleLimit(doc = [], matchingParameters = {}) {
   return
 }
 
-// No need to merge this method to master. This is only for updating old memos
-async function getAllMemosByCourse(courseCode) {
-  if (!courseCode) throw new Error('courseCode must be set')
-  const matchingParameters = { courseCode }
-
-  log.debug('Fetching all courseMemos for ', matchingParameters)
-  const doc = await CourseMemo.find({ courseCode })
-  // CourseMemo.find({ courseCode, status })
-  if (doc) log.debug('Done fetching memos total: ', doc.length, ', for: ', matchingParameters)
-
-  logInCaseOfPossibleLimit(doc, matchingParameters)
-
-  return doc
-}
-
 async function getAllMemosByStatus(courseCode, status) {
   if (!courseCode) throw new Error('courseCode must be set')
   const matchingParameters = { courseCode, status }
@@ -185,7 +170,6 @@ async function getMemosFromPrevSemester(courseCode, fromSemester) {
 }
 
 module.exports = {
-  getAllMemosByCourse,
   getAllMemosByStatus,
   getCourseSemesterUsedRounds,
   getFirstMemosBySemesterAndStatus,

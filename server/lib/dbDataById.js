@@ -12,13 +12,6 @@ async function fetchMemoByEndPointAndStatus(memoEndPoint, status) {
   const memo = await CourseMemo.findOne({ memoEndPoint, status }) // courseCode
   return memo
 }
-// No need to merge this method to master. This is only for updating old memos
-async function fetchMemoById(_id) {
-  if (!_id) throw new Error('Id must be set')
-  log.debug('Fetching memo based on ', { _id })
-  const memo = await CourseMemo.findOne({ _id })
-  return memo
-}
 
 async function getMemoVersion(courseCode, memoEndPoint, version) {
   if (!courseCode) throw new Error('courseCode must be set')
@@ -50,30 +43,6 @@ async function storeNewCourseMemoData(data) {
     return result
   }
 }
-// No need to merge this method to master. This is only for updating old memos
-async function updateMemoById(_id, data) {
-  // UPPDATERA DRAFT GENOM memoEndPoint
-  if (data) {
-    log.debug('Update of existing memo: ', { data })
-
-    const resultAfterUpdate = await CourseMemo.findOneAndUpdate(
-      { _id },
-      { $set: data },
-      { maxTimeMS: 100, new: true, useFindAndModify: false }
-    )
-    if (resultAfterUpdate && resultAfterUpdate.version) {
-      log.debug('Updated draft: ', {
-        version: resultAfterUpdate.version,
-        memoEndPoint: resultAfterUpdate.memoEndPoint,
-        memoName: resultAfterUpdate.memoName,
-        id: resultAfterUpdate.id,
-        applicationCodes: resultAfterUpdate.applicationCodes,
-      })
-    }
-    return resultAfterUpdate
-  }
-  log.debug('No roundCourseMemoData found for updating it with new data', { data })
-}
 
 async function updateMemoByEndPointAndStatus(memoEndPoint, data, status) {
   // UPPDATERA DRAFT GENOM memoEndPoint
@@ -104,8 +73,6 @@ module.exports = {
   getMemoVersion,
   fetchMemoByEndPointAndStatus,
   storeNewCourseMemoData,
-  updateMemoById,
   updateMemoByEndPointAndStatus,
   removeCourseMemoDataById,
-  fetchMemoById,
 }

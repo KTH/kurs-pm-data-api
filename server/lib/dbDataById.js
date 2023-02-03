@@ -2,6 +2,7 @@
 /* eslint-disable no-underscore-dangle */
 const log = require('@kth/log')
 const { CourseMemo } = require('../models/mainMemoModel')
+const { StoredMemoPdfsModel } = require('../models/storedMemoPdfsModel')
 
 /* ****** */
 /* ANY BY STATUS AND MemoEndPoint */
@@ -13,11 +14,19 @@ async function fetchMemoByEndPointAndStatus(memoEndPoint, status) {
   return memo
 }
 // No need to merge this method to master. This is only for updating old memos
-async function fetchMemoById(_id) {
-  if (!_id) throw new Error('Id must be set')
-  log.debug('Fetching memo based on ', { _id })
-  const memo = await CourseMemo.findOne({ _id })
-  return memo
+async function fetchMemo(memo) {
+  if (!memo) throw new Error('Memo must be set')
+  log.debug('Fetching memo based on ', memo)
+  const doc = await CourseMemo.findOne(memo)
+  return doc
+}
+
+// No need to merge this method to master. This is only for updating old memos
+async function fetchMemoFileById(Id) {
+  if (!Id) throw new Error('Id must be set')
+  log.debug('Fetching memo based on ', Id)
+  const doc = await StoredMemoPdfsModel.findById(Id)
+  return doc
 }
 
 async function getMemoVersion(courseCode, memoEndPoint, version) {
@@ -51,13 +60,13 @@ async function storeNewCourseMemoData(data) {
   }
 }
 // No need to merge this method to master. This is only for updating old memos
-async function updateMemoById(_id, data) {
+async function updateMemo(memo, data) {
   // UPPDATERA DRAFT GENOM memoEndPoint
-  if (data) {
-    log.debug('Update of existing memo: ', { data })
+  if (memo) {
+    log.debug('Update of existing memo: ', { memo })
 
     const resultAfterUpdate = await CourseMemo.findOneAndUpdate(
-      { _id },
+      memo,
       { $set: data },
       { maxTimeMS: 100, new: true, useFindAndModify: false }
     )
@@ -72,7 +81,32 @@ async function updateMemoById(_id, data) {
     }
     return resultAfterUpdate
   }
-  log.debug('No roundCourseMemoData found for updating it with new data', { data })
+  log.debug('No roundCourseMemoData found for updating it with new data', { memo })
+}
+
+// No need to merge this method to master. This is only for updating old memos
+async function updateMemoFile(_id, data) {
+  // UPPDATERA DRAFT GENOM memoEndPoint
+  if (_id) {
+    log.debug('Update of existing memo: ', { _id })
+
+    const resultAfterUpdate = await StoredMemoPdfsModel.findByIdAndUpdate(
+      _id,
+      { $set: data },
+      { maxTimeMS: 100, new: true, useFindAndModify: false }
+    )
+    if (resultAfterUpdate && resultAfterUpdate.id) {
+      log.debug('Updated draft: ', {
+        id: resultAfterUpdate.id,
+        koppsRoundId: resultAfterUpdate.koppsRoundId,
+        semester: resultAfterUpdate.semester,
+        courseCode: resultAfterUpdate.courseCode,
+        applicationCode: resultAfterUpdate.applicationCode,
+      })
+    }
+    return resultAfterUpdate
+  }
+  log.debug('No roundCourseMemoFileData found for updating it with new data', { _id })
 }
 
 async function updateMemoByEndPointAndStatus(memoEndPoint, data, status) {
@@ -104,8 +138,10 @@ module.exports = {
   getMemoVersion,
   fetchMemoByEndPointAndStatus,
   storeNewCourseMemoData,
-  updateMemoById,
+  updateMemo,
   updateMemoByEndPointAndStatus,
   removeCourseMemoDataById,
-  fetchMemoById,
+  fetchMemo,
+  fetchMemoFileById,
+  updateMemoFile,
 }

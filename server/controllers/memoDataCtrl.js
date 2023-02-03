@@ -73,24 +73,28 @@ async function getDraftByEndPoint(req, res) {
   }
 }
 
-async function putMemoById(req, res) {
+async function putApplicationCodesInMemo(req, res) {
   // STEP 2 EDITING: USE IT IN A SECOND STEP
   try {
-    const memoObj = req.body
-    const { _id } = req.params
+    const applicationCodes = req.body
+    const { memoEndPoint, status, courseCode, ladokRoundIds, semester } = req.params
 
     const dbResponse = []
 
-    const draftExist = await dbOneDocument.fetchMemoById(_id)
+    const draftExist = await dbOneDocument.fetchMemo({ memoEndPoint, status, courseCode, ladokRoundIds, semester })
 
     if (draftExist) {
-      log.info('memo draft already exists,' + _id + ' so it will be updated (object id ' + draftExist._id + ')')
-      dbResponse.push(await dbOneDocument.updateMemoById(_id, memoObj))
+      log.info(
+        'memo draft already exists,' + memoEndPoint + ' so it will be updated (object id ' + draftExist._id + ')'
+      )
+      dbResponse.push(
+        await dbOneDocument.updateMemo({ memoEndPoint, status, courseCode, ladokRoundIds }, applicationCodes)
+      )
     } else {
-      log.debug('no memo draft was found to update with id: ', _id)
+      log.debug('no memo draft was found to update with memoEndPoint: ', memoEndPoint)
     }
 
-    log.info('dbResponse length', dbResponse.length, { _id })
+    log.info('dbResponse length', dbResponse.length, { memoEndPoint })
     res.status(201).json(dbResponse)
   } catch (error) {
     log.error('Error in while trying to putMemoById', { error })
@@ -197,17 +201,16 @@ async function createDraftByMemoEndPoint(req, res) {
   }
 }
 
-async function getAllMemosByCourseCode(req, res) {
-  // TODO: ADD FETCHING USED COURSE ROUNDS (DRAFTS + PUBLISHED)
-  const { courseCode } = req.params
-  log.info('getAllMemosByCourseCode: Received request for memo for course:', { courseCode })
+// No need to merge
+async function getAllMemos(req, res) {
+  log.info('getAllMemos: Received request for memo')
   try {
-    const dbResponse = await dbArrayOfDocument.getAllMemosByCourse(courseCode)
+    const dbResponse = await dbArrayOfDocument.getAllMemos()
 
     res.json(dbResponse || [])
-    log.info('getAllMemosByCourseCode: Responded to request for memo:', { courseCode })
+    log.info('getAllMemos: Responded to request for memo')
   } catch (err) {
-    log.error('getAllMemosByCourseCode: Failed request for memo, error:', { err })
+    log.error('getAllMemos: Failed request for memo, error:', { err })
     return err
   }
 }
@@ -299,12 +302,12 @@ module.exports = {
   createDraftByMemoEndPoint,
   getDraftByEndPoint,
   getPublishedMemoByEndPoint,
-  getAllMemosByCourseCode,
+  getAllMemos,
   getAllMemosByCourseCodeAndType,
   getMemosStartingFromPrevSemester,
   getCourseSemesterUsedRounds,
   deleteDraftByMemoEndPoint,
   postNewVersionOfPublishedMemo,
   putDraftByEndPoint,
-  putMemoById,
+  putApplicationCodesInMemo,
 }

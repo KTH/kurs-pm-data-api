@@ -49,6 +49,11 @@ const schema = mongoose.Schema({
     type: Array,
     default: [],
   },
+  applicationCode: {
+    type: String,
+    trim: true,
+    default: '',
+  },
 })
 
 const StoredMemoPdfsModel = mongoose.model('MemoFile', schema)

@@ -1,7 +1,7 @@
 'use strict'
 
-const combinedMemoData = require('./combinedMemoData')
 const mongoose = require('mongoose')
+const combinedMemoData = require('./combinedMemoData')
 
 const schema = mongoose.Schema({
   // _id: mongoose.Schema.Types.ObjectId,

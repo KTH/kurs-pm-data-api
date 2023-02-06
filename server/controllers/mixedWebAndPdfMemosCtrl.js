@@ -158,12 +158,22 @@ async function _formPrioritizedMemosByCourseRounds(courseCode, pdfMemos, webBase
   const miniMemos = {}
   // firstly fetch web-based
   await webBasedMemos.forEach(
-    ({ ladokRoundIds, memoEndPoint, memoCommonLangAbbr, memoName, semester, version, lastChangeDate }) => {
+    ({
+      ladokRoundIds,
+      memoEndPoint,
+      memoCommonLangAbbr,
+      memoName,
+      semester,
+      version,
+      lastChangeDate,
+      applicationCodes,
+    }) => {
       if (!semester) return
       if (!miniMemos[semester]) miniMemos[semester] = {}
       ladokRoundIds.forEach(roundId => {
         miniMemos[semester][roundId] = {
           courseCode,
+          applicationCodes,
           ladokRoundIds,
           semester,
           memoEndPoint,
@@ -186,6 +196,7 @@ async function _formPrioritizedMemosByCourseRounds(courseCode, pdfMemos, webBase
       lastChangeDate = pdfMemoUploadDate,
       previousFileList,
       semester,
+      applicationCode,
     }) => {
       if (!semester) return
       if (!koppsRoundId) return
@@ -193,6 +204,7 @@ async function _formPrioritizedMemosByCourseRounds(courseCode, pdfMemos, webBase
       if (!miniMemos[semester][koppsRoundId]) {
         miniMemos[semester][koppsRoundId] = {
           courseCode,
+          applicationCodes: [applicationCode],
           courseMemoFileName,
           ladokRoundIds: [koppsRoundId],
           lastChangeDate,

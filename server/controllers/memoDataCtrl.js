@@ -76,8 +76,8 @@ async function getDraftByEndPoint(req, res) {
 async function putApplicationCodesInMemo(req, res) {
   // STEP 2 EDITING: USE IT IN A SECOND STEP
   try {
-    const applicationCodes = req.body
-    const { memoEndPoint, status, courseCode, ladokRoundIds, semester } = req.params
+    const { applicationCodes, ladokRoundIds } = req.body
+    const { memoEndPoint, status, courseCode, semester } = req.params
 
     const dbResponse = []
 
@@ -88,7 +88,10 @@ async function putApplicationCodesInMemo(req, res) {
         'memo draft already exists,' + memoEndPoint + ' so it will be updated (object id ' + draftExist._id + ')'
       )
       dbResponse.push(
-        await dbOneDocument.updateMemo({ memoEndPoint, status, courseCode, ladokRoundIds }, applicationCodes)
+        await dbOneDocument.updateMemo(
+          { memoEndPoint, status, courseCode, ladokRoundIds, semester },
+          { applicationCodes }
+        )
       )
     } else {
       log.debug('no memo draft was found to update with memoEndPoint: ', memoEndPoint)

@@ -77,6 +77,9 @@ async function updateMemo(memo, data) {
         memoName: resultAfterUpdate.memoName,
         id: resultAfterUpdate.id,
         applicationCodes: resultAfterUpdate.applicationCodes,
+        semester: resultAfterUpdate.semester,
+        courseCode: resultAfterUpdate.courseCode,
+        ladokRoundIds: resultAfterUpdate.ladokRoundIds,
       })
     }
     return resultAfterUpdate

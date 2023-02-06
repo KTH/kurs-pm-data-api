@@ -272,7 +272,7 @@
         ]
       }
     },
-    "/v1/memo/{courseCode}/{ladokRoundIds}/{semester}/{memoEndPoint}/{status}": {
+    "/v1/memo/{courseCode}/{semester}/{memoEndPoint}/{status}": {
       "put": {
         "operationId": "updatedMemoWithApplicationCodes",
         "summary": "The memo is already in database. Update some of its properties, f.e., only text for examinations, for fast and often update",
@@ -281,42 +281,35 @@
           {
             "name": "courseCode",
             "in": "path",
-            "description": "courseCode of the memo draft to delete course memo data",
+            "description": "courseCode of the memo draft to update course memo data",
             "required": true,
             "type": "string"
           },
           {
             "name": "status",
             "in": "path",
-            "description": "status of the memo draft to delete course memo data",
+            "description": "status of the memo draft to update course memo data",
             "required": true,
             "type": "string"
           },
           {
             "name": "semester",
             "in": "path",
-            "description": "semester of the memo draft to delete course memo data",
+            "description": "semester of the memo draft to update course memo data",
             "required": true,
             "type": "string"
           },
           {
             "name": "status",
             "in": "path",
-            "description": "status of the memo draft to delete course memo data",
+            "description": "status of the memo draft to update course memo data",
             "required": true,
             "type": "string"
           },
           {
-            "name": "ladokRoundIds",
-            "in": "path",
-            "description": "ladokRoundIds of the memo draft to delete course memo data",
-            "required": true,
-            "type": "Array"
-          },
-          {
             "name": "roundCourseMemoData",
             "in": "body",
-            "description": "Data with course code, semester and rounds to create first draft",
+            "description": "Data with applicationCodes and rounds to update first draft",
             "required": true,
             "schema": {
               "$ref": "#/definitions/MemoData"

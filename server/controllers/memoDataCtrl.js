@@ -73,6 +73,38 @@ async function getDraftByEndPoint(req, res) {
   }
 }
 
+async function putApplicationCodesInMemo(req, res) {
+  // STEP 2 EDITING: USE IT IN A SECOND STEP
+  try {
+    const { applicationCodes, ladokRoundIds } = req.body
+    const { memoEndPoint, status, courseCode, semester } = req.params
+
+    const dbResponse = []
+
+    const draftExist = await dbOneDocument.fetchMemo({ memoEndPoint, status, courseCode, ladokRoundIds, semester })
+
+    if (draftExist) {
+      log.info(
+        'memo draft already exists,' + memoEndPoint + ' so it will be updated (object id ' + draftExist._id + ')'
+      )
+      dbResponse.push(
+        await dbOneDocument.updateMemo(
+          { memoEndPoint, status, courseCode, ladokRoundIds, semester },
+          { applicationCodes }
+        )
+      )
+    } else {
+      log.debug('no memo draft was found to update with memoEndPoint: ', memoEndPoint)
+    }
+
+    log.info('dbResponse length', dbResponse.length, { memoEndPoint })
+    res.status(201).json(dbResponse)
+  } catch (error) {
+    log.error('Error in while trying to putMemoById', { error })
+    return error
+  }
+}
+
 async function putDraftByEndPoint(req, res) {
   // STEP 2 EDITING: USE IT IN A SECOND STEP
   try {
@@ -172,6 +204,20 @@ async function createDraftByMemoEndPoint(req, res) {
   }
 }
 
+// No need to merge
+async function getAllMemos(req, res) {
+  log.info('getAllMemos: Received request for memo')
+  try {
+    const dbResponse = await dbArrayOfDocument.getAllMemos()
+
+    res.json(dbResponse || [])
+    log.info('getAllMemos: Responded to request for memo')
+  } catch (err) {
+    log.error('getAllMemos: Failed request for memo, error:', { err })
+    return err
+  }
+}
+
 async function getAllMemosByCourseCodeAndType(req, res) {
   // TODO: ADD FETCHING USED COURSE ROUNDS (DRAFTS + PUBLISHED)
   const { courseCode, type } = req.params
@@ -259,10 +305,12 @@ module.exports = {
   createDraftByMemoEndPoint,
   getDraftByEndPoint,
   getPublishedMemoByEndPoint,
+  getAllMemos,
   getAllMemosByCourseCodeAndType,
   getMemosStartingFromPrevSemester,
   getCourseSemesterUsedRounds,
   deleteDraftByMemoEndPoint,
   postNewVersionOfPublishedMemo,
   putDraftByEndPoint,
+  putApplicationCodesInMemo,
 }

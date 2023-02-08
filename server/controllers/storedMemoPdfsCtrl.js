@@ -4,6 +4,7 @@
 
 const log = require('@kth/log')
 const { StoredMemoPdfsModel } = require('../models/storedMemoPdfsModel')
+const dbOneDocument = require('../lib/dbDataById')
 
 async function getStoredMemoPdfListByCourseCode(req, res) {
   if (!req.params.courseCode) throw new Error('courseCode must be set')
@@ -55,6 +56,18 @@ async function fetchAll() {
   return migrated
 }
 
+async function fetchAllMemoFiles(req, res) {
+  try {
+    log.debug('Fetching all migrated courseMemos ')
+    const migrated = await StoredMemoPdfsModel.find({})
+    log.info('Length of data in db', migrated.length)
+    res.json(migrated || [])
+  } catch (error) {
+    log.error('Error in while trying to get all migrating memos files ', { error })
+    return error
+  }
+}
+
 // /count
 async function checkLength(req, res) {
   try {
@@ -68,7 +81,33 @@ async function checkLength(req, res) {
   }
 }
 
+async function updateStoredPdfMemoWithApplicationCodes(req, res) {
+  try {
+    const applicationCodes = req.body
+    const { _id } = req.params
+
+    const dbResponse = []
+
+    const draftExist = await dbOneDocument.fetchMemoFileById(_id)
+
+    if (draftExist) {
+      log.info('memo file already exists,' + _id + ' so it will be updated (object id ' + draftExist._id + ')')
+      dbResponse.push(await dbOneDocument.updateMemoFile(_id, applicationCodes))
+    } else {
+      log.debug('no memo file was found to update with Id: ', _id)
+    }
+
+    log.info('dbResponse length', dbResponse.length, { _id })
+    res.status(201).json(dbResponse)
+  } catch (error) {
+    log.error('Error in while trying to update memo file with application codes', { error })
+    return error
+  }
+}
+
 module.exports = {
   collectionLength: checkLength,
   getStoredMemoPdfListByCourseCode,
+  fetchAllMemoFiles,
+  updateStoredPdfMemoWithApplicationCodes,
 }

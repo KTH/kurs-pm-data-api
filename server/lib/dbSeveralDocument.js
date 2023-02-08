@@ -17,6 +17,15 @@ function logInCaseOfPossibleLimit(doc = [], matchingParameters = {}) {
   return
 }
 
+// No need to merge this method to master. This is only for updating old memos
+async function getAllMemos() {
+  log.debug('Fetching all courseMemos')
+  const allDocuments = await CourseMemo.find()
+  if (allDocuments) log.debug('Done fetching memos total: ', allDocuments.length)
+  logInCaseOfPossibleLimit(allDocuments)
+  return allDocuments
+}
+
 async function getAllMemosByStatus(courseCode, status) {
   if (!courseCode) throw new Error('courseCode must be set')
   const matchingParameters = { courseCode, status }
@@ -62,8 +71,8 @@ async function getCourseSemesterUsedRounds(courseCode, semester) {
     const finalObj = {
       usedRoundsThisSemester: [],
     }
-    await webBasedMemos.map(({ ladokRoundIds }) => finalObj.usedRoundsThisSemester.push(...ladokRoundIds))
-    await dbMigratedPdfs.map(({ koppsRoundId }) => finalObj.usedRoundsThisSemester.push(...koppsRoundId))
+    await webBasedMemos.map(({ applicationCodes }) => finalObj.usedRoundsThisSemester.push(...applicationCodes))
+    await dbMigratedPdfs.map(({ applicationCode }) => finalObj.usedRoundsThisSemester.push(...applicationCode))
 
     log.debug('Successfully got used round ids for', {
       courseCode,
@@ -170,6 +179,7 @@ async function getMemosFromPrevSemester(courseCode, fromSemester) {
 }
 
 module.exports = {
+  getAllMemos,
   getAllMemosByStatus,
   getCourseSemesterUsedRounds,
   getFirstMemosBySemesterAndStatus,

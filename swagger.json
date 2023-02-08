@@ -230,6 +230,111 @@
         ]
       }
     },
+    "/v1/memo/file/{_id}": {
+      "put": {
+        "operationId": "updateStoredPdfMemoWithApplicationCodes",
+        "summary": "The draft is already in database. Update some of its properties, f.e., only text for examinations, for fast and often update",
+        "description": "Saves a course memo document descriptive data in the database per course and term, and per chosen {key: value}",
+        "parameters": [
+          {
+            "name": "_id",
+            "in": "path",
+            "description": "_id is used to keep all versions under the same endpoint, unique for memo for one kursomgång. Unchangeable enpoint to display it in url (for bookmarks) and keep track on versions change",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "memoFileData",
+            "in": "body",
+            "description": "Data with course code, semester and rounds to create first draft",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/MemoData"
+            }
+          }
+        ],
+        "tags": ["v1"],
+        "responses": {
+          "200": {
+            "description": "A successful save"
+          },
+          "default": {
+            "description": "Unexpected error",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          }
+        },
+        "security": [
+          {
+            "api_key": ["write"]
+          }
+        ]
+      }
+    },
+    "/v1/memo/{courseCode}/{semester}/{memoEndPoint}/{status}": {
+      "put": {
+        "operationId": "updatedMemoWithApplicationCodes",
+        "summary": "The memo is already in database. Update some of its properties, f.e., only text for examinations, for fast and often update",
+        "description": "Saves a course memo document descriptive data in the database per course and term, and per chosen {key: value}",
+        "parameters": [
+          {
+            "name": "courseCode",
+            "in": "path",
+            "description": "courseCode of the memo draft to update course memo data",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "status",
+            "in": "path",
+            "description": "status of the memo draft to update course memo data",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "semester",
+            "in": "path",
+            "description": "semester of the memo draft to update course memo data",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "memoEndPoint",
+            "in": "path",
+            "description": "memoEndPoint of the memo draft to update course memo data",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "roundCourseMemoData",
+            "in": "body",
+            "description": "Data with applicationCodes and rounds to update first draft",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/MemoData"
+            }
+          }
+        ],
+        "tags": ["v1"],
+        "responses": {
+          "200": {
+            "description": "A successful save"
+          },
+          "default": {
+            "description": "Unexpected error",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          }
+        },
+        "security": [
+          {
+            "api_key": ["write"]
+          }
+        ]
+      }
+    },
     "/v1/memo/course/{courseCode}/memoEndPoint/{memoEndPoint}/version/{version}": {
       "get": {
         "operationId": "getMemoVersion",
@@ -331,6 +436,35 @@
         ]
       }
     },
+    "/v1/memos/all": {
+      "get": {
+        "operationId": "getAllMemos",
+        "summary": "Get all course memos documents fetched by this course code",
+        "description": "Gets some form of data that only requires read access",
+        "parameters": [
+        ],
+        "tags": ["v1"],
+        "responses": {
+          "200": {
+            "description": "The requested data",
+            "schema": {
+              "$ref": "#/definitions/MemoDataListForCourseCode"
+            }
+          },
+          "default": {
+            "description": "Unexpected error",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          }
+        },
+        "security": [
+          {
+            "api_key": ["read"]
+          }
+        ]
+      }
+    },
     "/v1/memo/{memoEndPoint}": {
       "get": {
         "operationId": "getPublishedMemoByEndPoint",
@@ -403,6 +537,47 @@
         "security": [
           {
             "api_key": ["write"]
+          }
+        ]
+      }
+    },
+    "/v1/pdfCourseMemoFilesList": {
+      "get": {
+        "operationId": "getStoredMemoPdfList",
+        "summary": "Get a list of course memos stored as pdf files (integrated from kurs-pm-api) used by kursinfo-web",
+        "description": "Gets course memos for rounds in a course. Memos stored as pdfs in kursinfo storage (not generated)",
+        "parameters": [
+        ],
+        "tags": ["v1"],
+        "responses": {
+          "200": {
+            "description": "The requested data",
+            "schema": {
+              "$ref": "#/definitions/MemoPdfFilesList"
+            }
+          },
+          "400": {
+            "description": "Bad Request, something with the request is invalid",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          },
+          "404": {
+            "description": "No organization or user matched the Ids",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          },
+          "default": {
+            "description": "Unexpected error",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          }
+        },
+        "security": [
+          {
+            "api_key": ["read"]
           }
         ]
       }

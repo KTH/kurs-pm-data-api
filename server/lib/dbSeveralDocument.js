@@ -72,7 +72,7 @@ async function getCourseSemesterUsedRounds(courseCode, semester) {
       usedRoundsThisSemester: [],
     }
     await webBasedMemos.map(({ applicationCodes }) => finalObj.usedRoundsThisSemester.push(...applicationCodes))
-    await dbMigratedPdfs.map(({ applicationCodes }) => finalObj.usedRoundsThisSemester.push(...applicationCodes))
+    await dbMigratedPdfs.map(({ applicationCode }) => finalObj.usedRoundsThisSemester.push(...applicationCode))
 
     log.debug('Successfully got used round ids for', {
       courseCode,

@@ -300,9 +300,9 @@
             "type": "string"
           },
           {
-            "name": "status",
+            "name": "memoEndPoint",
             "in": "path",
-            "description": "status of the memo draft to update course memo data",
+            "description": "memoEndPoint of the memo draft to update course memo data",
             "required": true,
             "type": "string"
           },

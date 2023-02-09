@@ -22,7 +22,7 @@
     "@kth/mongo": "^4.0.12",
     "@kth/monitor": "^3.0.29",
     "@kth/server": "^4.0.4",
-    "applicationinsights": "^2.3.6",
+    "applicationinsights": "^2.4.2",
     "body-parser": "^1.20.1",
     "cookie-parser": "^1.4.6",
     "date-fns": "^2.29.3",

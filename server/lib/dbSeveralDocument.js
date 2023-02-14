@@ -83,9 +83,20 @@ async function _getSortedMiniMemosForAllYears(courseCode, memoStatus = 'publishe
   logInCaseOfPossibleLimit(webBasedMemos, matchingParameters)
 
   const publishedForAllYears = webBasedMemos.map(dbMemo => {
-    const { _id: memoId, semester, status, ladokRoundIds, memoEndPoint, memoName, memoCommonLangAbbr, version } = dbMemo
+    const {
+      _id: memoId,
+      semester,
+      status,
+      ladokRoundIds,
+      memoEndPoint,
+      memoName,
+      memoCommonLangAbbr,
+      version,
+      applicationCodes,
+    } = dbMemo
     const miniMemo = {
       ladokRoundIds,
+      applicationCodes,
       memoCommonLangAbbr,
       memoId,
       memoEndPoint,
@@ -137,6 +148,7 @@ async function getMemosFromPrevSemester(courseCode, fromSemester) {
         semester,
         status,
         ladokRoundIds,
+        applicationCodes,
         memoEndPoint,
         memoName,
         memoCommonLangAbbr,
@@ -144,6 +156,7 @@ async function getMemosFromPrevSemester(courseCode, fromSemester) {
       } = dbMemo
       const miniMemo = {
         ladokRoundIds,
+        applicationCodes,
         memoCommonLangAbbr,
         memoId,
         memoEndPoint,

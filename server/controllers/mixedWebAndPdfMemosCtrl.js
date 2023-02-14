@@ -4,21 +4,24 @@ const log = require('@kth/log')
 const { StoredMemoPdfsModel } = require('../models/storedMemoPdfsModel')
 const dbArrayOfDocument = require('../lib/dbSeveralDocument')
 
-const mergeRoundsWithTheSamePdfFile = (miniFileInfo, koppsRoundId) => {
-  const { ladokRoundIds } = miniFileInfo
-  return [...ladokRoundIds, koppsRoundId].sort((a, b) => Number(a) - Number(b))
+const mergeApplicationCodesWithTheSamePdfFile = (miniFileInfo, applicationCode) => {
+  const { applicationCodes } = miniFileInfo
+  return [...applicationCodes, applicationCode].sort((a, b) => Number(a) - Number(b))
 }
 
 const pdfMemosTree = dbMigratedPdfs => {
   const pdfMemos = {}
-  dbMigratedPdfs.map(({ courseCode, courseMemoFileName, koppsRoundId, semester, lastChangeDate }) => {
-    if (!koppsRoundId || koppsRoundId === '') return
+  dbMigratedPdfs.map(({ courseCode, courseMemoFileName, koppsRoundId, semester, lastChangeDate, applicationCode }) => {
+    if (!applicationCode || applicationCode === '') return
 
     const semesterInfo = pdfMemos[semester] || {}
     const miniFileInfo = semesterInfo[courseMemoFileName] || {}
-    const { ladokRoundIds } = miniFileInfo
-    if (ladokRoundIds) {
-      pdfMemos[semester][courseMemoFileName].ladokRoundIds = mergeRoundsWithTheSamePdfFile(miniFileInfo, koppsRoundId)
+    const { applicationCodes } = miniFileInfo
+    if (applicationCodes) {
+      pdfMemos[semester][courseMemoFileName].applicationCodes = mergeApplicationCodesWithTheSamePdfFile(
+        miniFileInfo,
+        applicationCode
+      )
     } else {
       pdfMemos[semester] = {
         ...pdfMemos[semester],
@@ -26,6 +29,7 @@ const pdfMemosTree = dbMigratedPdfs => {
           courseCode,
           courseMemoFileName,
           ladokRoundIds: [koppsRoundId],
+          applicationCodes: [applicationCode],
           semester,
           isPdf: true,
           lastChangeDate,
@@ -55,7 +59,16 @@ async function getPdfAndWebMemosListByCourseCode(req, res) {
     })
 
     webBasedMemos.map(
-      ({ ladokRoundIds, memoEndPoint, memoCommonLangAbbr, memoName, semester, version, lastChangeDate }) => {
+      ({
+        ladokRoundIds,
+        memoEndPoint,
+        memoCommonLangAbbr,
+        memoName,
+        semester,
+        version,
+        lastChangeDate,
+        applicationCodes,
+      }) => {
         miniMemos[semester] = [
           ...(miniMemos[semester] || []),
           {
@@ -68,6 +81,7 @@ async function getPdfAndWebMemosListByCourseCode(req, res) {
             isPdf: false,
             version,
             lastChangeDate,
+            applicationCodes,
           },
         ]
       }
@@ -83,6 +97,7 @@ async function getPdfAndWebMemosListByCourseCode(req, res) {
     return err
   }
 }
+
 function _formMiniMemosList(chosenSemester, pdfMemos, webBasedMemos) {
   return [
     ...Object.values(pdfMemos[chosenSemester] || []),
@@ -96,6 +111,7 @@ function _formMiniMemosList(chosenSemester, pdfMemos, webBasedMemos) {
         semester,
         version,
         lastChangeDate,
+        applicationCodes,
       }) => ({
         courseCode,
         ladokRoundIds,
@@ -106,6 +122,7 @@ function _formMiniMemosList(chosenSemester, pdfMemos, webBasedMemos) {
         isPdf: false,
         version,
         lastChangeDate,
+        applicationCodes,
       })
     ) || []),
   ]

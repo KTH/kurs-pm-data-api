@@ -34,6 +34,7 @@ async function getStoredMemoPdfListByCourseCode(req, res) {
           courseCode: dbPdfMemo.courseCode,
           pdfMemoUploadDate: dbPdfMemo.pdfMemoUploadDate,
           koppsRoundId: dbPdfMemo.koppsRoundId,
+          applicationCode: dbPdfMemo.applicationCode,
           courseMemoFileName: dbPdfMemo.courseMemoFileName,
           semester: thisMemoSemester,
         }

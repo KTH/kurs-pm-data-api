@@ -1,6 +1,7 @@
 const publishedMemo = {
   _id: "ObjectId('5f35365s9531ddabe323516c46f')",
   ladokRoundIds: ['1'],
+  applicationCodes: ['1234'],
   lastChangeDate: 'Thu Aug 13 2020 12:47:34 GMT+0000 (Coordinated Universal Time)',
   memoCommonLangAbbr: 'en',
   semester: '20192',

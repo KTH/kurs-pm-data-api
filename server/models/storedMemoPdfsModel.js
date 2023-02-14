@@ -32,6 +32,12 @@ const schema = mongoose.Schema({
     minlength: 0,
     default: '',
   },
+  applicationCode: {
+    type: String,
+    trim: true,
+    minlength: 0,
+    default: '',
+  },
   courseMemoFileName: {
     type: String,
     trim: true,

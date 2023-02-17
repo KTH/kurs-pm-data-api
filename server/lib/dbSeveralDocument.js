@@ -60,17 +60,14 @@ async function getCourseSemesterUsedRounds(courseCode, semester) {
     log.debug('Fetched all stored as PDF courseMemos ', { dbMigratedPdfs })
 
     const finalObj = {
-      usedRoundsThisSemester: [],
       usedApplicationCodesThisSemester: [],
     }
-    await webBasedMemos.map(({ applicationCodes, ladokRoundIds }) => {
-      finalObj.usedRoundsThisSemester.push(...ladokRoundIds)
+    await webBasedMemos.map(({ applicationCodes }) =>
       finalObj.usedApplicationCodesThisSemester.push(...applicationCodes)
-    })
-    await dbMigratedPdfs.map(({ applicationCode, koppsRoundId }) => {
+    )
+    await dbMigratedPdfs.map(({ applicationCode }) =>
       finalObj.usedApplicationCodesThisSemester.push(...applicationCode)
-      finalObj.usedRoundsThisSemester.push(...koppsRoundId)
-    })
+    )
 
     log.debug('Successfully got used round ids for', {
       courseCode,

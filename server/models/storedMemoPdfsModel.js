@@ -26,12 +26,6 @@ const schema = mongoose.Schema({
     minlength: 0,
     default: '',
   },
-  koppsRoundId: {
-    type: String,
-    trim: true,
-    minlength: 0,
-    default: '',
-  },
   applicationCode: {
     type: String,
     trim: true,

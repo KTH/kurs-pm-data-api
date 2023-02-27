@@ -11,7 +11,7 @@ const mergeApplicationCodesWithTheSamePdfFile = (miniFileInfo, applicationCode) 
 
 const pdfMemosTree = dbMigratedPdfs => {
   const pdfMemos = {}
-  dbMigratedPdfs.map(({ courseCode, courseMemoFileName, koppsRoundId, semester, lastChangeDate, applicationCode }) => {
+  dbMigratedPdfs.map(({ courseCode, courseMemoFileName, semester, lastChangeDate, applicationCode }) => {
     if (!applicationCode || applicationCode === '') return
 
     const semesterInfo = pdfMemos[semester] || {}
@@ -28,7 +28,6 @@ const pdfMemosTree = dbMigratedPdfs => {
         [courseMemoFileName]: {
           courseCode,
           courseMemoFileName,
-          ladokRoundIds: [koppsRoundId],
           applicationCodes: [applicationCode],
           semester,
           isPdf: true,
@@ -59,21 +58,11 @@ async function getPdfAndWebMemosListByCourseCode(req, res) {
     })
 
     webBasedMemos.map(
-      ({
-        ladokRoundIds,
-        memoEndPoint,
-        memoCommonLangAbbr,
-        memoName,
-        semester,
-        version,
-        lastChangeDate,
-        applicationCodes,
-      }) => {
+      ({ memoEndPoint, memoCommonLangAbbr, memoName, semester, version, lastChangeDate, applicationCodes }) => {
         miniMemos[semester] = [
           ...(miniMemos[semester] || []),
           {
             courseCode,
-            ladokRoundIds,
             semester,
             memoEndPoint,
             memoCommonLangAbbr,
@@ -104,7 +93,6 @@ function _formMiniMemosList(chosenSemester, pdfMemos, webBasedMemos) {
     ...(webBasedMemos.map(
       ({
         courseCode,
-        ladokRoundIds,
         memoEndPoint,
         memoCommonLangAbbr,
         memoName,
@@ -114,7 +102,6 @@ function _formMiniMemosList(chosenSemester, pdfMemos, webBasedMemos) {
         applicationCodes,
       }) => ({
         courseCode,
-        ladokRoundIds,
         semester,
         memoEndPoint,
         memoCommonLangAbbr,
@@ -175,22 +162,12 @@ async function _formPrioritizedMemosByCourseRounds(courseCode, pdfMemos, webBase
   const miniMemos = {}
   // firstly fetch web-based
   await webBasedMemos.forEach(
-    ({
-      ladokRoundIds,
-      memoEndPoint,
-      memoCommonLangAbbr,
-      memoName,
-      semester,
-      version,
-      lastChangeDate,
-      applicationCodes,
-    }) => {
+    ({ memoEndPoint, memoCommonLangAbbr, memoName, semester, version, lastChangeDate, applicationCodes }) => {
       if (!semester) return
       if (!miniMemos[semester]) miniMemos[semester] = {}
-      ladokRoundIds.forEach(roundId => {
-        miniMemos[semester][roundId] = {
+      applicationCodes.forEach(applicationCode => {
+        miniMemos[semester][applicationCode] = {
           courseCode,
-          ladokRoundIds,
           applicationCodes,
           semester,
           memoEndPoint,
@@ -208,7 +185,6 @@ async function _formPrioritizedMemosByCourseRounds(courseCode, pdfMemos, webBase
     ({
       courseCode,
       courseMemoFileName,
-      koppsRoundId,
       pdfMemoUploadDate = '',
       lastChangeDate = pdfMemoUploadDate,
       previousFileList,
@@ -216,14 +192,13 @@ async function _formPrioritizedMemosByCourseRounds(courseCode, pdfMemos, webBase
       applicationCode,
     }) => {
       if (!semester) return
-      if (!koppsRoundId) return
+      if (!applicationCode) return
       if (!miniMemos[semester]) miniMemos[semester] = {}
-      if (!miniMemos[semester][koppsRoundId]) {
-        miniMemos[semester][koppsRoundId] = {
+      if (!miniMemos[semester][applicationCode]) {
+        miniMemos[semester][applicationCode] = {
           courseCode,
           courseMemoFileName,
           applicationCodes: [applicationCode],
-          ladokRoundIds: [koppsRoundId],
           lastChangeDate,
           semester,
           previousFileList,

@@ -33,7 +33,6 @@ async function getStoredMemoPdfListByCourseCode(req, res) {
         miniMemosObj[pdfMemoId] = {
           courseCode: dbPdfMemo.courseCode,
           pdfMemoUploadDate: dbPdfMemo.pdfMemoUploadDate,
-          koppsRoundId: dbPdfMemo.koppsRoundId,
           applicationCode: dbPdfMemo.applicationCode,
           courseMemoFileName: dbPdfMemo.courseMemoFileName,
           semester: thisMemoSemester,

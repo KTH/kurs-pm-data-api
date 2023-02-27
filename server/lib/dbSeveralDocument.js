@@ -91,7 +91,6 @@ async function _getSortedMiniMemosForAllYears(courseCode, memoStatus = 'publishe
       _id: memoId,
       semester,
       status,
-      ladokRoundIds,
       memoEndPoint,
       memoName,
       memoCommonLangAbbr,
@@ -99,7 +98,6 @@ async function _getSortedMiniMemosForAllYears(courseCode, memoStatus = 'publishe
       applicationCodes,
     } = dbMemo
     const miniMemo = {
-      ladokRoundIds,
       applicationCodes,
       memoCommonLangAbbr,
       memoId,
@@ -151,7 +149,6 @@ async function getMemosFromPrevSemester(courseCode, fromSemester) {
         _id: memoId,
         semester,
         status,
-        ladokRoundIds,
         applicationCodes,
         memoEndPoint,
         memoName,
@@ -159,7 +156,6 @@ async function getMemosFromPrevSemester(courseCode, fromSemester) {
         version,
       } = dbMemo
       const miniMemo = {
-        ladokRoundIds,
         applicationCodes,
         memoCommonLangAbbr,
         memoId,

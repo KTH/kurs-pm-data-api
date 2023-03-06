@@ -1,7 +1,7 @@
 'use strict'
 
-const combinedMemoData = require('./combinedMemoData')
 const mongoose = require('mongoose')
+const combinedMemoData = require('./combinedMemoData')
 
 const schema = mongoose.Schema({
   // _id: mongoose.Schema.Types.ObjectId,
@@ -22,11 +22,11 @@ const schema = mongoose.Schema({
   educationalTypeId: {
     type: Number,
   },
-  ladokRoundIds: {
+  applicationCodes: {
     type: Array,
     items: String,
     trim: true,
-    required: [true, 'Enter course rounds'],
+    required: [true, 'Enter course application codes'],
   },
   lastChangeDate: {
     type: String,

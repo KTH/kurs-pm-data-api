@@ -1,6 +1,6 @@
 const draftOfPublished = {
   _id: "ObjectId('5faaa2a5cdd79565130f9854ca')",
-  ladokRoundIds: ['1'],
+  applicationCodes: ['1234'],
   lastChangeDate: 'Wed Nov 04 2020 12:59:57 GMT+0000 (Coordinated Universal Time)',
   memoCommonLangAbbr: 'en',
   semester: '20192',

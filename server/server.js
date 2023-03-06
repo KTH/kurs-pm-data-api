@@ -1,7 +1,7 @@
 'use strict'
 
-const server = require('@kth/server')
 const path = require('path')
+const server = require('@kth/server')
 
 // Load .env file in development mode
 const nodeEnv = process.env.NODE_ENV && process.env.NODE_ENV.toLowerCase()
@@ -143,8 +143,8 @@ addPaths(
 const authByApiKey = passport.authenticate('apikey', { session: false })
 
 // Application specific API enpoints
-const { CourseMemo, MixedWebAndPdfMemosList } = require('./controllers')
 const { ApiRouter } = require('kth-node-express-routing')
+const { CourseMemo, MixedWebAndPdfMemosList } = require('./controllers')
 
 const apiRoute = ApiRouter(authByApiKey)
 const paths = getPaths()

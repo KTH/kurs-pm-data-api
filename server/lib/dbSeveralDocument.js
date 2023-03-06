@@ -60,10 +60,14 @@ async function getCourseSemesterUsedRounds(courseCode, semester) {
     log.debug('Fetched all stored as PDF courseMemos ', { dbMigratedPdfs })
 
     const finalObj = {
-      usedRoundsThisSemester: [],
+      usedApplicationCodesThisSemester: [],
     }
-    await webBasedMemos.map(({ ladokRoundIds }) => finalObj.usedRoundsThisSemester.push(...ladokRoundIds))
-    await dbMigratedPdfs.map(({ koppsRoundId }) => finalObj.usedRoundsThisSemester.push(...koppsRoundId))
+    await webBasedMemos.map(({ applicationCodes }) =>
+      finalObj.usedApplicationCodesThisSemester.push(...applicationCodes)
+    )
+    await dbMigratedPdfs.map(({ applicationCode }) =>
+      finalObj.usedApplicationCodesThisSemester.push(...applicationCode)
+    )
 
     log.debug('Successfully got used round ids for', {
       courseCode,
@@ -83,9 +87,18 @@ async function _getSortedMiniMemosForAllYears(courseCode, memoStatus = 'publishe
   logInCaseOfPossibleLimit(webBasedMemos, matchingParameters)
 
   const publishedForAllYears = webBasedMemos.map(dbMemo => {
-    const { _id: memoId, semester, status, ladokRoundIds, memoEndPoint, memoName, memoCommonLangAbbr, version } = dbMemo
+    const {
+      _id: memoId,
+      semester,
+      status,
+      memoEndPoint,
+      memoName,
+      memoCommonLangAbbr,
+      version,
+      applicationCodes,
+    } = dbMemo
     const miniMemo = {
-      ladokRoundIds,
+      applicationCodes,
       memoCommonLangAbbr,
       memoId,
       memoEndPoint,
@@ -136,14 +149,14 @@ async function getMemosFromPrevSemester(courseCode, fromSemester) {
         _id: memoId,
         semester,
         status,
-        ladokRoundIds,
+        applicationCodes,
         memoEndPoint,
         memoName,
         memoCommonLangAbbr,
         version,
       } = dbMemo
       const miniMemo = {
-        ladokRoundIds,
+        applicationCodes,
         memoCommonLangAbbr,
         memoId,
         memoEndPoint,

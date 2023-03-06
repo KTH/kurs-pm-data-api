@@ -34,7 +34,7 @@ async function storeNewCourseMemoData(data) {
   // ***** USED TO POST NEW COURSE MEMO FIRST DRAFT
   if (!data) throw new Error('Trying to post empty/innacurate data in storeNewCourseMemoData')
   else {
-    if (!data.courseCode || !data.semester || !data.ladokRoundIds)
+    if (!data.courseCode || !data.semester || !data.applicationCodes)
       throw new Error('Trying to post data without courseCode or semester or ladokRoundsIds in storeNewCourseMemoData')
     data.lastChangeDate = new Date()
     const doc = new CourseMemo(data)

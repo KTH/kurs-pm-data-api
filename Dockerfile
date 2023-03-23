@@ -2,7 +2,7 @@
 # A daily updated common KTH Alpine based image.
 # Versions: https://hub.docker.com/r/kthse/kth-nodejs/tags
 #
-FROM kthse/kth-nodejs:16.0.0
+FROM kthregistry.azurecr.io/kth-nodejs-16:latest
 LABEL maintainer="KTH StudAdm studadm.developers@kth.se"
 
 #

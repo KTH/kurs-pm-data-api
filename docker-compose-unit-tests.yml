@@ -15,7 +15,7 @@ services:
     # to /application on the inside of the container.
     # The volume mount is done at startup.
     volumes:
-      - ${WORKSPACE}/test:/application/test
+      - ./test:/application/test
 
     tty: true
 

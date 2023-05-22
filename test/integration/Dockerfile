@@ -1,4 +1,4 @@
-FROM kthse/kth-nodejs:16.0.0
+FROM kthregistry.azurecr.io/kth-nodejs-16:latest
 LABEL maintainer="KTH StudAdm studadm.developers@kth.se"
 
 RUN apk add --no-cache curl bash

@@ -2,6 +2,7 @@
 /* eslint-disable no-underscore-dangle */
 const log = require('@kth/log')
 const { CourseMemo } = require('../models/mainMemoModel')
+const { InvalidDataError } = require('../utils/errorUtils')
 
 /* ****** */
 /* ANY BY STATUS AND MemoEndPoint */
@@ -32,10 +33,18 @@ async function getMemoVersion(courseCode, memoEndPoint, version) {
 /* ****** */
 async function storeNewCourseMemoData(data) {
   // ***** USED TO POST NEW COURSE MEMO FIRST DRAFT
-  if (!data) throw new Error('Trying to post empty/innacurate data in storeNewCourseMemoData')
-  else {
-    if (!data.courseCode || !data.semester || !data.applicationCodes)
-      throw new Error('Trying to post data without courseCode or semester or ladokRoundsIds in storeNewCourseMemoData')
+  if (!data) {
+    const errorMessage = 'Trying to post empty/innacurate data in storeNewCourseMemoData'
+    log.error(errorMessage, { data })
+    throw new InvalidDataError(errorMessage)
+  } else {
+    if (!data.courseCode || !data.semester || !data.applicationCodes) {
+      const errorMessage =
+        'Trying to post data without courseCode, semester or applicationCodes in storeNewCourseMemoData'
+
+      log.error(errorMessage, { data })
+      throw new InvalidDataError(errorMessage)
+    }
     data.lastChangeDate = new Date()
     const doc = new CourseMemo(data)
     log.debug('Create and store a new draft in form of roundCourseMemoData', { doc })
@@ -46,8 +55,18 @@ async function storeNewCourseMemoData(data) {
 
 async function updateMemoByEndPointAndStatus(memoEndPoint, data, status) {
   // UPPDATERA DRAFT GENOM memoEndPoint
-  const { courseCode } = data
-  if (data) {
+  if (!data) {
+    const errorMessage = 'No roundCourseMemoData found for updating it with new data'
+    log.debug(errorMessage, { data })
+    throw new InvalidDataError(errorMessage, { data })
+  } else {
+    if (!data.courseCode || !data.semester || !data.applicationCodes) {
+      const errorMessage =
+        'Trying to post data without courseCode, semester or applicationCodes in updateMemoByEndPointAndStatus'
+      log.error(errorMessage, { data })
+      throw new InvalidDataError(errorMessage)
+    }
+    const { courseCode } = data
     log.debug('Update of existing memo or draft: ', { data })
 
     const resultAfterUpdate = await CourseMemo.findOneAndUpdate(
@@ -60,7 +79,6 @@ async function updateMemoByEndPointAndStatus(memoEndPoint, data, status) {
     }
     return resultAfterUpdate
   }
-  log.debug('No roundCourseMemoData found for updating it with new data', { data })
 }
 
 async function removeCourseMemoDataById(id, courseCode) {

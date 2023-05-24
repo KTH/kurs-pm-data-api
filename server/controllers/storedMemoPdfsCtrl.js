@@ -63,7 +63,7 @@ async function checkLength(req, res) {
 
     res.status(201).json({ length: allmemos.length })
   } catch (error) {
-    log.error('Error in while trying to save all migrating memos ', { error })
+    log.error('Error while trying to save all migrating memos ', { error })
     return error
   }
 }

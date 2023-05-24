@@ -6,6 +6,7 @@
 const log = require('@kth/log')
 const dbOneDocument = require('../lib/dbDataById')
 const dbArrayOfDocument = require('../lib/dbSeveralDocument')
+const { InvalidDataError } = require('../utils/errorUtils')
 
 async function getMemoVersion(req, res) {
   const { courseCode, memoEndPoint, version } = req.params
@@ -54,7 +55,10 @@ async function postNewVersionOfPublishedMemo(req, res) {
     log.info('dbResponse length', dbResponse.length, { memoEndPoint })
     res.status(201).json(dbResponse)
   } catch (error) {
-    log.error('Error in while trying to postNewMemo ', { error })
+    log.error('Error while trying to postNewMemo ', { error })
+    if (error instanceof InvalidDataError) {
+      res.status(400).json(error.message)
+    }
     return error
   }
 }
@@ -97,7 +101,10 @@ async function putDraftByEndPoint(req, res) {
     log.info('dbResponse length', dbResponse.length, { memoEndPoint })
     res.status(201).json(dbResponse)
   } catch (error) {
-    log.error('Error in while trying to putDraftByEndPoint', { error })
+    log.error('Error while trying to putDraftByEndPoint', { error })
+    if (error instanceof InvalidDataError) {
+      res.status(400).json(error.message)
+    }
     return error
   }
 }
@@ -167,7 +174,10 @@ async function createDraftByMemoEndPoint(req, res) {
     log.info('dbResponse length', dbResponse.length, { memoEndPoint })
     res.status(201).json(dbResponse)
   } catch (error) {
-    log.error('Error in while trying to createDraftByMemoEndPoint ', { error })
+    log.error('Error while trying to createDraftByMemoEndPoint ', { error })
+    if (error instanceof InvalidDataError) {
+      res.status(400).json(error.message)
+    }
     return error
   }
 }

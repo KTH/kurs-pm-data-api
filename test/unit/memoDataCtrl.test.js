@@ -3,6 +3,11 @@ const mockDraftOfPublished = require('../mocks/draftOfPublished')
 jest.mock('../../server/lib/dbDataById', () => {
   return {
     fetchMemoByEndPointAndStatus(memoEndPoint, status) {
+      if (memoEndPoint === 'NonExistentMemo') {
+        return new Promise((resolve, reject) => {
+          resolve(null)
+        })
+      }
       if (status === 'published')
         return new Promise((resolve, reject) => {
           resolve({ status: 200, ...mockPublishedMemo })
@@ -13,7 +18,22 @@ jest.mock('../../server/lib/dbDataById', () => {
         })
     },
     storeNewCourseMemoData: jest.fn(),
-    updateMemoByEndPointAndStatus: jest.fn(),
+    updateMemoByEndPointAndStatus: jest.fn((memoEndPoint, status) => {
+      if (memoEndPoint === 'EndpointToTriggerInvalidData') {
+        const { InvalidDataError } = require('../../server/utils/errorUtils')
+        return new Promise((resolve, reject) => {
+          reject(new InvalidDataError('Some error message from mock'))
+        })
+      }
+      if (status === 'published')
+        return new Promise((resolve, reject) => {
+          resolve({ status: 200, ...mockPublishedMemo })
+        })
+      else
+        return new Promise((resolve, reject) => {
+          resolve({ status: 200, ...mockDraftOfPublished })
+        })
+    }),
     removeCourseMemoDataById: jest.fn(),
   }
 })
@@ -84,8 +104,9 @@ function buildNext(impl) {
   return jest.fn(impl).mockName('next')
 }
 
+const memoEndPoint = 'EH272020192-1'
 const reqOverride = {
-  params: { memoEndPoint: 'EH272020192-1', anotherMemoEndPoint: 'EH272020192-1' },
+  params: { memoEndPoint: memoEndPoint, anotherMemoEndPoint: memoEndPoint },
 }
 jest.mock('@kth/log', () => {
   return {
@@ -111,11 +132,31 @@ describe('', () => {
 
   test('postNewVersionOfPublishedMemo', async () => {
     const { postNewVersionOfPublishedMemo } = require('../../server/controllers/memoDataCtrl')
+    const { updateMemoByEndPointAndStatus } = require('../../server/lib/dbDataById')
+
     const req = buildReq(reqOverride)
     const res = buildRes()
     await postNewVersionOfPublishedMemo(req, res)
     expect(res.status).toHaveBeenNthCalledWith(1, 201)
     expect(res.json).toHaveBeenCalledTimes(1)
+    expect(updateMemoByEndPointAndStatus).toHaveBeenNthCalledWith(
+      1,
+      memoEndPoint,
+      { ...mockPublishedMemo, status: 'old' },
+      'published'
+    )
+    expect(updateMemoByEndPointAndStatus).toHaveBeenNthCalledWith(2, memoEndPoint, expect.any(Object), 'draft')
+  })
+
+  test('postNewVersionOfPublishedMemo passes on InvalidDataError as 400', async () => {
+    const { postNewVersionOfPublishedMemo } = require('../../server/controllers/memoDataCtrl')
+
+    const override = { params: { memoEndPoint: 'EndpointToTriggerInvalidData' }, body: {} }
+    const req = buildReq(override)
+    const res = buildRes()
+    await postNewVersionOfPublishedMemo(req, res)
+    expect(res.status).toHaveBeenNthCalledWith(1, 400)
+    expect(res.json).toHaveBeenNthCalledWith(1, 'Some error message from mock')
   })
 
   test('getDraftByEndPoint', async () => {
@@ -129,11 +170,37 @@ describe('', () => {
 
   test('putDraftByEndPoint', async () => {
     const { putDraftByEndPoint } = require('../../server/controllers/memoDataCtrl')
+    const { updateMemoByEndPointAndStatus } = require('../../server/lib/dbDataById')
+
     const req = buildReq({ ...reqOverride, ...{ body: { equipment: 'Laptop' } } })
     const res = buildRes()
+
+    jest.useFakeTimers().setSystemTime(new Date('2020-01-01'))
+
     await putDraftByEndPoint(req, res)
+
+    const lastChangeDate = new Date()
+
+    const expectedMemo = { equipment: 'Laptop', lastChangeDate }
+
+    expect(updateMemoByEndPointAndStatus).toHaveBeenNthCalledWith(1, memoEndPoint, expectedMemo, 'draft')
+
     expect(res.status).toHaveBeenNthCalledWith(1, 201)
     expect(res.json).toHaveBeenCalledTimes(1)
+
+    jest.useRealTimers()
+  })
+
+  test('putDraftByEndpoint passes on InvalidDataError as 400', async () => {
+    const { putDraftByEndPoint } = require('../../server/controllers/memoDataCtrl')
+
+    const override = { params: { memoEndPoint: 'EndpointToTriggerInvalidData' }, body: {} }
+    const req = buildReq(override)
+    const res = buildRes()
+
+    await putDraftByEndPoint(req, res)
+    expect(res.status).toHaveBeenNthCalledWith(1, 400)
+    expect(res.json).toHaveBeenNthCalledWith(1, 'Some error message from mock')
   })
 
   test('createDraftByMemoEndPoint', async () => {

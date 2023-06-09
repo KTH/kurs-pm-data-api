@@ -60,9 +60,8 @@ async function updateMemoByEndPointAndStatus(memoEndPoint, data, status) {
     log.debug(errorMessage, { data })
     throw new InvalidDataError(errorMessage, { data })
   } else {
-    if (!data.courseCode || !data.semester || !data.applicationCodes) {
-      const errorMessage =
-        'Trying to post data without courseCode, semester or applicationCodes in updateMemoByEndPointAndStatus'
+    if (!data.courseCode) {
+      const errorMessage = 'Trying to post data without courseCode in updateMemoByEndPointAndStatus'
       log.error(errorMessage, { data })
       throw new InvalidDataError(errorMessage)
     }

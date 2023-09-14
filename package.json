@@ -57,7 +57,7 @@
     "trailingComma": "es5"
   },
   "engines": {
-    "node": "16"
+    "node": "18"
   },
   "husky": {
     "hooks": {

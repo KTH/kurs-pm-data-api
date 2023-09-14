@@ -1,7 +1,7 @@
 # Welcome to kurs-pm-data-api 👋
 
 ![Version](https://img.shields.io/badge/version-0.8.0-blue.svg?cacheSeconds=2592000)
-![Prerequisite](https://img.shields.io/badge/node-16.0.0-blue.svg)
+![Prerequisite](https://img.shields.io/badge/node-18-blue.svg)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](#)
 
 ## Introduction
@@ -28,8 +28,7 @@ Only admin pages may change API data while public pages can only read. Therefore
 
 ## Prerequisites
 
-- Node.js 16
-- Ansible Vault
+- Node.js 18
 
 ### Secrets for Development
 

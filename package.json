@@ -36,7 +36,7 @@
     "mongoose": "^8.0.3",
     "passport": "^0.7.0",
     "safe-utils": "1.0.1",
-    "swagger-ui-dist": "^5.10.5"
+    "swagger-ui-dist": "^5.11.7"
   },
   "devDependencies": {
     "@kth/eslint-config-kth": "^3.1.0",

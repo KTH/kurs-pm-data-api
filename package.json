@@ -39,7 +39,7 @@
     "swagger-ui-dist": "^5.11.7"
   },
   "devDependencies": {
-    "@kth/eslint-config-kth": "^3.1.0",
+    "@kth/eslint-config-kth": "^3.4.0",
     "cross-env": "^7.0.3",
     "eslint": "^8.56.0",
     "husky": "^8.0.3",

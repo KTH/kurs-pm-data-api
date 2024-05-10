@@ -50,9 +50,4 @@ module.exports = {
       useAccessLog: safeGet(() => getEnv('LOGGING_ACCESS_LOG'), 'true') === 'true',
     },
   },
-
-  // Azure Application Insights
-  appInsights: {
-    instrumentationKey: getEnv('APPINSIGHTS_INSTRUMENTATIONKEY'),
-  },
 }

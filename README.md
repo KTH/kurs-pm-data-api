@@ -32,21 +32,9 @@ Only admin pages may change API data while public pages can only read. Therefore
 
 ### Secrets for Development
 
-Secrets during local development are ALWAYS stored in a `.env`-file in the root of your project. This file should be in .gitignore.
+Secrets during local development are stored in a gitignored `.env` file (`env.in` can be used as template for your `.env` file). More details about environment variable setup and secrets can be found in [confluence](https://confluence.sys.kth.se/confluence/x/OYKBDQ).
 
-```
-MONGODB_URI=mongodb://kurs-pm-data-api-stage-mongodb-kthse:[password, specified in Azure]==@kurs-pm-data-api-stage-mongodb-kthse.documents.azure.com:[port, specified in Azure]/kursinfo?ssl=true&authSource=kursinfo
-API_KEYS_0=?name=kursinfo-web&apiKey=[generate a password for public pages]&scope=read
-API_KEYS_1=?name=kurs-pm-data&apiKey=[generate a password for admin page]&scope=write&scope=read
-APPLICATIONINSIGHTS_CONNECTION_STRING=[Azure, Application insights, connection string, can be found in Overview]
-USE_COSMOS_DB='true'
-LOGGING_ACCESS_LOG=debug
-SERVER_PORT=3001 [if you want to change port]
-```
-
-These settings are also available in an `env.in` file.
-
-## Prepara Database in Azure
+## Prepare Database in Azure
 
 1. Create database `kursinfo` and manually set Throughput: 400 (Shared). Name of database will be used in a connection string.
 2. In this database create a collection `coursememos` where a shard key is `/courseCode`.

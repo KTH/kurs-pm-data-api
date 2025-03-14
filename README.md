@@ -28,7 +28,7 @@ Only admin pages may change API data while public pages can only read. Therefore
 
 ## Prerequisites
 
-- Node.js 18
+- Node.js 20
 
 ### Secrets for Development
 

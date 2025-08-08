@@ -1097,7 +1097,7 @@
         },
         "courseCoordinator": {
           "type": "string",
-          "description": "Text field for html with Course coordinator  / Kursansvarig (admin via UG Admin, fetched from redis-ug)"
+          "description": "Text field for html with Course coordinator  / Kursansvarig (admin via UG Admin, fetched from ug-rest-api)"
         },
         "educationalTypeId": {
           "type": "integer",
@@ -1121,7 +1121,7 @@
         },
         "examiner": {
           "type": "string",
-          "description": "Text field for html with Examinator / Examinator (admin via UG Admin, fetched from redis-ug)"
+          "description": "Text field for html with Examinator / Examinator (admin via UG Admin, fetched from ug-rest-api)"
         },
         "extraHeaders1": {
           "type": "array",
@@ -1185,7 +1185,7 @@
         },
         "learningOutcomes": {
           "type": "string",
-          "description": "Text field for html with Intended learning outcomes / Lärandemål (laodk kursplan)"
+          "description": "Text field for html with Intended learning outcomes / Lärandemål (ladok kursplan)"
         },
         "literature": {
           "type": "string",
@@ -1197,7 +1197,7 @@
         },
         "otherRequirementsForFinalGrade": {
           "type": "string",
-          "description": "Text field for html with Other requirements for final grade / Övriga krav för slutbetyg (laodk kursplan)"
+          "description": "Text field for html with Other requirements for final grade / Övriga krav för slutbetyg (ladok kursplan)"
         },
         "permanentDisability": {
           "type": "string",
@@ -1209,11 +1209,11 @@
         },
         "possibilityToAddition": {
           "type": "string",
-          "description": "Text field for html with Opportunity to raise an approved grade via renewed examination / Möjlighet till plussning (possibilityToAddition)"
+          "description": "Text field for html with Opportunity to raise an approved grade via renewed examination / Möjlighet till plussning (KURS-PM)"
         },
         "possibilityToCompletion": {
           "type": "string",
-          "description": "Text field for html with Opportunity to complete the requirements via supplementary examination / Möjlighet till komplettering (possibilityToAddition)"
+          "description": "Text field for html with Opportunity to complete the requirements via supplementary examination / Möjlighet till komplettering (KURS-PM)"
         },
         "possibilityToCompensate": {
           "type": "string",
@@ -1250,11 +1250,11 @@
         },
         "teacher": {
           "type": "string",
-          "description": "Text field for html with  Teacher / Lärare (admin via UG Admin, fetched from redis-ug)"
+          "description": "Text field for html with  Teacher / Lärare (admin via UG Admin, fetched from ug-rest-api)"
         },
         "teacherAssistants": {
           "type": "string",
-          "description": "Text field for html with Teacher assistants / Lärarassistenter (admin via UG Admin, fetched from redis-ug)"
+          "description": "Text field for html with Teacher assistants / Lärarassistenter (admin via UG Admin, fetched from ug-rest-api)"
         }
       }
     },

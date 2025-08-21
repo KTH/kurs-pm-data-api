@@ -1081,7 +1081,7 @@
         },
         "additionalRegulations": {
           "type": "string",
-          "description": "Text field for html with Additional regulations / Övriga föreskrifter (kopps kursplan)"
+          "description": "Text field for html with Additional regulations / Övriga föreskrifter (ladok kursplan)"
         },
         "commentAboutMadeChanges": {
           "type": "string",
@@ -1093,11 +1093,11 @@
         },
         "courseContent": {
           "type": "string",
-          "description": "Text field for html with course content/ Kursinnehåll (kopps kursplan)"
+          "description": "Text field for html with course content/ Kursinnehåll (ladok kursplan)"
         },
         "courseCoordinator": {
           "type": "string",
-          "description": "Text field for html with Course coordinator  / Kursansvarig (admin via kopps, fetched from redis-ug)"
+          "description": "Text field for html with Course coordinator  / Kursansvarig (admin via UG Admin, fetched from ug-rest-api)"
         },
         "educationalTypeId": {
           "type": "integer",
@@ -1105,7 +1105,7 @@
         },
         "ethicalApproach": {
           "type": "string",
-          "description": "Text field for html with Ethical approach / Etiskt förhållningssätt (kopps kursplan)"
+          "description": "Text field for html with Ethical approach / Etiskt förhållningssätt (ladok kursplan)"
         },
         "ethicalApproachSubSection": {
           "type": "string",
@@ -1113,7 +1113,7 @@
         },
         "examination": {
           "type": "string",
-          "description": "Text field for html with Ethical approach / Etiskt förhållningssätt (kopps kursplan)"
+          "description": "Text field for html with Ethical approach / Etiskt förhållningssätt (ladok kursplan)"
         },
         "examinationSubSection": {
           "type": "string",
@@ -1121,7 +1121,7 @@
         },
         "examiner": {
           "type": "string",
-          "description": "Text field for html with Examinator / Examinator (admin via kopps, fetched from redis-ug)"
+          "description": "Text field for html with Examinator / Examinator (admin via UG Admin, fetched from ug-rest-api)"
         },
         "extraHeaders1": {
           "type": "array",
@@ -1161,7 +1161,7 @@
         },
         "equipment": {
           "type": "string",
-          "description": "Text field for html with Equipment / Utrustning (kopps kursinformation)"
+          "description": "Text field for html with Equipment / Utrustning (KURS-PM)"
         },
         "gradingCriteria": {
           "type": "string",
@@ -1169,7 +1169,7 @@
         },
         "gradingScale": {
           "type": "string",
-          "description": "Text field for html with Grading scale / Betygsskala (kopps kursplan)"
+          "description": "Text field for html with Grading scale / Betygsskala (ladok kursplan)"
         },
         "infoForReregisteredStudents": {
           "type": "string",
@@ -1185,11 +1185,11 @@
         },
         "learningOutcomes": {
           "type": "string",
-          "description": "Text field for html with Intended learning outcomes / Lärandemål (kopps kursplan)"
+          "description": "Text field for html with Intended learning outcomes / Lärandemål (ladok kursplan)"
         },
         "literature": {
           "type": "string",
-          "description": "Text field for html with Literature / Kurslitteratur (kopps kursinformation)"
+          "description": "Text field for html with Literature / Kurslitteratur (KURS-PM)"
         },
         "otherContacts": {
           "type": "string",
@@ -1197,7 +1197,7 @@
         },
         "otherRequirementsForFinalGrade": {
           "type": "string",
-          "description": "Text field for html with Other requirements for final grade / Övriga krav för slutbetyg (kopps kursplan)"
+          "description": "Text field for html with Other requirements for final grade / Övriga krav för slutbetyg (ladok kursplan)"
         },
         "permanentDisability": {
           "type": "string",
@@ -1209,11 +1209,11 @@
         },
         "possibilityToAddition": {
           "type": "string",
-          "description": "Text field for html with Opportunity to raise an approved grade via renewed examination / Möjlighet till plussning (kopps kursinformation)"
+          "description": "Text field for html with Opportunity to raise an approved grade via renewed examination / Möjlighet till plussning (KURS-PM)"
         },
         "possibilityToCompletion": {
           "type": "string",
-          "description": "Text field for html with Opportunity to complete the requirements via supplementary examination / Möjlighet till komplettering (kopps kursinformation)"
+          "description": "Text field for html with Opportunity to complete the requirements via supplementary examination / Möjlighet till komplettering (KURS-PM)"
         },
         "possibilityToCompensate": {
           "type": "string",
@@ -1225,7 +1225,7 @@
         },
         "prerequisites": {
           "type": "string",
-          "description": "Text field for html with Prerequisites / Rekommenderade förkunskaper (kopps kursinformation)"
+          "description": "Text field for html with Prerequisites / Rekommenderade förkunskaper (KURSINFO)"
         },
         "reportingResults": {
           "type": "string",
@@ -1250,11 +1250,11 @@
         },
         "teacher": {
           "type": "string",
-          "description": "Text field for html with  Teacher / Lärare (admin via kopps, fetched from redis-ug)"
+          "description": "Text field for html with  Teacher / Lärare (admin via UG Admin, fetched from ug-rest-api)"
         },
         "teacherAssistants": {
           "type": "string",
-          "description": "Text field for html with Teacher assistants / Lärarassistenter (admin via kopps, fetched from redis-ug)"
+          "description": "Text field for html with Teacher assistants / Lärarassistenter (admin via UG Admin, fetched from ug-rest-api)"
         }
       }
     },

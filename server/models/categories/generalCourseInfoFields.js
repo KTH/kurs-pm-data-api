@@ -1,4 +1,4 @@
-// ****** Here goes fields fetched from kopps but not included in course syllabus ******//
+// ****** Here goes fields fetched from KURS-PM and KURSINFO but not included in course syllabus ******//
 
 const generalCourseInfo = {
   equipment: {

@@ -1,4 +1,4 @@
-// ****** Here goes fields related to course syllabus and fetched from kopps without editing it ******//
+// ****** Here goes fields related to course syllabus and fetched from ladok without editing it ******//
 
 // TO DO: USE MAP IF ALL PARAMETERS THE SAME
 const courseSyllabus = {

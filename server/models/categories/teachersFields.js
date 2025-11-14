@@ -1,5 +1,4 @@
 // ****** Here goes fields about teachers types which administrates via UG Admin ******//
-// ****** and FETCHED from Ug-REDIS ******//
 // *** otherContacts added by teacher *** ///
 
 const teachersTypesUg = {

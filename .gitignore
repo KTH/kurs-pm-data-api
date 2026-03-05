@@ -34,3 +34,9 @@ node_modules/*
 
 # test coverage
 coverage
+
+# Developer notes
+notes*
+
+# Output
+courseMemoFix_data_*
